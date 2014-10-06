@@ -25,6 +25,7 @@ public:
   explicit Gui(QWidget *parent = 0);
   ~Gui();
 
+  void bt_close_socket();
   void bt_reset_socket();
   void bt_connect(const string& device);
   void bt_send(const Msg_ptr& msg);
@@ -35,22 +36,19 @@ private slots:
   void bt_read();
 
   void on_pushButton_forward_pressed();
-
   void on_pushButton_backward_pressed();
-
   void on_pushButton_left_pressed();
-
   void on_pushButton_right_pressed();
+  void on_pushButton_connect_clicked();
 
 private:
+  void enable_bt_buttons();
+
   void bt_connect(const QBluetoothServiceInfo& service);
   void bt_handle_connect();
-
+  void bt_handle_avaible();
   void bt_write();
-
-  bool bt_avaible();
-
-  bool bt_is_connected = false;
+  bool bt_is_avaible();
 
   //data
   Ui::Gui *ui;

@@ -24,8 +24,12 @@ public:
   Core();
   ~Core();
 
+  //bluetooth related
   void bt_connected();
   void bt_disconnected();
+
+  //
+  bool get_bt_is_connected();
 
   void process_msg(const Msg_ptr& msg);
 

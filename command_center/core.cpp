@@ -6,12 +6,13 @@ Core::Core() {
     printf("creating core..\n");
     w = Gui_ptr(new Gui);
     w->show();
-    w->bt_connect(REMOTE_DEVICE_ADDRESS);
 }
 
 Core::~Core() {
   cout << "destroying core.." << endl;
 }
+
+// ---------- bluetooth related --------
 
 void Core::bt_connected(){
   printf("bluetooth link is established\n");
@@ -24,10 +25,11 @@ void Core::bt_disconnected(){
   w->bt_reset_socket();
 }
 
-void Core::send(const Msg_ptr &msg){
-    printf("sending new msg..\n");
-    w->bt_send(msg);
+bool Core::get_bt_is_connected(){
+    return bt_is_connected;
 }
+
+// --------- comm --------------
 
 void Core::process_msg(const Msg_ptr &msg){
   thread t([this, msg](){
@@ -52,6 +54,12 @@ void Core::handle_unknown(const Msg_ptr &msg){
 }
 
 // ------------- bluetooth commands -----------
+
+void Core::send(const Msg_ptr &msg){
+    printf("sending new msg..\n");
+    w->bt_send(msg);
+}
+
 
 void Core::echo(){
     printf("sending echo msg..");
