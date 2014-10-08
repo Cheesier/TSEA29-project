@@ -28,6 +28,7 @@ public:
   size_t get_raw_data_size();
 
   void print();
+  void encode();
 
   //constructors
 
@@ -39,7 +40,6 @@ public:
   void stop();
 
 private:
-  void encode();
 
   Type_t type;
   string data;

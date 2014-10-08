@@ -80,8 +80,18 @@ void Core::handle_unknown(const Msg_ptr &msg){
 // ------------- bluetooth commands -----------
 
 void Core::send(const Msg_ptr &msg){
+  if(!bt->is_connected()) {
+      printf("failed to send message: bluetooth is not connected\n");
+      return;
+  }
   printf("sending new msg..\n");
   bt->send(msg);
+}
+
+void Core::custom_msg(const unsigned &type, const string &payload){
+    Msg_ptr msg(new Message(type,payload));
+    msg->encode();
+    send(msg);
 }
 
 void Core::echo(){

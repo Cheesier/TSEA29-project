@@ -42,6 +42,7 @@ public:
   void process_msg(const Msg_ptr& msg);
 
   // bluetooth commands
+  void custom_msg(const unsigned& type_, const string& payload);
   void echo();
   void go_forward();
   void go_backward();

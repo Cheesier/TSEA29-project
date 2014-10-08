@@ -1,17 +1,16 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include <iostream>
+#define QLABEL_STYLE_DISCONNECTED "QLabel{color:red;}"
+#define QLABEL_STYLE_CONNECTING "QLabel{color:orange;}"
+#define QLABEL_STYLE_CONNECTED "QLabel{color:green;}"
+
 #include <memory>
-#include <thread>
-#include <mutex>
-#include <deque>
 
 #include <QMainWindow>
 
 #include "glob.h"
 #include "core.h"
-#include "message.h"
 
 namespace Ui {
 class Gui;
@@ -29,10 +28,6 @@ public:
   void bt_connected();
 
 private slots:
-/*  void bt_new_service(const QBluetoothServiceInfo&);
-
-  void bt_read();
-*/
   void on_pushButton_forward_pressed();
   void on_pushButton_backward_pressed();
   void on_pushButton_left_pressed();
@@ -40,6 +35,10 @@ private slots:
   void on_pushButton_connect_clicked();
 
   void on_pushButton_scan_clicked();
+
+  void on_pushButton_clear_clicked();
+
+  void on_pushButton_send_clicked();
 
 private:
   //data
