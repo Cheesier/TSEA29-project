@@ -3,30 +3,54 @@
 Core_ptr core;
 
 Core::Core() {
-    printf("creating core..\n");
-    w = Gui_ptr(new Gui);
-    w->show();
+  printf("creating core..\n");
+#ifdef LINUX
+  printf("running on linux\n");
+#endif
 }
 
 Core::~Core() {
   cout << "destroying core.." << endl;
+  //Something wierd, neet to call destructor manually
+  w.reset();
+}
+
+void Core::init(){
+  printf("initializing core..\n");
+  w.reset(new Gui);
+  w->show();
+  bt.reset(new BTInterface);
 }
 
 // ---------- bluetooth related --------
 
+void Core::bt_avaible(){
+  printf("found local bluetooth device\n");
+  w->bt_reset();
+}
+
+void Core::bt_connect(){
+  bt->connect_to_device(REMOTE_DEVICE_ADDRESS);
+  w->bt_connecting();
+}
+
+void Core::bt_disconnect(){
+    bt->disconnect();
+    w->bt_reset();
+}
+
 void Core::bt_connected(){
   printf("bluetooth link is established\n");
-  bt_is_connected = true;
+  w->bt_connected();
 }
 
 void Core::bt_disconnected(){
   printf("** bluetooth link is closed\n");
-  bt_is_connected = false;
-  w->bt_reset_socket();
+  w->bt_reset();
 }
 
-bool Core::get_bt_is_connected(){
-    return bt_is_connected;
+bool Core::bt_is_connected(){
+    return bt->is_connected();
 }
 
 // --------- comm --------------
@@ -56,49 +80,42 @@ void Core::handle_unknown(const Msg_ptr &msg){
 // ------------- bluetooth commands -----------
 
 void Core::send(const Msg_ptr &msg){
-    printf("sending new msg..\n");
-    w->bt_send(msg);
+  printf("sending new msg..\n");
+  bt->send(msg);
 }
 
-
 void Core::echo(){
-    printf("sending echo msg..");
-    Msg_ptr msg(new Message);
-    msg->echo();
-    w->bt_send(msg);
+  Msg_ptr msg(new Message);
+  msg->echo();
+  send(msg);
 }
 
 void Core::go_forward(){
-    printf("sending go forward msg..");
-    Msg_ptr msg(new Message);
-    msg->go_forward();
-    w->bt_send(msg);
+  Msg_ptr msg(new Message);
+  msg->go_forward();
+  send(msg);
 }
 
 void Core::go_backward(){
-    printf("sending go backward msg..");
-    Msg_ptr msg(new Message);
-    msg->go_backward();
-    w->bt_send(msg);
+  Msg_ptr msg(new Message);
+  msg->go_backward();
+  send(msg);
 }
 
 void Core::turn_right(){
-    printf("sending turn right msg..");
-    Msg_ptr msg(new Message);
-    msg->turn_right();
-    w->bt_send(msg);
+  Msg_ptr msg(new Message);
+  msg->turn_right();
+  send(msg);
 }
 
 void Core::turn_left(){
-    printf("sending turn left msg..");
-    Msg_ptr msg(new Message);
-    msg->go_forward();
-    w->bt_send(msg);
+  Msg_ptr msg(new Message);
+  msg->go_forward();
+  send(msg);
 }
 
 void Core::stop(){
-    printf("sending stop msg..");
-    Msg_ptr msg(new Message);
-    msg->stop();
-    w->bt_send(msg);
+  Msg_ptr msg(new Message);
+  msg->stop();
+  send(msg);
 }
