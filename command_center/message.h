@@ -5,11 +5,15 @@
 #include<memory>
 #include<ctime>
 #include<cstring>
+#include<chrono>
+#include<fstream>
 
 #include "glob.h"
 
 class Message;
 typedef shared_ptr<Message> Msg_ptr;
+
+typedef chrono::high_resolution_clock hr_clock;
 
 class Message {
 public:
@@ -18,12 +22,18 @@ public:
 
   Message(){}
   Message(const Type_t& type_, const string& data_);
-  enum msg_t{t_echo, t_go_forward, t_go_backward, t_turn_right, t_turn_left, t_stop};
+  enum msg_t{T_ECHO, T_GO_FORWARD, T_GO_BACKWARD, T_TURN_RIGHT, T_TURN_LEFT, T_GO_FORWARD_RIGHT, T_GO_FORWARD_LEFT, T_STOP, T_P, T_D};
 
-  Type_t get_type();
-  string get_data();
-  time_t get_timestamp();
-  size_t get_data_size();
+  inline bool operator> (const Message& other) {return created_at > other.created_at;}
+  inline bool operator< (const Message& other) {return created_at < other.created_at;}
+
+  friend ostream& operator << (ostream& os, const Message& msg);
+  friend istream& operator >> (istream& os, Message& msg);
+
+  Type_t get_type() const;
+  string get_data() const;
+  hr_clock::time_point get_created_at()const;
+  Size_t get_data_size() const;
   char * get_raw_data();
   size_t get_raw_data_size();
 
@@ -37,14 +47,19 @@ public:
   void go_backward();
   void turn_right();
   void turn_left();
+  void go_forward_right();
+  void go_forward_left();
   void stop();
+
+  void set_p(const double& val);
+  void set_d(const double& val);
+
 
 private:
 
   Type_t type;
   string data;
-  // FIXME : good anough? -- maybe need milliseconds instead
-  time_t timestamp;
+  hr_clock::time_point created_at;
 
   string raw_data;
 };

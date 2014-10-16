@@ -7,6 +7,8 @@
 QT += core gui
 
 linux:QT += bluetooth
+#for boost::shared_mutex
+linux:LIBS += -lboost_thread -lboost_system -lpthread
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,12 +23,14 @@ SOURCES += main.cpp\
         gui.cpp \
     core.cpp \
     message.cpp \
-    btinterface.cpp
+    btinterface.cpp \
+    data.cpp
 
 HEADERS  += gui.h \
     core.h \
     glob.h \
     message.h \
-    btinterface.h
+    btinterface.h \
+    data.h
 
 FORMS    += gui.ui
