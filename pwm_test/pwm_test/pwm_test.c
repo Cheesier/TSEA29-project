@@ -40,10 +40,9 @@ int main(void){
 		
 		OCR0 = 6;
 		OCR1AL = 6;
-		OCR1BL = 6;
-		
+		OCR1BL = 6;		
 		
 		_delay_ms(4000);
-	}
+	}	
 	return 0;
 }
