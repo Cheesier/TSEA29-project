@@ -31,7 +31,7 @@ header: Message::T_GO_FORWARD == 1
 size: 0
 payload: "" (tom)
 
-encodade meddelandet:  char[] = {1,0} -- notera att den kan kan inte se eftersom char(1) och char(0)=='\0' motsvarar inga "riktiga" siffror
+encodade meddelandet:  char[] = {1,0} -- notera att den kan inte se eftersom char(1) och char(0)=='\0' motsvarar inga "riktiga" siffror
 
 encodade meddelandet efter TEXTMODE : char[] = {1+'0',0+'0'} == {'1','0'} == "10"  <-- läslig i appen!
 
