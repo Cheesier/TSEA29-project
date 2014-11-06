@@ -9,6 +9,7 @@
 #define noSensors 4
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 
 // SPI defines for readability
@@ -44,7 +45,7 @@ void initSPI()
 	/* Set MISO output*/
 	DDR_SPI = (1<<DDR_MISO);
 	/* Enable SPI */
-	SPCR = (1<<SPE);
+	SPCR = (1<<SPIE)|(1<<SPE);
 }
 
 void sendAll()
@@ -64,7 +65,7 @@ void initSensors()
 {
 	for (int i = 0; i < noSensors; i++)
 	{
-		sensorData[i] = i;
+		sensorData[i] = 129;
 	}
 }
 
@@ -72,8 +73,17 @@ int main(void)
 {
 	initSPI();
 	initSensors();
+	SPI_DATA_REG = noSensors;
+	sei();
 	while(1)
 	{
-		sendAll();
 	}
+}
+
+ISR(SPISTC_vect)
+{
+	cli();
+	sendAll();
+	sei();
+	reti();
 }
