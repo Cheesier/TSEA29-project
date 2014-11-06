@@ -11,13 +11,36 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+// SPI defines for readability
+#define DDR_SPI DDRB
+#define DDR_MISO DDB6
+
+// Defines for pins for sensorenhet
+/*MUX ports*/
+#define MUX_SELECT1 PORTB0
+#define MUX_SELECT2 PORTB1
+#define MUX_SELECT3 PORTB2
+#define MUX_SELECT4 PORTB3
+/*Clockcrystal*/
+
+/*REQ signal*/
+#define REQ PORTD0
+/*Distance sensors*/
+#define FRONT_DIST_SENS PORTD2
+#define BACK_DIST_SENS PORTD3
+#define LEFT_DIST_SENS PORTD4
+#define RIGHT_DIST_SENS PORTD5
+/* Tapesensor */
+#define TAPE_SENS PORTA0
+/* Gyro */
+#define GYRO PORTA1
 
 uint8_t sensorData [noSensors];
 
 void initSPI()
 {
 	/* Set MISO output*/
-	DDRB = (1<<DDB6);
+	DDR_SPI = (1<<DDR_MISO);
 	/* Enable SPI */
 	SPCR = (1<<SPE);
 }
