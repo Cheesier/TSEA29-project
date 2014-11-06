@@ -3,27 +3,27 @@ sensorenhet.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000011c  00000000  00000000  00000074  2**1
+  0 .text         00000118  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .bss          00000004  00800060  00800060  00000190  2**0
+  1 .bss          00000004  00800060  00800060  0000018c  2**0
                   ALLOC
-  2 .comment      00000030  00000000  00000000  00000190  2**0
+  2 .comment      00000030  00000000  00000000  0000018c  2**0
                   CONTENTS, READONLY
-  3 .debug_aranges 00000040  00000000  00000000  000001c0  2**0
+  3 .debug_aranges 00000040  00000000  00000000  000001bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_info   00000158  00000000  00000000  00000200  2**0
+  4 .debug_info   00000158  00000000  00000000  000001fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_abbrev 000000e3  00000000  00000000  00000358  2**0
+  5 .debug_abbrev 000000e3  00000000  00000000  00000354  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_line   00000102  00000000  00000000  0000043b  2**0
+  6 .debug_line   000000fb  00000000  00000000  00000437  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_frame  000000ac  00000000  00000000  00000540  2**2
+  7 .debug_frame  000000ac  00000000  00000000  00000534  2**2
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    00000173  00000000  00000000  000005ec  2**0
+  8 .debug_str    00000171  00000000  00000000  000005e0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_loc    0000015d  00000000  00000000  0000075f  2**0
+  9 .debug_loc    0000015d  00000000  00000000  00000751  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000030  00000000  00000000  000008bc  2**0
+ 10 .debug_ranges 00000030  00000000  00000000  000008ae  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -39,7 +39,7 @@ Disassembly of section .text:
   1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
-  28:	0c 94 65 00 	jmp	0xca	; 0xca <__vector_10>
+  28:	0c 94 63 00 	jmp	0xc6	; 0xc6 <__vector_10>
   2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
@@ -73,7 +73,7 @@ Disassembly of section .text:
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
   70:	0e 94 5d 00 	call	0xba	; 0xba <main>
-  74:	0c 94 8c 00 	jmp	0x118	; 0x118 <_exit>
+  74:	0c 94 8a 00 	jmp	0x114	; 0x114 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -158,65 +158,63 @@ int main(void)
   ba:	0e 94 3e 00 	call	0x7c	; 0x7c <initSPI>
 	initSensors();
   be:	0e 94 53 00 	call	0xa6	; 0xa6 <initSensors>
-	SPI_DATA_REG = noSensors;
-  c2:	84 e0       	ldi	r24, 0x04	; 4
-  c4:	8f b9       	out	0x0f, r24	; 15
+	//SPI_DATA_REG = noSensors;
 	sei();
-  c6:	78 94       	sei
-  c8:	ff cf       	rjmp	.-2      	; 0xc8 <main+0xe>
+  c2:	78 94       	sei
+  c4:	ff cf       	rjmp	.-2      	; 0xc4 <main+0xa>
 
-000000ca <__vector_10>:
+000000c6 <__vector_10>:
 	{
 	}
 }
 
 ISR(SPISTC_vect)
 {
-  ca:	1f 92       	push	r1
+  c6:	1f 92       	push	r1
+  c8:	0f 92       	push	r0
+  ca:	0f b6       	in	r0, 0x3f	; 63
   cc:	0f 92       	push	r0
-  ce:	0f b6       	in	r0, 0x3f	; 63
-  d0:	0f 92       	push	r0
-  d2:	11 24       	eor	r1, r1
-  d4:	2f 93       	push	r18
-  d6:	3f 93       	push	r19
-  d8:	4f 93       	push	r20
-  da:	5f 93       	push	r21
-  dc:	6f 93       	push	r22
-  de:	7f 93       	push	r23
-  e0:	8f 93       	push	r24
-  e2:	9f 93       	push	r25
-  e4:	af 93       	push	r26
-  e6:	bf 93       	push	r27
-  e8:	ef 93       	push	r30
-  ea:	ff 93       	push	r31
+  ce:	11 24       	eor	r1, r1
+  d0:	2f 93       	push	r18
+  d2:	3f 93       	push	r19
+  d4:	4f 93       	push	r20
+  d6:	5f 93       	push	r21
+  d8:	6f 93       	push	r22
+  da:	7f 93       	push	r23
+  dc:	8f 93       	push	r24
+  de:	9f 93       	push	r25
+  e0:	af 93       	push	r26
+  e2:	bf 93       	push	r27
+  e4:	ef 93       	push	r30
+  e6:	ff 93       	push	r31
 	cli();
-  ec:	f8 94       	cli
+  e8:	f8 94       	cli
 	sendAll();
-  ee:	0e 94 43 00 	call	0x86	; 0x86 <sendAll>
+  ea:	0e 94 43 00 	call	0x86	; 0x86 <sendAll>
 	sei();
-  f2:	78 94       	sei
+  ee:	78 94       	sei
 	reti();
-  f4:	18 95       	reti
-  f6:	ff 91       	pop	r31
-  f8:	ef 91       	pop	r30
-  fa:	bf 91       	pop	r27
-  fc:	af 91       	pop	r26
-  fe:	9f 91       	pop	r25
- 100:	8f 91       	pop	r24
- 102:	7f 91       	pop	r23
- 104:	6f 91       	pop	r22
- 106:	5f 91       	pop	r21
- 108:	4f 91       	pop	r20
- 10a:	3f 91       	pop	r19
- 10c:	2f 91       	pop	r18
+  f0:	18 95       	reti
+  f2:	ff 91       	pop	r31
+  f4:	ef 91       	pop	r30
+  f6:	bf 91       	pop	r27
+  f8:	af 91       	pop	r26
+  fa:	9f 91       	pop	r25
+  fc:	8f 91       	pop	r24
+  fe:	7f 91       	pop	r23
+ 100:	6f 91       	pop	r22
+ 102:	5f 91       	pop	r21
+ 104:	4f 91       	pop	r20
+ 106:	3f 91       	pop	r19
+ 108:	2f 91       	pop	r18
+ 10a:	0f 90       	pop	r0
+ 10c:	0f be       	out	0x3f, r0	; 63
  10e:	0f 90       	pop	r0
- 110:	0f be       	out	0x3f, r0	; 63
- 112:	0f 90       	pop	r0
- 114:	1f 90       	pop	r1
- 116:	18 95       	reti
+ 110:	1f 90       	pop	r1
+ 112:	18 95       	reti
 
-00000118 <_exit>:
- 118:	f8 94       	cli
+00000114 <_exit>:
+ 114:	f8 94       	cli
 
-0000011a <__stop_program>:
- 11a:	ff cf       	rjmp	.-2      	; 0x11a <__stop_program>
+00000116 <__stop_program>:
+ 116:	ff cf       	rjmp	.-2      	; 0x116 <__stop_program>

@@ -73,7 +73,7 @@ int main(void)
 {
 	initSPI();
 	initSensors();
-	SPI_DATA_REG = noSensors;
+	//SPI_DATA_REG = noSensors; WRONG NYMAN 
 	sei();
 	while(1)
 	{
