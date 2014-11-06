@@ -8,10 +8,11 @@
 
 #ifndef PWM_TEST_H_
 #define PWM_TEST_H_
+#include <stdint.h>
 
 void init_pwm();
-void setSpeed(int speed);
-void setSpeeds(int speed_left, int speed_right);
+void setSpeed(uint8_t speed);
+void setSpeeds(uint8_t speed_left, uint8_t speed_right);
 void clawGrip();
 void clawRelease();
 void clawEnable();

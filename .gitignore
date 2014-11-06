@@ -32,3 +32,5 @@
 *.cproj
 *.atsln
 *.atsuo
+
+#Debug files
