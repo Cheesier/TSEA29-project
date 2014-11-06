@@ -14,6 +14,8 @@
 // SPI defines for readability
 #define DDR_SPI DDRB
 #define DDR_MISO DDB6
+#define SPI_DATA_REG SPDR
+#define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)))
 
 // Defines for pins for sensorenhet
 /*MUX ports*/
@@ -48,13 +50,13 @@ void initSPI()
 void sendAll()
 {
 	int i = 0;
-	SPDR = noSensors;
-	while(!(SPSR & (1<<SPIF)));
+	SPI_DATA_REG = noSensors;
+	WAIT_FOR_TRANSFER;
 	
 	for (; i < noSensors; i++)
 	{
-		SPDR = sensorData[i];
-		while(!(SPSR & (1<<SPIF)));
+		SPI_DATA_REG = sensorData[i];
+		WAIT_FOR_TRANSFER;
 	}
 }
 
