@@ -10,14 +10,33 @@ Discarded input sections
  .text          0x00000000        0x0 pwm_test.o
  .data          0x00000000        0x0 pwm_test.o
  .bss           0x00000000        0x0 pwm_test.o
- .text.set_speed
+ .text.setSpeed
                 0x00000000        0x6 pwm_test.o
- .text.setSpeeds
+ .text.clawGrip
                 0x00000000        0x6 pwm_test.o
- .text.claw_grip
+ .text.clawRelease
                 0x00000000        0x6 pwm_test.o
- .text.claw_release
-                0x00000000        0x6 pwm_test.o
+ .text.clawEnable
+                0x00000000        0x8 pwm_test.o
+ .text.clawDisable
+                0x00000000        0x8 pwm_test.o
+ .text          0x00000000        0x0 Styrenhet.o
+ .data          0x00000000        0x0 Styrenhet.o
+ .bss           0x00000000        0x0 Styrenhet.o
+ .text.SPI_Recive
+                0x00000000        0x8 Styrenhet.o
+ .text.SPI_Send
+                0x00000000        0x8 Styrenhet.o
+ .text.driveForward
+                0x00000000        0xa Styrenhet.o
+ .text.driveReverse
+                0x00000000        0xa Styrenhet.o
+ .text.rotateLeft
+                0x00000000        0xa Styrenhet.o
+ .text.rotateRight
+                0x00000000        0xa Styrenhet.o
+ .text.softTurnReverse
+                0x00000000        0xa Styrenhet.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
@@ -51,6 +70,7 @@ Linker script and memory map
 
 LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
 LOAD pwm_test.o
+LOAD Styrenhet.o
 START GROUP
 LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libm.a
 END GROUP
@@ -150,7 +170,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000       0xc6
+.text           0x00000000       0xbc
  *(.vectors)
  .vectors       0x00000000       0x54 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
                 0x00000000                __vector_default
@@ -229,13 +249,22 @@ END GROUP
  .text.init_pwm
                 0x0000006c       0x1c pwm_test.o
                 0x0000006c                init_pwm
- .text.main     0x00000088       0x3a pwm_test.o
-                0x00000088                main
-                0x000000c2                . = ALIGN (0x2)
+ .text.setSpeeds
+                0x00000088        0x6 pwm_test.o
+                0x00000088                setSpeeds
+ .text.SPI_Init
+                0x0000008e        0xa Styrenhet.o
+                0x0000008e                SPI_Init
+ .text.softTurn
+                0x00000098        0xa Styrenhet.o
+                0x00000098                softTurn
+ .text.main     0x000000a2       0x16 Styrenhet.o
+                0x000000a2                main
+                0x000000b8                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000c2        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
-                0x000000c2                _exit
-                0x000000c2                exit
+ .fini9         0x000000b8        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x000000b8                _exit
+                0x000000b8                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -254,11 +283,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000c2        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .fini0         0x000000b8        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000000c6                _etext = .
+                0x000000bc                _etext = .
 
-.data           0x00800060        0x0 load address 0x000000c6
+.data           0x00800060        0x0 load address 0x000000bc
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -275,8 +304,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x00800060                PROVIDE (__bss_end, .)
-                0x000000c6                __data_load_start = LOADADDR (.data)
-                0x000000c6                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000000bc                __data_load_start = LOADADDR (.data)
+                0x000000bc                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800060        0x0
                 0x00800060                PROVIDE (__noinit_start, .)
@@ -326,6 +355,7 @@ END GROUP
  *(.comment)
  .comment       0x00000000       0x30 pwm_test.o
                                  0x31 (size before relaxing)
+ .comment       0x00000000       0x31 Styrenhet.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -342,37 +372,46 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x48
+.debug_aranges  0x00000000       0xb8
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x48 pwm_test.o
+                0x00000000       0x50 pwm_test.o
+ .debug_aranges
+                0x00000050       0x68 Styrenhet.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x1fd
+.debug_info     0x00000000      0x44d
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x1fd pwm_test.o
+ .debug_info    0x00000000      0x142 pwm_test.o
+ .debug_info    0x00000142      0x30b Styrenhet.o
 
-.debug_abbrev   0x00000000      0x10e
+.debug_abbrev   0x00000000      0x187
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x10e pwm_test.o
+ .debug_abbrev  0x00000000       0x78 pwm_test.o
+ .debug_abbrev  0x00000078      0x10f Styrenhet.o
 
-.debug_line     0x00000000      0x1b6
+.debug_line     0x00000000      0x289
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x1b6 pwm_test.o
+ .debug_line    0x00000000      0x116 pwm_test.o
+ .debug_line    0x00000116      0x173 Styrenhet.o
 
-.debug_frame    0x00000000       0x74
+.debug_frame    0x00000000      0x138
  *(.debug_frame)
- .debug_frame   0x00000000       0x74 pwm_test.o
+ .debug_frame   0x00000000       0x84 pwm_test.o
+ .debug_frame   0x00000084       0xb4 Styrenhet.o
 
-.debug_str      0x00000000      0x1c1
+.debug_str      0x00000000      0x22b
  *(.debug_str)
- .debug_str     0x00000000      0x1c1 pwm_test.o
-                                0x1fb (size before relaxing)
+ .debug_str     0x00000000      0x191 pwm_test.o
+                                0x1cb (size before relaxing)
+ .debug_str     0x00000191       0x9a Styrenhet.o
+                                0x217 (size before relaxing)
 
-.debug_loc
+.debug_loc      0x00000000      0x130
  *(.debug_loc)
+ .debug_loc     0x00000000      0x130 Styrenhet.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -392,11 +431,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x38
+.debug_ranges   0x00000000       0x98
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x38 pwm_test.o
+ .debug_ranges  0x00000000       0x40 pwm_test.o
+ .debug_ranges  0x00000040       0x58 Styrenhet.o
 
 .debug_macro
  *(.debug_macro)
-OUTPUT(pwm_test.elf elf32-avr)
+OUTPUT(Styrenhet.elf elf32-avr)
 LOAD linker stubs

@@ -2,6 +2,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "pwm_test.h"
 
 #define CLAW_TIMER TCCR0
 #define WHEEL_TIMER_A TCCR1A
@@ -18,7 +19,7 @@ void init_pwm(){
 //	CS sets the prescaler				| CS02 & CS00 => CLK/1024
 //	COM sets the compare output mode	| COM01 => Clear OC0 on match, set on BOTTOM
 /************************************************************************/
-CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << COM01) | (1 << CS02) | (1 << CS00);
+CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << CS02) | (1 << CS00);
 DDRB |= (1 << PORTB3); //sets OC0 as output
 
 /************************************************************************/
@@ -34,43 +35,52 @@ DDRD |= (1 << PORTD4) | (1 << PORTD5); //sets 0C1A:B as outputs
 }
 
 //Sets the duty cycle of both motors to speed
-void set_speed(int speed){
+void setSpeed(int speed) {
 	LEFT_WHEEL_VALUE = speed;
 	RIGHT_WHEEL_VALUE = speed;	
 }
 
 //Sets the duty cycle of the left motors to speed_left and the right motors to speed_right
-void setSpeeds(int speed_left, int speed_right){	
+void setSpeeds(int speed_left, int speed_right) {	
 	LEFT_WHEEL_VALUE = speed_left;	
 	RIGHT_WHEEL_VALUE = speed_right;
 }
 
 //Makes the claw grip
-void claw_grip(){
-	CLAW_VALUE = 6;
+void clawGrip() {
+	CLAW_VALUE = 5;	
 }
 
 //Makes the claw release its grip
-void claw_release(){
-	CLAW_VALUE = 13;
+void clawRelease() {
+	CLAW_VALUE = 11;
 }
 
-int main(void){	
+void clawEnable() {
+	CLAW_TIMER |= (1<<COM01);
+}
+
+void clawDisable() {
+	CLAW_TIMER &= ~(1<<COM01);
+}
+
+
+/*int main(void){	
 	init_pwm();
 	
 	
 	while(1){
 		CLAW_VALUE = 13;
-		LEFT_WHEEL_VALUE = 13;
-		RIGHT_WHEEL_VALUE = 13;
+		LEFT_WHEEL_VALUE = 255;
+		RIGHT_WHEEL_VALUE = 255;
 		
 		_delay_ms(4000);
 		
 		CLAW_VALUE = 6;
-		LEFT_WHEEL_VALUE = 6;
-		RIGHT_WHEEL_VALUE = 6;		
+		LEFT_WHEEL_VALUE = 0;
+		RIGHT_WHEEL_VALUE = 0;		
 		
 		_delay_ms(4000);
 	}	
 	return 0;
-}
+}*/

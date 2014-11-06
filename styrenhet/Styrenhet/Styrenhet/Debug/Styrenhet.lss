@@ -1,25 +1,27 @@
 
-pwm_test.elf:     file format elf32-avr
+Styrenhet.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000c6  00000000  00000000  00000054  2**1
+  0 .text         000000bc  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .comment      00000030  00000000  00000000  0000011a  2**0
+  1 .comment      00000030  00000000  00000000  00000110  2**0
                   CONTENTS, READONLY
-  2 .debug_aranges 00000048  00000000  00000000  0000014a  2**0
+  2 .debug_aranges 000000b8  00000000  00000000  00000140  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_info   000001fd  00000000  00000000  00000192  2**0
+  3 .debug_info   0000044d  00000000  00000000  000001f8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_abbrev 0000010e  00000000  00000000  0000038f  2**0
+  4 .debug_abbrev 00000187  00000000  00000000  00000645  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_line   000001b6  00000000  00000000  0000049d  2**0
+  5 .debug_line   00000289  00000000  00000000  000007cc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_frame  00000074  00000000  00000000  00000654  2**2
+  6 .debug_frame  00000138  00000000  00000000  00000a58  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    000001c1  00000000  00000000  000006c8  2**0
+  7 .debug_str    0000022b  00000000  00000000  00000b90  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_ranges 00000038  00000000  00000000  00000889  2**0
+  8 .debug_loc    00000130  00000000  00000000  00000dbb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000098  00000000  00000000  00000eeb  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -54,8 +56,8 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 44 00 	call	0x88	; 0x88 <main>
-  64:	0c 94 61 00 	jmp	0xc2	; 0xc2 <_exit>
+  60:	0e 94 51 00 	call	0xa2	; 0xa2 <main>
+  64:	0c 94 5c 00 	jmp	0xb8	; 0xb8 <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -66,9 +68,9 @@ Disassembly of section .text:
 //	CS sets the prescaler				| CS02 & CS00 => CLK/1024
 //	COM sets the compare output mode	| COM01 => Clear OC0 on match, set on BOTTOM
 /************************************************************************/
-CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << COM01) | (1 << CS02) | (1 << CS00);
+CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << CS02) | (1 << CS00);
   6c:	83 b7       	in	r24, 0x33	; 51
-  6e:	8d 66       	ori	r24, 0x6D	; 109
+  6e:	8d 64       	ori	r24, 0x4D	; 77
   70:	83 bf       	out	0x33, r24	; 51
 DDRB |= (1 << PORTB3); //sets OC0 as output
   72:	bb 9a       	sbi	0x17, 3	; 23
@@ -91,74 +93,68 @@ DDRD |= (1 << PORTD4) | (1 << PORTD5); //sets 0C1A:B as outputs
   84:	81 bb       	out	0x11, r24	; 17
   86:	08 95       	ret
 
-00000088 <main>:
-void claw_release(){
-	CLAW_VALUE = 13;
+00000088 <setSpeeds>:
+	RIGHT_WHEEL_VALUE = speed;	
 }
 
-int main(void){	
+//Sets the duty cycle of the left motors to speed_left and the right motors to speed_right
+void setSpeeds(int speed_left, int speed_right) {	
+	LEFT_WHEEL_VALUE = speed_left;	
+  88:	8a bd       	out	0x2a, r24	; 42
+	RIGHT_WHEEL_VALUE = speed_right;
+  8a:	68 bd       	out	0x28, r22	; 40
+  8c:	08 95       	ret
+
+0000008e <SPI_Init>:
+
+// Pin handling CLAW
+#define CLAW_CONTROL PORTB3
+
+void SPI_Init(void){
+	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
+  8e:	80 e4       	ldi	r24, 0x40	; 64
+  90:	87 bb       	out	0x17, r24	; 23
+	SPCR = (1<<SPE);				// Enable SPI
+  92:	8d b9       	out	0x0d, r24	; 13
+	SPCR = (1>>SPIE);				// Enable interrupts
+  94:	1d b8       	out	0x0d, r1	; 13
+  96:	08 95       	ret
+
+00000098 <softTurn>:
+	setSpeed(speed);
+	return;
+}
+
+void softTurn(int leftspeed, int rightspeed) {
+	PORTA |= (1<<WHEEL_DIRECTION_L);
+  98:	d8 9a       	sbi	0x1b, 0	; 27
+	PORTA |= (1<<WHEEL_DIRECTION_R);
+  9a:	d9 9a       	sbi	0x1b, 1	; 27
+	setSpeeds(leftspeed, rightspeed);				// The implementation of pwm() can handle separate speeds for both sides
+  9c:	0e 94 44 00 	call	0x88	; 0x88 <setSpeeds>
+  a0:	08 95       	ret
+
+000000a2 <main>:
+}
+
+// Receiving and sending could be done by the same function but this seem clearer to me
+
+int main(void) {
+	SPI_Init();						// Initiate SPI as a slaves
+  a2:	0e 94 47 00 	call	0x8e	; 0x8e <SPI_Init>
 	init_pwm();
-  88:	0e 94 36 00 	call	0x6c	; 0x6c <init_pwm>
-	
-	
-	while(1){
-		CLAW_VALUE = 13;
-  8c:	9d e0       	ldi	r25, 0x0D	; 13
-		LEFT_WHEEL_VALUE = 13;
-		RIGHT_WHEEL_VALUE = 13;
-		
-		_delay_ms(4000);
-		
-		CLAW_VALUE = 6;
-  8e:	86 e0       	ldi	r24, 0x06	; 6
-int main(void){	
-	init_pwm();
-	
-	
-	while(1){
-		CLAW_VALUE = 13;
-  90:	9c bf       	out	0x3c, r25	; 60
-		LEFT_WHEEL_VALUE = 13;
-  92:	9a bd       	out	0x2a, r25	; 42
-		RIGHT_WHEEL_VALUE = 13;
-  94:	98 bd       	out	0x28, r25	; 40
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+  a6:	0e 94 36 00 	call	0x6c	; 0x6c <init_pwm>
+	while(1) {
+		softTurn(255, 127);
+  aa:	6f e7       	ldi	r22, 0x7F	; 127
+  ac:	70 e0       	ldi	r23, 0x00	; 0
+  ae:	8f ef       	ldi	r24, 0xFF	; 255
+  b0:	90 e0       	ldi	r25, 0x00	; 0
+  b2:	0e 94 4c 00 	call	0x98	; 0x98 <softTurn>
+  b6:	f9 cf       	rjmp	.-14     	; 0xaa <main+0x8>
 
-	__builtin_avr_delay_cycles(__ticks_dc);
-  96:	2f ef       	ldi	r18, 0xFF	; 255
-  98:	37 ea       	ldi	r19, 0xA7	; 167
-  9a:	41 e6       	ldi	r20, 0x61	; 97
-  9c:	21 50       	subi	r18, 0x01	; 1
-  9e:	30 40       	sbci	r19, 0x00	; 0
-  a0:	40 40       	sbci	r20, 0x00	; 0
-  a2:	e1 f7       	brne	.-8      	; 0x9c <main+0x14>
-  a4:	00 c0       	rjmp	.+0      	; 0xa6 <main+0x1e>
-  a6:	00 00       	nop
-		
-		_delay_ms(4000);
-		
-		CLAW_VALUE = 6;
-  a8:	8c bf       	out	0x3c, r24	; 60
-		LEFT_WHEEL_VALUE = 6;
-  aa:	8a bd       	out	0x2a, r24	; 42
-		RIGHT_WHEEL_VALUE = 6;		
-  ac:	88 bd       	out	0x28, r24	; 40
-  ae:	2f ef       	ldi	r18, 0xFF	; 255
-  b0:	37 ea       	ldi	r19, 0xA7	; 167
-  b2:	41 e6       	ldi	r20, 0x61	; 97
-  b4:	21 50       	subi	r18, 0x01	; 1
-  b6:	30 40       	sbci	r19, 0x00	; 0
-  b8:	40 40       	sbci	r20, 0x00	; 0
-  ba:	e1 f7       	brne	.-8      	; 0xb4 <main+0x2c>
-  bc:	00 c0       	rjmp	.+0      	; 0xbe <main+0x36>
-  be:	00 00       	nop
-  c0:	e7 cf       	rjmp	.-50     	; 0x90 <main+0x8>
+000000b8 <_exit>:
+  b8:	f8 94       	cli
 
-000000c2 <_exit>:
-  c2:	f8 94       	cli
-
-000000c4 <__stop_program>:
-  c4:	ff cf       	rjmp	.-2      	; 0xc4 <__stop_program>
+000000ba <__stop_program>:
+  ba:	ff cf       	rjmp	.-2      	; 0xba <__stop_program>
