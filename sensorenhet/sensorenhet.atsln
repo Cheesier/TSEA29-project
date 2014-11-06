@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "sensorenhet", "sensorenhet\sensorenhet.cproj", "{7AAB3390-8B54-4C26-AB88-6E9CFC61B184}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "masterDummy", "masterDummy\masterDummy.cproj", "{DDBC2866-48EF-422E-A2D0-A0F49E313092}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7AAB3390-8B54-4C26-AB88-6E9CFC61B184}.Debug|AVR.ActiveCfg = Debug|AVR
+		{7AAB3390-8B54-4C26-AB88-6E9CFC61B184}.Debug|AVR.Build.0 = Debug|AVR
+		{7AAB3390-8B54-4C26-AB88-6E9CFC61B184}.Release|AVR.ActiveCfg = Release|AVR
+		{7AAB3390-8B54-4C26-AB88-6E9CFC61B184}.Release|AVR.Build.0 = Release|AVR
+		{DDBC2866-48EF-422E-A2D0-A0F49E313092}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DDBC2866-48EF-422E-A2D0-A0F49E313092}.Debug|AVR.Build.0 = Debug|AVR
+		{DDBC2866-48EF-422E-A2D0-A0F49E313092}.Release|AVR.ActiveCfg = Release|AVR
+		{DDBC2866-48EF-422E-A2D0-A0F49E313092}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
