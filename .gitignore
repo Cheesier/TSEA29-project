@@ -34,3 +34,5 @@
 *.atsuo
 
 #Debug files
+*/Debug/*
+*/Release/*
