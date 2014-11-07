@@ -12,45 +12,27 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "Styrenhet.h"
+#include "SPI.h"
 
-//#include pwm lol
+//PWM
 #include "pwm_test.h"
-
-// SPI ports
-#define SPI_SS PORTB4
-#define SPI_MOSI PORTB5
-#define SPI_MISO PORTB6
-#define SPI_SCLK PORTB7
-
-// SPI register
-#define DDR_SPI DDRB
 
 // Pins handling wheel direction
 #define WHEEL_DIRECTION_L PORTA0
 #define WHEEL_DIRECTION_R PORTA1
 
-void SPI_Init(void){
-	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
-	SPCR = (1<<SPE);				// Enable SPI
-	SPCR = (1>>SPIE);				// Enable interrupts
-}
+//Defines the direction of the robot
+#define FORWARD 1
+#define REVERSE 0
 
-char SPI_Recive(void){
-	while(!(SPSR & (1<<SPIF)));		// Wait for reception to complete
-	return SPDR;					// Return Data Register
-}
-
-void SPI_Send(char dataout){
-	SPDR = dataout;					// Put package in Data Register
-	while(!(SPSR & (1<<SPIF)));		// Wait for transition to complete
-	return;
-}
+char direction = FORWARD;
 
 // Receiving and sending could be done by the same function but this seem clearer to me
 
 int main(void) {
 	SPI_Init();						// Initiate SPI as a slaves
 	init_pwm();
+	//int direction = FORWARD;
 	//softTurn(255,127);	
 	while(1) {
 		gripClaw();
@@ -60,31 +42,68 @@ int main(void) {
 	}
 }
 
+void setReverseMode(uint8_t dir) {
+	if(dir == 1) {
+		direction = FORWARD;
+	}
+	else if(dir == 0) {
+		direction = REVERSE;
+	}
+}
+
 void driveForward(uint8_t speed) {
-	PORTA |= (1<<WHEEL_DIRECTION_L);		// Set wheel direction to forward by
-	PORTA |= (1<<WHEEL_DIRECTION_R);		// setting the direction pins
-	setSpeed(speed);
+	if(direction == REVERSE) {
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Set wheel direction to reverse by
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// clearing the direction pins
+		setSpeed(speed);
+	}
+	else {
+		PORTA |= (1<<WHEEL_DIRECTION_L);		// Set wheel direction to forward by
+		PORTA |= (1<<WHEEL_DIRECTION_R);		// setting the direction pins
+		setSpeed(speed);
+	}
 	return;
 }
 
 void driveReverse(uint8_t speed) {
-	PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Set wheel direction to reverse by
-	PORTA &= ~(1<<WHEEL_DIRECTION_R);		// clearing the direction pins
-	setSpeed(speed);
+	if(direction == REVERSE) {
+		PORTA |= (1<<WHEEL_DIRECTION_L);		// Set wheel direction to forward by
+		PORTA |= (1<<WHEEL_DIRECTION_R);		// setting the direction pins
+		setSpeed(speed);
+	}
+	else {
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Set wheel direction to reverse by
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// clearing the direction pins
+		setSpeed(speed);
+	}
 	return;
 }
 
 void rotateLeft(uint8_t speed) {
-	PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
-	PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
-	setSpeed(speed);
+	if(direction == REVERSE){
+		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
+		setSpeed(speed);
+	}
+	else {
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
+		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
+		setSpeed(speed);
+	}
 	return;
 }
 
 void rotateRight(uint8_t speed) {
-	PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
-	PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
-	setSpeed(speed);
+	if(direction == REVERSE){
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
+		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
+		setSpeed(speed);
+	}
+	else {
+		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
+		setSpeed(speed);
+	}
 	return;
 }
 
@@ -112,4 +131,44 @@ void releaseClaw() {
 void gripClaw() {
 	clawEnable();
 	clawGrip();	
+}
+
+void leftWheelDirection(uint8_t dir) {
+	if(direction == REVERSE) {
+		if(dir == 1) {
+			dir = 0;
+		}
+		else {
+			dir = 1;
+		}
+	}
+	
+	if(dir == 1) {
+		PORTA |= (1 << WHEEL_DIRECTION_L);		
+	}
+	else if(dir == 0) {
+		PORTA &= ~(1 << WHEEL_DIRECTION_L);
+	}
+}
+
+void rightWheelDirection(uint8_t dir) {
+	if(direction == REVERSE) {
+		if(dir == 1) {
+			dir = 0;
+		}
+		else {
+			dir = 1;
+		}
+	}
+	
+	if(dir == 1) {
+		PORTA |= (1 << WHEEL_DIRECTION_R);
+	}
+	else if(dir == 0) {
+		PORTA &= ~(1 << WHEEL_DIRECTION_R);
+	}
+}
+
+void wheelSpeeds(uint8_t l_speed, uint8_t r_speed) {
+	setSpeeds(l_speed, r_speed);
 }

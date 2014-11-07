@@ -4,5 +4,7 @@
 
 pwm_test.c
 
+SPI.c
+
 Styrenhet.c
 

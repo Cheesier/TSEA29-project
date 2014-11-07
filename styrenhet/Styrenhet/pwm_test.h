@@ -13,6 +13,8 @@
 void init_pwm();
 void setSpeed(uint8_t speed);
 void setSpeeds(uint8_t speed_left, uint8_t speed_right);
+void setLeftSpeed(uint8_t speed);
+void setRightSpeed(uint8_t speed);
 void clawGrip();
 void clawRelease();
 void clawEnable();

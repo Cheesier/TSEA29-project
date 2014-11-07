@@ -75,3 +75,10 @@ void clawDisable() {
 	CLAW_TIMER &= ~(1<<COM01);
 }
 
+void setLeftSpeed(uint8_t speed) {
+	LEFT_WHEEL_VALUE = speed;
+}
+void setRightSpeed(uint8_t speed) {
+	RIGHT_WHEEL_VALUE = speed;
+}
+
