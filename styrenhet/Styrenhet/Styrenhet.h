@@ -10,25 +10,23 @@
 #define STYRENHET_H_
 #include <stdint.h>
 
+void setDirection(uint8_t dir);
+
 void driveForward(uint8_t speed);
 void driveReverse(uint8_t speed);
 
 void rotateLeft(uint8_t speed);
 void rotateRight(uint8_t speed);
 
-void softTurn(uint8_t leftspeed, uint8_t rightspeed);
-void softTurnReverse(uint8_t leftspeed, uint8_t rightspeed);
-
-void releaseClaw();
-void gripClaw();
+void softTurn(uint8_t left_speed, uint8_t right_speed);
+void softTurnReverse(uint8_t left_speed, uint8_t right_speed);
 
 void leftWheelDirection(uint8_t dir);
 void rightWheelDirection(uint8_t dir);
 
-void wheelSpeeds(uint8_t l_speed, uint8_t r_speed);
+void wheelSpeeds(uint8_t left_speed, uint8_t right_speed);
 
-void setReverseMode(uint8_t dir);
-
-
+void releaseClaw();
+void gripClaw();
 
 #endif /* STYRENHET_H_ */

@@ -10,9 +10,8 @@
 #define SPI_H_
 
 void SPI_Init(void);
+
 char SPI_Recive(void);
 void SPI_Send(char dataout);
-
-
 
 #endif /* SPI_H_ */
