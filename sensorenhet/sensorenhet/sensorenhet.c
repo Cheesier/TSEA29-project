@@ -53,11 +53,7 @@ void initSPI()
 
 void sendAll(void)
 {
-	int i = 0;
-	SPI_DATA_REG = noSensors;
-	WAIT_FOR_TRANSFER;
-	
-	for (; i < noSensors; i++)
+	for (int i = 0; i < noSensors; i++)
 	{
 		SPI_DATA_REG = sensorData[i];
 		WAIT_FOR_TRANSFER;
@@ -84,16 +80,11 @@ int main(void)
 	}
 }
 
-ISR(SPISTC_vect)
-{
-	cli();
-	sendAll();
-	sei();
-}
-/*
+
+
 ISR(SPISTC_vect){
 	cli();
-	int function = SPI_DATA_REG << 2;			//fult fixA!!!
+	int function = SPI_DATA_REG/* || (0<<7)|(0<<6)*/;			
 	switch (function){
 		case 0x01:				//reset gyro_angle
 			gyro_angle = 0;
@@ -113,6 +104,8 @@ ISR(SPISTC_vect){
 			break;
 		case 0x07:				//gyro msg
 			break;
+		default:
+			break;
 	}
 	sei();
-}*/
+}
