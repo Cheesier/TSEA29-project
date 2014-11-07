@@ -34,5 +34,7 @@
 *.atsuo
 
 #Debug files
-*/Debug/*
-*/Release/*
+Debug/
+Release/
+
+ASF/
