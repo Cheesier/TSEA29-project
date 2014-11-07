@@ -3,25 +3,25 @@ masterDummy.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000c8  00000000  00000000  00000054  2**1
+  0 .text         000000f4  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .comment      00000030  00000000  00000000  0000011c  2**0
+  1 .comment      00000030  00000000  00000000  00000148  2**0
                   CONTENTS, READONLY
-  2 .debug_aranges 00000030  00000000  00000000  0000014c  2**0
+  2 .debug_aranges 00000038  00000000  00000000  00000178  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_info   000001e1  00000000  00000000  0000017c  2**0
+  3 .debug_info   000001c8  00000000  00000000  000001b0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_abbrev 0000013c  00000000  00000000  0000035d  2**0
+  4 .debug_abbrev 00000135  00000000  00000000  00000378  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_line   0000016e  00000000  00000000  00000499  2**0
+  5 .debug_line   00000187  00000000  00000000  000004ad  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_frame  00000044  00000000  00000000  00000608  2**2
+  6 .debug_frame  00000060  00000000  00000000  00000634  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    000001b1  00000000  00000000  0000064c  2**0
+  7 .debug_str    000001ac  00000000  00000000  00000694  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    00000069  00000000  00000000  000007fd  2**0
+  8 .debug_loc    00000053  00000000  00000000  00000840  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_ranges 00000020  00000000  00000000  00000866  2**0
+  9 .debug_ranges 00000028  00000000  00000000  00000893  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -37,7 +37,7 @@ Disassembly of section .text:
   1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 6c 00 	jmp	0xd8	; 0xd8 <__vector_10>
   2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
@@ -56,8 +56,8 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 54 00 	call	0xa8	; 0xa8 <main>
-  64:	0c 94 62 00 	jmp	0xc4	; 0xc4 <_exit>
+  60:	0e 94 51 00 	call	0xa2	; 0xa2 <main>
+  64:	0c 94 78 00 	jmp	0xf0	; 0xf0 <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -72,8 +72,8 @@ void initSPI()
   6c:	80 eb       	ldi	r24, 0xB0	; 176
   6e:	87 bb       	out	0x17, r24	; 23
 	/* SPI, Master, set clock rate fck/16 */
-	SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);
-  70:	81 e5       	ldi	r24, 0x51	; 81
+	SPCR = (1<<SPIE)|(1<<SPE)|(1<<MSTR)|(1<<SPR0);
+  70:	81 ed       	ldi	r24, 0xD1	; 209
   72:	8d b9       	out	0x0d, r24	; 13
   74:	08 95       	ret
 
@@ -82,7 +82,7 @@ void initSPI()
 
 void getSensorData()
 {
-	SPDR = 0;
+	SPDR = 0x00;
   76:	1f b8       	out	0x0f, r1	; 15
 	PORTB &= ~(1<<PORTB4);
   78:	c4 98       	cbi	0x18, 4	; 24
@@ -101,49 +101,54 @@ void getSensorData()
   82:	30 e0       	ldi	r19, 0x00	; 0
   84:	12 16       	cp	r1, r18
   86:	13 06       	cpc	r1, r19
-  88:	74 f4       	brge	.+28     	; 0xa6 <getSensorData+0x30>
+  88:	5c f4       	brge	.+22     	; 0xa0 <getSensorData+0x2a>
   8a:	80 e0       	ldi	r24, 0x00	; 0
   8c:	90 e0       	ldi	r25, 0x00	; 0
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
-
-	__builtin_avr_delay_cycles(__ticks_dc);
-  8e:	48 e2       	ldi	r20, 0x28	; 40
-  90:	4a 95       	dec	r20
-  92:	f1 f7       	brne	.-4      	; 0x90 <getSensorData+0x1a>
-	{
-		_delay_us(15);
-		SPDR = 0;
-  94:	1f b8       	out	0x0f, r1	; 15
+		}
+		else
+		{
+			_delay_ms(10);
+		}*/
+		SPDR = 0x00;
+  8e:	1f b8       	out	0x0f, r1	; 15
 		PORTB &= ~(1<<PORTB4);
-  96:	c4 98       	cbi	0x18, 4	; 24
+  90:	c4 98       	cbi	0x18, 4	; 24
 		while(!(SPSR & (1<<SPIF)));
-  98:	77 9b       	sbis	0x0e, 7	; 14
-  9a:	fe cf       	rjmp	.-4      	; 0x98 <getSensorData+0x22>
+  92:	77 9b       	sbis	0x0e, 7	; 14
+  94:	fe cf       	rjmp	.-4      	; 0x92 <getSensorData+0x1c>
 		PORTB |= (1<<PORTB4);
-  9c:	c4 9a       	sbi	0x18, 4	; 24
+  96:	c4 9a       	sbi	0x18, 4	; 24
 	uint8_t noSensors = SPDR;
 	
 	//uint8_t *sensorData;
 	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
 	
 	for (int i = 0; i < noSensors; i++)
-  9e:	01 96       	adiw	r24, 0x01	; 1
-  a0:	82 17       	cp	r24, r18
-  a2:	93 07       	cpc	r25, r19
-  a4:	a4 f3       	brlt	.-24     	; 0x8e <getSensorData+0x18>
-  a6:	08 95       	ret
+  98:	01 96       	adiw	r24, 0x01	; 1
+  9a:	82 17       	cp	r24, r18
+  9c:	93 07       	cpc	r25, r19
+  9e:	bc f3       	brlt	.-18     	; 0x8e <getSensorData+0x18>
+  a0:	08 95       	ret
 
-000000a8 <main>:
+000000a2 <main>:
 	//free(sensorData);
 }
 
 int main(void)
 {
 	initSPI();
-  a8:	0e 94 36 00 	call	0x6c	; 0x6c <initSPI>
+  a2:	0e 94 36 00 	call	0x6c	; 0x6c <initSPI>
+	
+	DDRB |= (1<<0);
+  a6:	b8 9a       	sbi	0x17, 0	; 23
+	DDRD &= ~(1<<2);
+  a8:	8a 98       	cbi	0x11, 2	; 17
+	//GICR |= (1<<6);
+	//sei();
+	while(1)
+	{
+		PORTB |= (1<<0);
+  aa:	c0 9a       	sbi	0x18, 0	; 24
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -151,23 +156,54 @@ int main(void)
 
 	__builtin_avr_delay_cycles(__ticks_dc);
   ac:	2f ef       	ldi	r18, 0xFF	; 255
-  ae:	89 e6       	ldi	r24, 0x69	; 105
-  b0:	98 e1       	ldi	r25, 0x18	; 24
+  ae:	80 e7       	ldi	r24, 0x70	; 112
+  b0:	92 e0       	ldi	r25, 0x02	; 2
   b2:	21 50       	subi	r18, 0x01	; 1
   b4:	80 40       	sbci	r24, 0x00	; 0
   b6:	90 40       	sbci	r25, 0x00	; 0
-  b8:	e1 f7       	brne	.-8      	; 0xb2 <main+0xa>
-  ba:	00 c0       	rjmp	.+0      	; 0xbc <main+0x14>
+  b8:	e1 f7       	brne	.-8      	; 0xb2 <main+0x10>
+  ba:	00 c0       	rjmp	.+0      	; 0xbc <main+0x1a>
   bc:	00 00       	nop
-	while(1)
-	{
+		_delay_ms(100);
+		PORTB &= ~(1<<0);
+  be:	c0 98       	cbi	0x18, 0	; 24
+  c0:	2f ef       	ldi	r18, 0xFF	; 255
+  c2:	89 e6       	ldi	r24, 0x69	; 105
+  c4:	98 e1       	ldi	r25, 0x18	; 24
+  c6:	21 50       	subi	r18, 0x01	; 1
+  c8:	80 40       	sbci	r24, 0x00	; 0
+  ca:	90 40       	sbci	r25, 0x00	; 0
+  cc:	e1 f7       	brne	.-8      	; 0xc6 <main+0x24>
+  ce:	00 c0       	rjmp	.+0      	; 0xd0 <main+0x2e>
+  d0:	00 00       	nop
 		_delay_ms(1000);
 		getSensorData();
-  be:	0e 94 3b 00 	call	0x76	; 0x76 <getSensorData>
-  c2:	f4 cf       	rjmp	.-24     	; 0xac <main+0x4>
+  d2:	0e 94 3b 00 	call	0x76	; 0x76 <getSensorData>
+  d6:	e9 cf       	rjmp	.-46     	; 0xaa <main+0x8>
 
-000000c4 <_exit>:
-  c4:	f8 94       	cli
+000000d8 <__vector_10>:
+	}
+}
 
-000000c6 <__stop_program>:
-  c6:	ff cf       	rjmp	.-2      	; 0xc6 <__stop_program>
+ISR(SPISTC_vect)
+{
+  d8:	1f 92       	push	r1
+  da:	0f 92       	push	r0
+  dc:	0f b6       	in	r0, 0x3f	; 63
+  de:	0f 92       	push	r0
+  e0:	11 24       	eor	r1, r1
+	PORTB |= (1<<PORTB4);
+  e2:	c4 9a       	sbi	0x18, 4	; 24
+	reti(); 
+  e4:	18 95       	reti
+  e6:	0f 90       	pop	r0
+  e8:	0f be       	out	0x3f, r0	; 63
+  ea:	0f 90       	pop	r0
+  ec:	1f 90       	pop	r1
+  ee:	18 95       	reti
+
+000000f0 <_exit>:
+  f0:	f8 94       	cli
+
+000000f2 <__stop_program>:
+  f2:	ff cf       	rjmp	.-2      	; 0xf2 <__stop_program>
