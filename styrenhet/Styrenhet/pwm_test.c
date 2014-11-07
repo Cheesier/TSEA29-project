@@ -1,14 +1,25 @@
+/*
+ * pwm_test.c
+ *
+ * Created: 03/11/2014 12:40:19
+ *  Author: Cavecanem
+ */
+
 #define F_CPU 8000000
+
+#include "pwm_test.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "pwm_test.h"
 
 #define CLAW_TIMER TCCR0
 #define WHEEL_TIMER_A TCCR1A
 #define WHEEL_TIMER_B TCCR1B
 #define LEFT_WHEEL_VALUE OCR1AL
 #define RIGHT_WHEEL_VALUE OCR1BL
+#define LEFT_WHEEL_PIN PORTD5
+#define RIGHT_WHEEL_PIN PORTD4
+#define CLAW_PIN PORTB3
 #define CLAW_VALUE OCR0
 
 void init_pwm(){
@@ -20,7 +31,7 @@ void init_pwm(){
 //	COM sets the compare output mode	| COM01 => Clear OC0 on match, set on BOTTOM
 /************************************************************************/
 CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << CS02) | (1 << CS00);
-DDRB |= (1 << PORTB3); //sets OC0 as output
+DDRB |= (1 << CLAW_PIN); //sets OC0 as output
 
 /************************************************************************/
 //	TCCR1A:B, 16-bit counter (running as 8-bit counter), page 104
@@ -31,17 +42,17 @@ DDRB |= (1 << PORTB3); //sets OC0 as output
 /************************************************************************/
 WHEEL_TIMER_A |= (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
 WHEEL_TIMER_B |= (1 << WGM12) | (1 << CS12) | (1 << CS10);
-DDRD |= (1 << PORTD4) | (1 << PORTD5); //sets 0C1A:B as outputs	
+DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); //sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
 }
 
 //Sets the duty cycle of both motors to speed
-void setSpeed(int speed) {
+void setSpeed(uint8_t speed) {
 	LEFT_WHEEL_VALUE = speed;
 	RIGHT_WHEEL_VALUE = speed;	
 }
 
 //Sets the duty cycle of the left motors to speed_left and the right motors to speed_right
-void setSpeeds(int speed_left, int speed_right) {	
+void setSpeeds(uint8_t speed_left, uint8_t speed_right) {	
 	LEFT_WHEEL_VALUE = speed_left;	
 	RIGHT_WHEEL_VALUE = speed_right;
 }
@@ -64,23 +75,10 @@ void clawDisable() {
 	CLAW_TIMER &= ~(1<<COM01);
 }
 
+void setLeftSpeed(uint8_t speed) {
+	LEFT_WHEEL_VALUE = speed;
+}
+void setRightSpeed(uint8_t speed) {
+	RIGHT_WHEEL_VALUE = speed;
+}
 
-/*int main(void){	
-	init_pwm();
-	
-	
-	while(1){
-		CLAW_VALUE = 13;
-		LEFT_WHEEL_VALUE = 255;
-		RIGHT_WHEEL_VALUE = 255;
-		
-		_delay_ms(4000);
-		
-		CLAW_VALUE = 6;
-		LEFT_WHEEL_VALUE = 0;
-		RIGHT_WHEEL_VALUE = 0;		
-		
-		_delay_ms(4000);
-	}	
-	return 0;
-}*/

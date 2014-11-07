@@ -38,6 +38,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../pwm_test.c \
+../SPI.c \
 ../Styrenhet.c
 
 
@@ -49,18 +50,22 @@ ASM_SRCS +=
 
 OBJS +=  \
 pwm_test.o \
+SPI.o \
 Styrenhet.o
 
 OBJS_AS_ARGS +=  \
 pwm_test.o \
+SPI.o \
 Styrenhet.o
 
 C_DEPS +=  \
 pwm_test.d \
+SPI.d \
 Styrenhet.d
 
 C_DEPS_AS_ARGS +=  \
 pwm_test.d \
+SPI.d \
 Styrenhet.d
 
 OUTPUT_FILE_PATH +=Styrenhet.elf
@@ -77,6 +82,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

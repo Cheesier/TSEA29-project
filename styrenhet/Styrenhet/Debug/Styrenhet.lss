@@ -1,0 +1,253 @@
+
+Styrenhet.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000128  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .comment      00000030  00000000  00000000  0000017c  2**0
+                  CONTENTS, READONLY
+  2 .debug_aranges 00000118  00000000  00000000  000001ac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   00000a46  00000000  00000000  000002c4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 0000038d  00000000  00000000  00000d0a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000004cf  00000000  00000000  00001097  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  0000021c  00000000  00000000  00001568  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000344  00000000  00000000  00001784  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    0000051d  00000000  00000000  00001ac8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 000000e8  00000000  00000000  00001fe5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e8 e2       	ldi	r30, 0x28	; 40
+  68:	f1 e0       	ldi	r31, 0x01	; 1
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a0 36       	cpi	r26, 0x60	; 96
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 77 00 	call	0xee	; 0xee <main>
+  7a:	0c 94 92 00 	jmp	0x124	; 0x124 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <init_pwm>:
+//	Controls TEH CLAW
+//	WGM decides the pwm mode			| WGM00 & WGM01 => fast pwm
+//	CS sets the prescaler				| CS02 & CS00 => CLK/1024
+//	COM sets the compare output mode	| COM01 => Clear OC0 on match, set on BOTTOM
+/************************************************************************/
+CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << CS02) | (1 << CS00);
+  82:	83 b7       	in	r24, 0x33	; 51
+  84:	8d 64       	ori	r24, 0x4D	; 77
+  86:	83 bf       	out	0x33, r24	; 51
+DDRB |= (1 << CLAW_PIN); //sets OC0 as output
+  88:	bb 9a       	sbi	0x17, 3	; 23
+//	Controls the wheel servos
+//	WGM decides the pwm	mode			| WGM10 & WGM12 => fast pwm, 8-bit
+//	CS sets the prescaler				| CS12 & CS10 => CLK/1024
+//	COM sets the compare output mode	| COM1A1 & COM1B1 => Clear OC1A:B on match, set on BOTTOM
+/************************************************************************/
+WHEEL_TIMER_A |= (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
+  8a:	8f b5       	in	r24, 0x2f	; 47
+  8c:	81 6a       	ori	r24, 0xA1	; 161
+  8e:	8f bd       	out	0x2f, r24	; 47
+WHEEL_TIMER_B |= (1 << WGM12) | (1 << CS12) | (1 << CS10);
+  90:	8e b5       	in	r24, 0x2e	; 46
+  92:	8d 60       	ori	r24, 0x0D	; 13
+  94:	8e bd       	out	0x2e, r24	; 46
+DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); //sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
+  96:	81 b3       	in	r24, 0x11	; 17
+  98:	80 63       	ori	r24, 0x30	; 48
+  9a:	81 bb       	out	0x11, r24	; 17
+  9c:	08 95       	ret
+
+0000009e <clawGrip>:
+	RIGHT_WHEEL_VALUE = speed_right;
+}
+
+//Makes the claw grip
+void clawGrip() {
+	CLAW_VALUE = 5;	
+  9e:	85 e0       	ldi	r24, 0x05	; 5
+  a0:	8c bf       	out	0x3c, r24	; 60
+  a2:	08 95       	ret
+
+000000a4 <clawRelease>:
+}
+
+//Makes the claw release its grip
+void clawRelease() {
+	CLAW_VALUE = 11;
+  a4:	8b e0       	ldi	r24, 0x0B	; 11
+  a6:	8c bf       	out	0x3c, r24	; 60
+  a8:	08 95       	ret
+
+000000aa <clawEnable>:
+}
+
+void clawEnable() {
+	CLAW_TIMER |= (1<<COM01);
+  aa:	83 b7       	in	r24, 0x33	; 51
+  ac:	80 62       	ori	r24, 0x20	; 32
+  ae:	83 bf       	out	0x33, r24	; 51
+  b0:	08 95       	ret
+
+000000b2 <clawDisable>:
+}
+
+void clawDisable() {
+	CLAW_TIMER &= ~(1<<COM01);
+  b2:	83 b7       	in	r24, 0x33	; 51
+  b4:	8f 7d       	andi	r24, 0xDF	; 223
+  b6:	83 bf       	out	0x33, r24	; 51
+  b8:	08 95       	ret
+
+000000ba <SPI_Init>:
+				size = SPI_Recieve();
+				speed = SPI_Recieve() << 1;			
+				driveForward(speed);
+				break;
+			case 0x08: //Move backward with the specified speed
+				size = SPI_Recieve();
+  ba:	80 e4       	ldi	r24, 0x40	; 64
+				speed = SPI_Recieve() << 1;
+  bc:	87 bb       	out	0x17, r24	; 23
+  be:	8d b9       	out	0x0d, r24	; 13
+				driveReverse(speed);
+  c0:	1d b8       	out	0x0d, r1	; 13
+  c2:	08 95       	ret
+
+000000c4 <releaseClaw>:
+	setSpeeds(leftspeed, rightspeed);				// The implementation of pwm() can handle separate speeds for both sides
+	return;
+}
+
+void releaseClaw() {
+	clawEnable();
+  c4:	0e 94 55 00 	call	0xaa	; 0xaa <clawEnable>
+	clawRelease();
+  c8:	0e 94 52 00 	call	0xa4	; 0xa4 <clawRelease>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  cc:	2f ef       	ldi	r18, 0xFF	; 255
+  ce:	82 e5       	ldi	r24, 0x52	; 82
+  d0:	97 e0       	ldi	r25, 0x07	; 7
+  d2:	21 50       	subi	r18, 0x01	; 1
+  d4:	80 40       	sbci	r24, 0x00	; 0
+  d6:	90 40       	sbci	r25, 0x00	; 0
+  d8:	e1 f7       	brne	.-8      	; 0xd2 <releaseClaw+0xe>
+  da:	00 c0       	rjmp	.+0      	; 0xdc <releaseClaw+0x18>
+  dc:	00 00       	nop
+	_delay_ms(300);
+	clawDisable();
+  de:	0e 94 59 00 	call	0xb2	; 0xb2 <clawDisable>
+  e2:	08 95       	ret
+
+000000e4 <gripClaw>:
+}
+
+void gripClaw() {
+	clawEnable();
+  e4:	0e 94 55 00 	call	0xaa	; 0xaa <clawEnable>
+	clawGrip();	
+  e8:	0e 94 4f 00 	call	0x9e	; 0x9e <clawGrip>
+  ec:	08 95       	ret
+
+000000ee <main>:
+char direction = FORWARD;
+
+// Receiving and sending could be done by the same function but this seem clearer to me
+
+int main(void) {
+	SPI_Init();						// Initiate SPI as a slaves
+  ee:	0e 94 5d 00 	call	0xba	; 0xba <SPI_Init>
+	init_pwm();
+  f2:	0e 94 41 00 	call	0x82	; 0x82 <init_pwm>
+	//int direction = FORWARD;
+	//softTurn(255,127);	
+	while(1) {
+		gripClaw();
+  f6:	0e 94 72 00 	call	0xe4	; 0xe4 <gripClaw>
+  fa:	2f ef       	ldi	r18, 0xFF	; 255
+  fc:	88 e0       	ldi	r24, 0x08	; 8
+  fe:	9d e3       	ldi	r25, 0x3D	; 61
+ 100:	21 50       	subi	r18, 0x01	; 1
+ 102:	80 40       	sbci	r24, 0x00	; 0
+ 104:	90 40       	sbci	r25, 0x00	; 0
+ 106:	e1 f7       	brne	.-8      	; 0x100 <main+0x12>
+ 108:	00 c0       	rjmp	.+0      	; 0x10a <main+0x1c>
+ 10a:	00 00       	nop
+		_delay_ms(2500);
+		releaseClaw();
+ 10c:	0e 94 62 00 	call	0xc4	; 0xc4 <releaseClaw>
+ 110:	2f ef       	ldi	r18, 0xFF	; 255
+ 112:	84 e3       	ldi	r24, 0x34	; 52
+ 114:	9c e0       	ldi	r25, 0x0C	; 12
+ 116:	21 50       	subi	r18, 0x01	; 1
+ 118:	80 40       	sbci	r24, 0x00	; 0
+ 11a:	90 40       	sbci	r25, 0x00	; 0
+ 11c:	e1 f7       	brne	.-8      	; 0x116 <main+0x28>
+ 11e:	00 c0       	rjmp	.+0      	; 0x120 <main+0x32>
+ 120:	00 00       	nop
+ 122:	e9 cf       	rjmp	.-46     	; 0xf6 <main+0x8>
+
+00000124 <_exit>:
+				rotateRight(speed);
+				break;
+			default:
+				size = SPI_Recieve();
+				char unknownMessage[size];
+				for(int i = 0; i < size; i++) {
+ 124:	f8 94       	cli
+
+00000126 <__stop_program>:
+ 126:	ff cf       	rjmp	.-2      	; 0x126 <__stop_program>

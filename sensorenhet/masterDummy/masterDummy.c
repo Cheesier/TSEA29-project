@@ -33,14 +33,14 @@ void getSensorData()
 	
 	for (int i = 0; i < noSensors; i++)
 	{
-		if(i < 4)
+		/*if(i < 4)
 		{
 			_delay_us(15);
 		}
 		else
 		{
 			_delay_ms(10);
-		}
+		}*/
 		SPDR = 0;
 		PORTB &= ~(1<<PORTB4);
 		while(!(SPSR & (1<<SPIF)));
