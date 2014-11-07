@@ -39,6 +39,9 @@
 #define GYRO PORTA1
 
 uint8_t sensorData [noSensors];
+static int gyro_angle = 0;
+static int tape_black = 0;
+static int tape_floor = 0;
 
 void initSPI()
 {
@@ -48,13 +51,9 @@ void initSPI()
 	SPCR = (1<<SPIE)|(1<<SPE);
 }
 
-void sendAll()
+void sendAll(void)
 {
-	int i = 0;
-	SPI_DATA_REG = noSensors;
-	WAIT_FOR_TRANSFER;
-	
-	for (; i < noSensors; i++)
+	for (int i = 0; i < noSensors; i++)
 	{
 		SPI_DATA_REG = sensorData[i];
 		WAIT_FOR_TRANSFER;
@@ -73,17 +72,40 @@ int main(void)
 {
 	initSPI();
 	initSensors();
-	//SPI_DATA_REG = noSensors; WRONG NYMAN 
+	SPI_DATA_REG = noSensors; 
 	sei();
 	while(1)
 	{
+		
 	}
 }
 
-ISR(SPISTC_vect)
-{
+
+
+ISR(SPISTC_vect){
 	cli();
-	sendAll();
+	int function = SPI_DATA_REG/* || (0<<7)|(0<<6)*/;			
+	switch (function){
+		case 0x01:				//reset gyro_angle
+			gyro_angle = 0;
+			break;
+		case 0x02:				//how much gyro rotate				
+			break;
+		case 0x03:				//on tape value
+			//tape_black = vals;
+			break;
+		case 0x04:				//off tape value
+			//tape_floor = vals;
+			break;
+		case 0x05:				//send distance data
+			sendAll();
+			break;
+		case 0x06:				//send tape data
+			break;
+		case 0x07:				//gyro msg
+			break;
+		default:
+			break;
+	}
 	sei();
-	reti();
 }
