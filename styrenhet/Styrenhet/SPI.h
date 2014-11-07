@@ -13,5 +13,6 @@ void SPI_Init(void);
 
 char SPI_Recive(void);
 void SPI_Send(char dataout);
+void receiveMessage();
 
 #endif /* SPI_H_ */
