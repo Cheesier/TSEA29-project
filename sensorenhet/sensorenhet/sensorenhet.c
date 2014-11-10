@@ -44,12 +44,36 @@ uint8_t sensorData [noSensors];
 static int gyro_angle = 0;
 static int tape_black = 0;
 static int tape_floor = 0;
+static int sens_timer_count = 0;
+static int interrupted = 0;
 
 void initSPI() {
 	/* Set MISO output*/
 	DDR_SPI = (1<<DDR_MISO);
 	/* Enable SPI */
 	SPCR = (1<<SPIE)|(1<<SPE);
+}
+
+void mesureAGA(void) {
+	sens_timer_count = 0;
+	interrupted = 0;
+	uint8_t mask = (1<<PORTD1);
+	//TCNT2 = 0;
+	PORTD |= (1<<PORTD2);
+	_delay_us(10);
+	PORTD &= ~(1<<PORTD2);
+	TCCR2 |= (1<<CS21);
+	//PORTB |= (1<<0);
+	
+	while(!(PORTD&(1<<PORTD1))) {
+			PORTB |= (1<<0);
+	}
+	
+	PORTB &= ~(1<<0);
+	TCCR2 &= ~(1<<CS21);
+	if(!interrupted) {
+		sensorData[0] = sens_timer_count;
+	}
 }
 
 void sendAll(void) {
@@ -64,19 +88,31 @@ void initSensors() {
 		sensorData[i] = 129;
 	}
 	
-	//Initiate the mux for the tape sensors
+	// Initiate the mux for the tape sensors
 	DDRB |= 0x0F;
+	// Initiate the distance sensors
+	DDRD = (0<<PORTD1) | (1<<PORTD2);
 }
 
+void initSensorTimer() {
+	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode
+	TIMSK |= (1 << OCIE2);				// Enable Timer2 Output Compare Interrupt
+	//TIFR  |= 1<<TOV2;						// Clear TOV2/ clear pending interrupts
+	OCR2 = 58;							// Compare count
+	//TCCR2 |= (1<<CS21);					// no prescale and speed = systemclock
+	
+}
 
 int main(void) {
+	initSensorTimer();
 	initSPI();
 	initSensors();
-	initADC();
+	DDRB |= (1<<0);
 	SPI_DATA_REG = noSensors; 
 	sei();
 	while(1) {
-				
+		mesureAGA();
+		_delay_ms(5000);
 	}
 }
 
@@ -84,6 +120,7 @@ int main(void) {
 
 ISR(SPISTC_vect) {
 	cli();
+	interrupted = 1;
 	int function = SPI_DATA_REG/* || (0<<7)|(0<<6)*/;			
 	switch (function) {
 		case 0x01:				//reset gyro_angle
@@ -108,4 +145,11 @@ ISR(SPISTC_vect) {
 			break;
 	}
 	sei();
+}
+
+ISR(TIMER2_COMP_vect) {
+	//TCNT2= 256-7;				//reset compare vector
+	//PORTB |= (1<<0);			// Toggle the LED
+	sens_timer_count = sens_timer_count + 1;		//add timer count;
+	//PORTB &= ~(1<<0);
 }
