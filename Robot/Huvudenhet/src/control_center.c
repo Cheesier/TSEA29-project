@@ -8,11 +8,13 @@
 #define F_CPU 7372800UL
 
 #include "bluetooth.h"
+#include "spi.h"
 #include "message_handler.h"
 #include <interrupt.h>
 
 int main(void) {
 	bt_init();
+	spi_init();
 	sei();
 	
 	while(1) {

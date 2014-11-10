@@ -7,9 +7,10 @@
 
 #include "message_handler.h"
 #include "bluetooth.h"
+#include "spi.h"
 
 void handle_message(char header, char size, char *data) {
-	if (header>>6 == 0b00) { // replace 0b00 for enum (main unit)
+	if (header>>6 == ADDR_HUVUDENHET) {
 		char type = header & 0x3F;
 		switch (type) {
 			case 0x01:
@@ -27,10 +28,10 @@ void handle_message(char header, char size, char *data) {
 }
 
 void send_message(char header, char size, char *data) {
-	if (header>>6 == 0b11) { // control center
+	if (header>>6 == ADDR_KONTROLLCENTER) {
 		bt_send(header, size, data);
 	}
 	else {
-		// send over SPI
+		spi_send(header, size, data);
 	}
 }

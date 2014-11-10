@@ -8,10 +8,9 @@
 
 //This function is used to initialize the USART
 //at a given UBRR value
-void bt_init(void)
-{
+void bt_init(void) {
 	/* 
-		Baud rate = 19200bps
+		Baud rate = 115200bps
 		UBRR value = 3
 	*/
 
@@ -40,8 +39,7 @@ void bt_init(void)
 //This function is used to read the available data
 //from USART. This function will wait until data is
 //available.
-char USARTReadChar(void)
-{
+char USARTReadChar(void) {
 	//Wait until a data is available
 
 	while(!(UCSRA & (1<<RXC)))
@@ -58,8 +56,7 @@ char USARTReadChar(void)
 
 //This function writes the given "data" to
 //the USART which then transmit it via TX line
-void USARTWriteChar(char data)
-{
+void USARTWriteChar(char data) {
 	//Wait until the transmitter is ready
 
 	while(!(UCSRA & (1<<UDRE)))
@@ -109,7 +106,7 @@ ISR(USARTRXC_vect){
 */
 
 //interrupt when receive bluetooth message, and returns it
-ISR(USARTRXC_vect){
+ISR(USARTRXC_vect) {
 	char header;
 	char size;
 	char data[10];
