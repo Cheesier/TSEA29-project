@@ -9,19 +9,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   2 .debug_aranges 00000118  00000000  00000000  000001ac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_info   00000a46  00000000  00000000  000002c4  2**0
+  3 .debug_info   00000aad  00000000  00000000  000002c4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_abbrev 0000038d  00000000  00000000  00000d0a  2**0
+  4 .debug_abbrev 00000389  00000000  00000000  00000d71  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_line   000004cf  00000000  00000000  00001097  2**0
+  5 .debug_line   000004ce  00000000  00000000  000010fa  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_frame  0000021c  00000000  00000000  00001568  2**2
+  6 .debug_frame  0000021c  00000000  00000000  000015c8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    00000344  00000000  00000000  00001784  2**0
+  7 .debug_str    00000335  00000000  00000000  000017e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    0000051d  00000000  00000000  00001ac8  2**0
+  8 .debug_loc    0000053e  00000000  00000000  00001b19  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_ranges 000000e8  00000000  00000000  00001fe5  2**0
+  9 .debug_ranges 000000e8  00000000  00000000  00002057  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -76,41 +76,41 @@ Disassembly of section .text:
   7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000082 <init_pwm>:
-//	Controls TEH CLAW
-//	WGM decides the pwm mode			| WGM00 & WGM01 => fast pwm
-//	CS sets the prescaler				| CS02 & CS00 => CLK/1024
-//	COM sets the compare output mode	| COM01 => Clear OC0 on match, set on BOTTOM
-/************************************************************************/
-CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << CS02) | (1 << CS00);
+	//	Controls TEH CLAW
+	//	WGM decides the pwm mode			| WGM00 & WGM01 => fast pwm
+	//	CS sets the prescaler				| CS02 & CS00 => CLK/1024
+	//	COM sets the compare output mode	| COM01 => Clear OC0 on match, set on BOTTOM
+	/************************************************************************/
+	CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << CS02) | (1 << CS00);
   82:	83 b7       	in	r24, 0x33	; 51
   84:	8d 64       	ori	r24, 0x4D	; 77
   86:	83 bf       	out	0x33, r24	; 51
-DDRB |= (1 << CLAW_PIN); //sets OC0 as output
+	DDRB |= (1 << CLAW_PIN); // sets OC0 as output
   88:	bb 9a       	sbi	0x17, 3	; 23
-//	Controls the wheel servos
-//	WGM decides the pwm	mode			| WGM10 & WGM12 => fast pwm, 8-bit
-//	CS sets the prescaler				| CS12 & CS10 => CLK/1024
-//	COM sets the compare output mode	| COM1A1 & COM1B1 => Clear OC1A:B on match, set on BOTTOM
-/************************************************************************/
-WHEEL_TIMER_A |= (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
+	//	Controls the wheel servos
+	//	WGM decides the pwm	mode			| WGM10 & WGM12 => fast pwm, 8-bit
+	//	CS sets the prescaler				| CS12 & CS10 => CLK/1024
+	//	COM sets the compare output mode	| COM1A1 & COM1B1 => Clear OC1A:B on match, set on BOTTOM
+	/************************************************************************/
+	WHEEL_TIMER_A |= (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
   8a:	8f b5       	in	r24, 0x2f	; 47
   8c:	81 6a       	ori	r24, 0xA1	; 161
   8e:	8f bd       	out	0x2f, r24	; 47
-WHEEL_TIMER_B |= (1 << WGM12) | (1 << CS12) | (1 << CS10);
+	WHEEL_TIMER_B |= (1 << WGM12) | (1 << CS12) | (1 << CS10);
   90:	8e b5       	in	r24, 0x2e	; 46
   92:	8d 60       	ori	r24, 0x0D	; 13
   94:	8e bd       	out	0x2e, r24	; 46
-DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); //sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
+	DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); // sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
   96:	81 b3       	in	r24, 0x11	; 17
   98:	80 63       	ori	r24, 0x30	; 48
   9a:	81 bb       	out	0x11, r24	; 17
   9c:	08 95       	ret
 
 0000009e <clawGrip>:
-	RIGHT_WHEEL_VALUE = speed_right;
+	RIGHT_WHEEL_VALUE = speed;
 }
 
-//Makes the claw grip
+// Makes the claw grip
 void clawGrip() {
 	CLAW_VALUE = 5;	
   9e:	85 e0       	ldi	r24, 0x05	; 5
@@ -120,7 +120,7 @@ void clawGrip() {
 000000a4 <clawRelease>:
 }
 
-//Makes the claw release its grip
+// Makes the claw release its grip
 void clawRelease() {
 	CLAW_VALUE = 11;
   a4:	8b e0       	ldi	r24, 0x0B	; 11
@@ -130,6 +130,7 @@ void clawRelease() {
 000000aa <clawEnable>:
 }
 
+// Enables the claw for gripping
 void clawEnable() {
 	CLAW_TIMER |= (1<<COM01);
   aa:	83 b7       	in	r24, 0x33	; 51
@@ -140,6 +141,8 @@ void clawEnable() {
 000000b2 <clawDisable>:
 }
 
+// Disables the claw for when it's not in use since there is no need for it to constantly force itself open
+// Saves battery life, motor wear and our ears
 void clawDisable() {
 	CLAW_TIMER &= ~(1<<COM01);
   b2:	83 b7       	in	r24, 0x33	; 51
@@ -148,14 +151,14 @@ void clawDisable() {
   b8:	08 95       	ret
 
 000000ba <SPI_Init>:
-				size = SPI_Recieve();
-				speed = SPI_Recieve() << 1;			
+				size = SPI_Receive();
+				speed = SPI_Receive() << 1;			
 				driveForward(speed);
 				break;
-			case 0x08: //Move backward with the specified speed
-				size = SPI_Recieve();
+			case 0x08:	// Move backward with the specified speed
+				size = SPI_Receive();
   ba:	80 e4       	ldi	r24, 0x40	; 64
-				speed = SPI_Recieve() << 1;
+				speed = SPI_Receive() << 1;
   bc:	87 bb       	out	0x17, r24	; 23
   be:	8d b9       	out	0x0d, r24	; 13
 				driveReverse(speed);
@@ -163,10 +166,10 @@ void clawDisable() {
   c2:	08 95       	ret
 
 000000c4 <releaseClaw>:
-	setSpeeds(leftspeed, rightspeed);				// The implementation of pwm() can handle separate speeds for both sides
-	return;
+	setSpeeds(left_speed, right_speed);
 }
 
+// Calls PWM functions to release the claw
 void releaseClaw() {
 	clawEnable();
   c4:	0e 94 55 00 	call	0xaa	; 0xaa <clawEnable>
@@ -195,25 +198,25 @@ void releaseClaw() {
 000000e4 <gripClaw>:
 }
 
+// Calls PWM functions to close the claw
 void gripClaw() {
 	clawEnable();
   e4:	0e 94 55 00 	call	0xaa	; 0xaa <clawEnable>
-	clawGrip();	
+	clawGrip();
   e8:	0e 94 4f 00 	call	0x9e	; 0x9e <clawGrip>
   ec:	08 95       	ret
 
 000000ee <main>:
+#define REVERSE 0
+
 char direction = FORWARD;
 
-// Receiving and sending could be done by the same function but this seem clearer to me
-
 int main(void) {
-	SPI_Init();						// Initiate SPI as a slaves
+	SPI_Init();								// Initiate SPI as a slaves
   ee:	0e 94 5d 00 	call	0xba	; 0xba <SPI_Init>
-	init_pwm();
+	init_pwm();								// Initiates the pins used for PWM
   f2:	0e 94 41 00 	call	0x82	; 0x82 <init_pwm>
-	//int direction = FORWARD;
-	//softTurn(255,127);	
+	
 	while(1) {
 		gripClaw();
   f6:	0e 94 72 00 	call	0xe4	; 0xe4 <gripClaw>
@@ -241,12 +244,12 @@ int main(void) {
  122:	e9 cf       	rjmp	.-46     	; 0xf6 <main+0x8>
 
 00000124 <_exit>:
-				rotateRight(speed);
+				size = SPI_Receive();
+				wheelSpeeds(0, 0);
 				break;
-			default:
-				size = SPI_Recieve();
+			default:	// Fetch the message anyway
+				size = SPI_Receive();
 				char unknownMessage[size];
-				for(int i = 0; i < size; i++) {
  124:	f8 94       	cli
 
 00000126 <__stop_program>:

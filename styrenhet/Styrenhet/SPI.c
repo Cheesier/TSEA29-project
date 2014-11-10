@@ -23,6 +23,8 @@
 // SPI register
 #define DDR_SPI DDRB
 
+#define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)));
+
 // Initiates the SPI
 void SPI_Init(void) {
 	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
@@ -32,14 +34,14 @@ void SPI_Init(void) {
 
 // Receive from SPI
 char SPI_Receive(void) {
-	while(!(SPSR & (1<<SPIF)));		// Wait for reception to complete
+	WAIT_FOR_TRANSFER;				// Wait for reception to complete
 	return SPDR;					// Return Data Register
 }
 
 // Send over SPI
 void SPI_Send(char dataout) {
 	SPDR = dataout;					// Put package in Data Register
-	while(!(SPSR & (1<<SPIF)));		// Wait for transition to complete
+	WAIT_FOR_TRANSFER;				// Wait for transition to complete
 	return;
 }
 
@@ -71,7 +73,7 @@ void receiveMessage() {
 			case 0x04:	// Switch forward/backward (used when reversing through the labyrinth)
 				size = SPI_Receive();
 				msg = SPI_Receive();
-				setReverseMode(msg);
+				setDirection(msg);
 				break;
 			case 0x05:	// Set the speed/direction for the different motors
 				size = SPI_Receive();

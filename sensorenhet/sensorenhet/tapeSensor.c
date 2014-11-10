@@ -5,12 +5,17 @@
  *  Author: Cavecanem
  */ 
 
+#include <stdint.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
 #include "ADC.h"
 #include "tapeSensor.h"
 
 static int on_tape = 1;
 static int off_tape = 0;
-static int tape_threshold = (on_tape + off_tape) >> 1);	// Sets the average value as threshold
+static int tape_threshold = 0; // (on_tape + off_tape) >> 1);// Sets the average value as threshold
 
 uint16_t getTapeData() {
 	uint16_t tape_data = 0;	// The row of on/off-bits
@@ -40,11 +45,11 @@ void sendTapeData(uint16_t tape_data) {
 
 void calibrateTapeSensor(char on_tape) {
 	// get sensor data
-	if(ontape == 1) {
-		tape_threshold = //sensor data - x;
+	if(on_tape == 1) {
+		//tape_threshold = //sensor data - x;
 	}
 	else {
-		tape_threshold = //sensor data + x;
+		//tape_threshold = //sensor data + x;
 	}
 }
 

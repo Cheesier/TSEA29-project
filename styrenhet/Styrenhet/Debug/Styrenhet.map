@@ -11,32 +11,32 @@ Discarded input sections
 
  .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
- .text          0x00000000        0x0 pwm_test.o
- .data          0x00000000        0x0 pwm_test.o
- .bss           0x00000000        0x0 pwm_test.o
+ .text          0x00000000        0x0 pwm.o
+ .data          0x00000000        0x0 pwm.o
+ .bss           0x00000000        0x0 pwm.o
  .text.setSpeed
-                0x00000000        0x6 pwm_test.o
+                0x00000000        0x6 pwm.o
  .text.setSpeeds
-                0x00000000        0x6 pwm_test.o
+                0x00000000        0x6 pwm.o
  .text.setLeftSpeed
-                0x00000000        0x4 pwm_test.o
+                0x00000000        0x4 pwm.o
  .text.setRightSpeed
-                0x00000000        0x4 pwm_test.o
+                0x00000000        0x4 pwm.o
  .text          0x00000000        0x0 SPI.o
  .data          0x00000000        0x0 SPI.o
  .bss           0x00000000        0x0 SPI.o
- .text.SPI_Recieve
+ .text.SPI_Receive
                 0x00000000        0x8 SPI.o
  .text.SPI_Send
                 0x00000000        0x8 SPI.o
- .text.startRecieveing
-                0x00000000      0x15c SPI.o
- .progmem.gcc_sw_table.startRecieveing
-                0x00000000       0x14 SPI.o
+ .text.receiveMessage
+                0x00000000      0x17e SPI.o
+ .progmem.gcc_sw_table.receiveMessage
+                0x00000000       0x1a SPI.o
  .text          0x00000000        0x0 Styrenhet.o
  .data          0x00000000        0x0 Styrenhet.o
  .bss           0x00000000        0x0 Styrenhet.o
- .text.setReverseMode
+ .text.setDirection
                 0x00000000       0x14 Styrenhet.o
  .text.driveForward
                 0x00000000       0x1c Styrenhet.o
@@ -122,7 +122,7 @@ user_signatures  0x00850000         0x00000400         rw !x
 Linker script and memory map
 
 LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
-LOAD pwm_test.o
+LOAD pwm.o
 LOAD SPI.o
 LOAD Styrenhet.o
 START GROUP
@@ -303,19 +303,19 @@ END GROUP
                 0x00000082                . = ALIGN (0x2)
  *(.text.*)
  .text.init_pwm
-                0x00000082       0x1c pwm_test.o
+                0x00000082       0x1c pwm.o
                 0x00000082                init_pwm
  .text.clawGrip
-                0x0000009e        0x6 pwm_test.o
+                0x0000009e        0x6 pwm.o
                 0x0000009e                clawGrip
  .text.clawRelease
-                0x000000a4        0x6 pwm_test.o
+                0x000000a4        0x6 pwm.o
                 0x000000a4                clawRelease
  .text.clawEnable
-                0x000000aa        0x8 pwm_test.o
+                0x000000aa        0x8 pwm.o
                 0x000000aa                clawEnable
  .text.clawDisable
-                0x000000b2        0x8 pwm_test.o
+                0x000000b2        0x8 pwm.o
                 0x000000b2                clawDisable
  .text.SPI_Init
                 0x000000ba        0xa SPI.o
@@ -421,7 +421,7 @@ END GROUP
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 pwm_test.o
+ .comment       0x00000000       0x30 pwm.o
                                  0x31 (size before relaxing)
  .comment       0x00000000       0x31 SPI.o
  .comment       0x00000000       0x31 Styrenhet.o
@@ -444,7 +444,7 @@ END GROUP
 .debug_aranges  0x00000000      0x118
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x60 pwm_test.o
+                0x00000000       0x60 pwm.o
  .debug_aranges
                 0x00000060       0x38 SPI.o
  .debug_aranges
@@ -453,43 +453,43 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xa46
+.debug_info     0x00000000      0xaad
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x17f pwm_test.o
- .debug_info    0x0000017f      0x394 SPI.o
- .debug_info    0x00000513      0x533 Styrenhet.o
+ .debug_info    0x00000000      0x183 pwm.o
+ .debug_info    0x00000183      0x3f7 SPI.o
+ .debug_info    0x0000057a      0x533 Styrenhet.o
 
-.debug_abbrev   0x00000000      0x38d
+.debug_abbrev   0x00000000      0x389
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0x90 pwm_test.o
- .debug_abbrev  0x00000090      0x148 SPI.o
- .debug_abbrev  0x000001d8      0x1b5 Styrenhet.o
+ .debug_abbrev  0x00000000       0x78 pwm.o
+ .debug_abbrev  0x00000078      0x15c SPI.o
+ .debug_abbrev  0x000001d4      0x1b5 Styrenhet.o
 
-.debug_line     0x00000000      0x4cf
+.debug_line     0x00000000      0x4ce
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x13b pwm_test.o
- .debug_line    0x0000013b      0x134 SPI.o
- .debug_line    0x0000026f      0x260 Styrenhet.o
+ .debug_line    0x00000000      0x136 pwm.o
+ .debug_line    0x00000136      0x13d SPI.o
+ .debug_line    0x00000273      0x25b Styrenhet.o
 
 .debug_frame    0x00000000      0x21c
  *(.debug_frame)
- .debug_frame   0x00000000       0xa4 pwm_test.o
+ .debug_frame   0x00000000       0xa4 pwm.o
  .debug_frame   0x000000a4       0x94 SPI.o
  .debug_frame   0x00000138       0xe4 Styrenhet.o
 
-.debug_str      0x00000000      0x344
+.debug_str      0x00000000      0x335
  *(.debug_str)
- .debug_str     0x00000000      0x1a2 pwm_test.o
-                                0x1dc (size before relaxing)
- .debug_str     0x000001a2       0xf4 SPI.o
-                                0x24b (size before relaxing)
- .debug_str     0x00000296       0xae Styrenhet.o
-                                0x2d9 (size before relaxing)
+ .debug_str     0x00000000      0x19d pwm.o
+                                0x1d7 (size before relaxing)
+ .debug_str     0x0000019d      0x114 SPI.o
+                                0x26b (size before relaxing)
+ .debug_str     0x000002b1       0x84 Styrenhet.o
+                                0x2c9 (size before relaxing)
 
-.debug_loc      0x00000000      0x51d
+.debug_loc      0x00000000      0x53e
  *(.debug_loc)
- .debug_loc     0x00000000      0x333 SPI.o
- .debug_loc     0x00000333      0x1ea Styrenhet.o
+ .debug_loc     0x00000000      0x354 SPI.o
+ .debug_loc     0x00000354      0x1ea Styrenhet.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -511,7 +511,7 @@ END GROUP
 
 .debug_ranges   0x00000000       0xe8
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x50 pwm_test.o
+ .debug_ranges  0x00000000       0x50 pwm.o
  .debug_ranges  0x00000050       0x28 SPI.o
  .debug_ranges  0x00000078       0x70 Styrenhet.o
 
