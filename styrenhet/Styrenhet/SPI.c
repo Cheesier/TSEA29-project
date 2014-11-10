@@ -118,6 +118,10 @@ void receiveMessage() {
 				size = SPI_Receive();
 				releaseClaw();
 				break;
+			case 0x0D: //STOP
+				size = SPI_Receive();
+				wheelSpeeds(0, 0);
+				break;
 			default:	// Fetch the message anyway
 				size = SPI_Receive();
 				char unknownMessage[size];

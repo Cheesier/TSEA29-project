@@ -11,6 +11,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "ADC.h"
+#include "tapeSensor.h"
 
 // SPI defines for readability
 #define DDR_SPI DDRB
@@ -43,49 +45,47 @@ static int gyro_angle = 0;
 static int tape_black = 0;
 static int tape_floor = 0;
 
-void initSPI()
-{
+void initSPI() {
 	/* Set MISO output*/
 	DDR_SPI = (1<<DDR_MISO);
 	/* Enable SPI */
 	SPCR = (1<<SPIE)|(1<<SPE);
 }
 
-void sendAll(void)
-{
-	for (int i = 0; i < noSensors; i++)
-	{
+void sendAll(void) {
+	for (int i = 0; i < noSensors; i++) {
 		SPI_DATA_REG = sensorData[i];
 		WAIT_FOR_TRANSFER;
 	}
 }
 
-void initSensors()
-{
-	for (int i = 0; i < noSensors; i++)
-	{
+void initSensors() {
+	for (int i = 0; i < noSensors; i++) {
 		sensorData[i] = 129;
 	}
+	
+	//Initiate the mux for the tape sensors
+	DDRB |= 0x0F;
 }
 
-int main(void)
-{
+
+int main(void) {
 	initSPI();
 	initSensors();
+	initADC();
 	SPI_DATA_REG = noSensors; 
 	sei();
-	while(1)
-	{
-		
+	while(1) {
+				
 	}
 }
 
 
 
-ISR(SPISTC_vect){
+ISR(SPISTC_vect) {
 	cli();
 	int function = SPI_DATA_REG/* || (0<<7)|(0<<6)*/;			
-	switch (function){
+	switch (function) {
 		case 0x01:				//reset gyro_angle
 			gyro_angle = 0;
 			break;
