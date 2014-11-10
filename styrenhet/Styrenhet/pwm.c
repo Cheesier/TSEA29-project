@@ -2,7 +2,7 @@
  * pwm.c
  *
  * Created: 03/11/2014 12:40:19
- *  Author: Cavecanem
+ * Author: Cavecanem
  */
 
 // CPU clock
@@ -33,7 +33,7 @@ void init_pwm() {
 //	COM sets the compare output mode	| COM01 => Clear OC0 on match, set on BOTTOM
 /************************************************************************/
 CLAW_TIMER |= (1 << WGM00) | (1 << WGM01) | (1 << CS02) | (1 << CS00);
-DDRB |= (1 << CLAW_PIN); //sets OC0 as output
+DDRB |= (1 << CLAW_PIN); // sets OC0 as output
 
 /************************************************************************/
 //	TCCR1A:B, 16-bit counter (running as 8-bit counter), page 104
@@ -44,7 +44,7 @@ DDRB |= (1 << CLAW_PIN); //sets OC0 as output
 /************************************************************************/
 WHEEL_TIMER_A |= (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
 WHEEL_TIMER_B |= (1 << WGM12) | (1 << CS12) | (1 << CS10);
-DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); //sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
+DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); // sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
 }
 
 // Sets the duty cycle of both motors to speed

@@ -11,6 +11,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "ADC.h"
+#include "tapeSensor.h"
 
 // SPI defines for readability
 #define DDR_SPI DDRB
@@ -45,15 +47,14 @@ static int tape_floor = 0;
 static int sens_timer_count = 0;
 static int interrupted = 0;
 
-void initSPI()
-{
+void initSPI() {
 	/* Set MISO output*/
 	DDR_SPI = (1<<DDR_MISO);
 	/* Enable SPI */
 	SPCR = (1<<SPIE)|(1<<SPE);
 }
 
-void mesureAGA(void){
+void mesureAGA(void) {
 	sens_timer_count = 0;
 	interrupted = 0;
 	uint8_t mask = (1<<PORTD1);
@@ -63,6 +64,7 @@ void mesureAGA(void){
 	PORTD &= ~(1<<PORTD2);
 	//PORTB |= (1<<0);
 	
+<<<<<<< HEAD
 	while(!(PIND &(1<<PIND1))){
 			//PORTB |= (1<<0);
 	}
@@ -70,6 +72,13 @@ void mesureAGA(void){
 	while((PIND &(1<<PIND1))){
 		//PORTB |= (1<<0);
 	}
+=======
+	while(!(PORTD&(1<<PORTD1))) {
+			PORTB |= (1<<0);
+	}
+	
+	PORTB &= ~(1<<0);
+>>>>>>> origin/master
 	TCCR2 &= ~(1<<CS21);
 	//PORTB &= ~(1<<0);
 	if(!interrupted) {
@@ -77,25 +86,25 @@ void mesureAGA(void){
 	}
 }
 
-void sendAll(void)
-{
-	for (int i = 0; i < noSensors; i++)
-	{
+void sendAll(void) {
+	for (int i = 0; i < noSensors; i++) {
 		SPI_DATA_REG = sensorData[i];
 		WAIT_FOR_TRANSFER;
 	}
 }
 
-void initSensors()
-{
-	for (int i = 0; i < noSensors; i++)
-	{
+void initSensors() {
+	for (int i = 0; i < noSensors; i++) {
 		sensorData[i] = 129;
 	}
+	
+	// Initiate the mux for the tape sensors
+	DDRB |= 0x0F;
+	// Initiate the distance sensors
 	DDRD = (0<<PORTD1) | (1<<PORTD2);
 }
 
-void initSensorTimer(){
+void initSensorTimer() {
 	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode
 	TIMSK |= (1 << OCIE2);				// Enable Timer2 Output Compare Interrupt
 	//TIFR  |= 1<<TOV2;						// Clear TOV2/ clear pending interrupts
@@ -103,17 +112,15 @@ void initSensorTimer(){
 	//TCCR2 |= (1<<CS21);					// no prescale and speed = systemclock
 	
 }
-int main(void)
-{
+
+int main(void) {
 	initSensorTimer();
 	initSPI();
 	initSensors();
 	DDRB |= (1<<0);
 	SPI_DATA_REG = noSensors; 
 	sei();
-	while(1)
-	{
-
+	while(1) {
 		mesureAGA();
 		_delay_ms(1000);
 	}
@@ -121,11 +128,11 @@ int main(void)
 
 
 
-ISR(SPISTC_vect){
+ISR(SPISTC_vect) {
 	cli();
 	interrupted = 1;
 	int function = SPI_DATA_REG/* || (0<<7)|(0<<6)*/;			
-	switch (function){
+	switch (function) {
 		case 0x01:				//reset gyro_angle
 			gyro_angle = 0;
 			break;
@@ -150,7 +157,7 @@ ISR(SPISTC_vect){
 	sei();
 }
 
-ISR(TIMER2_COMP_vect){
+ISR(TIMER2_COMP_vect) {
 	//TCNT2= 256-7;				//reset compare vector
 	PORTB |= (1<<0);			// Toggle the LED
 	sens_timer_count = sens_timer_count + 1;		//add timer count;
