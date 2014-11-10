@@ -58,19 +58,29 @@ void mesureAGA(void) {
 	sens_timer_count = 0;
 	interrupted = 0;
 	uint8_t mask = (1<<PORTD1);
-	//TCNT2 = 0;
+	TCNT2 = 0;
 	PORTD |= (1<<PORTD2);
 	_delay_us(10);
 	PORTD &= ~(1<<PORTD2);
-	TCCR2 |= (1<<CS21);
 	//PORTB |= (1<<0);
 	
+<<<<<<< HEAD
+	while(!(PIND &(1<<PIND1))){
+			//PORTB |= (1<<0);
+	}
+	TCCR2 |= (1<<CS21);
+	while((PIND &(1<<PIND1))){
+		//PORTB |= (1<<0);
+	}
+=======
 	while(!(PORTD&(1<<PORTD1))) {
 			PORTB |= (1<<0);
 	}
 	
 	PORTB &= ~(1<<0);
+>>>>>>> origin/master
 	TCCR2 &= ~(1<<CS21);
+	//PORTB &= ~(1<<0);
 	if(!interrupted) {
 		sensorData[0] = sens_timer_count;
 	}
@@ -112,7 +122,7 @@ int main(void) {
 	sei();
 	while(1) {
 		mesureAGA();
-		_delay_ms(5000);
+		_delay_ms(1000);
 	}
 }
 
@@ -149,7 +159,8 @@ ISR(SPISTC_vect) {
 
 ISR(TIMER2_COMP_vect) {
 	//TCNT2= 256-7;				//reset compare vector
-	//PORTB |= (1<<0);			// Toggle the LED
+	PORTB |= (1<<0);			// Toggle the LED
 	sens_timer_count = sens_timer_count + 1;		//add timer count;
-	//PORTB &= ~(1<<0);
+	_delay_us(10);
+	PORTB &= ~(1<<0);
 }
