@@ -64,7 +64,6 @@ void mesureAGA(void) {
 	PORTD &= ~(1<<PORTD2);
 	//PORTB |= (1<<0);
 	
-<<<<<<< HEAD
 	while(!(PIND &(1<<PIND1))){
 			//PORTB |= (1<<0);
 	}
@@ -72,13 +71,6 @@ void mesureAGA(void) {
 	while((PIND &(1<<PIND1))){
 		//PORTB |= (1<<0);
 	}
-=======
-	while(!(PORTD&(1<<PORTD1))) {
-			PORTB |= (1<<0);
-	}
-	
-	PORTB &= ~(1<<0);
->>>>>>> origin/master
 	TCCR2 &= ~(1<<CS21);
 	//PORTB &= ~(1<<0);
 	if(!interrupted) {
