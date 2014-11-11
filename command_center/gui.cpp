@@ -77,19 +77,19 @@ void Gui::bt_connected_(){
 
 //  -------------- slots
 void Gui::on_pushButton_forward_pressed(){
-  core->go_forward();
+  core->go_forward(ui->label_speed->text().toInt());
 }
 
 void Gui::on_pushButton_backward_pressed(){
-  core->go_backward();
+  core->go_backward(ui->label_speed->text().toInt());
 }
 
 void Gui::on_pushButton_left_pressed(){
-  core->turn_left();
+  core->turn_left(ui->label_speed->text().toInt());
 }
 
 void Gui::on_pushButton_right_pressed(){
-  core->turn_right();
+  core->turn_right(ui->label_speed->text().toInt());
 }
 
 void Gui::on_pushButton_connect_clicked(){
@@ -163,9 +163,32 @@ void Gui::on_lineEdit_d_value_returnPressed(){
 }
 
 void Gui::on_pushButton_forward_left_pressed(){
-  core->go_forward_left();
+  core->go_forward_left(ui->label_speed->text().toInt());
 }
 
 void Gui::on_pushButton_forward_right_pressed(){
-  core->go_forward_right();
+  core->go_forward_right(ui->label_speed->text().toInt());
+}
+
+
+
+void Gui::onSensorInput(string sensorData){
+  ui->label_10->setText(QString::fromStdString(sensorData));
+}
+
+
+void Gui::on_horizontalSlider_speed_valueChanged(){
+  ui->label_speed->setText(QString::number(ui->horizontalSlider_speed->value()));
+}
+
+void Gui::on_pushButton_open_claw_clicked(){
+  core->open_claw();
+}
+
+void Gui::on_pushButton_close_claw_clicked(){
+  core->close_claw();
+}
+
+void Gui::on_pushButton_stop_clicked(){
+  core->stop();
 }

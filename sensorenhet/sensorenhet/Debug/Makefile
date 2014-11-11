@@ -38,7 +38,9 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../ADC.c \
+../distanceSensor.c \
 ../sensorenhet.c \
+../SPI.c \
 ../tapeSensor.c
 
 
@@ -50,22 +52,30 @@ ASM_SRCS +=
 
 OBJS +=  \
 ADC.o \
+distanceSensor.o \
 sensorenhet.o \
+SPI.o \
 tapeSensor.o
 
 OBJS_AS_ARGS +=  \
 ADC.o \
+distanceSensor.o \
 sensorenhet.o \
+SPI.o \
 tapeSensor.o
 
 C_DEPS +=  \
 ADC.d \
+distanceSensor.d \
 sensorenhet.d \
+SPI.d \
 tapeSensor.d
 
 C_DEPS_AS_ARGS +=  \
 ADC.d \
+distanceSensor.d \
 sensorenhet.d \
+SPI.d \
 tapeSensor.d
 
 OUTPUT_FILE_PATH +=sensorenhet.elf
@@ -82,6 +92,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

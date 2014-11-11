@@ -13,7 +13,7 @@
 #include "ADC.h"
 #include "tapeSensor.h"
 
-static int on_tape = 1;
+static int on_tape = 0;
 static int off_tape = 0;
 static int tape_threshold = 0; // (on_tape + off_tape) >> 1);// Sets the average value as threshold
 

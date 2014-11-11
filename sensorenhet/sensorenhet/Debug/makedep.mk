@@ -4,7 +4,11 @@
 
 ADC.c
 
+distanceSensor.c
+
 sensorenhet.c
+
+SPI.c
 
 tapeSensor.c
 
