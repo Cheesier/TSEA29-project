@@ -148,11 +148,3 @@ ISR(SPISTC_vect) {
 	}
 	sei();
 }
-
-ISR(TIMER2_COMP_vect) {
-	//TCNT2= 256-7;				//reset compare vector
-	PORTB |= (1<<0);			// Toggle the LED
-	sens_timer_count = sens_timer_count + 1;		//add timer count;
-	_delay_us(10);
-	PORTB &= ~(1<<0);
-}

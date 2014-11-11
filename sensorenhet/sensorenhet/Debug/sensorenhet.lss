@@ -3,27 +3,27 @@ sensorenhet.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000001e4  00000000  00000000  00000074  2**1
+  0 .text         000001ea  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .bss          0000000a  00800060  00800060  00000258  2**0
+  1 .bss          0000000c  00800060  00800060  0000025e  2**0
                   ALLOC
-  2 .comment      00000030  00000000  00000000  00000258  2**0
+  2 .comment      00000030  00000000  00000000  0000025e  2**0
                   CONTENTS, READONLY
-  3 .debug_aranges 00000058  00000000  00000000  00000288  2**0
+  3 .debug_aranges 00000080  00000000  00000000  0000028e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_info   00000314  00000000  00000000  000002e0  2**0
+  4 .debug_info   000004f9  00000000  00000000  0000030e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_abbrev 000001c2  00000000  00000000  000005f4  2**0
+  5 .debug_abbrev 000002f7  00000000  00000000  00000807  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_line   000001dd  00000000  00000000  000007b6  2**0
+  6 .debug_line   0000039d  00000000  00000000  00000afe  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_frame  000000f0  00000000  00000000  00000994  2**2
+  7 .debug_frame  00000144  00000000  00000000  00000e9c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    0000023b  00000000  00000000  00000a84  2**0
+  8 .debug_str    0000027e  00000000  00000000  00000fe0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_loc    000001be  00000000  00000000  00000cbf  2**0
+  9 .debug_loc    00000309  00000000  00000000  0000125e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000048  00000000  00000000  00000e7d  2**0
+ 10 .debug_ranges 00000060  00000000  00000000  00001567  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -32,14 +32,14 @@ Disassembly of section .text:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
    4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
    8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
-   c:	0c 94 d9 00 	jmp	0x1b2	; 0x1b2 <__vector_3>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__vector_3>
   10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
-  28:	0c 94 a2 00 	jmp	0x144	; 0x144 <__vector_10>
+  28:	0c 94 bc 00 	jmp	0x178	; 0x178 <__vector_10>
   2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
@@ -69,313 +69,337 @@ Disassembly of section .text:
   68:	1d 92       	st	X+, r1
 
 0000006a <.do_clear_bss_start>:
-  6a:	aa 36       	cpi	r26, 0x6A	; 106
+  6a:	ac 36       	cpi	r26, 0x6C	; 108
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
-  70:	0e 94 8c 00 	call	0x118	; 0x118 <main>
-  74:	0c 94 f0 00 	jmp	0x1e0	; 0x1e0 <_exit>
+  70:	0e 94 a6 00 	call	0x14c	; 0x14c <main>
+  74:	0c 94 f3 00 	jmp	0x1e6	; 0x1e6 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-0000007c <initSPI>:
+0000007c <__vector_3>:
+		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT]) {
+			distanceSensor[DISTANCE_FRONT] = distance;
+			done[DISTANCE_FRONT] = 1;
+		}
+		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT]) {
+			distanceSensor[DISTANCE_RIGHT] = distance;
+  7c:	1f 92       	push	r1
+			done[DISTANCE_RIGHT] = 1;
+  7e:	0f 92       	push	r0
+  80:	0f b6       	in	r0, 0x3f	; 63
+		}
+		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_BACK]) {
+  82:	0f 92       	push	r0
+  84:	11 24       	eor	r1, r1
+			distanceSensor[DISTANCE_BACK] = distance;
+  86:	8f 93       	push	r24
+			done[DISTANCE_BACK] = 1;
+  88:	9f 93       	push	r25
+  8a:	80 91 60 00 	lds	r24, 0x0060
+		}
+		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT]) {
+  8e:	90 91 61 00 	lds	r25, 0x0061
+			distanceSensor[DISTANCE_LEFT] = distance;
+  92:	01 96       	adiw	r24, 0x01	; 1
+			done[DISTANCE_LEFT] = 1;
+  94:	90 93 61 00 	sts	0x0061, r25
+	//Wait for input from sensors
+	WAIT_FOR_INPUT;
+	
+	//Measure length of echo signal
+	START_TIMER;
+	while (FRONT_HIGH || RIGHT_HIGH || BACK_HIGH || LEFT_HIGH) {
+  98:	80 93 60 00 	sts	0x0060, r24
+  9c:	83 e0       	ldi	r24, 0x03	; 3
+  9e:	8a 95       	dec	r24
+  a0:	f1 f7       	brne	.-4      	; 0x9e <__vector_3+0x22>
+  a2:	00 00       	nop
+  a4:	9f 91       	pop	r25
+		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT]) {
+			distanceSensor[DISTANCE_LEFT] = distance;
+			done[DISTANCE_LEFT] = 1;
+		}
+	}
+	STOP_TIMER;
+  a6:	8f 91       	pop	r24
+  a8:	0f 90       	pop	r0
+  aa:	0f be       	out	0x3f, r0	; 63
+  ac:	0f 90       	pop	r0
+	while (FRONT_HIGH || RIGHT_HIGH || BACK_HIGH || LEFT_HIGH) {
+		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT]) {
+			distanceSensor[DISTANCE_FRONT] = distance;
+			done[DISTANCE_FRONT] = 1;
+		}
+		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT]) {
+  ae:	1f 90       	pop	r1
+  b0:	18 95       	reti
+
+000000b2 <initSPI>:
 static int sens_timer_count = 0;
 static int interrupted = 0;
 
 void initSPI() {
 	/* Set MISO output*/
 	DDR_SPI = (1<<DDR_MISO);
-  7c:	80 e4       	ldi	r24, 0x40	; 64
-  7e:	87 bb       	out	0x17, r24	; 23
+  b2:	80 e4       	ldi	r24, 0x40	; 64
+  b4:	87 bb       	out	0x17, r24	; 23
 	/* Enable SPI */
 	SPCR = (1<<SPIE)|(1<<SPE);
-  80:	80 ec       	ldi	r24, 0xC0	; 192
-  82:	8d b9       	out	0x0d, r24	; 13
-  84:	08 95       	ret
+  b6:	80 ec       	ldi	r24, 0xC0	; 192
+  b8:	8d b9       	out	0x0d, r24	; 13
+  ba:	08 95       	ret
 
-00000086 <mesureAGA>:
+000000bc <mesureAGA>:
 }
 
 void mesureAGA(void) {
 	sens_timer_count = 0;
-  86:	10 92 63 00 	sts	0x0063, r1
-  8a:	10 92 62 00 	sts	0x0062, r1
+  bc:	10 92 65 00 	sts	0x0065, r1
+  c0:	10 92 64 00 	sts	0x0064, r1
 	interrupted = 0;
-  8e:	10 92 61 00 	sts	0x0061, r1
-  92:	10 92 60 00 	sts	0x0060, r1
+  c4:	10 92 63 00 	sts	0x0063, r1
+  c8:	10 92 62 00 	sts	0x0062, r1
 	uint8_t mask = (1<<PORTD1);
-	//TCNT2 = 0;
+	TCNT2 = 0;
+  cc:	14 bc       	out	0x24, r1	; 36
 	PORTD |= (1<<PORTD2);
-  96:	92 9a       	sbi	0x12, 2	; 18
+  ce:	92 9a       	sbi	0x12, 2	; 18
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  98:	8a e1       	ldi	r24, 0x1A	; 26
-  9a:	8a 95       	dec	r24
-  9c:	f1 f7       	brne	.-4      	; 0x9a <mesureAGA+0x14>
-  9e:	00 c0       	rjmp	.+0      	; 0xa0 <mesureAGA+0x1a>
+  d0:	8a e1       	ldi	r24, 0x1A	; 26
+  d2:	8a 95       	dec	r24
+  d4:	f1 f7       	brne	.-4      	; 0xd2 <mesureAGA+0x16>
+  d6:	00 c0       	rjmp	.+0      	; 0xd8 <mesureAGA+0x1c>
 	_delay_us(10);
 	PORTD &= ~(1<<PORTD2);
-  a0:	92 98       	cbi	0x12, 2	; 18
-	TCCR2 |= (1<<CS21);
-  a2:	85 b5       	in	r24, 0x25	; 37
-  a4:	82 60       	ori	r24, 0x02	; 2
-  a6:	85 bd       	out	0x25, r24	; 37
+  d8:	92 98       	cbi	0x12, 2	; 18
 	//PORTB |= (1<<0);
 	
-	while(!(PORTD&(1<<PORTD1))) {
-  a8:	91 99       	sbic	0x12, 1	; 18
-  aa:	03 c0       	rjmp	.+6      	; 0xb2 <mesureAGA+0x2c>
-			PORTB |= (1<<0);
-  ac:	c0 9a       	sbi	0x18, 0	; 24
-	_delay_us(10);
-	PORTD &= ~(1<<PORTD2);
-	TCCR2 |= (1<<CS21);
-	//PORTB |= (1<<0);
-	
-	while(!(PORTD&(1<<PORTD1))) {
-  ae:	91 9b       	sbis	0x12, 1	; 18
-  b0:	fd cf       	rjmp	.-6      	; 0xac <mesureAGA+0x26>
-			PORTB |= (1<<0);
+	while(!(PIND &(1<<PIND1))){
+  da:	81 9b       	sbis	0x10, 1	; 16
+  dc:	fe cf       	rjmp	.-4      	; 0xda <mesureAGA+0x1e>
+			//PORTB |= (1<<0);
 	}
-	
-	PORTB &= ~(1<<0);
-  b2:	c0 98       	cbi	0x18, 0	; 24
+	TCCR2 |= (1<<CS21);
+  de:	85 b5       	in	r24, 0x25	; 37
+  e0:	82 60       	ori	r24, 0x02	; 2
+  e2:	85 bd       	out	0x25, r24	; 37
+	while((PIND &(1<<PIND1))){
+  e4:	81 99       	sbic	0x10, 1	; 16
+  e6:	fe cf       	rjmp	.-4      	; 0xe4 <mesureAGA+0x28>
+		//PORTB |= (1<<0);
+	}
 	TCCR2 &= ~(1<<CS21);
-  b4:	85 b5       	in	r24, 0x25	; 37
-  b6:	8d 7f       	andi	r24, 0xFD	; 253
-  b8:	85 bd       	out	0x25, r24	; 37
+  e8:	85 b5       	in	r24, 0x25	; 37
+  ea:	8d 7f       	andi	r24, 0xFD	; 253
+  ec:	85 bd       	out	0x25, r24	; 37
+	//PORTB &= ~(1<<0);
 	if(!interrupted) {
-  ba:	80 91 60 00 	lds	r24, 0x0060
-  be:	90 91 61 00 	lds	r25, 0x0061
-  c2:	89 2b       	or	r24, r25
-  c4:	21 f4       	brne	.+8      	; 0xce <mesureAGA+0x48>
+  ee:	80 91 62 00 	lds	r24, 0x0062
+  f2:	90 91 63 00 	lds	r25, 0x0063
+  f6:	89 2b       	or	r24, r25
+  f8:	21 f4       	brne	.+8      	; 0x102 <mesureAGA+0x46>
 		sensorData[0] = sens_timer_count;
-  c6:	80 91 62 00 	lds	r24, 0x0062
-  ca:	80 93 66 00 	sts	0x0066, r24
-  ce:	08 95       	ret
+  fa:	80 91 64 00 	lds	r24, 0x0064
+  fe:	80 93 68 00 	sts	0x0068, r24
+ 102:	08 95       	ret
 
-000000d0 <sendAll>:
+00000104 <sendAll>:
 	}
 }
 
 void sendAll(void) {
-  d0:	e6 e6       	ldi	r30, 0x66	; 102
-  d2:	f0 e0       	ldi	r31, 0x00	; 0
-  d4:	8a e6       	ldi	r24, 0x6A	; 106
-  d6:	90 e0       	ldi	r25, 0x00	; 0
+ 104:	e8 e6       	ldi	r30, 0x68	; 104
+ 106:	f0 e0       	ldi	r31, 0x00	; 0
+ 108:	8c e6       	ldi	r24, 0x6C	; 108
+ 10a:	90 e0       	ldi	r25, 0x00	; 0
 	for (int i = 0; i < noSensors; i++) {
 		SPI_DATA_REG = sensorData[i];
-  d8:	21 91       	ld	r18, Z+
-  da:	2f b9       	out	0x0f, r18	; 15
+ 10c:	21 91       	ld	r18, Z+
+ 10e:	2f b9       	out	0x0f, r18	; 15
 		WAIT_FOR_TRANSFER;
-  dc:	77 9b       	sbis	0x0e, 7	; 14
-  de:	fe cf       	rjmp	.-4      	; 0xdc <sendAll+0xc>
+ 110:	77 9b       	sbis	0x0e, 7	; 14
+ 112:	fe cf       	rjmp	.-4      	; 0x110 <sendAll+0xc>
 		sensorData[0] = sens_timer_count;
 	}
 }
 
 void sendAll(void) {
 	for (int i = 0; i < noSensors; i++) {
-  e0:	e8 17       	cp	r30, r24
-  e2:	f9 07       	cpc	r31, r25
-  e4:	c9 f7       	brne	.-14     	; 0xd8 <sendAll+0x8>
+ 114:	e8 17       	cp	r30, r24
+ 116:	f9 07       	cpc	r31, r25
+ 118:	c9 f7       	brne	.-14     	; 0x10c <sendAll+0x8>
 		SPI_DATA_REG = sensorData[i];
 		WAIT_FOR_TRANSFER;
 	}
 }
-  e6:	08 95       	ret
+ 11a:	08 95       	ret
 
-000000e8 <initSensors>:
+0000011c <initSensors>:
 
 void initSensors() {
 	for (int i = 0; i < noSensors; i++) {
 		sensorData[i] = 129;
-  e8:	81 e8       	ldi	r24, 0x81	; 129
-  ea:	80 93 66 00 	sts	0x0066, r24
-  ee:	80 93 67 00 	sts	0x0067, r24
-  f2:	80 93 68 00 	sts	0x0068, r24
-  f6:	80 93 69 00 	sts	0x0069, r24
+ 11c:	81 e8       	ldi	r24, 0x81	; 129
+ 11e:	80 93 68 00 	sts	0x0068, r24
+ 122:	80 93 69 00 	sts	0x0069, r24
+ 126:	80 93 6a 00 	sts	0x006A, r24
+ 12a:	80 93 6b 00 	sts	0x006B, r24
 	}
 	
 	// Initiate the mux for the tape sensors
 	DDRB |= 0x0F;
-  fa:	87 b3       	in	r24, 0x17	; 23
-  fc:	8f 60       	ori	r24, 0x0F	; 15
-  fe:	87 bb       	out	0x17, r24	; 23
+ 12e:	87 b3       	in	r24, 0x17	; 23
+ 130:	8f 60       	ori	r24, 0x0F	; 15
+ 132:	87 bb       	out	0x17, r24	; 23
 	// Initiate the distance sensors
 	DDRD = (0<<PORTD1) | (1<<PORTD2);
- 100:	84 e0       	ldi	r24, 0x04	; 4
- 102:	81 bb       	out	0x11, r24	; 17
- 104:	08 95       	ret
+ 134:	84 e0       	ldi	r24, 0x04	; 4
+ 136:	81 bb       	out	0x11, r24	; 17
+ 138:	08 95       	ret
 
-00000106 <initSensorTimer>:
+0000013a <initSensorTimer>:
 }
 
 void initSensorTimer() {
 	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode
- 106:	85 b5       	in	r24, 0x25	; 37
- 108:	88 60       	ori	r24, 0x08	; 8
- 10a:	85 bd       	out	0x25, r24	; 37
+ 13a:	85 b5       	in	r24, 0x25	; 37
+ 13c:	88 60       	ori	r24, 0x08	; 8
+ 13e:	85 bd       	out	0x25, r24	; 37
 	TIMSK |= (1 << OCIE2);				// Enable Timer2 Output Compare Interrupt
- 10c:	89 b7       	in	r24, 0x39	; 57
- 10e:	80 68       	ori	r24, 0x80	; 128
- 110:	89 bf       	out	0x39, r24	; 57
+ 140:	89 b7       	in	r24, 0x39	; 57
+ 142:	80 68       	ori	r24, 0x80	; 128
+ 144:	89 bf       	out	0x39, r24	; 57
 	//TIFR  |= 1<<TOV2;						// Clear TOV2/ clear pending interrupts
 	OCR2 = 58;							// Compare count
- 112:	8a e3       	ldi	r24, 0x3A	; 58
- 114:	83 bd       	out	0x23, r24	; 35
- 116:	08 95       	ret
+ 146:	8a e3       	ldi	r24, 0x3A	; 58
+ 148:	83 bd       	out	0x23, r24	; 35
+ 14a:	08 95       	ret
 
-00000118 <main>:
+0000014c <main>:
 	//TCCR2 |= (1<<CS21);					// no prescale and speed = systemclock
 	
 }
 
 int main(void) {
 	initSensorTimer();
- 118:	0e 94 83 00 	call	0x106	; 0x106 <initSensorTimer>
+ 14c:	0e 94 9d 00 	call	0x13a	; 0x13a <initSensorTimer>
 	initSPI();
- 11c:	0e 94 3e 00 	call	0x7c	; 0x7c <initSPI>
+ 150:	0e 94 59 00 	call	0xb2	; 0xb2 <initSPI>
 	initSensors();
- 120:	0e 94 74 00 	call	0xe8	; 0xe8 <initSensors>
+ 154:	0e 94 8e 00 	call	0x11c	; 0x11c <initSensors>
 	DDRB |= (1<<0);
- 124:	b8 9a       	sbi	0x17, 0	; 23
+ 158:	b8 9a       	sbi	0x17, 0	; 23
 	SPI_DATA_REG = noSensors; 
- 126:	84 e0       	ldi	r24, 0x04	; 4
- 128:	8f b9       	out	0x0f, r24	; 15
+ 15a:	84 e0       	ldi	r24, 0x04	; 4
+ 15c:	8f b9       	out	0x0f, r24	; 15
 	sei();
- 12a:	78 94       	sei
+ 15e:	78 94       	sei
 	while(1) {
 		mesureAGA();
- 12c:	0e 94 43 00 	call	0x86	; 0x86 <mesureAGA>
+ 160:	0e 94 5e 00 	call	0xbc	; 0xbc <mesureAGA>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 130:	2f ef       	ldi	r18, 0xFF	; 255
- 132:	81 e1       	ldi	r24, 0x11	; 17
- 134:	9a e7       	ldi	r25, 0x7A	; 122
- 136:	21 50       	subi	r18, 0x01	; 1
- 138:	80 40       	sbci	r24, 0x00	; 0
- 13a:	90 40       	sbci	r25, 0x00	; 0
- 13c:	e1 f7       	brne	.-8      	; 0x136 <main+0x1e>
- 13e:	00 c0       	rjmp	.+0      	; 0x140 <main+0x28>
- 140:	00 00       	nop
- 142:	f4 cf       	rjmp	.-24     	; 0x12c <main+0x14>
+ 164:	2f ef       	ldi	r18, 0xFF	; 255
+ 166:	89 e6       	ldi	r24, 0x69	; 105
+ 168:	98 e1       	ldi	r25, 0x18	; 24
+ 16a:	21 50       	subi	r18, 0x01	; 1
+ 16c:	80 40       	sbci	r24, 0x00	; 0
+ 16e:	90 40       	sbci	r25, 0x00	; 0
+ 170:	e1 f7       	brne	.-8      	; 0x16a <main+0x1e>
+ 172:	00 c0       	rjmp	.+0      	; 0x174 <main+0x28>
+ 174:	00 00       	nop
+ 176:	f4 cf       	rjmp	.-24     	; 0x160 <main+0x14>
 
-00000144 <__vector_10>:
+00000178 <__vector_10>:
 	}
 }
 
 
 
 ISR(SPISTC_vect) {
- 144:	1f 92       	push	r1
- 146:	0f 92       	push	r0
- 148:	0f b6       	in	r0, 0x3f	; 63
- 14a:	0f 92       	push	r0
- 14c:	11 24       	eor	r1, r1
- 14e:	2f 93       	push	r18
- 150:	3f 93       	push	r19
- 152:	4f 93       	push	r20
- 154:	5f 93       	push	r21
- 156:	6f 93       	push	r22
- 158:	7f 93       	push	r23
- 15a:	8f 93       	push	r24
- 15c:	9f 93       	push	r25
- 15e:	af 93       	push	r26
- 160:	bf 93       	push	r27
- 162:	ef 93       	push	r30
- 164:	ff 93       	push	r31
+ 178:	1f 92       	push	r1
+ 17a:	0f 92       	push	r0
+ 17c:	0f b6       	in	r0, 0x3f	; 63
+ 17e:	0f 92       	push	r0
+ 180:	11 24       	eor	r1, r1
+ 182:	2f 93       	push	r18
+ 184:	3f 93       	push	r19
+ 186:	4f 93       	push	r20
+ 188:	5f 93       	push	r21
+ 18a:	6f 93       	push	r22
+ 18c:	7f 93       	push	r23
+ 18e:	8f 93       	push	r24
+ 190:	9f 93       	push	r25
+ 192:	af 93       	push	r26
+ 194:	bf 93       	push	r27
+ 196:	ef 93       	push	r30
+ 198:	ff 93       	push	r31
 	cli();
- 166:	f8 94       	cli
+ 19a:	f8 94       	cli
 	interrupted = 1;
- 168:	81 e0       	ldi	r24, 0x01	; 1
- 16a:	90 e0       	ldi	r25, 0x00	; 0
- 16c:	90 93 61 00 	sts	0x0061, r25
- 170:	80 93 60 00 	sts	0x0060, r24
+ 19c:	81 e0       	ldi	r24, 0x01	; 1
+ 19e:	90 e0       	ldi	r25, 0x00	; 0
+ 1a0:	90 93 63 00 	sts	0x0063, r25
+ 1a4:	80 93 62 00 	sts	0x0062, r24
 	int function = SPI_DATA_REG/* || (0<<7)|(0<<6)*/;			
- 174:	8f b1       	in	r24, 0x0f	; 15
+ 1a8:	8f b1       	in	r24, 0x0f	; 15
 	switch (function) {
- 176:	81 30       	cpi	r24, 0x01	; 1
- 178:	19 f0       	breq	.+6      	; 0x180 <__vector_10+0x3c>
- 17a:	85 30       	cpi	r24, 0x05	; 5
- 17c:	31 f0       	breq	.+12     	; 0x18a <__vector_10+0x46>
- 17e:	07 c0       	rjmp	.+14     	; 0x18e <__vector_10+0x4a>
+ 1aa:	81 30       	cpi	r24, 0x01	; 1
+ 1ac:	19 f0       	breq	.+6      	; 0x1b4 <__vector_10+0x3c>
+ 1ae:	85 30       	cpi	r24, 0x05	; 5
+ 1b0:	31 f0       	breq	.+12     	; 0x1be <__vector_10+0x46>
+ 1b2:	07 c0       	rjmp	.+14     	; 0x1c2 <__vector_10+0x4a>
 		case 0x01:				//reset gyro_angle
 			gyro_angle = 0;
- 180:	10 92 65 00 	sts	0x0065, r1
- 184:	10 92 64 00 	sts	0x0064, r1
+ 1b4:	10 92 67 00 	sts	0x0067, r1
+ 1b8:	10 92 66 00 	sts	0x0066, r1
 			break;
- 188:	02 c0       	rjmp	.+4      	; 0x18e <__vector_10+0x4a>
+ 1bc:	02 c0       	rjmp	.+4      	; 0x1c2 <__vector_10+0x4a>
 			break;
 		case 0x04:				//off tape value
 			//tape_floor = vals;
 			break;
 		case 0x05:				//send distance data
 			sendAll();
- 18a:	0e 94 68 00 	call	0xd0	; 0xd0 <sendAll>
+ 1be:	0e 94 82 00 	call	0x104	; 0x104 <sendAll>
 		case 0x07:				//gyro msg
 			break;
 		default:
 			break;
 	}
 	sei();
- 18e:	78 94       	sei
-}
- 190:	ff 91       	pop	r31
- 192:	ef 91       	pop	r30
- 194:	bf 91       	pop	r27
- 196:	af 91       	pop	r26
- 198:	9f 91       	pop	r25
- 19a:	8f 91       	pop	r24
- 19c:	7f 91       	pop	r23
- 19e:	6f 91       	pop	r22
- 1a0:	5f 91       	pop	r21
- 1a2:	4f 91       	pop	r20
- 1a4:	3f 91       	pop	r19
- 1a6:	2f 91       	pop	r18
- 1a8:	0f 90       	pop	r0
- 1aa:	0f be       	out	0x3f, r0	; 63
- 1ac:	0f 90       	pop	r0
- 1ae:	1f 90       	pop	r1
- 1b0:	18 95       	reti
+ 1c2:	78 94       	sei
+ 1c4:	ff 91       	pop	r31
+ 1c6:	ef 91       	pop	r30
+ 1c8:	bf 91       	pop	r27
+ 1ca:	af 91       	pop	r26
+ 1cc:	9f 91       	pop	r25
+ 1ce:	8f 91       	pop	r24
+ 1d0:	7f 91       	pop	r23
+ 1d2:	6f 91       	pop	r22
+ 1d4:	5f 91       	pop	r21
+ 1d6:	4f 91       	pop	r20
+ 1d8:	3f 91       	pop	r19
+ 1da:	2f 91       	pop	r18
+ 1dc:	0f 90       	pop	r0
+ 1de:	0f be       	out	0x3f, r0	; 63
+ 1e0:	0f 90       	pop	r0
+ 1e2:	1f 90       	pop	r1
+ 1e4:	18 95       	reti
 
-000001b2 <__vector_3>:
+000001e6 <_exit>:
+ 1e6:	f8 94       	cli
 
-ISR(TIMER2_COMP_vect) {
- 1b2:	1f 92       	push	r1
- 1b4:	0f 92       	push	r0
- 1b6:	0f b6       	in	r0, 0x3f	; 63
- 1b8:	0f 92       	push	r0
- 1ba:	11 24       	eor	r1, r1
- 1bc:	8f 93       	push	r24
- 1be:	9f 93       	push	r25
-	//TCNT2= 256-7;				//reset compare vector
-	//PORTB |= (1<<0);			// Toggle the LED
-	sens_timer_count = sens_timer_count + 1;		//add timer count;
- 1c0:	80 91 62 00 	lds	r24, 0x0062
- 1c4:	90 91 63 00 	lds	r25, 0x0063
- 1c8:	01 96       	adiw	r24, 0x01	; 1
- 1ca:	90 93 63 00 	sts	0x0063, r25
- 1ce:	80 93 62 00 	sts	0x0062, r24
-	//PORTB &= ~(1<<0);
- 1d2:	9f 91       	pop	r25
- 1d4:	8f 91       	pop	r24
- 1d6:	0f 90       	pop	r0
- 1d8:	0f be       	out	0x3f, r0	; 63
- 1da:	0f 90       	pop	r0
- 1dc:	1f 90       	pop	r1
- 1de:	18 95       	reti
-
-000001e0 <_exit>:
- 1e0:	f8 94       	cli
-
-000001e2 <__stop_program>:
- 1e2:	ff cf       	rjmp	.-2      	; 0x1e2 <__stop_program>
+000001e8 <__stop_program>:
+ 1e8:	ff cf       	rjmp	.-2      	; 0x1e8 <__stop_program>
