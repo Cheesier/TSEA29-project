@@ -23,7 +23,7 @@ void handle_message(char header, char size, char *data) {
 	}
 	else {
 		// send to someone else
-		//send_data(header, size, *data);
+		send_message(header, size, data);
 	}
 }
 
