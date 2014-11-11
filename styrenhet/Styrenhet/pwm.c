@@ -89,3 +89,13 @@ void clawEnable() {
 void clawDisable() {
 	CLAW_TIMER &= ~(1<<COM01);
 }
+
+// Enables the wheels to turn
+void wheelsEnable() {
+	WHEEL_TIMER_A |= ((1<<COM1A1) | (1<<COM1B1));
+}
+
+// Disables the wheels, should only be used when stopping.
+void wheelsDisable() {
+	WHEEL_TIMER_A &= ~((1<<COM1A1) | (1<<COM1B1));
+}

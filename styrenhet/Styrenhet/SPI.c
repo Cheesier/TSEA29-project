@@ -29,12 +29,13 @@
 void SPI_Init(void) {
 	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
 	SPCR = (1<<SPE);				// Enable SPI
-	SPCR = (1>>SPIE);				// Enable interrupts
+	SPCR |= (1<<SPIE);				// Enable interrupts
+	SPCR |= (1<<SPR0);				// Prescaler 16
 }
 
 // Receive from SPI
 char SPI_Receive(void) {
-	WAIT_FOR_TRANSFER;				// Wait for reception to complete
+	WAIT_FOR_TRANSFER;				// Wait for reception to complete	
 	return SPDR;					// Return Data Register
 }
 
@@ -110,7 +111,7 @@ void receiveMessage() {
 				releaseClaw();
 				break;
 			case 0x0D: //STOP
-				wheelSpeeds(0, 0);
+				stopWheels();				
 				break;
 			default:	// Fetch the message anyway								
 				for(int i = 0; i < size; i++) {
