@@ -25,6 +25,8 @@ public:
   explicit Gui(QWidget *parent = 0);
   ~Gui();
 
+  void onSensorInput(string sensorData);
+
   // --------- SIGNALS ------------
 signals:
   void console_log(const QString& data);
@@ -36,6 +38,7 @@ signals:
   void bt_reset();
   void bt_connecting();
   void bt_connected();
+
 
 
   // ---------- SLOTS -------------
@@ -53,6 +56,11 @@ private slots:
   void on_pushButton_backward_pressed();
   void on_pushButton_left_pressed();
   void on_pushButton_right_pressed();
+
+  void on_pushButton_stop_clicked();
+  void on_pushButton_open_claw_clicked();
+  void on_pushButton_close_claw_clicked();
+
   void on_pushButton_connect_clicked();
 
   void on_pushButton_scan_clicked();
@@ -79,6 +87,9 @@ private slots:
   void on_pushButton_forward_left_pressed();
 
   void on_pushButton_forward_right_pressed();
+
+  void on_horizontalSlider_speed_valueChanged();
+
 
 private:
 
