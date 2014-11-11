@@ -5,21 +5,17 @@
  *  Author: jonny928
  */ 
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-#include "distanceSensor.h"
+#include "sensorenhet.h"
 
-#define F_CPU 8000000
 
-#define TRIGGER 1
-#define ECHO_FRONT 2
-#define ECHO_RIGHT 3
-#define ECHO_BACK 4
-#define ECHO_LEFT 5
+#define TRIGGER PORTD1
+#define ECHO_FRONT PIND2
+#define ECHO_RIGHT PIND3
+#define ECHO_BACK PIND4
+#define ECHO_LEFT PIND5
 #define SENSOR_INPUT PIND
 #define SENSOR_OUTPUT PORTD
-#define WAIT_FOR_INPUT while(!(SENSOR_INPUT&(1<<ECHO_FRONT)))
+#define WAIT_FOR_INPUT while(!FRONT_HIGH)
 
 #define FRONT_HIGH (SENSOR_INPUT&(1<<ECHO_FRONT))
 #define RIGHT_HIGH (SENSOR_INPUT&(1<<ECHO_RIGHT))
@@ -41,10 +37,13 @@ void updateDistance() {
 	TCNT2 = 0;
 	
 	//Trigger sensors
+	
 	SENSOR_OUTPUT |= (1<<TRIGGER);
 	_delay_us(10);
 	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
+	
+
 	//Wait for input from sensors
 	WAIT_FOR_INPUT;
 	
@@ -72,8 +71,9 @@ void updateDistance() {
 }
 
 void initDistance() {
-	DDRD |= (1<<TRIGGER);
-	DDRD &= ~((1<<ECHO_FRONT) | (1<<ECHO_RIGHT) | (1<<ECHO_BACK) | (1<<ECHO_LEFT));
+	DDRD = (1<<TRIGGER)|(0<<ECHO_FRONT) | (0<<ECHO_RIGHT) | (0<<ECHO_BACK) | (0<<ECHO_LEFT);
+	
+	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
 	for(int i = 0; i < SENSOR_COUNT; i++) {
 		distanceSensor[i] = 0;
@@ -86,5 +86,4 @@ void initDistance() {
 
 ISR(TIMER2_COMP_vect) {
 	distance = distance + 1;		//add timer count;
-	_delay_us(10);
 }

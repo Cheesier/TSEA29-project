@@ -6,13 +6,12 @@
  */ 
 
 #include "SPI.h"
-#include "Styrenhet.h"
+#include "distanceSensor.h"
 
 // Initiates the SPI
 void SPI_Init(void) {
 	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
-	SPCR = (1<<SPE);				// Enable SPI
-	SPCR = (1>>SPIE);				// Enable interrupts
+	SPCR = (1<<SPIE)|(1<<SPE);				// Enable SPI Enable interrupts
 }
 
 // Receive over SPI
@@ -28,8 +27,8 @@ void SPI_Send(char dataout) {
 }
 
 void sendDistanceSensors(void) {
-	for (int i = 0; i < noSensors; i++) {
-		SPI_Send(sensorData[i]);
+	for (int i = 0; i < SENSOR_COUNT; i++) {
+		SPI_Send(distanceSensor[i]);
 	}
 }
 
@@ -40,7 +39,7 @@ ISR(SPISTC_vect) {
 	char size;
 	msg = msg & 0x3F;
 	interrupted = 1;				//Maybe usefull when updating distance 
-	if(header == 0x01) {
+	if(header == 0x02) {
 		switch (msg) {
 			case 0x01:				//reset gyro_angle
 			gyro_angle = 0;

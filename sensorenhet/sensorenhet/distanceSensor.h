@@ -17,7 +17,7 @@
 
 static int distance = 0;
 static int interrupted = 0;
-uint8_t distanceSensor[SENSOR_COUNT];
+static uint8_t distanceSensor[SENSOR_COUNT];
 
 void updateDistance();
 void initDistance();
