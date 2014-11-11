@@ -34,10 +34,11 @@ int main(void) {
 	init_pwm();								// Initiates the pins used for PWM
 	
 	while(1) {
-		gripClaw();
-		_delay_ms(2500);
-		releaseClaw();
-		_delay_ms(500);
+		//gripClaw();
+		//_delay_ms(2500);
+		//releaseClaw();
+		//_delay_ms(500);
+		receiveMessage();
 	}
 }
 
