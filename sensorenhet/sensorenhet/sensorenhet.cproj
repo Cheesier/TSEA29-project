@@ -125,6 +125,12 @@
     <Compile Include="ADC.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="distanceSensor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="distanceSensor.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="sensorenhet.c">
       <SubType>compile</SubType>
     </Compile>
