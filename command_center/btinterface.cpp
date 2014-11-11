@@ -1,4 +1,4 @@
-#include "btinterface.h"
+    #include "btinterface.h"
 
 BTInterface::BTInterface(){
   printf("creating bluetooth interface..\n");
@@ -56,6 +56,7 @@ void BTInterface::do_read(){
       return;
   }
   core->process_new_msg(Msg_ptr(new Message(type,data)));
+
   do_read();
 }
 

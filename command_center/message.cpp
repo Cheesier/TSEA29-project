@@ -1,6 +1,9 @@
 #include "message.h"
 #include <iostream>
 
+#include <string.h>
+
+
 Message::Message(const Type_t& type_, const string& data_):
   type(type_), data(move(data_)), created_at(hr_clock::now()){}
 
@@ -21,7 +24,7 @@ Message::Size_t Message::get_data_size() const{
 }
 
 void Message::print(){
-  printf("type: %d; size:%lu;%s\n----\n",int(type), data.size(), data.c_str());
+  printf("----\ntype: %d; size: %lu; data: %s;\n----\n",int(type), data.size(), data.c_str());
 }
 
 void Message::encode(){
@@ -88,59 +91,78 @@ void Message::echo(){
   encode();
 }
 
-void Message::go_forward(){
-  type = T_GO_FORWARD;
-  data.clear();
+void Message::go_forward(int speed){
+  type = ADDR_STYRENHET | T_GO_FORWARD;
+  data = speed;                         //from ui
   encode();
 }
 
-void Message::go_backward(){
-  type = T_GO_BACKWARD;
-  data.clear();
+void Message::go_backward(int speed){
+  type = ADDR_STYRENHET | T_GO_BACKWARD;
+  data = speed;                         //from ui
   encode();
 }
 
-void Message::turn_right(){
-  type = T_TURN_RIGHT;
-  data.clear();
+void Message::turn_right(int speed){
+  type = ADDR_STYRENHET | T_TURN_RIGHT;
+  data = speed;                         //from ui
   encode();
 }
 
-void Message::turn_left(){
-  type = T_TURN_LEFT;
-  data.clear();
+void Message::turn_left(int speed){
+  type = ADDR_STYRENHET | T_TURN_LEFT;
+  data = speed;                         //from ui
   encode();
 }
 
-void Message::go_forward_right(){
-  type = T_GO_FORWARD_RIGHT;
-  data.clear();
+void Message::go_forward_right(int speed){
+  type = ADDR_STYRENHET | T_GO_FORWARD_RIGHT;
+  string new_speed = "";
+  new_speed += char(128 + (speed/3));   //from ui
+  new_speed += char(128 + speed);
+  data = new_speed;
   encode();
 }
 
-void Message::go_forward_left(){
-  type = T_GO_FORWARD_LEFT;
-  data.clear();
+void Message::go_forward_left(int speed){
+  type = ADDR_STYRENHET | T_GO_FORWARD_LEFT;
+  string new_speed = "";
+  new_speed += char(128 + speed);       //from ui
+  new_speed += char(128 + (speed/3));
+
+  data = new_speed;
   encode();
 }
+
 
 void Message::stop(){
-  type = T_STOP;
+  type = ADDR_STYRENHET | T_STOP;
   data.clear();
   encode();
 }
 
-//TODO: set actual value later
+void Message::open_claw(){
+  type = ADDR_STYRENHET | T_OPEN_CLAW;
+  data.clear();
+  encode();
+}
+
+void Message::close_claw(){
+  type = ADDR_STYRENHET | T_CLOSE_CLAW;
+  data.clear();
+  encode();
+}
+
+// FEL
 void Message::set_p(const double &val){
   type = T_P;
   data.clear();
   encode();
 }
 
+// FEL
 void Message::set_d(const double &val){
   type = T_D;
   data.clear();
   encode();
 }
-
-
