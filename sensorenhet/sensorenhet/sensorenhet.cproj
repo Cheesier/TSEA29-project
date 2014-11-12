@@ -61,6 +61,17 @@
       <ToolName>JTAGICE3</ToolName>
     </com_atmel_avrdbg_tool_jtagice3plus>
     <avrtoolinterface>JTAG</avrtoolinterface>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -132,6 +143,15 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="sensorenhet.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensorenhet.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tapeSensor.c">

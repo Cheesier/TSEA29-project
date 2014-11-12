@@ -11,6 +11,7 @@
 #include "spi.h"
 #include "message_handler.h"
 #include <interrupt.h>
+#include <util/delay.h>
 
 int main(void) {
 	bt_init();
@@ -18,7 +19,11 @@ int main(void) {
 	sei();
 	
 	while(1) {
-		
+		/*_delay_ms(1000);
+		send_message(0x4B, 0x00, NULL);
+		_delay_ms(1000);
+		send_message(0x4C, 0x00, NULL);
+		*/
 	}
 	
 	return 0;

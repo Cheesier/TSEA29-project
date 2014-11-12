@@ -22,5 +22,7 @@ void clawGrip();
 void clawRelease();
 void clawEnable();
 void clawDisable();
+void wheelEnable();
+void wheelDisable();
 
 #endif /* PWM_H_ */

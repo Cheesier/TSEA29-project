@@ -9,12 +9,7 @@
 #define SPI_H_
 
 
-// CPU clock
-#define F_CPU 8000000
-
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
+#include "sensorenhet.h"
 
 // SPI ports
 #define SPI_SS PORTB4
@@ -27,6 +22,7 @@
 
 #define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)));
 
+static int gyro_angle = 0;
 void SPI_Init(void);
 
 char SPI_Recive(void);

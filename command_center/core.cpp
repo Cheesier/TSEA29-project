@@ -1,4 +1,5 @@
 #include "core.h"
+#include <string>
 
 #define TROLL_INPUT_MSG " *** invalid input value *** "
 
@@ -144,6 +145,9 @@ void Core::process_msg(const Msg_ptr &msg){
         case Message::T_ECHO:
           handle_echo(msg);
           break;
+        case Message::T_ERROR:
+          handle_error(msg);
+          break;
         default:
           handle_unknown(msg);
         }
@@ -152,11 +156,19 @@ void Core::process_msg(const Msg_ptr &msg){
 }
 
 void Core::handle_echo(const Msg_ptr &msg){
+  w->onSensorInput(msg->get_data());
   msg->print();
 }
 
+//handles error messages 0x3F
+void Core::handle_error(const Msg_ptr & msg){
+    string message = "Error message recived: " + msg->get_data();
+    log(QString::fromStdString(message));
+    msg->print();
+}
+
 void Core::handle_unknown(const Msg_ptr &msg){
-  log(QString("** unknown message [type %1]").arg(msg->get_type()));
+  log(QString("** unknown message [type %1] recived").arg(msg->get_type()));
   msg->print();
 }
 
@@ -217,45 +229,57 @@ void Core::echo(){
   send(msg);
 }
 
-void Core::go_forward(){
+void Core::go_forward(int speed){
   Msg_ptr msg(new Message);
-  msg->go_forward();
+  msg->go_forward(speed);
   send(msg);
 }
 
-void Core::go_backward(){
+void Core::go_backward(int speed){
   Msg_ptr msg(new Message);
-  msg->go_backward();
+  msg->go_backward(speed);
   send(msg);
 }
 
-void Core::turn_right(){
+void Core::turn_right(int speed){
   Msg_ptr msg(new Message);
-  msg->turn_right();
+  msg->turn_right(speed);
   send(msg);
 }
 
-void Core::turn_left(){
+void Core::turn_left(int speed){
   Msg_ptr msg(new Message);
-  msg->go_forward();
+  msg->turn_left(speed);
   send(msg);
 }
 
-void Core::go_forward_right(){
+void Core::go_forward_right(int speed){
   Msg_ptr msg(new Message);
-  msg->go_forward_left();
+  msg->go_forward_right(speed);
   send(msg);
 }
 
-void Core::go_forward_left(){
+void Core::go_forward_left(int speed){
   Msg_ptr msg(new Message);
-  msg->go_forward_left();
+  msg->go_forward_left(speed);
   send(msg);
 }
 
 void Core::stop(){
   Msg_ptr msg(new Message);
   msg->stop();
+  send(msg);
+}
+
+void Core::open_claw(){
+  Msg_ptr msg(new Message);
+  msg->open_claw();
+  send(msg);
+}
+
+void Core::close_claw(){
+  Msg_ptr msg(new Message);
+  msg->close_claw();
   send(msg);
 }
 

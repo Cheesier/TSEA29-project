@@ -36,9 +36,7 @@ void SPI_Init(void) {
 // Receive from SPI
 char SPI_Receive(void) {
 	WAIT_FOR_TRANSFER;				// Wait for reception to complete
-	char data = SPDR;
-	SPDR = 0x00;					// Clear Data Register
-	return data;					// Return data
+	return SPDR;					// Return Data Register
 }
 
 // Send over SPI
@@ -112,8 +110,13 @@ void receiveMessage() {
 			case 0x0C:	// Open the claw
 				releaseClaw();
 				break;
+<<<<<<< HEAD
 			case 0x0D: // Stop the robot
 				wheelSpeeds(0, 0);
+=======
+			case 0x0D: //STOP
+				stopWheels();
+>>>>>>> 4f28097f1329ab60515980c9d0e160f8f2b7f93d
 				break;
 			default:	// Fetch the message anyway
 				for(int i = 0; i < size; i++) {

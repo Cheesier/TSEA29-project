@@ -28,5 +28,6 @@ void wheelSpeeds(uint8_t left_speed, uint8_t right_speed);
 
 void releaseClaw();
 void gripClaw();
+void stopWheels();
 
 #endif /* STYRENHET_H_ */

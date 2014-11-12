@@ -5,8 +5,8 @@
  *  Author: Jonathan
  */
  
-#define F_CPU 8000000
-#define OVERHEAD_TIME 10
+#define F_CPU 8000000UL
+#define OVERHEAD_TIME 15
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -21,18 +21,17 @@ void initSPI() {
 }
 
 void getSensorData() {
-	SPDR = 0x05;
+	SPDR = 0x85;
 	PORTB &= ~(1<<PORTB4);
 	while(!(SPSR & (1<<SPIF)));
 	PORTB |= (1<<PORTB4);
-	uint8_t noSensors = 4;
 	
 	_delay_us(OVERHEAD_TIME);
 	
 	//uint8_t *sensorData;
 	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
 	
-	for (int i = 0; i < noSensors; i++) {
+	for (int i = 0; i < 4; i++) {
 		SPDR = 0;
 		PORTB &= ~(1<<PORTB4);
 		while(!(SPSR & (1<<SPIF)));

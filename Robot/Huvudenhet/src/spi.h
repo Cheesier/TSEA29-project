@@ -5,8 +5,8 @@
  *  Author: Oscar
  */ 
 
-#define SS_STYR		PORTB3
-#define SS_SENSOR	PORTB4
+#define SS_STYR		PORTB4
+#define SS_SENSOR	PORTB3
 
 void spi_init(void);
 char spi_transceive(char address, char data);
