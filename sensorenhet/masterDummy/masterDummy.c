@@ -26,7 +26,7 @@ void getSensorData() {
 	while(!(SPSR & (1<<SPIF)));
 	PORTB |= (1<<PORTB4);
 	
-	_delay_us(OVERHEAD_TIME);
+	_delay_us(OVERHEAD_TIME);	
 	
 	//uint8_t *sensorData;
 	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
@@ -64,7 +64,7 @@ int main(void) {
 	//GICR |= (1<<6);
 	//sei();
 	while(1) {
-		getTapeData();
+		getSensorData();
 		_delay_ms(100);
 	}
 	/*while(1) {

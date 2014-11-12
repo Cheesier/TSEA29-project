@@ -5,6 +5,8 @@
  *  Author: Cavecanem
  */ 
 
+#define F_CPU 8000000UL
+
 #include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -41,7 +43,9 @@ uint8_t getTapeData() {
 //TODO
 int convertToBit(int data) {
 	int bit = 0;
-	//Do some converting based on thresholds.
+	if(data > 80) { //might work.. lol..
+		data = 1;
+	}
 	return bit;
 }
 

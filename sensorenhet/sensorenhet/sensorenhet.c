@@ -43,9 +43,9 @@ int main(void) {
 	SPI_Init();
 	sei();
 	while(1) {
-		//_delay_ms(1000);
-		//updateDistance();
-		readADC(0);
+		_delay_ms(1000);
+		updateDistance();
+		//readADC(0);
 		
 	}
 }

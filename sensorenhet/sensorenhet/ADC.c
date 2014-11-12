@@ -4,7 +4,7 @@
  * Created: 2014-11-10 13:52:11
  *  Author: Cavecanem
  */ 
-
+#define F_CPU 8000000UL
 
 #include <stdint.h>
 #include <avr/io.h>

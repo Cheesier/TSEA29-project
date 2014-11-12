@@ -27,7 +27,7 @@
 
 
 
-void updateDistance() {
+void updateDistance() {	
 	uint8_t done[SENSOR_COUNT];
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		done[i] = 0;
@@ -51,7 +51,7 @@ void updateDistance() {
 	START_TIMER;
 	while (FRONT_HIGH || RIGHT_HIGH || BACK_HIGH || LEFT_HIGH) {
 		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT]) {
-			distanceSensor[DISTANCE_FRONT] = distance;
+			//distanceSensor[DISTANCE_FRONT] = distance;
 			done[DISTANCE_FRONT] = 1;
 		}
 		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT]) {
@@ -68,6 +68,7 @@ void updateDistance() {
 		}
 	}
 	STOP_TIMER;
+	distanceSensor[DISTANCE_FRONT] = 100;	
 }
 
 void initDistance() {
