@@ -19,6 +19,7 @@
 #include "SPI.h"
 #include "distanceSensor.h"
 
-
+void initSensors();
+int main();
 
 #endif /* SENSORENHET_H_ */

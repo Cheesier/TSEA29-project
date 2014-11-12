@@ -41,6 +41,21 @@ void getSensorData() {
 	//free(sensorData);
 }
 
+void getTapeData() {
+	SPDR = 0x86;
+	PORTB &= ~(1<<PORTB4);
+	while(!(SPSR & (1<<SPIF)));
+	PORTB |= (1<<PORTB4);
+	
+	//_delay_us(OVERHEAD_TIME);
+	_delay_us(150);
+	
+	SPDR = 0;
+	PORTB &= ~(1<<PORTB4);
+	while(!(SPSR & (1<<SPIF)));
+	PORTB |= (1<<PORTB4);	
+}
+
 int main(void) {
 	initSPI();
 	
@@ -49,12 +64,16 @@ int main(void) {
 	//GICR |= (1<<6);
 	//sei();
 	while(1) {
+		getTapeData();
+		_delay_ms(100);
+	}
+	/*while(1) {
 		PORTB |= (1<<0);
 		_delay_ms(100);
 		PORTB &= ~(1<<0);
 		_delay_ms(1000);
 		getSensorData();
-	}
+	}*/
 }
 
 ISR(SPISTC_vect) {

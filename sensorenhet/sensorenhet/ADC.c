@@ -17,18 +17,18 @@
 
 
 void initADC() {
-	ADMUX |= (1 << REFS0); // Apply 5V on AVCC
+	ADMUX |= (1 << REFS0) | (1<<ADLAR); // Apply 5V on AVCC, ADLAR to right align, only for testing
 	ADCSRA |= (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1); // ADC Enabled, Prescaler of 64
 }
 
-uint16_t readADC(uint8_t port) {
+uint8_t readADC(uint8_t port) {
 	port &= 0x01; // Makes sure we only read port 1 or 0, the gyro is port 0, the tape sensor is port 1
 	
 	ADMUX = (ADMUX &= 0xF8) | port; // Clears port 0-7, to make sure there is nothing there that shouldn't be there
 	
 	ADCSRA |= (1<<ADSC); // Starts the conversion by setting ADSC to 1
 	WAIT_FOR_CONVERSION; // Waits for the conversion to finish
+	uint8_t data = ADCH;
 	
-	return ADC;
-	
+	return data;	
 }
