@@ -3,25 +3,25 @@ masterDummy.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000dc  00000000  00000000  00000054  2**1
+  0 .text         000000cc  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .comment      00000030  00000000  00000000  00000130  2**0
+  1 .comment      00000030  00000000  00000000  00000120  2**0
                   CONTENTS, READONLY
-  2 .debug_aranges 00000040  00000000  00000000  00000160  2**0
+  2 .debug_aranges 00000038  00000000  00000000  00000150  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_info   00000241  00000000  00000000  000001a0  2**0
+  3 .debug_info   0000025b  00000000  00000000  00000188  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_abbrev 0000013e  00000000  00000000  000003e1  2**0
+  4 .debug_abbrev 0000012d  00000000  00000000  000003e3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_line   000001b1  00000000  00000000  0000051f  2**0
+  5 .debug_line   00000191  00000000  00000000  00000510  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_frame  00000070  00000000  00000000  000006d0  2**2
+  6 .debug_frame  00000054  00000000  00000000  000006a4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    000001bc  00000000  00000000  00000740  2**0
+  7 .debug_str    000001b1  00000000  00000000  000006f8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    00000070  00000000  00000000  000008fc  2**0
+  8 .debug_loc    00000041  00000000  00000000  000008a9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_ranges 00000030  00000000  00000000  0000096c  2**0
+  9 .debug_ranges 00000028  00000000  00000000  000008ea  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -37,7 +37,7 @@ Disassembly of section .text:
   1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  28:	0c 94 60 00 	jmp	0xc0	; 0xc0 <__vector_10>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
   34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
@@ -56,8 +56,8 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 50 00 	call	0xa0	; 0xa0 <main>
-  64:	0c 94 6c 00 	jmp	0xd8	; 0xd8 <_exit>
+  60:	0e 94 54 00 	call	0xa8	; 0xa8 <main>
+  64:	0c 94 64 00 	jmp	0xc8	; 0xc8 <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -97,15 +97,14 @@ void getSensorData() {
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  82:	85 e8       	ldi	r24, 0x85	; 133
-  84:	8a 95       	dec	r24
+  82:	25 e8       	ldi	r18, 0x85	; 133
+  84:	2a 95       	dec	r18
   86:	f1 f7       	brne	.-4      	; 0x84 <getSensorData+0xe>
   88:	00 00       	nop
   8a:	84 e0       	ldi	r24, 0x04	; 4
   8c:	90 e0       	ldi	r25, 0x00	; 0
 	
-	//uint8_t *sensorData;
-	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
+	_delay_us(OVERHEAD_TIME);	
 	
 	for (int i = 0; i < 4; i++) {
 		SPDR = 0;
@@ -117,82 +116,64 @@ void getSensorData() {
   94:	fe cf       	rjmp	.-4      	; 0x92 <getSensorData+0x1c>
 		PORTB |= (1<<PORTB4);
   96:	c4 9a       	sbi	0x18, 4	; 24
-  98:	01 97       	sbiw	r24, 0x01	; 1
-	_delay_us(50);
+  98:	25 e3       	ldi	r18, 0x35	; 53
+  9a:	2a 95       	dec	r18
+  9c:	f1 f7       	brne	.-4      	; 0x9a <getSensorData+0x24>
+  9e:	00 00       	nop
+  a0:	01 97       	sbiw	r24, 0x01	; 1
+	while(!(SPSR & (1<<SPIF)));
+	PORTB |= (1<<PORTB4);
 	
-	//uint8_t *sensorData;
-	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
+	_delay_us(OVERHEAD_TIME);	
 	
 	for (int i = 0; i < 4; i++) {
-  9a:	00 97       	sbiw	r24, 0x00	; 0
-  9c:	c1 f7       	brne	.-16     	; 0x8e <getSensorData+0x18>
+  a2:	00 97       	sbiw	r24, 0x00	; 0
+  a4:	a1 f7       	brne	.-24     	; 0x8e <getSensorData+0x18>
+		PORTB &= ~(1<<PORTB4);
 		while(!(SPSR & (1<<SPIF)));
 		PORTB |= (1<<PORTB4);
+		_delay_us(20);
 	}
-	
-	//free(sensorData);
 }
-  9e:	08 95       	ret
+  a6:	08 95       	ret
 
-000000a0 <main>:
+000000a8 <main>:
 	while(!(SPSR & (1<<SPIF)));
 	PORTB |= (1<<PORTB4);	
 }
 
 int main(void) {
 	initSPI();
-  a0:	0e 94 36 00 	call	0x6c	; 0x6c <initSPI>
+  a8:	0e 94 36 00 	call	0x6c	; 0x6c <initSPI>
 	
 	DDRB |= (1<<0);
-  a4:	b8 9a       	sbi	0x17, 0	; 23
+  ac:	b8 9a       	sbi	0x17, 0	; 23
 	DDRD &= ~(1<<2);
-  a6:	8a 98       	cbi	0x11, 2	; 17
+  ae:	8a 98       	cbi	0x11, 2	; 17
 	//GICR |= (1<<6);
 	//sei();
 	while(1) {
 		getSensorData();
-  a8:	0e 94 3b 00 	call	0x76	; 0x76 <getSensorData>
+  b0:	0e 94 3b 00 	call	0x76	; 0x76 <getSensorData>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  ac:	2f ef       	ldi	r18, 0xFF	; 255
-  ae:	80 e7       	ldi	r24, 0x70	; 112
-  b0:	92 e0       	ldi	r25, 0x02	; 2
-  b2:	21 50       	subi	r18, 0x01	; 1
-  b4:	80 40       	sbci	r24, 0x00	; 0
-  b6:	90 40       	sbci	r25, 0x00	; 0
-  b8:	e1 f7       	brne	.-8      	; 0xb2 <main+0x12>
-  ba:	00 c0       	rjmp	.+0      	; 0xbc <main+0x1c>
-  bc:	00 00       	nop
-  be:	f4 cf       	rjmp	.-24     	; 0xa8 <main+0x8>
+  b4:	2f ef       	ldi	r18, 0xFF	; 255
+  b6:	89 e6       	ldi	r24, 0x69	; 105
+  b8:	98 e1       	ldi	r25, 0x18	; 24
+  ba:	21 50       	subi	r18, 0x01	; 1
+  bc:	80 40       	sbci	r24, 0x00	; 0
+  be:	90 40       	sbci	r25, 0x00	; 0
+  c0:	e1 f7       	brne	.-8      	; 0xba <main+0x12>
+  c2:	00 c0       	rjmp	.+0      	; 0xc4 <main+0x1c>
+  c4:	00 00       	nop
+  c6:	f4 cf       	rjmp	.-24     	; 0xb0 <main+0x8>
 
-000000c0 <__vector_10>:
-		_delay_ms(1000);
-		getSensorData();
-	}*/
-}
+000000c8 <_exit>:
+  c8:	f8 94       	cli
 
-ISR(SPISTC_vect) {
-  c0:	1f 92       	push	r1
-  c2:	0f 92       	push	r0
-  c4:	0f b6       	in	r0, 0x3f	; 63
-  c6:	0f 92       	push	r0
-  c8:	11 24       	eor	r1, r1
-	PORTB |= (1<<PORTB4);
-  ca:	c4 9a       	sbi	0x18, 4	; 24
-	reti(); 
-  cc:	18 95       	reti
-  ce:	0f 90       	pop	r0
-  d0:	0f be       	out	0x3f, r0	; 63
-  d2:	0f 90       	pop	r0
-  d4:	1f 90       	pop	r1
-  d6:	18 95       	reti
-
-000000d8 <_exit>:
-  d8:	f8 94       	cli
-
-000000da <__stop_program>:
-  da:	ff cf       	rjmp	.-2      	; 0xda <__stop_program>
+000000ca <__stop_program>:
+  ca:	ff cf       	rjmp	.-2      	; 0xca <__stop_program>

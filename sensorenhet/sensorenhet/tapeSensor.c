@@ -54,9 +54,14 @@ int convertToBit(int data) {
 	return tape_data;
 }
 
+<<<<<<< HEAD
 // Calibrate the tape sensors to set a threshold to identify whether or not we're on tape
 // This function expect the robot to stand on tape at the beginning
 void calibrateTapeSensor() {
+=======
+// Calibrate the tape sensors to set a threshold to identify wether or not we're on tape
+void calibrateTapeSensor(char tape_pos) {
+>>>>>>> e3ae9b3c9034ba5e8870374f0aed71802c2e0add
 
 	// This version is not autonomic, the robot need to be physically moved for it to work
 	/*setOnTape();
