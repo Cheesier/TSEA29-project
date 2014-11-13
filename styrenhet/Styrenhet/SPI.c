@@ -27,6 +27,7 @@
 
 // Initiates the SPI
 void SPI_Init(void) {
+	int ass;
 	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
 	SPCR = (1<<SPE);				// Enable SPI
 	SPCR |= (1<<SPIE);				// Enable interrupts
