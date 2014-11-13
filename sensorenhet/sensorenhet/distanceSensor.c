@@ -68,7 +68,10 @@ void updateDistance() {
 		}
 	}
 	STOP_TIMER;
-	distanceSensor[DISTANCE_FRONT] = 100;	
+}
+
+uint8_t [SENSOR_COUNT] getDistance() {
+	return distanceSensor;
 }
 
 void initDistance() {

@@ -27,9 +27,9 @@ void SPI_Send(char dataout) {
 }
 
 void sendDistanceSensors(void) {
-	//updateDistance();		
+	uint8_t [SENSOR_COUNT] sensorData = getDistance();		
 	for (int i = 0; i < SENSOR_COUNT; i++) {
-		SPI_Send(distanceSensor[i]);
+		SPI_Send(sensorData[i]);
 	}
 }
 

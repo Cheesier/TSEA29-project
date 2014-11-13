@@ -28,17 +28,12 @@ void getSensorData() {
 	
 	_delay_us(OVERHEAD_TIME);	
 	
-	//uint8_t *sensorData;
-	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
-	
 	for (int i = 0; i < 4; i++) {
 		SPDR = 0;
 		PORTB &= ~(1<<PORTB4);
 		while(!(SPSR & (1<<SPIF)));
 		PORTB |= (1<<PORTB4);
 	}
-	
-	//free(sensorData);
 }
 
 void getTapeData() {
