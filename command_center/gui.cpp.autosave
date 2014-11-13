@@ -180,7 +180,7 @@ void Gui::onSensorInput(string sensorData){
 }
 
 void Gui::onTapeInput(string tapeData){
-  ui->label_tape_11->setText(QString::number(((int)(tapeData[1]) & 1)/1));
+  ui->label_tape_11->setText(QString::number(((int)(tapeData[1]) & 1)/1)); //get first bit in second byte
   ui->label_tape_10->setText(QString::number(((int)(tapeData[1]) & 2)/2));
   ui->label_tape_9->setText(QString::number(((int)(tapeData[1]) & 4)/4));
   ui->label_tape_8->setText(QString::number(((int)(tapeData[1]) & 8)/8));
