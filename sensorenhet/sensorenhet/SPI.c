@@ -3,7 +3,7 @@
  *
  * Created: 2014-11-11 10:20:26
  *  Author: microo
- */ 
+ */
 
 #include "SPI.h"
 #include "distanceSensor.h"
@@ -27,14 +27,18 @@ void SPI_Send(char dataout) {
 }
 
 void sendDistanceSensors(void) {
-	//updateDistance();		
+	//updateDistance();
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		SPI_Send(distanceSensor[i]);
 	}
 }
 
-void sendTapeSensors() {	
-	SPI_Send(getTapeData());			
+void sendTapeSensors() {
+	SPI_Send(getTapeData());
+}
+
+void sendGyro() {
+	SPI_Send(returnDegreesRotated());
 }
 
 ISR(SPISTC_vect) {
@@ -43,27 +47,28 @@ ISR(SPISTC_vect) {
 	char header = msg >> 6;
 	char size;
 	msg = msg & 0x3F;
-	interrupted = 1;				//Maybe useful when updating distance 
+	interrupted = 1;					// Maybe useful when updating distance
 	if(header == 0x02) {
 		switch (msg) {
-			case 0x01:				//reset gyro_angle
-				gyro_angle = 0;
+			case 0x01:					// Reset gyro_angle
+				resetDegreesRotated();
 				break;
-			case 0x02:				//how much gyro rotate
+			case 0x02:					// How much gyro rotate and who was dog
+				sendGyro();
 				break;
-			case 0x03:				//on tape value
-				//tape_black = vals;
+			case 0x03:					// Set on tape value
+				setOnTape();
 				break;
-			case 0x04:				//off tape value
-				//tape_floor = vals;
+			case 0x04:					// Set off tape value
+				setOffTape();
 				break;
-			case 0x05:				//send distance data
+			case 0x05:					// Send distance data
 				sendDistanceSensors();
 				break;
-			case 0x06:				//send tape data
+			case 0x06:					// Send tape data
 				sendTapeSensors();
 				break;
-			case 0x07:				//gyro msg
+			case 0x07:					// Gyro msg
 				break;
 			default:
 				break;

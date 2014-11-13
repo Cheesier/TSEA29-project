@@ -50,31 +50,41 @@ int convertToBit(int data) {
 }
 
 // Return tape data, used when the sensorenhet send tape data to the huvudenhet
-void returnTapeData(uint16_t tape_data) {
+ uint16_t returnTapeData(uint16_t tape_data) {
 	return tape_data;
 }
 
-// Calibrate the tape sensors to set
-void calibrateTapeSensor(char tape_pos) {
+// Calibrate the tape sensors to set a threshold to identify whether or not we're on tape
+// This function expect the robot to stand on tape at the beginning
+void calibrateTapeSensor() {
 
 	// This version is not autonomic, the robot need to be physically moved for it to work
-	uint16_t tape_data = getTapeData();				// Get data from the sensors
-	on_tape = tape_data;
+	/*setOnTape();
 	_delay_ms(10000);								// Wait 10 seconds for the robot to be moved
-	tape_data = getTapeData();						// Get data from the sensors
-	off_tape = tape_data;
+	setOffTape();*/
 	tape_threshold = ((on_tape + off_tape) >> 1);	// Setting the tape threshold to the average of the
 													// tape data on and off the tape
 
-	// TODO: A smarter version of the calibration, asks the huvudenhet to reverse the robot before it measures the second time
+	// TODO (maybe): A smarter version of the calibration, asks the huvudenhet to reverse the robot before it measures the second time
 /*
-	uint16_t tape_data = getTapeData();
+	uint8_t tape_data = getTapeData();
 	on_tape = tape_data;
 	// Move the robot
-	uint16_t tape_data = getTapeData();
+	uint8_t tape_data = getTapeData();
 	off_tape = tape_data;
 	tape_threshold = ((on_tape + off_tape) >> 1);	// Setting the tape threshold to the average of the
 													// tape data on and off the tape
 */
 }
 
+// Set on tape value for the tape sensor
+void setOnTape() {
+	uint8_t tape_data = getTapeData();				// Get data from the sensors
+	on_tape = tape_data;
+}
+
+// Set off tape value for the tape sensor
+void setOffTape() {
+	uint8_t tape_data = getTapeData();						// Get data from the sensors
+	off_tape = tape_data;
+}

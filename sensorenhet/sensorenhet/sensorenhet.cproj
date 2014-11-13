@@ -142,6 +142,12 @@
     <Compile Include="distanceSensor.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="gyro.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="gyro.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="sensorenhet.c">
       <SubType>compile</SubType>
     </Compile>

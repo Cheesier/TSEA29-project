@@ -3,7 +3,7 @@
  *
  * Created: 2014-11-11 10:22:18
  *  Author: microo
- */ 
+ */
 
 #ifndef SPI_H_
 #define SPI_H_

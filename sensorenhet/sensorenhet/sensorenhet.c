@@ -34,8 +34,13 @@ static int tape_floor = 0;
 void initSensors() {
 	// Initiate the mux for the tape sensors
 	DDRB |= 0x0F;
-	initDistance();
+	
+	// Initiate the Analog to Digital Converter
 	initADC();
+
+	// Initiate the different sensors
+	initDistance();
+	initGyro();
 }
 
 int main(void) {

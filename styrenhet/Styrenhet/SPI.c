@@ -27,7 +27,6 @@
 
 // Initiates the SPI
 void SPI_Init(void) {
-	int ass;
 	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
 	SPCR = (1<<SPE);				// Enable SPI
 	SPCR |= (1<<SPIE);				// Enable interrupts
@@ -111,13 +110,8 @@ void receiveMessage() {
 			case 0x0C:	// Open the claw
 				releaseClaw();
 				break;
-<<<<<<< HEAD
 			case 0x0D: // Stop the robot
-				wheelSpeeds(0, 0);
-=======
-			case 0x0D: //STOP
 				stopWheels();
->>>>>>> 4f28097f1329ab60515980c9d0e160f8f2b7f93d
 				break;
 			default:	// Fetch the message anyway
 				for(int i = 0; i < size; i++) {
