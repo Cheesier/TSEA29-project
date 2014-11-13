@@ -54,7 +54,7 @@ void returnTapeData(uint16_t tape_data) {
 	return tape_data;
 }
 
-// Calibrate the tape sensors to set
+// Calibrate the tape sensors to set a threshold to identify wether or not we're on tape
 void calibrateTapeSensor(char tape_pos) {
 
 	// This version is not autonomic, the robot need to be physically moved for it to work
