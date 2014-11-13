@@ -6,7 +6,7 @@
  */
  
 #define F_CPU 8000000UL
-#define OVERHEAD_TIME 15
+#define OVERHEAD_TIME 50
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -28,17 +28,13 @@ void getSensorData() {
 	
 	_delay_us(OVERHEAD_TIME);	
 	
-	//uint8_t *sensorData;
-	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
-	
 	for (int i = 0; i < 4; i++) {
 		SPDR = 0;
 		PORTB &= ~(1<<PORTB4);
 		while(!(SPSR & (1<<SPIF)));
 		PORTB |= (1<<PORTB4);
+		_delay_us(20);
 	}
-	
-	//free(sensorData);
 }
 
 void getTapeData() {
@@ -65,7 +61,7 @@ int main(void) {
 	//sei();
 	while(1) {
 		getSensorData();
-		_delay_ms(100);
+		_delay_ms(1000);
 	}
 	/*while(1) {
 		PORTB |= (1<<0);
@@ -74,9 +70,4 @@ int main(void) {
 		_delay_ms(1000);
 		getSensorData();
 	}*/
-}
-
-ISR(SPISTC_vect) {
-	PORTB |= (1<<PORTB4);
-	reti(); 
 }

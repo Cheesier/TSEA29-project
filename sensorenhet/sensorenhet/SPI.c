@@ -27,9 +27,10 @@ void SPI_Send(char dataout) {
 }
 
 void sendDistanceSensors(void) {
-	//updateDistance();		
+	uint8_t *sensorData;
+	sensorData = getDistance();		
 	for (int i = 0; i < SENSOR_COUNT; i++) {
-		SPI_Send(distanceSensor[i]);
+		SPI_Send(sensorData[i]);
 	}
 }
 
@@ -38,7 +39,7 @@ void sendTapeSensors() {
 }
 
 ISR(SPISTC_vect) {
-	cli();
+	//cli();
 	char msg = SPDR;
 	char header = msg >> 6;
 	char size;
