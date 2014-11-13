@@ -10,7 +10,7 @@
 #define ADC_H_
 
 void initADC();
-uint16_t readADC(uint8_t port);
+uint8_t readADC(uint8_t port);
 
 
 

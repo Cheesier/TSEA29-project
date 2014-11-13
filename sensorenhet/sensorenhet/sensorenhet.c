@@ -35,6 +35,7 @@ void initSensors() {
 	// Initiate the mux for the tape sensors
 	DDRB |= 0x0F;
 	initDistance();
+	initADC();
 }
 
 int main(void) {
@@ -44,5 +45,7 @@ int main(void) {
 	while(1) {
 		_delay_ms(1000);
 		updateDistance();
+		//readADC(0);
+		
 	}
 }

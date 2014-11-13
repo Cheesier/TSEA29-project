@@ -9,7 +9,7 @@
 #ifndef TAPESENSOR_H_
 #define TAPESENSOR_H_
 
-uint16_t getTapeData();
+uint8_t getTapeData();
 int convertToBit(int data);
 void sendTapeData(uint16_t tape_data);
 

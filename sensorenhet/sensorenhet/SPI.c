@@ -11,7 +11,7 @@
 // Initiates the SPI
 void SPI_Init(void) {
 	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
-	SPCR = (1<<SPIE)|(1<<SPE);				// Enable SPI Enable interrupts
+	SPCR = (1<<SPIE)|(1<<SPE);		// Enable SPI Enable interrupts
 }
 
 // Receive over SPI
@@ -27,9 +27,14 @@ void SPI_Send(char dataout) {
 }
 
 void sendDistanceSensors(void) {
+	//updateDistance();		
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		SPI_Send(distanceSensor[i]);
 	}
+}
+
+void sendTapeSensors() {	
+	SPI_Send(getTapeData());			
 }
 
 ISR(SPISTC_vect) {
@@ -38,29 +43,30 @@ ISR(SPISTC_vect) {
 	char header = msg >> 6;
 	char size;
 	msg = msg & 0x3F;
-	interrupted = 1;				//Maybe usefull when updating distance 
+	interrupted = 1;				//Maybe useful when updating distance 
 	if(header == 0x02) {
 		switch (msg) {
 			case 0x01:				//reset gyro_angle
-			gyro_angle = 0;
-			break;
+				gyro_angle = 0;
+				break;
 			case 0x02:				//how much gyro rotate
-			break;
+				break;
 			case 0x03:				//on tape value
-			//tape_black = vals;
-			break;
+				//tape_black = vals;
+				break;
 			case 0x04:				//off tape value
-			//tape_floor = vals;
-			break;
+				//tape_floor = vals;
+				break;
 			case 0x05:				//send distance data
-			sendDistanceSensors();
-			break;
+				sendDistanceSensors();
+				break;
 			case 0x06:				//send tape data
-			break;
+				sendTapeSensors();
+				break;
 			case 0x07:				//gyro msg
-			break;
+				break;
 			default:
-			break;
+				break;
 		}
 	}
 	sei();
