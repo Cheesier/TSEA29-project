@@ -40,12 +40,19 @@ void initSensors() {
 
 int main(void) {
 	initSensors();
-	SPI_Init();
-	sei();
-	while(1) {
-		_delay_ms(1000);
-		updateDistance();
+	SPI_Init();	
+	cli();	
+	while(1) {		
+		receiveMessage();
+		/*PORTB |= (1<<0);
+		_delay_ms(500);
+		PORTB &= ~(1<<0);
+		_delay_ms(500);
+		*/
+		//_delay_ms(1000);
+		//updateDistance();
 		//readADC(0);
 		
 	}
+	return 0;
 }

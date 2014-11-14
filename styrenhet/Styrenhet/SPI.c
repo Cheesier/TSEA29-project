@@ -35,15 +35,18 @@ void SPI_Init(void) {
 
 // Receive from SPI
 char SPI_Receive(void) {
-	WAIT_FOR_TRANSFER;				// Wait for reception to complete	
-	return SPDR;					// Return Data Register
+	return SPI_Transceive(0x00);
 }
 
 // Send over SPI
 void SPI_Send(char dataout) {
-	SPDR = dataout;					// Put package in Data Register
-	WAIT_FOR_TRANSFER;				// Wait for transition to complete
-	return;
+	SPI_Transceive(dataout);
+}
+
+void SPI_Transceive(char dataout) {
+	SPDR = dataout;
+	WAIT_FOR_TRANSFER;
+	return SPDR;
 }
 
 // Receive a message from our main CPU

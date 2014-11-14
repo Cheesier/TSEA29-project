@@ -50,21 +50,26 @@ void getTapeData() {
 	//_delay_us(OVERHEAD_TIME);
 	_delay_us(150);
 	
-	SPDR = 0;
-	PORTB &= ~(1<<PORTB4);
-	while(!(SPSR & (1<<SPIF)));
-	PORTB |= (1<<PORTB4);	
+	for(int i = 0; i < 2; i++) {
+		SPDR = 0;
+		PORTB &= ~(1<<PORTB4);
+		while(!(SPSR & (1<<SPIF)));
+		PORTB |= (1<<PORTB4);
+	}
+	
+	
+	
 }
 
 int main(void) {
 	initSPI();
 	
-	DDRB |= (1<<0);
-	DDRD &= ~(1<<2);
+	//DDRB |= (1<<0);
+	//DDRD &= ~(1<<2);
 	//GICR |= (1<<6);
 	//sei();
 	while(1) {
-		getSensorData();
+		getTapeData();
 		_delay_ms(100);
 	}
 	/*while(1) {

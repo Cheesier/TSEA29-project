@@ -9,19 +9,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   2 .debug_aranges 00000040  00000000  00000000  00000160  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_info   00000241  00000000  00000000  000001a0  2**0
+  3 .debug_info   0000025b  00000000  00000000  000001a0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_abbrev 0000013e  00000000  00000000  000003e1  2**0
+  4 .debug_abbrev 00000138  00000000  00000000  000003fb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_line   000001b1  00000000  00000000  0000051f  2**0
+  5 .debug_line   000001b3  00000000  00000000  00000533  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_frame  00000070  00000000  00000000  000006d0  2**2
+  6 .debug_frame  00000070  00000000  00000000  000006e8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    000001bc  00000000  00000000  00000740  2**0
+  7 .debug_str    000001bc  00000000  00000000  00000758  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    00000070  00000000  00000000  000008fc  2**0
+  8 .debug_loc    0000009c  00000000  00000000  00000914  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_ranges 00000030  00000000  00000000  0000096c  2**0
+  9 .debug_ranges 00000030  00000000  00000000  000009b0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -56,7 +56,7 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 50 00 	call	0xa0	; 0xa0 <main>
+  60:	0e 94 52 00 	call	0xa4	; 0xa4 <main>
   64:	0c 94 6c 00 	jmp	0xd8	; 0xd8 <_exit>
 
 00000068 <__bad_interrupt>:
@@ -77,18 +77,20 @@ void initSPI() {
   72:	8d b9       	out	0x0d, r24	; 13
   74:	08 95       	ret
 
-00000076 <getSensorData>:
+00000076 <getTapeData>:
+	
+	//free(sensorData);
 }
 
-void getSensorData() {
-	SPDR = 0x85;
-  76:	85 e8       	ldi	r24, 0x85	; 133
+void getTapeData() {
+	SPDR = 0x86;
+  76:	86 e8       	ldi	r24, 0x86	; 134
   78:	8f b9       	out	0x0f, r24	; 15
 	PORTB &= ~(1<<PORTB4);
   7a:	c4 98       	cbi	0x18, 4	; 24
 	while(!(SPSR & (1<<SPIF)));
   7c:	77 9b       	sbis	0x0e, 7	; 14
-  7e:	fe cf       	rjmp	.-4      	; 0x7c <getSensorData+0x6>
+  7e:	fe cf       	rjmp	.-4      	; 0x7c <getTapeData+0x6>
 	PORTB |= (1<<PORTB4);
   80:	c4 9a       	sbi	0x18, 4	; 24
 	#else
@@ -97,61 +99,57 @@ void getSensorData() {
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  82:	85 e8       	ldi	r24, 0x85	; 133
-  84:	8a 95       	dec	r24
-  86:	f1 f7       	brne	.-4      	; 0x84 <getSensorData+0xe>
-  88:	00 00       	nop
-  8a:	84 e0       	ldi	r24, 0x04	; 4
-  8c:	90 e0       	ldi	r25, 0x00	; 0
+  82:	8b e2       	ldi	r24, 0x2B	; 43
+  84:	91 e0       	ldi	r25, 0x01	; 1
+  86:	01 97       	sbiw	r24, 0x01	; 1
+  88:	f1 f7       	brne	.-4      	; 0x86 <getTapeData+0x10>
+  8a:	00 c0       	rjmp	.+0      	; 0x8c <getTapeData+0x16>
+  8c:	00 00       	nop
 	
-	//uint8_t *sensorData;
-	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
+	//_delay_us(OVERHEAD_TIME);
+	_delay_us(150);
 	
-	for (int i = 0; i < 4; i++) {
+	for(int i = 0; i < 2; i++) {
 		SPDR = 0;
   8e:	1f b8       	out	0x0f, r1	; 15
 		PORTB &= ~(1<<PORTB4);
   90:	c4 98       	cbi	0x18, 4	; 24
 		while(!(SPSR & (1<<SPIF)));
   92:	77 9b       	sbis	0x0e, 7	; 14
-  94:	fe cf       	rjmp	.-4      	; 0x92 <getSensorData+0x1c>
+  94:	fe cf       	rjmp	.-4      	; 0x92 <getTapeData+0x1c>
 		PORTB |= (1<<PORTB4);
   96:	c4 9a       	sbi	0x18, 4	; 24
-  98:	01 97       	sbiw	r24, 0x01	; 1
-	_delay_us(50);
 	
-	//uint8_t *sensorData;
-	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
+	//_delay_us(OVERHEAD_TIME);
+	_delay_us(150);
 	
-	for (int i = 0; i < 4; i++) {
-  9a:	00 97       	sbiw	r24, 0x00	; 0
-  9c:	c1 f7       	brne	.-16     	; 0x8e <getSensorData+0x18>
+	for(int i = 0; i < 2; i++) {
+		SPDR = 0;
+  98:	1f b8       	out	0x0f, r1	; 15
+		PORTB &= ~(1<<PORTB4);
+  9a:	c4 98       	cbi	0x18, 4	; 24
 		while(!(SPSR & (1<<SPIF)));
+  9c:	77 9b       	sbis	0x0e, 7	; 14
+  9e:	fe cf       	rjmp	.-4      	; 0x9c <getTapeData+0x26>
 		PORTB |= (1<<PORTB4);
-	}
-	
-	//free(sensorData);
-}
-  9e:	08 95       	ret
+  a0:	c4 9a       	sbi	0x18, 4	; 24
+  a2:	08 95       	ret
 
-000000a0 <main>:
-	while(!(SPSR & (1<<SPIF)));
-	PORTB |= (1<<PORTB4);	
+000000a4 <main>:
+	
+	
 }
 
 int main(void) {
 	initSPI();
-  a0:	0e 94 36 00 	call	0x6c	; 0x6c <initSPI>
-	
-	DDRB |= (1<<0);
-  a4:	b8 9a       	sbi	0x17, 0	; 23
-	DDRD &= ~(1<<2);
-  a6:	8a 98       	cbi	0x11, 2	; 17
+  a4:	0e 94 36 00 	call	0x6c	; 0x6c <initSPI>
+	//DDRB |= (1<<0);
+	//DDRD &= ~(1<<2);
 	//GICR |= (1<<6);
 	//sei();
 	while(1) {
-		getSensorData();
-  a8:	0e 94 3b 00 	call	0x76	; 0x76 <getSensorData>
+		getTapeData();
+  a8:	0e 94 3b 00 	call	0x76	; 0x76 <getTapeData>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -164,10 +162,10 @@ int main(void) {
   b2:	21 50       	subi	r18, 0x01	; 1
   b4:	80 40       	sbci	r24, 0x00	; 0
   b6:	90 40       	sbci	r25, 0x00	; 0
-  b8:	e1 f7       	brne	.-8      	; 0xb2 <main+0x12>
-  ba:	00 c0       	rjmp	.+0      	; 0xbc <main+0x1c>
+  b8:	e1 f7       	brne	.-8      	; 0xb2 <main+0xe>
+  ba:	00 c0       	rjmp	.+0      	; 0xbc <main+0x18>
   bc:	00 00       	nop
-  be:	f4 cf       	rjmp	.-24     	; 0xa8 <main+0x8>
+  be:	f4 cf       	rjmp	.-24     	; 0xa8 <main+0x4>
 
 000000c0 <__vector_10>:
 		_delay_ms(1000);
