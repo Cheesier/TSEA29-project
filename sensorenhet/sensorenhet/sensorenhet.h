@@ -3,7 +3,7 @@
  *
  * Created: 11/11/2014 2:26:38 PM
  *  Author: jonny928
- */ 
+ */
 
 
 #ifndef SENSORENHET_H_
@@ -16,6 +16,7 @@
 #include <util/delay.h>
 #include "ADC.h"
 #include "tapeSensor.h"
+#include "gyro.h"
 #include "SPI.h"
 #include "distanceSensor.h"
 

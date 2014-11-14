@@ -3,7 +3,7 @@
  *
  * Created: 2014-11-06 14:06:54
  *  Author: Jonathan
- */ 
+ */
 
 #include "sensorenhet.h"
 
@@ -19,11 +19,11 @@
 #define MUX_SELECT2 PORTB1
 #define MUX_SELECT3 PORTB2
 #define MUX_SELECT4 PORTB3
-/*Clockcrystal*/
+/*Clock crystal*/
 
 /*REQ signal*/
 #define REQ PORTD0
-/* Tapesensor */
+/* Tape sensor */
 #define TAPE_SENS PORTA0
 /* Gyro */
 #define GYRO PORTA1
@@ -31,28 +31,27 @@
 static int tape_black = 0;
 static int tape_floor = 0;
 
-void initSensors() {	
+void initSensors() {
 	// Initiate the mux for the tape sensors
 	DDRB |= 0x0F;
-	initDistance();
+	
+	// Initiate the Analog to Digital Converter
 	initADC();
+
+	// Initiate the different sensors
+	initDistance();
+	initGyro();
 }
 
 int main(void) {
 	initSensors();
-	SPI_Init();	
-	cli();	
-	while(1) {		
-		receiveMessage();
-		/*PORTB |= (1<<0);
-		_delay_ms(500);
-		PORTB &= ~(1<<0);
-		_delay_ms(500);
-		*/
-		//_delay_ms(1000);
-		//updateDistance();
+	SPI_Init();
+	sei();
+	while(1) {
+		_delay_ms(60);
+		updateDistance();
 		//readADC(0);
-		
+
 	}
 	return 0;
 }

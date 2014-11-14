@@ -26,6 +26,7 @@ public:
   ~Gui();
 
   void onSensorInput(string sensorData);
+  void onTapeInput(string tapeData);
 
   // --------- SIGNALS ------------
 signals:
