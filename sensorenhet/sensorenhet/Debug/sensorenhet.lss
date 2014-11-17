@@ -3,6 +3,29 @@ sensorenhet.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
+<<<<<<< HEAD
+  0 .text         00000274  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          0000000a  00800060  00800060  000002e8  2**0
+                  ALLOC
+  2 .comment      00000030  00000000  00000000  000002e8  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 00000110  00000000  00000000  00000318  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   000009ae  00000000  00000000  00000428  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 000005ae  00000000  00000000  00000dd6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000005e5  00000000  00000000  00001384  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000204  00000000  00000000  0000196c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    0000034e  00000000  00000000  00001b70  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    00000428  00000000  00000000  00001ebe  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 000000c0  00000000  00000000  000022e6  2**0
+=======
   0 .text         0000035e  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   1 .bss          0000000c  00800060  00800060  000003d2  2**0
@@ -24,12 +47,35 @@ Idx Name          Size      VMA       LMA       File off  Algn
   9 .debug_loc    000003b0  00000000  00000000  000020c6  2**0
                   CONTENTS, READONLY, DEBUGGING
  10 .debug_ranges 000000c0  00000000  00000000  00002476  2**0
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+<<<<<<< HEAD
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 64 00 	jmp	0xc8	; 0xc8 <__vector_3>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 ea 00 	jmp	0x1d4	; 0x1d4 <__vector_10>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+=======
    4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
    8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
    c:	0c 94 05 01 	jmp	0x20a	; 0x20a <__vector_3>
@@ -50,6 +96,7 @@ Disassembly of section .text:
   48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 
 00000054 <__ctors_end>:
   54:	11 24       	eor	r1, r1
@@ -63,6 +110,24 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
+<<<<<<< HEAD
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	aa 36       	cpi	r26, 0x6A	; 106
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 83 00 	call	0x106	; 0x106 <main>
+  74:	0c 94 38 01 	jmp	0x270	; 0x270 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <initADC>:
+=======
   66:	ee e5       	ldi	r30, 0x5E	; 94
   68:	f3 e0       	ldi	r31, 0x03	; 3
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
@@ -92,6 +157,7 @@ Disassembly of section .text:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <initADC>:
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 
 #define WAIT_FOR_CONVERSION while(ADCSRA & (1<<ADSC)); // The function to wait for the conversion to finish
 
@@ -140,6 +206,79 @@ uint8_t readADC(uint8_t port) {
 	return data;	
   b4:	08 95       	ret
 
+<<<<<<< HEAD
+000000a0 <initDistance>:
+		}
+		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT]) {
+			distanceSensor[DISTANCE_RIGHT] = distance;
+			done[DISTANCE_RIGHT] = 1;
+		}
+		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_BACK]) {
+  a0:	82 e0       	ldi	r24, 0x02	; 2
+			distanceSensor[DISTANCE_BACK] = distance;
+			done[DISTANCE_BACK] = 1;
+		}
+		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT]) {
+  a2:	81 bb       	out	0x11, r24	; 17
+  a4:	91 98       	cbi	0x12, 1	; 18
+  a6:	10 92 60 00 	sts	0x0060, r1
+			done[DISTANCE_LEFT] = 1;
+		}
+	}
+	STOP_TIMER;
+	distanceSensor[DISTANCE_FRONT] = 100;	
+}
+  aa:	10 92 61 00 	sts	0x0061, r1
+	DDRD = (1<<TRIGGER)|(0<<ECHO_FRONT) | (0<<ECHO_RIGHT) | (0<<ECHO_BACK) | (0<<ECHO_LEFT);
+	
+	SENSOR_OUTPUT &= ~(1<<TRIGGER);
+	
+	for(int i = 0; i < SENSOR_COUNT; i++) {
+		distanceSensor[i] = 0;
+  ae:	10 92 62 00 	sts	0x0062, r1
+  b2:	10 92 63 00 	sts	0x0063, r1
+	}
+	
+	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode
+  b6:	85 b5       	in	r24, 0x25	; 37
+  b8:	88 60       	ori	r24, 0x08	; 8
+  ba:	85 bd       	out	0x25, r24	; 37
+	TIMSK |= (1 << OCIE2);				// Enable Timer2 Output Compare Interrupt
+  bc:	89 b7       	in	r24, 0x39	; 57
+  be:	80 68       	ori	r24, 0x80	; 128
+  c0:	89 bf       	out	0x39, r24	; 57
+	OCR2 = 58;							// Compare count
+  c2:	8a e3       	ldi	r24, 0x3A	; 58
+  c4:	83 bd       	out	0x23, r24	; 35
+  c6:	08 95       	ret
+
+000000c8 <__vector_3>:
+}
+
+ISR(TIMER2_COMP_vect) {
+  c8:	1f 92       	push	r1
+  ca:	0f 92       	push	r0
+  cc:	0f b6       	in	r0, 0x3f	; 63
+  ce:	0f 92       	push	r0
+  d0:	11 24       	eor	r1, r1
+  d2:	8f 93       	push	r24
+  d4:	9f 93       	push	r25
+	distance = distance + 1;		//add timer count;
+  d6:	80 91 64 00 	lds	r24, 0x0064
+  da:	90 91 65 00 	lds	r25, 0x0065
+  de:	01 96       	adiw	r24, 0x01	; 1
+  e0:	90 93 65 00 	sts	0x0065, r25
+  e4:	80 93 64 00 	sts	0x0064, r24
+  e8:	9f 91       	pop	r25
+  ea:	8f 91       	pop	r24
+  ec:	0f 90       	pop	r0
+  ee:	0f be       	out	0x3f, r0	; 63
+  f0:	0f 90       	pop	r0
+  f2:	1f 90       	pop	r1
+  f4:	18 95       	reti
+
+000000f6 <initSensors>:
+=======
 000000b6 <updateDistance>:
 	return distance;
 }
@@ -447,12 +586,25 @@ ISR(TIMER2_COMP_vect) {
  242:	18 95       	reti
 
 00000244 <initSensors>:
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 static int tape_black = 0;
 static int tape_floor = 0;
 
 void initSensors() {
 	// Initiate the mux for the tape sensors
 	DDRB |= 0x0F;
+<<<<<<< HEAD
+  f6:	87 b3       	in	r24, 0x17	; 23
+  f8:	8f 60       	ori	r24, 0x0F	; 15
+  fa:	87 bb       	out	0x17, r24	; 23
+	initDistance();
+  fc:	0e 94 50 00 	call	0xa0	; 0xa0 <initDistance>
+	initADC();
+ 100:	0e 94 3e 00 	call	0x7c	; 0x7c <initADC>
+ 104:	08 95       	ret
+
+00000106 <main>:
+=======
  244:	87 b3       	in	r24, 0x17	; 23
  246:	8f 60       	ori	r24, 0x0F	; 15
  248:	87 bb       	out	0x17, r24	; 23
@@ -463,10 +615,24 @@ void initSensors() {
  252:	08 95       	ret
 
 00000254 <main>:
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 }
 
 int main(void) {
 	initSensors();
+<<<<<<< HEAD
+ 106:	0e 94 7b 00 	call	0xf6	; 0xf6 <initSensors>
+	SPI_Init();	
+ 10a:	0e 94 8b 00 	call	0x116	; 0x116 <SPI_Init>
+	cli();	
+ 10e:	f8 94       	cli
+	while(1) {		
+		receiveMessage();
+ 110:	0e 94 b3 00 	call	0x166	; 0x166 <receiveMessage>
+ 114:	fd cf       	rjmp	.-6      	; 0x110 <main+0xa>
+
+00000116 <SPI_Init>:
+=======
  254:	0e 94 22 01 	call	0x244	; 0x244 <initSensors>
 	SPI_Init();
  258:	0e 94 3b 01 	call	0x276	; 0x276 <SPI_Init>
@@ -494,11 +660,39 @@ int main(void) {
  274:	f4 cf       	rjmp	.-24     	; 0x25e <main+0xa>
 
 00000276 <SPI_Init>:
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 #include "SPI.h"
 #include "distanceSensor.h"
 
 // Initiates the SPI
 void SPI_Init(void) {
+<<<<<<< HEAD
+	DDR_SPI |= (1<<SPI_MISO);		// Set MISO output
+ 116:	be 9a       	sbi	0x17, 6	; 23
+	SPCR = (0<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
+ 118:	81 e4       	ldi	r24, 0x41	; 65
+ 11a:	8d b9       	out	0x0d, r24	; 13
+ 11c:	08 95       	ret
+
+0000011e <SPI_Transceive>:
+void SPI_Send(char dataout) {
+	SPI_Transceive(dataout);
+}
+
+char SPI_Transceive(char dataout) {
+	SPDR = dataout;
+ 11e:	8f b9       	out	0x0f, r24	; 15
+	WAIT_FOR_TRANSFER;
+ 120:	77 9b       	sbis	0x0e, 7	; 14
+ 122:	fe cf       	rjmp	.-4      	; 0x120 <SPI_Transceive+0x2>
+	return SPDR;	
+ 124:	8f b1       	in	r24, 0x0f	; 15
+}
+ 126:	08 95       	ret
+
+00000128 <SPI_Receive>:
+	SPCR = (0<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
+=======
 	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
  276:	80 e4       	ldi	r24, 0x40	; 64
  278:	87 bb       	out	0x17, r24	; 23
@@ -509,10 +703,47 @@ void SPI_Init(void) {
 
 00000280 <SPI_Send>:
 	return SPDR;					// Return Data Register
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 }
+
+// Receive over SPI
+char SPI_Receive(void) {				
+	return SPI_Transceive(0x00);
+ 128:	80 e0       	ldi	r24, 0x00	; 0
+ 12a:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+}
+ 12e:	08 95       	ret
+
+00000130 <sendDistanceSensors>:
 
 // Send over SPI
 void SPI_Send(char dataout) {
+<<<<<<< HEAD
+	SPI_Transceive(dataout);
+ 130:	80 e0       	ldi	r24, 0x00	; 0
+ 132:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 136:	80 e0       	ldi	r24, 0x00	; 0
+ 138:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 13c:	80 e0       	ldi	r24, 0x00	; 0
+ 13e:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 142:	80 e0       	ldi	r24, 0x00	; 0
+ 144:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 148:	08 95       	ret
+
+0000014a <sendTapeSensors>:
+ 14a:	83 e0       	ldi	r24, 0x03	; 3
+ 14c:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 150:	82 e0       	ldi	r24, 0x02	; 2
+ 152:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+}
+
+void sendTapeSensors() {
+	SPI_Send(0x03);	
+	SPI_Send(0x02);
+	SPI_Send(getTapeData());
+ 156:	0e 94 2d 01 	call	0x25a	; 0x25a <getTapeData>
+	return SPI_Transceive(0x00);
+=======
 	SPDR = dataout;					// Put package in Data Register
  280:	8f b9       	out	0x0f, r24	; 15
 	WAIT_FOR_TRANSFER;				// Wait for transition to complete
@@ -552,6 +783,7 @@ void sendDistanceSensors(void) {
  2aa:	b9 f7       	brne	.-18     	; 0x29a <sendDistanceSensors+0x12>
 		SPI_Send(sensorData[i]);
 	}
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 }
  2ac:	df 91       	pop	r29
  2ae:	cf 91       	pop	r28
@@ -561,6 +793,37 @@ void sendDistanceSensors(void) {
 
 000002b6 <sendTapeSensors>:
 
+<<<<<<< HEAD
+// Send over SPI
+void SPI_Send(char dataout) {
+	SPI_Transceive(dataout);
+ 15a:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 15e:	8f ef       	ldi	r24, 0xFF	; 255
+ 160:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 164:	08 95       	ret
+
+00000166 <receiveMessage>:
+	SPI_Send(0x02);
+	SPI_Send(getTapeData());
+	SPI_Send(0xFF);	
+}
+
+void receiveMessage() {
+ 166:	cf 93       	push	r28
+	char msg = SPI_Receive();
+ 168:	0e 94 94 00 	call	0x128	; 0x128 <SPI_Receive>
+ 16c:	c8 2f       	mov	r28, r24
+	char header = (msg >> 6) & 3;
+	char size = SPI_Receive();
+ 16e:	0e 94 94 00 	call	0x128	; 0x128 <SPI_Receive>
+	msg = msg & 0x3F;
+	interrupted = 1;				//Maybe useful when updating distance
+ 172:	21 e0       	ldi	r18, 0x01	; 1
+ 174:	30 e0       	ldi	r19, 0x00	; 0
+ 176:	30 93 69 00 	sts	0x0069, r19
+ 17a:	20 93 68 00 	sts	0x0068, r18
+	SPI_Send(0xFF);	
+=======
 void sendTapeSensors() {	
 	SPI_Send(getTapeData());			
  2b6:	0e 94 a2 01 	call	0x344	; 0x344 <getTapeData>
@@ -568,9 +831,113 @@ void sendTapeSensors() {
  2be:	08 95       	ret
 
 000002c0 <__vector_10>:
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 }
 
+void receiveMessage() {
+	char msg = SPI_Receive();
+	char header = (msg >> 6) & 3;
+ 17e:	8c 2f       	mov	r24, r28
+ 180:	82 95       	swap	r24
+ 182:	86 95       	lsr	r24
+ 184:	86 95       	lsr	r24
+ 186:	83 70       	andi	r24, 0x03	; 3
+	char size = SPI_Receive();
+	msg = msg & 0x3F;
+	interrupted = 1;				//Maybe useful when updating distance
+	if(header == 0x02) {
+ 188:	82 30       	cpi	r24, 0x02	; 2
+ 18a:	11 f5       	brne	.+68     	; 0x1d0 <receiveMessage+0x6a>
+
+void receiveMessage() {
+	char msg = SPI_Receive();
+	char header = (msg >> 6) & 3;
+	char size = SPI_Receive();
+	msg = msg & 0x3F;
+ 18c:	cf 73       	andi	r28, 0x3F	; 63
+	interrupted = 1;				//Maybe useful when updating distance
+	if(header == 0x02) {
+		switch (msg) {
+ 18e:	c5 30       	cpi	r28, 0x05	; 5
+ 190:	28 f4       	brcc	.+10     	; 0x19c <receiveMessage+0x36>
+ 192:	c2 30       	cpi	r28, 0x02	; 2
+ 194:	e8 f4       	brcc	.+58     	; 0x1d0 <receiveMessage+0x6a>
+ 196:	c1 30       	cpi	r28, 0x01	; 1
+ 198:	39 f0       	breq	.+14     	; 0x1a8 <receiveMessage+0x42>
+ 19a:	11 c0       	rjmp	.+34     	; 0x1be <receiveMessage+0x58>
+ 19c:	c6 30       	cpi	r28, 0x06	; 6
+ 19e:	61 f0       	breq	.+24     	; 0x1b8 <receiveMessage+0x52>
+ 1a0:	40 f0       	brcs	.+16     	; 0x1b2 <receiveMessage+0x4c>
+ 1a2:	c7 30       	cpi	r28, 0x07	; 7
+ 1a4:	a9 f0       	breq	.+42     	; 0x1d0 <receiveMessage+0x6a>
+ 1a6:	0b c0       	rjmp	.+22     	; 0x1be <receiveMessage+0x58>
+			case 0x01:				//reset gyro_angle
+				gyro_angle = 0;
+ 1a8:	10 92 67 00 	sts	0x0067, r1
+ 1ac:	10 92 66 00 	sts	0x0066, r1
+				break;
+ 1b0:	0f c0       	rjmp	.+30     	; 0x1d0 <receiveMessage+0x6a>
+				break;
+			case 0x04:				//off tape value
+				//tape_floor = vals;
+				break;
+			case 0x05:				//send distance data
+				sendDistanceSensors();
+ 1b2:	0e 94 98 00 	call	0x130	; 0x130 <sendDistanceSensors>
+				break;
+ 1b6:	0c c0       	rjmp	.+24     	; 0x1d0 <receiveMessage+0x6a>
+			case 0x06:				//send tape data
+				sendTapeSensors();
+ 1b8:	0e 94 a5 00 	call	0x14a	; 0x14a <sendTapeSensors>
+				break;
+ 1bc:	09 c0       	rjmp	.+18     	; 0x1d0 <receiveMessage+0x6a>
+	return SPI_Transceive(0x00);
+}
+
+// Send over SPI
+void SPI_Send(char dataout) {
+	SPI_Transceive(dataout);
+ 1be:	83 e0       	ldi	r24, 0x03	; 3
+ 1c0:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 1c4:	81 e0       	ldi	r24, 0x01	; 1
+ 1c6:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+ 1ca:	8f ef       	ldi	r24, 0xFF	; 255
+ 1cc:	0e 94 8f 00 	call	0x11e	; 0x11e <SPI_Transceive>
+				SPI_Send(0x01);
+				SPI_Send(0xFF);
+				break;
+		}
+	}
+}
+ 1d0:	cf 91       	pop	r28
+ 1d2:	08 95       	ret
+
+000001d4 <__vector_10>:
+
 ISR(SPISTC_vect) {
+<<<<<<< HEAD
+ 1d4:	1f 92       	push	r1
+ 1d6:	0f 92       	push	r0
+ 1d8:	0f b6       	in	r0, 0x3f	; 63
+ 1da:	0f 92       	push	r0
+ 1dc:	11 24       	eor	r1, r1
+ 1de:	2f 93       	push	r18
+ 1e0:	3f 93       	push	r19
+ 1e2:	4f 93       	push	r20
+ 1e4:	5f 93       	push	r21
+ 1e6:	6f 93       	push	r22
+ 1e8:	7f 93       	push	r23
+ 1ea:	8f 93       	push	r24
+ 1ec:	9f 93       	push	r25
+ 1ee:	af 93       	push	r26
+ 1f0:	bf 93       	push	r27
+ 1f2:	ef 93       	push	r30
+ 1f4:	ff 93       	push	r31
+	cli();
+ 1f6:	f8 94       	cli
+	char msg = SPDR;
+ 1f8:	2f b1       	in	r18, 0x0f	; 15
+=======
  2c0:	1f 92       	push	r1
  2c2:	0f 92       	push	r0
  2c4:	0f b6       	in	r0, 0x3f	; 63
@@ -591,20 +958,41 @@ ISR(SPISTC_vect) {
 	//cli();
 	char msg = SPDR;
  2e2:	2f b1       	in	r18, 0x0f	; 15
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 	char header = msg >> 6;
-	char size;
+	char size;// = SPI_Receive();
 	msg = msg & 0x3F;
 	interrupted = 1;				//Maybe useful when updating distance 
+<<<<<<< HEAD
+ 1fa:	81 e0       	ldi	r24, 0x01	; 1
+ 1fc:	90 e0       	ldi	r25, 0x00	; 0
+ 1fe:	90 93 69 00 	sts	0x0069, r25
+ 202:	80 93 68 00 	sts	0x0068, r24
+=======
  2e4:	81 e0       	ldi	r24, 0x01	; 1
  2e6:	90 e0       	ldi	r25, 0x00	; 0
  2e8:	90 93 6b 00 	sts	0x006B, r25
  2ec:	80 93 6a 00 	sts	0x006A, r24
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 }
 
 ISR(SPISTC_vect) {
 	//cli();
 	char msg = SPDR;
 	char header = msg >> 6;
+<<<<<<< HEAD
+ 206:	82 2f       	mov	r24, r18
+ 208:	82 95       	swap	r24
+ 20a:	86 95       	lsr	r24
+ 20c:	86 95       	lsr	r24
+ 20e:	83 70       	andi	r24, 0x03	; 3
+	char size;// = SPI_Receive();
+	msg = msg & 0x3F;
+	interrupted = 1;				//Maybe useful when updating distance 
+	if(header == 0x02) {
+ 210:	82 30       	cpi	r24, 0x02	; 2
+ 212:	89 f4       	brne	.+34     	; 0x236 <__vector_10+0x62>
+=======
  2f0:	82 2f       	mov	r24, r18
  2f2:	82 95       	swap	r24
  2f4:	86 95       	lsr	r24
@@ -616,12 +1004,31 @@ ISR(SPISTC_vect) {
 	if(header == 0x02) {
  2fa:	82 30       	cpi	r24, 0x02	; 2
  2fc:	89 f4       	brne	.+34     	; 0x320 <__vector_10+0x60>
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 ISR(SPISTC_vect) {
 	//cli();
 	char msg = SPDR;
 	char header = msg >> 6;
-	char size;
+	char size;// = SPI_Receive();
 	msg = msg & 0x3F;
+<<<<<<< HEAD
+ 214:	2f 73       	andi	r18, 0x3F	; 63
+	interrupted = 1;				//Maybe useful when updating distance 
+	if(header == 0x02) {
+		switch (msg) {
+ 216:	25 30       	cpi	r18, 0x05	; 5
+ 218:	49 f0       	breq	.+18     	; 0x22c <__vector_10+0x58>
+ 21a:	26 30       	cpi	r18, 0x06	; 6
+ 21c:	51 f0       	breq	.+20     	; 0x232 <__vector_10+0x5e>
+ 21e:	21 30       	cpi	r18, 0x01	; 1
+ 220:	51 f4       	brne	.+20     	; 0x236 <__vector_10+0x62>
+			case 0x01:				//reset gyro_angle
+				gyro_angle = 0;
+ 222:	10 92 67 00 	sts	0x0067, r1
+ 226:	10 92 66 00 	sts	0x0066, r1
+				break;
+ 22a:	05 c0       	rjmp	.+10     	; 0x236 <__vector_10+0x62>
+=======
  2fe:	2f 73       	andi	r18, 0x3F	; 63
 	interrupted = 1;				//Maybe useful when updating distance 
 	if(header == 0x02) {
@@ -638,24 +1045,57 @@ ISR(SPISTC_vect) {
  310:	10 92 68 00 	sts	0x0068, r1
 				break;
  314:	05 c0       	rjmp	.+10     	; 0x320 <__vector_10+0x60>
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 				break;
 			case 0x04:				//off tape value
 				//tape_floor = vals;
 				break;
 			case 0x05:				//send distance data
 				sendDistanceSensors();
+<<<<<<< HEAD
+ 22c:	0e 94 98 00 	call	0x130	; 0x130 <sendDistanceSensors>
+				break;
+ 230:	02 c0       	rjmp	.+4      	; 0x236 <__vector_10+0x62>
+			case 0x06:				//send tape data
+				sendTapeSensors();
+ 232:	0e 94 a5 00 	call	0x14a	; 0x14a <sendTapeSensors>
+=======
  316:	0e 94 44 01 	call	0x288	; 0x288 <sendDistanceSensors>
 				break;
  31a:	02 c0       	rjmp	.+4      	; 0x320 <__vector_10+0x60>
 			case 0x06:				//send tape data
 				sendTapeSensors();
  31c:	0e 94 5b 01 	call	0x2b6	; 0x2b6 <sendTapeSensors>
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 				break;
 			default:
 				break;
 		}
 	}
 	sei();
+<<<<<<< HEAD
+ 236:	78 94       	sei
+ 238:	ff 91       	pop	r31
+ 23a:	ef 91       	pop	r30
+ 23c:	bf 91       	pop	r27
+ 23e:	af 91       	pop	r26
+ 240:	9f 91       	pop	r25
+ 242:	8f 91       	pop	r24
+ 244:	7f 91       	pop	r23
+ 246:	6f 91       	pop	r22
+ 248:	5f 91       	pop	r21
+ 24a:	4f 91       	pop	r20
+ 24c:	3f 91       	pop	r19
+ 24e:	2f 91       	pop	r18
+ 250:	0f 90       	pop	r0
+ 252:	0f be       	out	0x3f, r0	; 63
+ 254:	0f 90       	pop	r0
+ 256:	1f 90       	pop	r1
+ 258:	18 95       	reti
+
+0000025a <getTapeData>:
+		
+=======
  320:	78 94       	sei
  322:	ff 91       	pop	r31
  324:	ef 91       	pop	r30
@@ -678,10 +1118,37 @@ ISR(SPISTC_vect) {
 00000344 <getTapeData>:
 		uint16_t data = readADC(0);	// PORT0 is for the tape sensor
 
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 		int tape_bit = convertToBit(data);
 		tape_data |= (tape_bit << i);
 	}*/
+	//PORTB &= ~(0x0F);
 	PORTB &= ~(0x0F);
+<<<<<<< HEAD
+ 25a:	88 b3       	in	r24, 0x18	; 24
+ 25c:	80 7f       	andi	r24, 0xF0	; 240
+ 25e:	88 bb       	out	0x18, r24	; 24
+	PORTB |= 1;	
+ 260:	c0 9a       	sbi	0x18, 0	; 24
+	uint8_t data = readADC(0);	
+ 262:	80 e0       	ldi	r24, 0x00	; 0
+ 264:	0e 94 45 00 	call	0x8a	; 0x8a <readADC>
+	PORTB &= ~(0x0F);
+ 268:	98 b3       	in	r25, 0x18	; 24
+ 26a:	90 7f       	andi	r25, 0xF0	; 240
+ 26c:	98 bb       	out	0x18, r25	; 24
+	
+	//return tape_data;	
+	return data;
+}
+ 26e:	08 95       	ret
+
+00000270 <_exit>:
+ 270:	f8 94       	cli
+
+00000272 <__stop_program>:
+ 272:	ff cf       	rjmp	.-2      	; 0x272 <__stop_program>
+=======
  344:	88 b3       	in	r24, 0x18	; 24
  346:	80 7f       	andi	r24, 0xF0	; 240
  348:	88 bb       	out	0x18, r24	; 24
@@ -705,3 +1172,4 @@ ISR(SPISTC_vect) {
 
 0000035c <__stop_program>:
  35c:	ff cf       	rjmp	.-2      	; 0x35c <__stop_program>
+>>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a

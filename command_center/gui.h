@@ -59,8 +59,7 @@ private slots:
   void on_pushButton_right_pressed();
 
   void on_pushButton_stop_clicked();
-  void on_pushButton_open_claw_clicked();
-  void on_pushButton_close_claw_clicked();
+  void on_pushButton_claw_switch_clicked();
 
   void on_pushButton_connect_clicked();
 
@@ -90,6 +89,8 @@ private slots:
   void on_pushButton_forward_right_pressed();
 
   void on_horizontalSlider_speed_valueChanged();
+
+  void on_pushButton_direction_clicked();
 
 
 private:

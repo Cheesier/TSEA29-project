@@ -53,5 +53,5 @@ int main(void) {
 		//readADC(0);
 
 	}
+	return 0;
 }
-

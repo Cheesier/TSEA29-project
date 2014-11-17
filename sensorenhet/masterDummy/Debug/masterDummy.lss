@@ -3,25 +3,25 @@ masterDummy.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000cc  00000000  00000000  00000054  2**1
+  0 .text         000000c8  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .comment      00000030  00000000  00000000  00000120  2**0
+  1 .comment      00000030  00000000  00000000  0000011c  2**0
                   CONTENTS, READONLY
-  2 .debug_aranges 00000038  00000000  00000000  00000150  2**0
+  2 .debug_aranges 00000038  00000000  00000000  0000014c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_info   0000025b  00000000  00000000  00000188  2**0
+  3 .debug_info   00000276  00000000  00000000  00000184  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_abbrev 0000012d  00000000  00000000  000003e3  2**0
+  4 .debug_abbrev 0000012d  00000000  00000000  000003fa  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_line   00000191  00000000  00000000  00000510  2**0
+  5 .debug_line   0000019f  00000000  00000000  00000527  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_frame  00000054  00000000  00000000  000006a4  2**2
+  6 .debug_frame  00000054  00000000  00000000  000006c8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    000001b1  00000000  00000000  000006f8  2**0
+  7 .debug_str    000001b3  00000000  00000000  0000071c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    00000041  00000000  00000000  000008a9  2**0
+  8 .debug_loc    0000006d  00000000  00000000  000008cf  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_ranges 00000028  00000000  00000000  000008ea  2**0
+  9 .debug_ranges 00000028  00000000  00000000  0000093c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -57,7 +57,7 @@ Disassembly of section .text:
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
   60:	0e 94 54 00 	call	0xa8	; 0xa8 <main>
-  64:	0c 94 64 00 	jmp	0xc8	; 0xc8 <_exit>
+  64:	0c 94 62 00 	jmp	0xc4	; 0xc4 <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -138,42 +138,39 @@ void getSensorData() {
   a6:	08 95       	ret
 
 000000a8 <main>:
-	while(!(SPSR & (1<<SPIF)));
-	PORTB |= (1<<PORTB4);	
+	
+	
 }
 
 int main(void) {
 	initSPI();
   a8:	0e 94 36 00 	call	0x6c	; 0x6c <initSPI>
-	
-	DDRB |= (1<<0);
-  ac:	b8 9a       	sbi	0x17, 0	; 23
-	DDRD &= ~(1<<2);
-  ae:	8a 98       	cbi	0x11, 2	; 17
+	//DDRB |= (1<<0);
+	//DDRD &= ~(1<<2);
 	//GICR |= (1<<6);
 	//sei();
 	while(1) {
 		getSensorData();
-  b0:	0e 94 3b 00 	call	0x76	; 0x76 <getSensorData>
+  ac:	0e 94 3b 00 	call	0x76	; 0x76 <getSensorData>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  b4:	2f ef       	ldi	r18, 0xFF	; 255
-  b6:	89 e6       	ldi	r24, 0x69	; 105
-  b8:	98 e1       	ldi	r25, 0x18	; 24
-  ba:	21 50       	subi	r18, 0x01	; 1
-  bc:	80 40       	sbci	r24, 0x00	; 0
-  be:	90 40       	sbci	r25, 0x00	; 0
-  c0:	e1 f7       	brne	.-8      	; 0xba <main+0x12>
-  c2:	00 c0       	rjmp	.+0      	; 0xc4 <main+0x1c>
-  c4:	00 00       	nop
-  c6:	f4 cf       	rjmp	.-24     	; 0xb0 <main+0x8>
+  b0:	2f ef       	ldi	r18, 0xFF	; 255
+  b2:	89 e6       	ldi	r24, 0x69	; 105
+  b4:	98 e1       	ldi	r25, 0x18	; 24
+  b6:	21 50       	subi	r18, 0x01	; 1
+  b8:	80 40       	sbci	r24, 0x00	; 0
+  ba:	90 40       	sbci	r25, 0x00	; 0
+  bc:	e1 f7       	brne	.-8      	; 0xb6 <main+0xe>
+  be:	00 c0       	rjmp	.+0      	; 0xc0 <main+0x18>
+  c0:	00 00       	nop
+  c2:	f4 cf       	rjmp	.-24     	; 0xac <main+0x4>
 
-000000c8 <_exit>:
-  c8:	f8 94       	cli
+000000c4 <_exit>:
+  c4:	f8 94       	cli
 
-000000ca <__stop_program>:
-  ca:	ff cf       	rjmp	.-2      	; 0xca <__stop_program>
+000000c6 <__stop_program>:
+  c6:	ff cf       	rjmp	.-2      	; 0xc6 <__stop_program>

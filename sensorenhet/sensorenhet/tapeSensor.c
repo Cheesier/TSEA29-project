@@ -31,6 +31,7 @@ uint8_t getTapeData() {
 		int tape_bit = convertToBit(data);
 		tape_data |= (tape_bit << i);
 	}*/
+	//PORTB &= ~(0x0F);
 	PORTB &= ~(0x0F);
 	PORTB |= 1;
 	uint8_t data = readADC(0);

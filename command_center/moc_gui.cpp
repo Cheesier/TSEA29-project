@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Gui_t {
     QByteArrayData data[40];
-    char stringdata[892];
+    char stringdata[893];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -50,25 +50,25 @@ QT_MOC_LITERAL(17, 191, 30),
 QT_MOC_LITERAL(18, 222, 26),
 QT_MOC_LITERAL(19, 249, 27),
 QT_MOC_LITERAL(20, 277, 26),
-QT_MOC_LITERAL(21, 304, 31),
-QT_MOC_LITERAL(22, 336, 32),
-QT_MOC_LITERAL(23, 369, 29),
-QT_MOC_LITERAL(24, 399, 26),
-QT_MOC_LITERAL(25, 426, 27),
-QT_MOC_LITERAL(26, 454, 26),
-QT_MOC_LITERAL(27, 481, 29),
-QT_MOC_LITERAL(28, 511, 29),
-QT_MOC_LITERAL(29, 541, 29),
-QT_MOC_LITERAL(30, 571, 31),
-QT_MOC_LITERAL(31, 603, 37),
-QT_MOC_LITERAL(32, 641, 24),
-QT_MOC_LITERAL(33, 666, 23),
-QT_MOC_LITERAL(34, 690, 23),
-QT_MOC_LITERAL(35, 714, 33),
-QT_MOC_LITERAL(36, 748, 33),
-QT_MOC_LITERAL(37, 782, 34),
-QT_MOC_LITERAL(38, 817, 35),
-QT_MOC_LITERAL(39, 853, 38)
+QT_MOC_LITERAL(21, 304, 33),
+QT_MOC_LITERAL(22, 338, 29),
+QT_MOC_LITERAL(23, 368, 26),
+QT_MOC_LITERAL(24, 395, 27),
+QT_MOC_LITERAL(25, 423, 26),
+QT_MOC_LITERAL(26, 450, 29),
+QT_MOC_LITERAL(27, 480, 29),
+QT_MOC_LITERAL(28, 510, 29),
+QT_MOC_LITERAL(29, 540, 31),
+QT_MOC_LITERAL(30, 572, 37),
+QT_MOC_LITERAL(31, 610, 24),
+QT_MOC_LITERAL(32, 635, 23),
+QT_MOC_LITERAL(33, 659, 23),
+QT_MOC_LITERAL(34, 683, 33),
+QT_MOC_LITERAL(35, 717, 33),
+QT_MOC_LITERAL(36, 751, 34),
+QT_MOC_LITERAL(37, 786, 35),
+QT_MOC_LITERAL(38, 822, 38),
+QT_MOC_LITERAL(39, 861, 31)
     },
     "Gui\0console_log\0\0data\0pb_update\0"
     "total_msgs\0current_msg\0status\0bt_reset\0"
@@ -79,8 +79,7 @@ QT_MOC_LITERAL(39, 853, 38)
     "on_pushButton_left_pressed\0"
     "on_pushButton_right_pressed\0"
     "on_pushButton_stop_clicked\0"
-    "on_pushButton_open_claw_clicked\0"
-    "on_pushButton_close_claw_clicked\0"
+    "on_pushButton_claw_switch_clicked\0"
     "on_pushButton_connect_clicked\0"
     "on_pushButton_scan_clicked\0"
     "on_pushButton_clear_clicked\0"
@@ -96,7 +95,8 @@ QT_MOC_LITERAL(39, 853, 38)
     "on_lineEdit_d_value_returnPressed\0"
     "on_pushButton_forward_left_pressed\0"
     "on_pushButton_forward_right_pressed\0"
-    "on_horizontalSlider_speed_valueChanged"
+    "on_horizontalSlider_speed_valueChanged\0"
+    "on_pushButton_direction_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -212,25 +212,25 @@ void Gui::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         case 12: _t->on_pushButton_left_pressed(); break;
         case 13: _t->on_pushButton_right_pressed(); break;
         case 14: _t->on_pushButton_stop_clicked(); break;
-        case 15: _t->on_pushButton_open_claw_clicked(); break;
-        case 16: _t->on_pushButton_close_claw_clicked(); break;
-        case 17: _t->on_pushButton_connect_clicked(); break;
-        case 18: _t->on_pushButton_scan_clicked(); break;
-        case 19: _t->on_pushButton_clear_clicked(); break;
-        case 20: _t->on_pushButton_send_clicked(); break;
-        case 21: _t->on_pushButton_pb_play_clicked(); break;
-        case 22: _t->on_pushButton_pb_next_clicked(); break;
-        case 23: _t->on_pushButton_pb_live_clicked(); break;
-        case 24: _t->on_pushButton_pb_rewind_clicked(); break;
-        case 25: _t->on_horizontalSlider_pb_sliderReleased(); break;
-        case 26: _t->on_actionReset_triggered(); break;
-        case 27: _t->on_actionSave_triggered(); break;
-        case 28: _t->on_actionOpen_triggered(); break;
-        case 29: _t->on_lineEdit_p_value_returnPressed(); break;
-        case 30: _t->on_lineEdit_d_value_returnPressed(); break;
-        case 31: _t->on_pushButton_forward_left_pressed(); break;
-        case 32: _t->on_pushButton_forward_right_pressed(); break;
-        case 33: _t->on_horizontalSlider_speed_valueChanged(); break;
+        case 15: _t->on_pushButton_claw_switch_clicked(); break;
+        case 16: _t->on_pushButton_connect_clicked(); break;
+        case 17: _t->on_pushButton_scan_clicked(); break;
+        case 18: _t->on_pushButton_clear_clicked(); break;
+        case 19: _t->on_pushButton_send_clicked(); break;
+        case 20: _t->on_pushButton_pb_play_clicked(); break;
+        case 21: _t->on_pushButton_pb_next_clicked(); break;
+        case 22: _t->on_pushButton_pb_live_clicked(); break;
+        case 23: _t->on_pushButton_pb_rewind_clicked(); break;
+        case 24: _t->on_horizontalSlider_pb_sliderReleased(); break;
+        case 25: _t->on_actionReset_triggered(); break;
+        case 26: _t->on_actionSave_triggered(); break;
+        case 27: _t->on_actionOpen_triggered(); break;
+        case 28: _t->on_lineEdit_p_value_returnPressed(); break;
+        case 29: _t->on_lineEdit_d_value_returnPressed(); break;
+        case 30: _t->on_pushButton_forward_left_pressed(); break;
+        case 31: _t->on_pushButton_forward_right_pressed(); break;
+        case 32: _t->on_horizontalSlider_speed_valueChanged(); break;
+        case 33: _t->on_pushButton_direction_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {

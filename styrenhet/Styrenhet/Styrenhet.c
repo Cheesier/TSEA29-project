@@ -32,13 +32,10 @@ char direction = FORWARD;
 int main(void) {
 	SPI_Init();								// Initiate SPI as a slaves
 	init_pwm();								// Initiates the pins used for PWM
+	sei();
 	
 	while(1) {
-		//gripClaw();
-		//_delay_ms(2500);
-		//releaseClaw();
-		//_delay_ms(500);
-		receiveMessage();
+		PDforward();
 	}
 }
 
@@ -53,8 +50,7 @@ void setDirection(uint8_t dir) {
 }
 
 // The robot drives forward
-void driveForward(uint8_t speed) {
-	wheelEnable();
+void driveForward(uint8_t speed) {	
 	if(direction == REVERSE) {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Set wheel direction to reverse by
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// clearing the direction pins
@@ -69,8 +65,7 @@ void driveForward(uint8_t speed) {
 }
 
 // The robot drives in reverse
-void driveReverse(uint8_t speed) {
-	wheelEnable();
+void driveReverse(uint8_t speed) {	
 	if(direction == REVERSE) {
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Set wheel direction to forward by
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// setting the direction pins
@@ -85,8 +80,7 @@ void driveReverse(uint8_t speed) {
 }
 
 // The robot rotates to the left
-void rotateLeft(uint8_t speed) {
-	wheelEnable();
+void rotateLeft(uint8_t speed) {	
 	if(direction == REVERSE){
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
@@ -101,8 +95,7 @@ void rotateLeft(uint8_t speed) {
 }
 
 // The robot rotates to the right
-void rotateRight(uint8_t speed) {
-	wheelEnable();
+void rotateRight(uint8_t speed) {	
 	if(direction == REVERSE){
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
@@ -119,8 +112,7 @@ void rotateRight(uint8_t speed) {
 
 // The robot makes a soft turn
 // Turn direction is decided by the input parameters
-void softTurn(uint8_t left_speed, uint8_t right_speed) {
-	wheelEnable();
+void softTurn(uint8_t left_speed, uint8_t right_speed) {	
 	PORTA |= (1<<WHEEL_DIRECTION_L);
 	PORTA |= (1<<WHEEL_DIRECTION_R);
 	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
@@ -129,8 +121,7 @@ void softTurn(uint8_t left_speed, uint8_t right_speed) {
 
 // The robot makes a soft turn in reverse
 // Turn direction is decided by the input parameters
-void softTurnReverse(uint8_t left_speed, uint8_t right_speed) {
-	wheelEnable();
+void softTurnReverse(uint8_t left_speed, uint8_t right_speed) {	
 	PORTA &= ~(1<<WHEEL_DIRECTION_L);
 	PORTA &= ~(1<<WHEEL_DIRECTION_R);
 	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
@@ -177,14 +168,12 @@ void rightWheelDirection(uint8_t dir) {
 
 // Set the speed of both wheel pairs
 // QUESTION: Why is this needed?
-void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {
-	wheelEnable();
+void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {	
 	setSpeeds(left_speed, right_speed);
 }
 
 void stopWheels() {	
-	setSpeeds(0,0);
-	wheelDisable();
+	setSpeeds(0,0);	
 }
 
 // Calls PWM functions to release the claw

@@ -9,6 +9,7 @@
 #ifndef STYRENHET_H_
 #define STYRENHET_H_
 #include <stdint.h>
+#include "PDregulator.h"
 
 void setDirection(uint8_t dir);
 

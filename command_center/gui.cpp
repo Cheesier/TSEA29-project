@@ -180,7 +180,7 @@ void Gui::onSensorInput(string sensorData){
 }
 
 void Gui::onTapeInput(string tapeData){
-  ui->label_tape_11->setText(QString::number(((int)(tapeData[1]) & 1)/1));
+  ui->label_tape_11->setText(QString::number(((int)(tapeData[1]) & 1)/1)); //get first bit in second byte
   ui->label_tape_10->setText(QString::number(((int)(tapeData[1]) & 2)/2));
   ui->label_tape_9->setText(QString::number(((int)(tapeData[1]) & 4)/4));
   ui->label_tape_8->setText(QString::number(((int)(tapeData[1]) & 8)/8));
@@ -198,14 +198,31 @@ void Gui::on_horizontalSlider_speed_valueChanged(){
   ui->label_speed->setText(QString::number(ui->horizontalSlider_speed->value()));
 }
 
-void Gui::on_pushButton_open_claw_clicked(){
-  core->open_claw();
+
+void Gui::on_pushButton_claw_switch_clicked(){
+  if (ui->pushButton_claw_switch->text() == "Open Claw"){
+    core->open_claw();
+    ui->pushButton_claw_switch->setText("Close Claw");
+  }
+  else {
+    core->close_claw();
+    ui->pushButton_claw_switch->setText("Open Claw");
+  }
 }
 
-void Gui::on_pushButton_close_claw_clicked(){
-  core->close_claw();
-}
 
 void Gui::on_pushButton_stop_clicked(){
   core->stop();
+}
+
+
+void Gui::on_pushButton_direction_clicked(){
+  if (ui->label_direction->text() == "Regular"){
+    ui->label_direction->setText("Reversed");
+    core->change_direction(0); //reverse
+  }
+  else{
+    ui->label_direction->setText("Regular");
+    core->change_direction(1); //regular
+  }
 }

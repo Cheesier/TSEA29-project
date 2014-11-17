@@ -82,6 +82,7 @@ public:
   void open_claw();
   void close_claw();
 
+  void change_direction(int direction);
 
   void set_p(const double& val);
   void set_d(const double& val);
