@@ -6,7 +6,7 @@
  */
  
 #define F_CPU 8000000UL
-#define OVERHEAD_TIME 15
+#define OVERHEAD_TIME 50
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -26,38 +26,53 @@ void getSensorData() {
 	while(!(SPSR & (1<<SPIF)));
 	PORTB |= (1<<PORTB4);
 	
-	_delay_us(OVERHEAD_TIME);
-	
-	//uint8_t *sensorData;
-	//sensorData = (uint8_t*) malloc(noSensors*sizeof(uint8_t));
+	_delay_us(OVERHEAD_TIME);	
 	
 	for (int i = 0; i < 4; i++) {
 		SPDR = 0;
 		PORTB &= ~(1<<PORTB4);
 		while(!(SPSR & (1<<SPIF)));
 		PORTB |= (1<<PORTB4);
+		_delay_us(20);
+	}
+}
+
+void getTapeData() {
+	SPDR = 0x86;
+	PORTB &= ~(1<<PORTB4);
+	while(!(SPSR & (1<<SPIF)));
+	PORTB |= (1<<PORTB4);
+	
+	//_delay_us(OVERHEAD_TIME);
+	_delay_us(150);
+	
+	for(int i = 0; i < 2; i++) {
+		SPDR = 0;
+		PORTB &= ~(1<<PORTB4);
+		while(!(SPSR & (1<<SPIF)));
+		PORTB |= (1<<PORTB4);
 	}
 	
-	//free(sensorData);
+	
+	
 }
 
 int main(void) {
 	initSPI();
 	
-	DDRB |= (1<<0);
-	DDRD &= ~(1<<2);
+	//DDRB |= (1<<0);
+	//DDRD &= ~(1<<2);
 	//GICR |= (1<<6);
 	//sei();
 	while(1) {
+		getSensorData();
+		_delay_ms(1000);
+	}
+	/*while(1) {
 		PORTB |= (1<<0);
 		_delay_ms(100);
 		PORTB &= ~(1<<0);
 		_delay_ms(1000);
 		getSensorData();
-	}
-}
-
-ISR(SPISTC_vect) {
-	PORTB |= (1<<PORTB4);
-	reti(); 
+	}*/
 }

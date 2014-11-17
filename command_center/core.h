@@ -82,6 +82,8 @@ public:
   void open_claw();
   void close_claw();
 
+  void change_direction(int direction);
+
   void set_p(const double& val);
   void set_d(const double& val);
 
@@ -95,6 +97,8 @@ private:
 
   //handle msgs
   void handle_echo(const Msg_ptr& msg);
+  void handle_distance_data(const Msg_ptr &msg);
+  void handle_tape_data(const Msg_ptr &msg);
   void handle_error(const Msg_ptr & msg);
   void handle_unknown(const Msg_ptr& msg);
 

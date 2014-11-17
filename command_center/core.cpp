@@ -140,17 +140,31 @@ void Core::process_new_msg(const Msg_ptr &msg){
 //not sychronized, hopefully won't be neccessary
 void Core::process_msg(const Msg_ptr &msg){
   thread t([this, msg](){
-      log(QString("processing message [type %1]..").arg(msg->get_type()));
-      switch(msg->get_type()){
-        case Message::T_ECHO:
-          handle_echo(msg);
-          break;
-        case Message::T_ERROR:
-          handle_error(msg);
-          break;
-        default:
-          handle_unknown(msg);
-        }
+      log(QString("processing message [type %1]..").arg(msg->get_type() & 0x3F));
+
+      if ((msg->get_type()/64) != (ADDR_KONTROLLCENTER/64)) {     //see if message is not meant for kontroll center
+        log(QString("the message was meant for: %1..").arg(msg->get_type()/64)); // who was it meant for?
+        return;
+      }
+      else {    // it was meant for kontroll center
+          switch(msg->get_type() - ADDR_KONTROLLCENTER){  //remove ADDR
+            case Message::T_ECHO:
+              handle_echo(msg);
+              break;
+            case Message::T_DISTANCE_DATA:
+              handle_distance_data(msg);
+              break;
+            case Message::T_TAPE_DATA:
+              handle_tape_data(msg);
+              break;
+            case Message::T_ERROR:
+              handle_error(msg);
+              break;
+            default:
+              handle_unknown(msg);
+              break;
+          }
+      }
     });
   t.detach();
 }
@@ -158,6 +172,14 @@ void Core::process_msg(const Msg_ptr &msg){
 void Core::handle_echo(const Msg_ptr &msg){
   w->onSensorInput(msg->get_data());
   msg->print();
+}
+
+void Core::handle_distance_data(const Msg_ptr &msg){
+    w->onSensorInput(msg->get_data());
+}
+
+void Core::handle_tape_data(const Msg_ptr &msg){
+    w->onTapeInput(msg->get_data());
 }
 
 //handles error messages 0x3F
@@ -280,6 +302,12 @@ void Core::open_claw(){
 void Core::close_claw(){
   Msg_ptr msg(new Message);
   msg->close_claw();
+  send(msg);
+}
+
+void Core::change_direction(int direction){
+  Msg_ptr msg(new Message);
+  msg->change_direction(direction);
   send(msg);
 }
 

@@ -43,11 +43,11 @@
       <ToolOptions>
         <InterfaceProperties>
           <JtagDbgClock>200000</JtagDbgClock>
-          <JtagEnableExtResetOnStartSession>true</JtagEnableExtResetOnStartSession>
+          <JtagEnableExtResetOnStartSession>false</JtagEnableExtResetOnStartSession>
           <JtagInChain>true</JtagInChain>
-          <JtagDevicesBefore>1</JtagDevicesBefore>
+          <JtagDevicesBefore>2</JtagDevicesBefore>
           <JtagDevicesAfter>0</JtagDevicesAfter>
-          <JtagInstrBitsBefore>4</JtagInstrBitsBefore>
+          <JtagInstrBitsBefore>8</JtagInstrBitsBefore>
           <JtagInstrBitsAfter>0</JtagInstrBitsAfter>
           <JtagSelectedDeviceIndexInChain>
           </JtagSelectedDeviceIndexInChain>
@@ -140,6 +140,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="distanceSensor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="gyro.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="gyro.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="sensorenhet.c">

@@ -45,16 +45,23 @@ void init_pwm() {
 	WHEEL_TIMER_A |= (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
 	WHEEL_TIMER_B |= (1 << WGM12) | (1 << CS12) | (1 << CS10);
 	DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); // sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
+	
+	wheelsDisable();
+	clawDisable();
 }
 
 // Sets the duty cycle of both motors to speed
 void setSpeed(uint8_t speed) {
-	LEFT_WHEEL_VALUE = speed;
-	RIGHT_WHEEL_VALUE = speed;	
+	setSpeeds(speed, speed);	
 }
 
 // Sets the duty cycle of the left motors to speed_left and the right motors to speed_right
-void setSpeeds(uint8_t speed_left, uint8_t speed_right) {	
+void setSpeeds(uint8_t speed_left, uint8_t speed_right) {
+	if(speed_left == 0 && speed_right == 0) {
+		wheelsDisable();
+		return;
+	}
+	wheelsEnable();
 	LEFT_WHEEL_VALUE = speed_left;	
 	RIGHT_WHEEL_VALUE = speed_right;
 }

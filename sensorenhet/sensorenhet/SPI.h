@@ -3,7 +3,7 @@
  *
  * Created: 2014-11-11 10:22:18
  *  Author: microo
- */ 
+ */
 
 #ifndef SPI_H_
 #define SPI_H_
@@ -25,8 +25,9 @@
 static int gyro_angle = 0;
 void SPI_Init(void);
 
-char SPI_Recive(void);
+char SPI_Receive(void);
 void SPI_Send(char dataout);
+char SPI_Transceive(char dataout);
 void receiveMessage();
 
 #endif /* SPI_H_ */
