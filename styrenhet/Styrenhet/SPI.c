@@ -35,12 +35,7 @@ void SPI_Init(void) {
 
 // Receive from SPI
 char SPI_Receive(void) {
-<<<<<<< HEAD
 	return SPI_Transceive(0x00);
-=======
-	WAIT_FOR_TRANSFER;				// Wait for reception to complete
-	return SPDR;					// Return Data Register
->>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 }
 
 // Send over SPI
@@ -48,7 +43,7 @@ void SPI_Send(char dataout) {
 	SPI_Transceive(dataout);
 }
 
-void SPI_Transceive(char dataout) {
+char SPI_Transceive(char dataout) {
 	SPDR = dataout;
 	WAIT_FOR_TRANSFER;
 	return SPDR;

@@ -5,7 +5,7 @@
  *  Author: Jonathan
  */ 
 
-
+#include <inttypes.h>
 #ifndef PD-REGULATOR_H_
 #define PD-REGULATOR_H_
 
