@@ -6,21 +6,30 @@ c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolcha
                               SPI.o (__tablejump2__)
 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
                               Styrenhet.o (__do_copy_data)
+c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                              PDregulator.o (__do_clear_bss)
+
+Allocating common symbols
+Common symbol       size              file
+
+p                   0x1               PDregulator.o
+sensorData          0x4               PDregulator.o
+d                   0x1               PDregulator.o
+speed               0x1               PDregulator.o
 
 Discarded input sections
 
  .data          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  .bss           0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
- .text          0x00000000        0x0 PD-regulator.o
- .data          0x00000000        0x0 PD-regulator.o
- .bss           0x00000000        0x0 PD-regulator.o
- .debug_info    0x00000000       0x56 PD-regulator.o
- .debug_abbrev  0x00000000       0x26 PD-regulator.o
- .debug_aranges
-                0x00000000       0x18 PD-regulator.o
- .debug_line    0x00000000       0x1a PD-regulator.o
- .debug_str     0x00000000      0x15b PD-regulator.o
- .comment       0x00000000       0x31 PD-regulator.o
+ .text          0x00000000        0x0 PDregulator.o
+ .data          0x00000000        0x0 PDregulator.o
+ .bss           0x00000000        0x0 PDregulator.o
+ .text.PDisActive
+                0x00000000        0xa PDregulator.o
+ .text.PDupdateSensorData
+                0x00000000       0x44 PDregulator.o
+ .text.PDgetCorrection
+                0x00000000        0x6 PDregulator.o
  .text          0x00000000        0x0 pwm.o
  .data          0x00000000        0x0 pwm.o
  .bss           0x00000000        0x0 pwm.o
@@ -44,8 +53,6 @@ Discarded input sections
  .text          0x00000000        0x0 Styrenhet.o
  .data          0x00000000        0x0 Styrenhet.o
  .bss           0x00000000        0x0 Styrenhet.o
- .text.softTurn
-                0x00000000        0xa Styrenhet.o
  .text.softTurnReverse
                 0x00000000        0xa Styrenhet.o
  .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
@@ -95,6 +102,22 @@ Discarded input sections
                 0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.fixed
                 0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
 
 Memory Configuration
 
@@ -111,7 +134,7 @@ user_signatures  0x00850000         0x00000400         rw !x
 Linker script and memory map
 
 LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
-LOAD PD-regulator.o
+LOAD PDregulator.o
 LOAD pwm.o
 LOAD SPI.o
 LOAD Styrenhet.o
@@ -214,7 +237,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x3d2
+.text           0x00000000      0x482
  *(.vectors)
  .vectors       0x00000000       0x54 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
                 0x00000000                __vector_default
@@ -257,6 +280,8 @@ END GROUP
  *(.init4)
  .init4         0x0000007a       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
                 0x0000007a                __do_copy_data
+ .init4         0x00000090       0x10 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000090                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -267,114 +292,131 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000090        0x8 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .init9         0x000000a0        0x8 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  *(.init9)
  *(.text)
- .text          0x00000098        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
-                0x00000098                __vector_1
-                0x00000098                __vector_12
-                0x00000098                __bad_interrupt
-                0x00000098                __vector_6
-                0x00000098                __vector_3
-                0x00000098                __vector_11
-                0x00000098                __vector_13
-                0x00000098                __vector_17
-                0x00000098                __vector_19
-                0x00000098                __vector_7
-                0x00000098                __vector_5
-                0x00000098                __vector_4
-                0x00000098                __vector_9
-                0x00000098                __vector_2
-                0x00000098                __vector_15
-                0x00000098                __vector_8
-                0x00000098                __vector_14
-                0x00000098                __vector_16
-                0x00000098                __vector_18
-                0x00000098                __vector_20
-                0x0000009c                . = ALIGN (0x2)
+ .text          0x000000a8        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+                0x000000a8                __vector_1
+                0x000000a8                __vector_12
+                0x000000a8                __bad_interrupt
+                0x000000a8                __vector_6
+                0x000000a8                __vector_3
+                0x000000a8                __vector_11
+                0x000000a8                __vector_13
+                0x000000a8                __vector_17
+                0x000000a8                __vector_19
+                0x000000a8                __vector_7
+                0x000000a8                __vector_5
+                0x000000a8                __vector_4
+                0x000000a8                __vector_9
+                0x000000a8                __vector_2
+                0x000000a8                __vector_15
+                0x000000a8                __vector_8
+                0x000000a8                __vector_14
+                0x000000a8                __vector_16
+                0x000000a8                __vector_18
+                0x000000a8                __vector_20
+                0x000000ac                . = ALIGN (0x2)
  *(.text.*)
+ .text.PDactivate
+                0x000000ac        0xe PDregulator.o
+                0x000000ac                PDactivate
+ .text.PDdeactivate
+                0x000000ba        0xe PDregulator.o
+                0x000000ba                PDdeactivate
+ .text.setPD    0x000000c8        0xa PDregulator.o
+                0x000000c8                setPD
+ .text.PDsetSpeed
+                0x000000d2        0x6 PDregulator.o
+                0x000000d2                PDsetSpeed
+ .text.PDforward
+                0x000000d8       0x40 PDregulator.o
+                0x000000d8                PDforward
  .text.clawGrip
-                0x0000009c        0x6 pwm.o
-                0x0000009c                clawGrip
+                0x00000118        0x6 pwm.o
+                0x00000118                clawGrip
  .text.clawRelease
-                0x000000a2        0x6 pwm.o
-                0x000000a2                clawRelease
+                0x0000011e        0x6 pwm.o
+                0x0000011e                clawRelease
  .text.clawEnable
-                0x000000a8        0x8 pwm.o
-                0x000000a8                clawEnable
+                0x00000124        0x8 pwm.o
+                0x00000124                clawEnable
  .text.clawDisable
-                0x000000b0        0x8 pwm.o
-                0x000000b0                clawDisable
+                0x0000012c        0x8 pwm.o
+                0x0000012c                clawDisable
  .text.wheelsEnable
-                0x000000b8        0x8 pwm.o
-                0x000000b8                wheelsEnable
+                0x00000134        0x8 pwm.o
+                0x00000134                wheelsEnable
  .text.wheelsDisable
-                0x000000c0        0x8 pwm.o
-                0x000000c0                wheelsDisable
+                0x0000013c        0x8 pwm.o
+                0x0000013c                wheelsDisable
  .text.init_pwm
-                0x000000c8       0x24 pwm.o
-                0x000000c8                init_pwm
+                0x00000144       0x24 pwm.o
+                0x00000144                init_pwm
  .text.setSpeeds
-                0x000000ec       0x24 pwm.o
-                0x000000ec                setSpeeds
+                0x00000168       0x24 pwm.o
+                0x00000168                setSpeeds
  .text.setSpeed
-                0x00000110        0x8 pwm.o
-                0x00000110                setSpeed
+                0x0000018c        0x8 pwm.o
+                0x0000018c                setSpeed
  .text.SPI_Init
-                0x00000118        0xc SPI.o
-                0x00000118                SPI_Init
+                0x00000194        0xc SPI.o
+                0x00000194                SPI_Init
  .text.SPI_Transceive
-                0x00000124        0xa SPI.o
-                0x00000124                SPI_Transceive
+                0x000001a0        0xa SPI.o
+                0x000001a0                SPI_Transceive
  .text.SPI_Receive
-                0x0000012e        0x8 SPI.o
-                0x0000012e                SPI_Receive
+                0x000001aa        0x8 SPI.o
+                0x000001aa                SPI_Receive
  .text.__vector_10
-                0x00000136      0x17e SPI.o
-                0x00000136                __vector_10
- .text.main     0x000002b4        0xc Styrenhet.o
-                0x000002b4                main
+                0x000001b2      0x1a4 SPI.o
+                0x000001b2                __vector_10
+ .text.main     0x00000356       0x10 Styrenhet.o
+                0x00000356                main
  .text.setDirection
-                0x000002c0       0x14 Styrenhet.o
-                0x000002c0                setDirection
+                0x00000366       0x14 Styrenhet.o
+                0x00000366                setDirection
  .text.driveForward
-                0x000002d4       0x1c Styrenhet.o
-                0x000002d4                driveForward
+                0x0000037a       0x1c Styrenhet.o
+                0x0000037a                driveForward
  .text.driveReverse
-                0x000002f0       0x1c Styrenhet.o
-                0x000002f0                driveReverse
+                0x00000396       0x1c Styrenhet.o
+                0x00000396                driveReverse
  .text.rotateLeft
-                0x0000030c       0x1c Styrenhet.o
-                0x0000030c                rotateLeft
+                0x000003b2       0x1c Styrenhet.o
+                0x000003b2                rotateLeft
  .text.rotateRight
-                0x00000328       0x1c Styrenhet.o
-                0x00000328                rotateRight
+                0x000003ce       0x1c Styrenhet.o
+                0x000003ce                rotateRight
+ .text.softTurn
+                0x000003ea        0xa Styrenhet.o
+                0x000003ea                softTurn
  .text.leftWheelDirection
-                0x00000344       0x22 Styrenhet.o
-                0x00000344                leftWheelDirection
+                0x000003f4       0x22 Styrenhet.o
+                0x000003f4                leftWheelDirection
  .text.rightWheelDirection
-                0x00000366       0x22 Styrenhet.o
-                0x00000366                rightWheelDirection
+                0x00000416       0x22 Styrenhet.o
+                0x00000416                rightWheelDirection
  .text.wheelSpeeds
-                0x00000388        0x6 Styrenhet.o
-                0x00000388                wheelSpeeds
+                0x00000438        0x6 Styrenhet.o
+                0x00000438                wheelSpeeds
  .text.stopWheels
-                0x0000038e        0xa Styrenhet.o
-                0x0000038e                stopWheels
+                0x0000043e        0xa Styrenhet.o
+                0x0000043e                stopWheels
  .text.releaseClaw
-                0x00000398       0x20 Styrenhet.o
-                0x00000398                releaseClaw
+                0x00000448       0x20 Styrenhet.o
+                0x00000448                releaseClaw
  .text.gripClaw
-                0x000003b8        0xa Styrenhet.o
-                0x000003b8                gripClaw
- .text.libgcc   0x000003c2        0xc c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
-                0x000003c2                __tablejump2__
-                0x000003c6                __tablejump__
-                0x000003ce                . = ALIGN (0x2)
+                0x00000468        0xa Styrenhet.o
+                0x00000468                gripClaw
+ .text.libgcc   0x00000472        0xc c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+                0x00000472                __tablejump2__
+                0x00000476                __tablejump__
+                0x0000047e                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000003ce        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
-                0x000003ce                _exit
-                0x000003ce                exit
+ .fini9         0x0000047e        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x0000047e                _exit
+                0x0000047e                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -393,11 +435,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000003ce        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000047e        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000003d2                _etext = .
+                0x00000482                _etext = .
 
-.data           0x00800060        0x2 load address 0x000003d2
+.data           0x00800060        0x2 load address 0x00000482
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -412,21 +454,31 @@ END GROUP
                 0x00800062                _edata = .
                 0x00800062                PROVIDE (__data_end, .)
 
-.bss            0x00800062        0x0
+.bss            0x00800062        0xa
                 0x00800062                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.PD_direction
+                0x00800062        0x1 PDregulator.o
+                0x00800062                PD_direction
+ .bss.active    0x00800063        0x2 PDregulator.o
+                0x00800063                active
  *(COMMON)
-                0x00800062                PROVIDE (__bss_end, .)
-                0x000003d2                __data_load_start = LOADADDR (.data)
-                0x000003d4                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800065        0x7 PDregulator.o
+                0x00800065                p
+                0x00800066                sensorData
+                0x0080006a                d
+                0x0080006b                speed
+                0x0080006c                PROVIDE (__bss_end, .)
+                0x00000482                __data_load_start = LOADADDR (.data)
+                0x00000484                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800062        0x0
-                0x00800062                PROVIDE (__noinit_start, .)
+.noinit         0x0080006c        0x0
+                0x0080006c                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800062                PROVIDE (__noinit_end, .)
-                0x00800062                _end = .
-                0x00800062                PROVIDE (__heap_start, .)
+                0x0080006c                PROVIDE (__noinit_end, .)
+                0x0080006c                _end = .
+                0x0080006c                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -467,8 +519,9 @@ END GROUP
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 pwm.o
+ .comment       0x00000000       0x30 PDregulator.o
                                  0x31 (size before relaxing)
+ .comment       0x00000000       0x31 pwm.o
  .comment       0x00000000       0x31 SPI.o
  .comment       0x00000000       0x31 Styrenhet.o
 
@@ -487,56 +540,65 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x150
+.debug_aranges  0x00000000      0x1a8
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x70 pwm.o
+                0x00000000       0x58 PDregulator.o
  .debug_aranges
-                0x00000070       0x58 SPI.o
+                0x00000058       0x70 pwm.o
  .debug_aranges
-                0x000000c8       0x88 Styrenhet.o
+                0x000000c8       0x58 SPI.o
+ .debug_aranges
+                0x00000120       0x88 Styrenhet.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xeb1
+.debug_info     0x00000000     0x11cd
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x1f0 pwm.o
- .debug_info    0x000001f0      0x7e8 SPI.o
- .debug_info    0x000009d8      0x4d9 Styrenhet.o
+ .debug_info    0x00000000      0x25e PDregulator.o
+ .debug_info    0x0000025e      0x1f0 pwm.o
+ .debug_info    0x0000044e      0x88e SPI.o
+ .debug_info    0x00000cdc      0x4f1 Styrenhet.o
 
-.debug_abbrev   0x00000000      0x49a
+.debug_abbrev   0x00000000      0x5e3
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0xf3 pwm.o
- .debug_abbrev  0x000000f3      0x1f2 SPI.o
- .debug_abbrev  0x000002e5      0x1b5 Styrenhet.o
+ .debug_abbrev  0x00000000      0x147 PDregulator.o
+ .debug_abbrev  0x00000147       0xf3 pwm.o
+ .debug_abbrev  0x0000023a      0x1f4 SPI.o
+ .debug_abbrev  0x0000042e      0x1b5 Styrenhet.o
 
-.debug_line     0x00000000      0x57b
+.debug_line     0x00000000      0x6e9
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x160 pwm.o
- .debug_line    0x00000160      0x1dd SPI.o
- .debug_line    0x0000033d      0x23e Styrenhet.o
+ .debug_line    0x00000000      0x13e PDregulator.o
+ .debug_line    0x0000013e      0x160 pwm.o
+ .debug_line    0x0000029e      0x1f7 SPI.o
+ .debug_line    0x00000495      0x254 Styrenhet.o
 
-.debug_frame    0x00000000      0x30c
+.debug_frame    0x00000000      0x3a0
  *(.debug_frame)
- .debug_frame   0x00000000       0xd0 pwm.o
- .debug_frame   0x000000d0      0x148 SPI.o
- .debug_frame   0x00000218       0xf4 Styrenhet.o
+ .debug_frame   0x00000000       0x94 PDregulator.o
+ .debug_frame   0x00000094       0xd0 pwm.o
+ .debug_frame   0x00000164      0x148 SPI.o
+ .debug_frame   0x000002ac       0xf4 Styrenhet.o
 
-.debug_str      0x00000000      0x392
+.debug_str      0x00000000      0x431
  *(.debug_str)
- .debug_str     0x00000000      0x1bb pwm.o
+ .debug_str     0x00000000      0x1f6 PDregulator.o
+                                0x24a (size before relaxing)
+ .debug_str     0x000001f6       0x97 pwm.o
                                 0x1f5 (size before relaxing)
- .debug_str     0x000001bb      0x153 SPI.o
-                                0x2ad (size before relaxing)
- .debug_str     0x0000030e       0x84 Styrenhet.o
-                                0x2d7 (size before relaxing)
+ .debug_str     0x0000028d      0x133 SPI.o
+                                0x2d6 (size before relaxing)
+ .debug_str     0x000003c0       0x71 Styrenhet.o
+                                0x2e1 (size before relaxing)
 
-.debug_loc      0x00000000     0x116b
+.debug_loc      0x00000000     0x1371
  *(.debug_loc)
- .debug_loc     0x00000000       0xd4 pwm.o
- .debug_loc     0x000000d4      0xead SPI.o
- .debug_loc     0x00000f81      0x1ea Styrenhet.o
+ .debug_loc     0x00000000       0xb9 PDregulator.o
+ .debug_loc     0x000000b9       0xd4 pwm.o
+ .debug_loc     0x0000018d      0xffa SPI.o
+ .debug_loc     0x00001187      0x1ea Styrenhet.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -556,11 +618,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x150
+.debug_ranges   0x00000000      0x198
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x60 pwm.o
- .debug_ranges  0x00000060       0x78 SPI.o
- .debug_ranges  0x000000d8       0x78 Styrenhet.o
+ .debug_ranges  0x00000000       0x48 PDregulator.o
+ .debug_ranges  0x00000048       0x60 pwm.o
+ .debug_ranges  0x000000a8       0x78 SPI.o
+ .debug_ranges  0x00000120       0x78 Styrenhet.o
 
 .debug_macro
  *(.debug_macro)

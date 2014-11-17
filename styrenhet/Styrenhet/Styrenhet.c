@@ -35,11 +35,7 @@ int main(void) {
 	sei();
 	
 	while(1) {
-		//gripClaw();
-		//_delay_ms(2500);
-		//releaseClaw();
-		//_delay_ms(500);
-		//receiveMessage();
+		PDforward();
 	}
 }
 
