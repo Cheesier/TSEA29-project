@@ -31,6 +31,8 @@ char SPI_Transceive(char dataout) {
 }
 
 void sendDistanceSensors(void) {
+	SPI_Send(0x04);
+	SPI_Send(0x04);
 	uint8_t *sensorData;
 	sensorData = getDistance();
 	for (int i = 0; i < SENSOR_COUNT; i++) {
