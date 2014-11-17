@@ -70,14 +70,11 @@ void USARTWriteChar(char data) {
 }
 
 void bt_send(char header, char size, char *data) {
-	// check so that we are only trying to send data to control center
-	// (The only BT device)
-	if (header >> 6 == 0x11) {
-		USARTWriteChar(header);
-		USARTWriteChar(size);
-		for (int i = 0; i < size; i++)
-			USARTWriteChar(((char*)data)[i]);
-	}
+	USARTWriteChar(header);
+	USARTWriteChar(size);
+	for (int i = 0; i < size; i++)
+	USARTWriteChar(((char*)data)[i]);
+	
 	// not sure how to handle the other cases
 	// maybe send a message to the control center?
 }
@@ -88,7 +85,7 @@ void bt_send(char header, char size, char *data) {
 ISR(USARTRXC_vect){	   
 	char header;
 	char size;
-	char data[10];
+	char data[size];
 
 	//Read data
 	header = UDR;
@@ -109,7 +106,7 @@ ISR(USARTRXC_vect){
 ISR(USARTRXC_vect) {
 	char header;
 	char size;
-	char data[10];
+	char data[size];
 
 	//Read data
 	header = UDR;
