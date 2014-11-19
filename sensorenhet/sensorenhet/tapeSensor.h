@@ -22,4 +22,6 @@ void calibrateTapeSensor();
 void setOnTape();
 void setOffTape();
 
+void pollTapeData();
+
 #endif /* TAPESENSOR_H_ */

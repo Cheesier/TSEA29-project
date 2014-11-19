@@ -97,14 +97,41 @@ void setOffTape() {
 	off_tape = tape_data;
 }
 
+void pollTapeData() {
+	//PORTB |= 2;
+	//tape_data_done = 578;
+	if(active_port == TAPE_SENSOR_PORT) {
+		//int tape_bit = convertToBit(ADC);
+		//tape_data |= (tape_bit << current_tape_sensor);
+		current_tape_sensor++;
+		//current_tape_sensor = 1;
+		tape_data_done = ADC;//
+		if(current_tape_sensor == 9) //LED 10 is dead
+			current_tape_sensor = 10;
+		if(current_tape_sensor == 11) {
+			//tape_data_done = tape_data;
+			//active_port = GYRO_PORT;
+			current_tape_sensor = 0;
+		}
+		//PORTB &= ~(0x0F);				// Clear the mux before setting the value
+		//PORTB |= current_tape_sensor;	// Sets which tape sensor's data is converted
+		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F);
+	}
+	else if(active_port == GYRO_PORT) {
+		gyro_data = ADC;
+		active_port = TAPE_SENSOR_PORT;
+	}
+	//readADC(active_port);
+}
+
 ISR(ADC_vect) {
 	//PORTB |= 2;
 	//tape_data_done = 578;
 	if(active_port == TAPE_SENSOR_PORT) {		
 		//int tape_bit = convertToBit(ADC);
 		//tape_data |= (tape_bit << current_tape_sensor);
-		//current_tape_sensor++;
-		current_tape_sensor = 1;		
+		current_tape_sensor++;
+		//current_tape_sensor = 1;		
 		tape_data_done = ADC;//
 		if(current_tape_sensor == 11) {	
 			//tape_data_done = tape_data;				

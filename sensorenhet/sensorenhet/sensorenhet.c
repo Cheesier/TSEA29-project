@@ -51,10 +51,12 @@ int main(void) {
 	//tape_data_done = 578;
 	//readADC(0);
 	while(1) {
-		_delay_ms(60);
+		readADC(0);
+		_delay_ms(3);
 		//updateDistance();
 		//receiveMessage();		
 		//readADC(1);
+		pollTapeData();
 
 	}
 	return 0;
