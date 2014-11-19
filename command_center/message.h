@@ -29,7 +29,7 @@ public:
 
   Message(){}
   Message(const Type_t& type_, const string& data_);
-  enum msg_t{T_ECHO, T_P, T_D, T_GO_FORWARD_RIGHT = 0x05, T_GO_FORWARD_LEFT = 0x05, T_GO_FORWARD = 0x07, T_GO_BACKWARD = 0x08, T_TURN_LEFT = 0x09 , T_TURN_RIGHT = 0x0A,T_CLOSE_CLAW = 0x0B, T_OPEN_CLAW = 0x0C, T_STOP = 0x0D, T_DISTANCE_DATA = 0x20, T_TAPE_DATA = 0x21, T_ERROR = 0x3F};
+  enum msg_t{T_ECHO, T_P, T_D, T_CHANGE_DIRECTION = 0x04, T_GO_FORWARD_RIGHT = 0x05, T_GO_FORWARD_LEFT = 0x05, T_GO_FORWARD = 0x07, T_GO_BACKWARD = 0x08, T_TURN_LEFT = 0x09 , T_TURN_RIGHT = 0x0A,T_CLOSE_CLAW = 0x0B, T_OPEN_CLAW = 0x0C, T_STOP = 0x0D, T_DISTANCE_DATA = 0x20, T_TAPE_DATA = 0x21, T_ERROR = 0x3F};
 
   inline bool operator> (const Message& other) {return created_at > other.created_at;}
   inline bool operator< (const Message& other) {return created_at < other.created_at;}
@@ -59,6 +59,8 @@ public:
   void stop();
   void open_claw();
   void close_claw();
+
+  void change_direction(int direction);
 
   void set_p(const double& val);
   void set_d(const double& val);

@@ -118,8 +118,8 @@ void Message::turn_left(int speed){
 void Message::go_forward_right(int speed){
   type = ADDR_STYRENHET | T_GO_FORWARD_RIGHT;
   string new_speed = "";
-  new_speed += char(128 + (speed/3));   //from ui
-  new_speed += char(128 + speed);
+  new_speed += char(128 + speed);   //from ui
+  new_speed += char(128 + (speed/3));
   data = new_speed;
   encode();
 }
@@ -127,8 +127,8 @@ void Message::go_forward_right(int speed){
 void Message::go_forward_left(int speed){
   type = ADDR_STYRENHET | T_GO_FORWARD_LEFT;
   string new_speed = "";
-  new_speed += char(128 + speed);       //from ui
-  new_speed += char(128 + (speed/3));
+  new_speed += char(128 + (speed/3));       //from ui
+  new_speed += char(128 + speed);
 
   data = new_speed;
   encode();
@@ -150,6 +150,12 @@ void Message::open_claw(){
 void Message::close_claw(){
   type = ADDR_STYRENHET | T_CLOSE_CLAW;
   data.clear();
+  encode();
+}
+
+void Message::change_direction(int direction){
+  type = ADDR_STYRENHET | T_CHANGE_DIRECTION;
+  data = direction;
   encode();
 }
 

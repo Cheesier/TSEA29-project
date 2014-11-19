@@ -35,12 +35,7 @@ void SPI_Init(void) {
 
 // Receive from SPI
 char SPI_Receive(void) {
-<<<<<<< HEAD
 	return SPI_Transceive(0x00);
-=======
-	WAIT_FOR_TRANSFER;				// Wait for reception to complete
-	return SPDR;					// Return Data Register
->>>>>>> 241db0538e5d1fb41650dddde460dbdf04df3b5a
 }
 
 // Send over SPI
@@ -48,7 +43,7 @@ void SPI_Send(char dataout) {
 	SPI_Transceive(dataout);
 }
 
-void SPI_Transceive(char dataout) {
+char SPI_Transceive(char dataout) {
 	SPDR = dataout;
 	WAIT_FOR_TRANSFER;
 	return SPDR;
@@ -132,6 +127,89 @@ void receiveMessage() {
 	else {			// In case of unexpected header, send an error message
 		headerError(header);
 	}
+}
+
+ISR(SPISTC_vect) {
+	cli();
+	char msg = SPDR;
+	char size = SPI_Receive();
+	char header = msg >> 6;
+	msg = msg & 0x3F;
+	char speed;
+	uint8_t d, p;
+	char left_dir, right_dir, left_speed, right_speed;
+	char unknownMessage[size];	//couldn't be down in the default..
+		if(header == 0x01) {							// Make sure that the message is meant for us
+			switch(msg) {								// Identify the message and act accordingly
+				case 0x01:	// Forward with pd
+					speed = SPI_Receive();
+					speed = speed << 1;
+					PDsetSpeed(speed);
+					break;
+				case 0x02:	// Turn on pd
+					PDactivate();
+					break;
+				case 0x03:	// Turn off pd
+					PDdeactivate();
+					break;
+				case 0x04:	// Switch forward/backward (used when reversing through the labyrinth)
+					msg = SPI_Receive();
+					setDirection(msg);
+					break;
+				case 0x05:	// Set the speed/direction for the different motors
+					left_speed = SPI_Receive();
+					left_dir = left_speed >> 7;
+					left_speed = left_speed << 1;
+					leftWheelDirection(left_dir);
+
+					right_speed = SPI_Receive();
+					right_dir = right_speed >> 7;
+					right_speed = right_speed << 1;
+					rightWheelDirection(right_dir);
+					wheelSpeeds(left_speed, right_speed);
+					break;
+				case 0x06:	// Set the p and d values
+					p = SPI_Receive();
+					d = SPI_Receive();
+					setPD(p, d); 
+					break;
+				case 0x07:	// Move forward with the specified speed
+					speed = SPI_Receive() << 1;
+					driveForward(speed);
+					break;
+				case 0x08:	// Move backward with the specified speed
+					speed = SPI_Receive() << 1;
+					driveReverse(speed);
+					break;
+				case 0x09:	// Rotate left with the specified speed
+					speed = SPI_Receive() << 1;
+					rotateLeft(speed);
+					break;
+				case 0x0A:	// Rotate right with the specified speed
+					speed = SPI_Receive() << 1;
+					rotateRight(speed);
+					break;
+					case 0x0B:	// Close the claw
+					gripClaw();
+					break;
+				case 0x0C:	// Open the claw
+					releaseClaw();
+					break;
+					case 0x0D: // Stop the robot
+					stopWheels();
+					break;
+				default:	// Fetch the message anyway
+					for(int i = 0; i < size; i++) {
+						unknownMessage[i] = SPI_Receive();
+						errorMessage(unknownMessage);
+					}
+					break;
+			}
+		}
+		else {			// In case of unexpected header, send an error message
+			headerError(header);
+		}
+	sei();
 }
 
 // Send back unknown messages to the control center

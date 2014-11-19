@@ -143,7 +143,7 @@ void Core::process_msg(const Msg_ptr &msg){
       log(QString("processing message [type %1]..").arg(msg->get_type() & 0x3F));
 
       if ((msg->get_type()/64) != (ADDR_KONTROLLCENTER/64)) {     //see if message is not meant for kontroll center
-        log(QString("the message was meant for [type %1]..").arg(msg->get_type()/64)); // who was it meant for?
+        log(QString("the message was meant for: %1..").arg(msg->get_type()/64)); // who was it meant for?
         return;
       }
       else {    // it was meant for kontroll center
@@ -302,6 +302,12 @@ void Core::open_claw(){
 void Core::close_claw(){
   Msg_ptr msg(new Message);
   msg->close_claw();
+  send(msg);
+}
+
+void Core::change_direction(int direction){
+  Msg_ptr msg(new Message);
+  msg->change_direction(direction);
   send(msg);
 }
 

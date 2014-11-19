@@ -32,13 +32,10 @@ char direction = FORWARD;
 int main(void) {
 	SPI_Init();								// Initiate SPI as a slaves
 	init_pwm();								// Initiates the pins used for PWM
+	sei();
 	
 	while(1) {
-		//gripClaw();
-		//_delay_ms(2500);
-		//releaseClaw();
-		//_delay_ms(500);
-		receiveMessage();
+		PDforward();
 	}
 }
 

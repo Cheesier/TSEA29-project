@@ -5,6 +5,10 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "sensorenhet", "sensorenhet\
 EndProject
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "masterDummy", "masterDummy\masterDummy.cproj", "{DDBC2866-48EF-422E-A2D0-A0F49E313092}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Huvudenhet", "..\Robot\Huvudenhet\Huvudenhet.cproj", "{86B7921D-597F-4D9A-AB02-A05AB75311A8}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Styrenhet", "..\styrenhet\Styrenhet\Styrenhet.cproj", "{445B8903-AF2E-4510-91CC-2FF3EC146770}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -19,6 +23,14 @@ Global
 		{DDBC2866-48EF-422E-A2D0-A0F49E313092}.Debug|AVR.Build.0 = Debug|AVR
 		{DDBC2866-48EF-422E-A2D0-A0F49E313092}.Release|AVR.ActiveCfg = Release|AVR
 		{DDBC2866-48EF-422E-A2D0-A0F49E313092}.Release|AVR.Build.0 = Release|AVR
+		{86B7921D-597F-4D9A-AB02-A05AB75311A8}.Debug|AVR.ActiveCfg = Debug|AVR
+		{86B7921D-597F-4D9A-AB02-A05AB75311A8}.Debug|AVR.Build.0 = Debug|AVR
+		{86B7921D-597F-4D9A-AB02-A05AB75311A8}.Release|AVR.ActiveCfg = Release|AVR
+		{86B7921D-597F-4D9A-AB02-A05AB75311A8}.Release|AVR.Build.0 = Release|AVR
+		{445B8903-AF2E-4510-91CC-2FF3EC146770}.Debug|AVR.ActiveCfg = Debug|AVR
+		{445B8903-AF2E-4510-91CC-2FF3EC146770}.Debug|AVR.Build.0 = Debug|AVR
+		{445B8903-AF2E-4510-91CC-2FF3EC146770}.Release|AVR.ActiveCfg = Release|AVR
+		{445B8903-AF2E-4510-91CC-2FF3EC146770}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
