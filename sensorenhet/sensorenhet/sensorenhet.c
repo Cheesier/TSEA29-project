@@ -33,7 +33,8 @@ static int tape_floor = 0;
 
 void initSensors() {
 	// Initiate the mux for the tape sensors
-	DDRB |= 0x0F;
+	DDRB |= 0x0F;	
+	PORTB &= ~(0x0F);
 	
 	// Initiate the Analog to Digital Converter
 	initADC();
@@ -47,10 +48,13 @@ int main(void) {
 	initSensors();
 	SPI_Init();
 	sei();
+	//tape_data_done = 578;
+	//readADC(0);
 	while(1) {
 		_delay_ms(60);
-		updateDistance();
-		//readADC(0);
+		//updateDistance();
+		//receiveMessage();		
+		//readADC(1);
 
 	}
 	return 0;
