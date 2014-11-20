@@ -50,6 +50,6 @@ void PDforward() {
 		else {
 			left_speed += correction;
 		}
-		softTurn(left_speed, right_speed);
+		PDTurning(left_speed, right_speed);
 	}
 }

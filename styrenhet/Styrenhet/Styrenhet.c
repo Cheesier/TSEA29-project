@@ -113,16 +113,30 @@ void rotateRight() {
 
 // The robot makes a soft turn
 // Turn direction is decided by the input parameters
-void softTurn(uint8_t left_speed, uint8_t right_speed) {
+void PDTurning(uint8_t left_speed, uint8_t right_speed) {
 	left_speed = left_speed * (maxSpeed/255);
 	right_speed = right_speed * (maxSpeed/255);
 	if(direction == REVERSE) {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);
 		setSpeeds(right_speed, left_speed);
-		return;
-		
+		return;		
 	}	
+	PORTA |= (1<<WHEEL_DIRECTION_L);
+	PORTA |= (1<<WHEEL_DIRECTION_R);
+	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
+	return;
+}
+
+void softTurnLeft() {
+	uint8_t left_speed = maxSpeed/3;
+	uint8_t right_speed = maxSpeed;
+	if(direction == REVERSE) {
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);
+		setSpeeds(right_speed, left_speed);
+		return;
+	}
 	PORTA |= (1<<WHEEL_DIRECTION_L);
 	PORTA |= (1<<WHEEL_DIRECTION_R);
 	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
@@ -131,9 +145,9 @@ void softTurn(uint8_t left_speed, uint8_t right_speed) {
 
 // The robot makes a soft turn in reverse
 // Turn direction is decided by the input parameters
-void softTurnReverse(uint8_t left_speed, uint8_t right_speed) {	
-	left_speed = left_speed * (maxSpeed/255);
-	right_speed = right_speed * (maxSpeed/255);
+void softTurnRight() {	
+	uint8_t left_speed = maxSpeed;
+	uint8_t right_speed = maxSpeed/3;
 	if(direction == REVERSE) {		
 		PORTA |= (1<<WHEEL_DIRECTION_L);
 		PORTA |= (1<<WHEEL_DIRECTION_R);

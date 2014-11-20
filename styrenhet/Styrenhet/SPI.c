@@ -122,11 +122,10 @@ ISR(SPISTC_vect) {
 					maxSpeed = speed;
 					break;
 				case 0x0F:
-					right_dir = SPI_Receive();
-					left_dir = right_dir >> 1;
-					right_dir = right_dir & 0x01;
-					leftWheelDirection(left_dir);
-					rightWheelDirection(right_dir);					
+					softTurnLeft();				
+					break;
+				case 0x10:
+					softTurnRight();
 					break;
 				default:	// Fetch the message anyway
 					for(int i = 0; i < size; i++) {
