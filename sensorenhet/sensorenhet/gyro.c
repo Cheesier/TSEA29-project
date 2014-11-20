@@ -21,12 +21,12 @@ static int degrees_rotated = 0;
 void rotateDegrees(uint8_t degrees) {
 	degrees_rotated = 0;					// Reset degrees rotated so we make sure not to rotate to much
 
-	while (degrees_rotated <= degrees) {
+	while (degrees_rotated <= degrees) {	// Rotate until we reach the requested amount of degrees rotated
 		updateGyroData();
 	}
 }
 
-// Rotate for 10 ms and update degrees_rotated. Maybe rename this
+// Rotate for 10 ms and update degrees_rotated
 uint8_t updateGyroData() {
 	uint16_t gyro_value;
 	//gyro_value = readADC(1);				// Get gyro data from the ADC. Will (probably) return a value between 0 and 1023
@@ -56,5 +56,5 @@ void resetDegreesRotated(){
 // and then read the value of the gyro to get a standard value
 void initGyro() {
 	_delay_ms(1000);
-	gyro_null_value = getGyroData();		// Should give us a value of approximately 512
+	//gyro_null_value = however we get gyro data		// Should give us a value of approximately 512
 }
