@@ -10,9 +10,9 @@
 
 #define TRIGGER PORTD1
 #define ECHO_FRONT PIND2
-#define ECHO_RIGHT PIND3
-#define ECHO_BACK PIND4
-#define ECHO_LEFT PIND5
+#define ECHO_BACK PIND3
+#define ECHO_LEFT PIND4
+#define ECHO_RIGHT PIND5
 #define SENSOR_INPUT PIND
 #define SENSOR_OUTPUT PORTD
 #define WAIT_FOR_INPUT while(!RIGHT_HIGH||!BACK_HIGH||!LEFT_HIGH||!FRONT_HIGH)
@@ -31,8 +31,8 @@ int getDistanceVal(){
 
 
 
-void updateDistance() {	
-	sei();
+void updateDistance() {
+	//Setup variables
 	uint8_t done[SENSOR_COUNT];
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		done[i] = 0;
@@ -40,14 +40,12 @@ void updateDistance() {
 	distance = 0;
 	interrupted = 0;
 	TCNT2 = 0;
-	//Trigger sensors
 	
+	//Trigger sensors
 	SENSOR_OUTPUT |= (1<<TRIGGER);
 	_delay_us(10);
 	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
-	
-
 	//Wait for input from sensors
 	WAIT_FOR_INPUT;
 	
@@ -92,18 +90,14 @@ void initDistance() {
 	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
 	for(int i = 0; i < SENSOR_COUNT; i++) {
-		distanceSensors[i] = 4;
+		distanceSensors[i] = 0;
 	}
 	
 	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode
 	TIMSK |= (1 << OCIE2);				// Enable Timer2 Output Compare Interrupt
 	OCR2 = 58;							// Compare count
-	//DDRA |= (1<<0);
 }
 
 ISR(TIMER2_COMP_vect) {
 	distance++;
-	//PORTA |= (1<<0);
-	_delay_us(10);
-	//PORTA &= ~(1<<0);
 }
