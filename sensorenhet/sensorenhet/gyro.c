@@ -17,6 +17,7 @@
 
 static int gyro_null_value = 0;
 static int degrees_rotated = 0;
+uint16_t gyro_data_done = 0;
 
 void rotateDegrees(uint8_t degrees) {
 	degrees_rotated = 0;					// Reset degrees rotated so we make sure not to rotate to much

@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include "PDregulator.h"
 
+extern uint8_t maxSpeed;
+
 void setDirection(uint8_t dir);
 
 void driveForward(uint8_t speed);
