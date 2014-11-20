@@ -63,16 +63,10 @@ int convertToBit(int data) {
 	return tape_data;
 }
 
-<<<<<<< HEAD
 
-// Calibrate the tape sensors to set a threshold to identify wether or not we're on tape
-void calibrateTapeSensor(char tape_pos) {
-
-=======
 // Calibrate the tape sensors to set a threshold to identify whether or not we're on tape
 // This function expect the robot to stand on tape at the beginning
 void calibrateTapeSensor() {
->>>>>>> 6245549884aaa0133b3d64be2ce70ab8a8ed3634
 	// This version is not autonomic, the robot need to be physically moved for it to work
 	/*setOnTape();
 	_delay_ms(10000);								// Wait 10 seconds for the robot to be moved
@@ -134,17 +128,17 @@ void pollTapeData() {
 ISR(ADC_vect) {
 	//PORTB |= 2;
 	//tape_data_done = 578;
-	if(active_port == TAPE_SENSOR_PORT) {		
+	if(active_port == TAPE_SENSOR_PORT) {
 		//int tape_bit = convertToBit(ADC);
 		//tape_data |= (tape_bit << current_tape_sensor);
 		current_tape_sensor++;
-		//current_tape_sensor = 1;		
+		//current_tape_sensor = 1;
 		tape_data_done = ADC;//
-		if(current_tape_sensor == 11) {	
-			//tape_data_done = tape_data;				
+		if(current_tape_sensor == 11) {
+			//tape_data_done = tape_data;
 			//active_port = GYRO_PORT;
 			current_tape_sensor = 0;
-		}		
+		}
 		//PORTB &= ~(0x0F);				// Clear the mux before setting the value
 		//PORTB |= current_tape_sensor;	// Sets which tape sensor's data is converted
 		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F);
