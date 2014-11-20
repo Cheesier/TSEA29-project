@@ -39,7 +39,8 @@ SUBDIRS :=
 C_SRCS +=  \
 ../ADC.c \
 ../distanceSensor.c \
-../sensorenhet.c \
+../gyro.c \
+../Sensorenhet.c \
 ../SPI.c \
 ../tapeSensor.c
 
@@ -53,34 +54,38 @@ ASM_SRCS +=
 OBJS +=  \
 ADC.o \
 distanceSensor.o \
-sensorenhet.o \
+gyro.o \
+Sensorenhet.o \
 SPI.o \
 tapeSensor.o
 
 OBJS_AS_ARGS +=  \
 ADC.o \
 distanceSensor.o \
-sensorenhet.o \
+gyro.o \
+Sensorenhet.o \
 SPI.o \
 tapeSensor.o
 
 C_DEPS +=  \
 ADC.d \
 distanceSensor.d \
-sensorenhet.d \
+gyro.d \
+Sensorenhet.d \
 SPI.d \
 tapeSensor.d
 
 C_DEPS_AS_ARGS +=  \
 ADC.d \
 distanceSensor.d \
-sensorenhet.d \
+gyro.d \
+Sensorenhet.d \
 SPI.d \
 tapeSensor.d
 
-OUTPUT_FILE_PATH +=sensorenhet.elf
+OUTPUT_FILE_PATH +=Sensorenhet.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=sensorenhet.elf
+OUTPUT_FILE_PATH_AS_ARGS +=Sensorenhet.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -103,10 +108,12 @@ LINKER_SCRIPT_DEP+=
 
 
 
+
+
 ./%.o: .././%.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 4.8.1
-	$(QUOTE)D:\Program\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega16a -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)E:\Windows\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega16a -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
@@ -135,13 +142,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 4.8.1
-	$(QUOTE)D:\Program\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="sensorenhet.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega16a  
+	$(QUOTE)E:\Windows\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Sensorenhet.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega16a  
 	@echo Finished building target: $@
-	"D:\Program\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "sensorenhet.elf" "sensorenhet.hex"
-	"D:\Program\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "sensorenhet.elf" "sensorenhet.eep" || exit 0
-	"D:\Program\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "sensorenhet.elf" > "sensorenhet.lss"
-	"D:\Program\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "sensorenhet.elf" "sensorenhet.srec"
-	"D:\Program\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-size.exe" "sensorenhet.elf"
+	"E:\Windows\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "Sensorenhet.elf" "Sensorenhet.hex"
+	"E:\Windows\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Sensorenhet.elf" "Sensorenhet.eep" || exit 0
+	"E:\Windows\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "Sensorenhet.elf" > "Sensorenhet.lss"
+	"E:\Windows\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "Sensorenhet.elf" "Sensorenhet.srec"
+	"E:\Windows\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-size.exe" "Sensorenhet.elf"
 	
 	
 
@@ -153,5 +160,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "sensorenhet.elf" "sensorenhet.a" "sensorenhet.hex" "sensorenhet.lss" "sensorenhet.eep" "sensorenhet.map" "sensorenhet.srec" "sensorenhet.usersignatures"
+	rm -rf "Sensorenhet.elf" "Sensorenhet.a" "Sensorenhet.hex" "Sensorenhet.lss" "Sensorenhet.eep" "Sensorenhet.map" "Sensorenhet.srec" "Sensorenhet.usersignatures"
 	
