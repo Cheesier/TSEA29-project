@@ -6,9 +6,9 @@
  */ 
 
 #define DISTANCE_FRONT 0
-#define DISTANCE_RIGHT 1
-#define DISTANCE_BACK 2
-#define DISTANCE_LEFT 3
+#define DISTANCE_BACK 1
+#define DISTANCE_LEFT 2
+#define DISTANCE_RIGHT 3
 #define SENSOR_COUNT 4
 
 #ifndef DISTANCESENSOR_H_

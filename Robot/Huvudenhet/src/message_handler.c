@@ -47,6 +47,10 @@ void send_message(char header, char size, char *data) {
 	}
 }
 
+void send_message_to(char address, char type, char size, char *data) {
+	send_message(address | type, size, data);
+}
+
 void read_message(char address) {
 	char header = spi_read(address);
 	char size = spi_read(address);
