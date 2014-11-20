@@ -11,7 +11,6 @@
 #define DDR_SPI DDRB
 #define DDR_MISO DDB6
 #define SPI_DATA_REG SPDR
-#define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)))
 
 // Defines for pins for sensorenhet
 /*MUX ports*/
