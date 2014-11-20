@@ -33,9 +33,10 @@ static int tape_floor = 0;
 
 void initSensors() {
 	// Initiate the mux for the tape sensors
-	DDRB |= 0x0F;	
+
+	DDRB |= 0x0F;
 	PORTB &= ~(0x0F);
-	
+
 	// Initiate the Analog to Digital Converter
 	initADC();
 
@@ -52,9 +53,10 @@ int main(void) {
 	readADC(0);
 	while(1) {
 		//readADC(0);
-		_delay_us(1);
+		//_delay_us(1);
+		//_delay_ms(1);
 		//updateDistance();
-		//receiveMessage();		
+		//receiveMessage();
 		//readADC(1);
 		//pollTapeData();
 	}

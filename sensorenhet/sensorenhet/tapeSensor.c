@@ -13,8 +13,6 @@
 #include <util/delay.h>
 
 #include "sensorenhet.h"
-//#include "tapeSensor.h"
-//#include "ADC.h"
 
 #define TAPE_SENSOR_PORT 0
 #define GYRO_PORT 1
@@ -61,13 +59,13 @@ void calibrateTapeSensor() {
 
 // Set on tape value for the tape sensor
 void setOnTape() {
-	uint8_t tape_data = getTapeData();				// Get data from the sensors
+	//uint8_t tape_data = getTapeData();				// Get data from the sensors
 	on_tape_value = tape_data;
 }
 
 // Set off tape value for the tape sensor
 void setOffTape() {
-	uint8_t tape_data = getTapeData();						// Get data from the sensors
+	//uint8_t tape_data = getTapeData();						// Get data from the sensors
 	off_tape_value = tape_data;
 }
 
@@ -75,14 +73,15 @@ ISR(ADC_vect) {
 	if(active_port == TAPE_SENSOR_PORT) {		
 		int tape_bit = convertToBit(ADC);
 		tape_data |= (tape_bit << current_tape_sensor);
-		current_tape_sensor++;
-		//tape_data_done = ADC;//
+		current_tape_sensor++;		
 		if(current_tape_sensor == 9) {	//LED 10 not working
 			current_tape_sensor = 10;
 		}
 		if(current_tape_sensor == 11) {	
 			tape_data_done = tape_data;
-			if(tape_data_done & 0x)
+			if((tape_data_done & (1<<10)) && (tape_data_done & (1<<8))) {
+				tape_data_done |= (1 << 9);
+			}
 			tape_data = 0;				
 			//active_port = GYRO_PORT;
 			current_tape_sensor = 0;

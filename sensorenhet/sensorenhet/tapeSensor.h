@@ -11,7 +11,7 @@
 
 #define F_CPU 8000000UL
 
-extern uint16_t tape_data_done;// = 0;
+extern uint16_t tape_data_done;
 
 int convertToBit(int data);
 

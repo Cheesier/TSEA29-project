@@ -11,12 +11,12 @@
 
 // Initiates the SPI
 void SPI_Init(void) {
-	DDR_SPI |= (1<<SPI_MISO);		// Set MISO output
+	DDR_SPI |= (1<<SPI_MISO);					// Set MISO output
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
 }
 
 // Receive over SPI
-char SPI_Receive(void) {				
+char SPI_Receive(void) {
 	return SPI_Transceive(0x00);
 }
 
@@ -28,7 +28,7 @@ void SPI_Send(char dataout) {
 char SPI_Transceive(char dataout) {
 	SPDR = dataout;	
 	WAIT_FOR_TRANSFER;	
-	return SPDR;	
+	return SPDR;
 }
 
 void sendDistanceSensors(void) {
@@ -43,7 +43,7 @@ void sendDistanceSensors(void) {
 
 // Sends the most updated tape data to the huvudenhet
 void sendTapeSensors() {
-	SPI_Send(0x03);	
+	SPI_Send(0x03);
 	SPI_Send(0x02);
 	uint8_t highByte = (uint8_t)(tape_data_done >> 8);
 	uint8_t lowByte = (uint8_t)(tape_data_done);
@@ -55,7 +55,7 @@ void sendGyro() {
 	SPI_Send(returnDegreesRotated());
 }
 
-ISR(SPISTC_vect) {	
+ISR(SPISTC_vect) {
 	char msg = SPDR;
 	char header = msg >> 6;
 	char size = SPI_Receive();
@@ -64,7 +64,7 @@ ISR(SPISTC_vect) {
 	uint8_t data;
 	if(header == 0x02) {
 		switch (msg) {
-			case 0x01:					// Reset gyro_angle
+			case 0x01:					// Reset gyro angle
 				resetDegreesRotated();
 				break;
 			case 0x02:					// How much gyro rotate and who was dog
