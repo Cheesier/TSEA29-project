@@ -317,7 +317,7 @@ void Core::change_direction(int direction){
 }
 
 void Core::set_pd(int p, int d){
-  if(p <=0 || p>255 || d <=0 || d>255){
+  if(p <0 || p>255 || d <0 || d>255){
     troll_input();
     return;
   }

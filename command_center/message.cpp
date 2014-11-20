@@ -91,37 +91,37 @@ void Message::echo(){
   encode();
 }
 
-void Message::go_forward(int speed){
+void Message::go_forward(){
   type = ADDR_STYRENHET | T_GO_FORWARD;
   data.clear();
   encode();
 }
 
-void Message::go_backward(int speed){
+void Message::go_backward(){
   type = ADDR_STYRENHET | T_GO_BACKWARD;
   data.clear();
   encode();
 }
 
-void Message::turn_right(int speed){
+void Message::turn_right(){
   type = ADDR_STYRENHET | T_TURN_RIGHT;
   data.clear();
   encode();
 }
 
-void Message::turn_left(int speed){
+void Message::turn_left(){
   type = ADDR_STYRENHET | T_TURN_LEFT;
   data.clear();
   encode();
 }
 
-void Message::go_forward_right(int speed){
+void Message::go_forward_right(){
   type = ADDR_STYRENHET | T_GO_FORWARD_RIGHT;
   data.clear();
   encode();
 }
 
-void Message::go_forward_left(int speed){
+void Message::go_forward_left(){
   type = ADDR_STYRENHET | T_GO_FORWARD_LEFT;
   data.clear();
   encode();
@@ -159,11 +159,11 @@ void Message::change_direction(int direction){
 }
 
 void Message::set_pd(int p, int d){
-  type = T_SET_PD;
+  type = ADDR_STYRENHET | T_SET_PD;
 
   string pd = "";
-  pd += char(128 + p);       //from ui
-  pd += char(128 + d);
+  pd += char(p);       //from ui
+  pd += char(d);
 
   data = pd;
   encode();
