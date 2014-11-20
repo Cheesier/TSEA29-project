@@ -8,7 +8,7 @@ distanceSensor.c
 
 gyro.c
 
-sensorenhet.c
+Sensorenhet.c
 
 SPI.c
 

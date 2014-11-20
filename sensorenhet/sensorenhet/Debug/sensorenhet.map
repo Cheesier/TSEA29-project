@@ -1,16 +1,16 @@
 Archive member included because of file (symbol)
 
-c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
-                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o (exit)
-c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                              e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o (exit)
+e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
                               tapeSensor.o (__do_copy_data)
-c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
                               distanceSensor.o (__do_clear_bss)
 
 Discarded input sections
 
- .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
- .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .data          0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .bss           0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  .text          0x00000000        0x0 ADC.o
  .data          0x00000000        0x0 ADC.o
  .bss           0x00000000        0x0 ADC.o
@@ -26,20 +26,20 @@ Discarded input sections
  .text          0x00000000        0x0 gyro.o
  .data          0x00000000        0x0 gyro.o
  .bss           0x00000000        0x0 gyro.o
- .text.getGyroData
-                0x00000000        0x4 gyro.o
- .text          0x00000000        0x0 sensorenhet.o
- .data          0x00000000        0x0 sensorenhet.o
- .bss           0x00000000        0x0 sensorenhet.o
+ .text.updateGyroData
+                0x00000000       0x10 gyro.o
+ .text.rotateDegrees
+                0x00000000       0x28 gyro.o
+ .text          0x00000000        0x0 Sensorenhet.o
+ .data          0x00000000        0x0 Sensorenhet.o
+ .bss           0x00000000        0x0 Sensorenhet.o
  .text          0x00000000        0x0 SPI.o
  .data          0x00000000        0x0 SPI.o
  .bss           0x00000000        0x0 SPI.o
  .text.SPI_Send
                 0x00000000        0x6 SPI.o
  .text.receiveMessage
-                0x00000000       0x4c SPI.o
- .bss.gyro_angle
-                0x00000000        0x2 SPI.o
+                0x00000000       0x5c SPI.o
  .text          0x00000000        0x0 tapeSensor.o
  .data          0x00000000        0x0 tapeSensor.o
  .bss           0x00000000        0x0 tapeSensor.o
@@ -55,54 +55,54 @@ Discarded input sections
                 0x00000000        0x2 tapeSensor.o
  .data.tape_threshold
                 0x00000000        0x2 tapeSensor.o
- .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
- .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
- .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .text          0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .data          0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .bss           0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
- .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
- .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
- .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .text          0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
- .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
- .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
- .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.mul
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
- .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000000        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
 
 Memory Configuration
 
@@ -118,20 +118,20 @@ user_signatures  0x00850000         0x00000400         rw !x
 
 Linker script and memory map
 
-LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+LOAD e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
 LOAD ADC.o
 LOAD distanceSensor.o
 LOAD gyro.o
-LOAD sensorenhet.o
+LOAD Sensorenhet.o
 LOAD SPI.o
 LOAD tapeSensor.o
 START GROUP
-LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libm.a
+LOAD e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libm.a
 END GROUP
 START GROUP
-LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a
-LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libm.a
-LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a
+LOAD e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a
+LOAD e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libm.a
+LOAD e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a
 END GROUP
 
 .hash
@@ -224,9 +224,9 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x3c8
+.text           0x00000000      0x3c0
  *(.vectors)
- .vectors       0x00000000       0x54 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .vectors       0x00000000       0x54 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
                 0x00000000                __vector_default
                 0x00000000                __vectors
  *(.vectors)
@@ -252,20 +252,20 @@ END GROUP
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000054        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .init0         0x00000054        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
                 0x00000054                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000054        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .init2         0x00000054        0xc e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x00000060       0x16 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+ .init4         0x00000060       0x16 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
                 0x00000060                __do_copy_data
- .init4         0x00000076       0x10 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .init4         0x00000076       0x10 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
                 0x00000076                __do_clear_bss
  *(.init4)
  *(.init5)
@@ -277,10 +277,10 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000086        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .init9         0x00000086        0x8 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  *(.init9)
  *(.text)
- .text          0x0000008e        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .text          0x0000008e        0x4 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
                 0x0000008e                __vector_1
                 0x0000008e                __vector_12
                 0x0000008e                __bad_interrupt
@@ -321,51 +321,51 @@ END GROUP
                 0x0000011c        0xa gyro.o
                 0x0000011c                resetDegreesRotated
  .text.initGyro
-                0x00000126       0x1c gyro.o
+                0x00000126       0x14 gyro.o
                 0x00000126                initGyro
  .text.initSensors
-                0x00000142       0x1a sensorenhet.o
-                0x00000142                initSensors
- .text.main     0x0000015c       0x22 sensorenhet.o
-                0x0000015c                main
+                0x0000013a       0x1a Sensorenhet.o
+                0x0000013a                initSensors
+ .text.main     0x00000154       0x22 Sensorenhet.o
+                0x00000154                main
  .text.SPI_Init
-                0x0000017e        0x8 SPI.o
-                0x0000017e                SPI_Init
+                0x00000176        0x8 SPI.o
+                0x00000176                SPI_Init
  .text.SPI_Transceive
-                0x00000186        0xa SPI.o
-                0x00000186                SPI_Transceive
+                0x0000017e        0xa SPI.o
+                0x0000017e                SPI_Transceive
  .text.SPI_Receive
-                0x00000190        0x8 SPI.o
-                0x00000190                SPI_Receive
+                0x00000188        0x8 SPI.o
+                0x00000188                SPI_Receive
  .text.sendDistanceSensors
-                0x00000198       0x3a SPI.o
-                0x00000198                sendDistanceSensors
+                0x00000190       0x3a SPI.o
+                0x00000190                sendDistanceSensors
  .text.sendTapeSensors
-                0x000001d2       0x24 SPI.o
-                0x000001d2                sendTapeSensors
+                0x000001ca       0x24 SPI.o
+                0x000001ca                sendTapeSensors
  .text.sendGyro
-                0x000001f6        0xa SPI.o
-                0x000001f6                sendGyro
+                0x000001ee        0xa SPI.o
+                0x000001ee                sendGyro
  .text.__vector_10
-                0x00000200       0xa8 SPI.o
-                0x00000200                __vector_10
+                0x000001f8       0xa8 SPI.o
+                0x000001f8                __vector_10
  .text.setOnTape
-                0x000002a8        0xa tapeSensor.o
-                0x000002a8                setOnTape
+                0x000002a0        0xa tapeSensor.o
+                0x000002a0                setOnTape
  .text.setOffTape
-                0x000002b2        0xa tapeSensor.o
-                0x000002b2                setOffTape
+                0x000002aa        0xa tapeSensor.o
+                0x000002aa                setOffTape
  .text.pollTapeData
-                0x000002bc       0x66 tapeSensor.o
-                0x000002bc                pollTapeData
+                0x000002b4       0x66 tapeSensor.o
+                0x000002b4                pollTapeData
  .text.__vector_14
-                0x00000322       0xa2 tapeSensor.o
-                0x00000322                __vector_14
-                0x000003c4                . = ALIGN (0x2)
+                0x0000031a       0xa2 tapeSensor.o
+                0x0000031a                __vector_14
+                0x000003bc                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000003c4        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
-                0x000003c4                _exit
-                0x000003c4                exit
+ .fini9         0x000003bc        0x0 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x000003bc                _exit
+                0x000003bc                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -384,11 +384,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000003c4        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .fini0         0x000003bc        0x4 e:/windows/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000003c8                _etext = .
+                0x000003c0                _etext = .
 
-.data           0x00800060        0x0 load address 0x000003c8
+.data           0x00800060        0x0 load address 0x000003c0
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -399,7 +399,7 @@ END GROUP
                 0x00800060                _edata = .
                 0x00800060                PROVIDE (__data_end, .)
 
-.bss            0x00800060       0x17
+.bss            0x00800060       0x15
                 0x00800060                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -408,32 +408,30 @@ END GROUP
  .bss.distance  0x00800064        0x2 distanceSensor.o
  .bss.degrees_rotated
                 0x00800066        0x2 gyro.o
- .bss.gyro_null_value
-                0x00800068        0x2 gyro.o
  .bss.interrupted
-                0x0080006a        0x2 SPI.o
+                0x00800068        0x2 SPI.o
  .bss.tape_data_done
-                0x0080006c        0x2 tapeSensor.o
-                0x0080006c                tape_data_done
+                0x0080006a        0x2 tapeSensor.o
+                0x0080006a                tape_data_done
  .bss.current_tape_sensor
-                0x0080006e        0x1 tapeSensor.o
- .bss.off_tape  0x0080006f        0x2 tapeSensor.o
- .bss.on_tape   0x00800071        0x2 tapeSensor.o
+                0x0080006c        0x1 tapeSensor.o
+ .bss.off_tape  0x0080006d        0x2 tapeSensor.o
+ .bss.on_tape   0x0080006f        0x2 tapeSensor.o
  .bss.active_port
-                0x00800073        0x2 tapeSensor.o
+                0x00800071        0x2 tapeSensor.o
  .bss.gyro_data
-                0x00800075        0x2 tapeSensor.o
+                0x00800073        0x2 tapeSensor.o
  *(COMMON)
-                0x00800077                PROVIDE (__bss_end, .)
-                0x000003c8                __data_load_start = LOADADDR (.data)
-                0x000003c8                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800075                PROVIDE (__bss_end, .)
+                0x000003c0                __data_load_start = LOADADDR (.data)
+                0x000003c0                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800077        0x0
-                0x00800077                PROVIDE (__noinit_start, .)
+.noinit         0x00800075        0x0
+                0x00800075                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800077                PROVIDE (__noinit_end, .)
-                0x00800077                _end = .
-                0x00800077                PROVIDE (__heap_start, .)
+                0x00800075                PROVIDE (__noinit_end, .)
+                0x00800075                _end = .
+                0x00800075                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -478,7 +476,7 @@ END GROUP
                                  0x31 (size before relaxing)
  .comment       0x00000000       0x31 distanceSensor.o
  .comment       0x00000000       0x31 gyro.o
- .comment       0x00000000       0x31 sensorenhet.o
+ .comment       0x00000000       0x31 Sensorenhet.o
  .comment       0x00000000       0x31 SPI.o
  .comment       0x00000000       0x31 tapeSensor.o
 
@@ -497,81 +495,82 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x180
+.debug_aranges  0x00000000      0x188
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 ADC.o
  .debug_aranges
                 0x00000028       0x40 distanceSensor.o
  .debug_aranges
-                0x00000068       0x38 gyro.o
+                0x00000068       0x40 gyro.o
  .debug_aranges
-                0x000000a0       0x28 sensorenhet.o
+                0x000000a8       0x28 Sensorenhet.o
  .debug_aranges
-                0x000000c8       0x60 SPI.o
+                0x000000d0       0x60 SPI.o
  .debug_aranges
-                0x00000128       0x58 tapeSensor.o
+                0x00000130       0x58 tapeSensor.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xe1b
+.debug_info     0x00000000      0xeb9
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0xa8 ADC.o
  .debug_info    0x000000a8      0x255 distanceSensor.o
- .debug_info    0x000002fd      0x192 gyro.o
- .debug_info    0x0000048f      0x23e sensorenhet.o
- .debug_info    0x000006cd      0x4bc SPI.o
- .debug_info    0x00000b89      0x292 tapeSensor.o
+ .debug_info    0x000002fd      0x1f7 gyro.o
+ .debug_info    0x000004f4      0x23e Sensorenhet.o
+ .debug_info    0x00000732      0x4f5 SPI.o
+ .debug_info    0x00000c27      0x292 tapeSensor.o
 
-.debug_abbrev   0x00000000      0x7ec
+.debug_abbrev   0x00000000      0x83e
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x76 ADC.o
  .debug_abbrev  0x00000076      0x16c distanceSensor.o
- .debug_abbrev  0x000001e2      0x129 gyro.o
- .debug_abbrev  0x0000030b      0x173 sensorenhet.o
- .debug_abbrev  0x0000047e      0x20b SPI.o
- .debug_abbrev  0x00000689      0x163 tapeSensor.o
+ .debug_abbrev  0x000001e2      0x161 gyro.o
+ .debug_abbrev  0x00000343      0x173 Sensorenhet.o
+ .debug_abbrev  0x000004b6      0x225 SPI.o
+ .debug_abbrev  0x000006db      0x163 tapeSensor.o
 
-.debug_line     0x00000000      0x8f6
+.debug_line     0x00000000      0x8a2
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000       0xc3 ADC.o
- .debug_line    0x000000c3      0x221 distanceSensor.o
- .debug_line    0x000002e4      0x15c gyro.o
- .debug_line    0x00000440      0x195 sensorenhet.o
- .debug_line    0x000005d5      0x1b0 SPI.o
- .debug_line    0x00000785      0x171 tapeSensor.o
+ .debug_line    0x00000000       0xb7 ADC.o
+ .debug_line    0x000000b7      0x209 distanceSensor.o
+ .debug_line    0x000002c0      0x15b gyro.o
+ .debug_line    0x0000041b      0x17d Sensorenhet.o
+ .debug_line    0x00000598      0x1a5 SPI.o
+ .debug_line    0x0000073d      0x165 tapeSensor.o
 
-.debug_frame    0x00000000      0x340
+.debug_frame    0x00000000      0x35c
  *(.debug_frame)
  .debug_frame   0x00000000       0x34 ADC.o
  .debug_frame   0x00000034       0x94 distanceSensor.o
- .debug_frame   0x000000c8       0x54 gyro.o
- .debug_frame   0x0000011c       0x34 sensorenhet.o
- .debug_frame   0x00000150      0x114 SPI.o
- .debug_frame   0x00000264       0xdc tapeSensor.o
+ .debug_frame   0x000000c8       0x70 gyro.o
+ .debug_frame   0x00000138       0x34 Sensorenhet.o
+ .debug_frame   0x0000016c      0x114 SPI.o
+ .debug_frame   0x00000280       0xdc tapeSensor.o
 
-.debug_str      0x00000000      0x467
+.debug_str      0x00000000      0x47c
  *(.debug_str)
- .debug_str     0x00000000      0x137 ADC.o
-                                0x170 (size before relaxing)
- .debug_str     0x00000137       0xef distanceSensor.o
-                                0x244 (size before relaxing)
- .debug_str     0x00000226       0x79 gyro.o
-                                0x20f (size before relaxing)
- .debug_str     0x0000029f       0x50 sensorenhet.o
-                                0x25d (size before relaxing)
- .debug_str     0x000002ef       0xcb SPI.o
-                                0x2aa (size before relaxing)
- .debug_str     0x000003ba       0xad tapeSensor.o
-                                0x287 (size before relaxing)
+ .debug_str     0x00000000      0x128 ADC.o
+                                0x161 (size before relaxing)
+ .debug_str     0x00000128       0xef distanceSensor.o
+                                0x235 (size before relaxing)
+ .debug_str     0x00000217       0x9d gyro.o
+                                0x223 (size before relaxing)
+ .debug_str     0x000002b4       0x50 Sensorenhet.o
+                                0x24e (size before relaxing)
+ .debug_str     0x00000304       0xcb SPI.o
+                                0x2ae (size before relaxing)
+ .debug_str     0x000003cf       0xad tapeSensor.o
+                                0x278 (size before relaxing)
 
-.debug_loc      0x00000000      0x5a1
+.debug_loc      0x00000000      0x60f
  *(.debug_loc)
  .debug_loc     0x00000000       0x2d ADC.o
  .debug_loc     0x0000002d      0x187 distanceSensor.o
- .debug_loc     0x000001b4      0x2c5 SPI.o
- .debug_loc     0x00000479      0x128 tapeSensor.o
+ .debug_loc     0x000001b4       0x5b gyro.o
+ .debug_loc     0x0000020f      0x2d8 SPI.o
+ .debug_loc     0x000004e7      0x128 tapeSensor.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -591,16 +590,16 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x120
+.debug_ranges   0x00000000      0x128
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 ADC.o
  .debug_ranges  0x00000018       0x30 distanceSensor.o
- .debug_ranges  0x00000048       0x28 gyro.o
- .debug_ranges  0x00000070       0x18 sensorenhet.o
- .debug_ranges  0x00000088       0x50 SPI.o
- .debug_ranges  0x000000d8       0x48 tapeSensor.o
+ .debug_ranges  0x00000048       0x30 gyro.o
+ .debug_ranges  0x00000078       0x18 Sensorenhet.o
+ .debug_ranges  0x00000090       0x50 SPI.o
+ .debug_ranges  0x000000e0       0x48 tapeSensor.o
 
 .debug_macro
  *(.debug_macro)
-OUTPUT(sensorenhet.elf elf32-avr)
+OUTPUT(Sensorenhet.elf elf32-avr)
 LOAD linker stubs
