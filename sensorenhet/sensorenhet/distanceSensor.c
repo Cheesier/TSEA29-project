@@ -15,7 +15,7 @@
 #define ECHO_RIGHT PIND5
 #define SENSOR_INPUT PIND
 #define SENSOR_OUTPUT PORTD
-#define WAIT_FOR_INPUT while(!RIGHT_HIGH||!BACK_HIGH||!LEFT_HIGH||!FRONT_HIGH)
+#define WAIT_FOR_INPUT while(!RIGHT_HIGH/*||!BACK_HIGH*/||!LEFT_HIGH/*||!FRONT_HIGH*/)
 
 #define FRONT_HIGH (SENSOR_INPUT&(1<<ECHO_FRONT))
 #define RIGHT_HIGH (SENSOR_INPUT&(1<<ECHO_RIGHT))
@@ -25,9 +25,7 @@
 #define START_TIMER TCCR2 |= (1<<CS21)
 #define STOP_TIMER TCCR2 &= ~(1<<CS21)
 
-int distance = 0;
-int interrupted = 0;
-uint8_t distanceSensors[SENSOR_COUNT];
+
 
 
 void updateDistance() {
@@ -50,19 +48,19 @@ void updateDistance() {
 	
 	//Measure length of echo signal
 	START_TIMER;
-	while (FRONT_HIGH || RIGHT_HIGH || BACK_HIGH || LEFT_HIGH) {
-		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT]) { 
+	while (/*FRONT_HIGH || */RIGHT_HIGH /*|| BACK_HIGH*/ || LEFT_HIGH) {
+		/*if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT]) { 
 			distanceSensors[DISTANCE_FRONT] = distance;
 			done[DISTANCE_FRONT] = 1;
-		}
+		}*/
 		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT]) {
 			distanceSensors[DISTANCE_RIGHT] = distance;
 			done[DISTANCE_RIGHT] = 1;
 		}
-		if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK]) {
+		/*if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK]) {
 			distanceSensors[DISTANCE_BACK] = distance;
 			done[DISTANCE_BACK] = 1;
-		}
+		}*/
 		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT]) {
 			distanceSensors[DISTANCE_LEFT] = distance;
 			done[DISTANCE_LEFT] = 1;
@@ -76,6 +74,8 @@ void initDistance() {
 	
 	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
+	interrupted = 0;
+	distance = 0;
 	for(int i = 0; i < SENSOR_COUNT; i++) {
 		distanceSensors[i] = 0;
 	}

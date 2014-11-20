@@ -10,7 +10,7 @@
 #include "bluetooth.h"
 #include "spi.h"
 #include "message_handler.h"
-#include <interrupt.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 #include "motor.h"
 
@@ -30,12 +30,12 @@ int main(void) {
 	
 	while(1) {
 		
-		_delay_ms(1000);
+		_delay_ms(100);
 		/*motor_claw_close();
 		_delay_ms(1000);
 		motor_claw_open();*/
 		
-		send_message(0x86, 0, NULL);
+		send_message(0x86, 0, 0);
 		_delay_us(100);
 		read_message(ADDR_SENSORENHET);
 	}

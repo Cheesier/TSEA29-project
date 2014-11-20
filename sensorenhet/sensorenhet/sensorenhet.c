@@ -7,6 +7,10 @@
 
 #include "sensorenhet.h"
 
+extern int distance;
+extern int interrupted;
+extern uint8_t distanceSensors[SENSOR_COUNT];
+
 // SPI defines for readability
 #define DDR_SPI DDRB
 #define DDR_MISO DDB6
@@ -51,14 +55,8 @@ int main(void) {
 	//tape_data_done = 578;
 	readADC(0);
 	while(1) {
-		//readADC(0);
-		//_delay_ms(3);
-		//updateDistance();
-		//receiveMessage();
-		//readADC(1);
-		//pollTapeData();
-		//updateDistance();
-		//_delay_ms(60);
+		updateDistance();
+		_delay_ms(60);
 	}
 	return 0;
 }
