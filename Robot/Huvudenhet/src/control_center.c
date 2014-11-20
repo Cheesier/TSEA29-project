@@ -12,18 +12,32 @@
 #include "message_handler.h"
 #include <interrupt.h>
 #include <util/delay.h>
+#include "motor.h"
 
 int main(void) {
 	bt_init();
 	spi_init();
 	sei();
 	
+	//_delay_ms(1000);
+	
+	//spi_write(ADDR_SENSORENHET, 0x55);
+	//spi_write(ADDR_STYRENHET, 0xAA);
+
+	/*send_message(0x86, 0, NULL);
+	_delay_us(100);
+	read_message(ADDR_SENSORENHET);*/
+	
 	while(1) {
-		/*_delay_ms(1000);
-		send_message(0x4B, 0x00, NULL);
+		
 		_delay_ms(1000);
-		send_message(0x4C, 0x00, NULL);
-		*/
+		/*motor_claw_close();
+		_delay_ms(1000);
+		motor_claw_open();*/
+		
+		send_message(0x86, 0, NULL);
+		_delay_us(100);
+		read_message(ADDR_SENSORENHET);
 	}
 	
 	return 0;

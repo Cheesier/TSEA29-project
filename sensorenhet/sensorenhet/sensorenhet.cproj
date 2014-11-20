@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>6.2</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
-    <ProjectGuid>{7aab3390-8b54-4c26-ab88-6e9cfc61b184}</ProjectGuid>
+    <ProjectGuid>{d2ae8617-e68f-4b06-bc80-ee93e19ca1f3}</ProjectGuid>
     <avrdevice>ATmega16A</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>sensorenhet</AssemblyName>
-    <Name>sensorenhet</Name>
-    <RootNamespace>sensorenhet</RootNamespace>
+    <AssemblyName>Sensorenhet</AssemblyName>
+    <Name>Sensorenhet</Name>
+    <RootNamespace>Sensorenhet</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -28,15 +28,15 @@
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-        <options />
-        <configurations />
-        <files />
-        <documentation help="" />
-        <offline-documentation help="" />
-        <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.19.0" />
-        </dependencies>
-      </framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.19.0" />
+  </dependencies>
+</framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.jtagice3plus</avrtool>
     <com_atmel_avrdbg_tool_jtagice3plus>
@@ -61,17 +61,6 @@
       <ToolName>JTAGICE3</ToolName>
     </com_atmel_avrdbg_tool_jtagice3plus>
     <avrtoolinterface>JTAG</avrtoolinterface>
-    <com_atmel_avrdbg_tool_simulator>
-      <ToolOptions xmlns="">
-        <InterfaceProperties>
-        </InterfaceProperties>
-        <InterfaceName>JTAG</InterfaceName>
-      </ToolOptions>
-      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
-      <ToolNumber xmlns="">
-      </ToolNumber>
-      <ToolName xmlns="">Simulator</ToolName>
-    </com_atmel_avrdbg_tool_simulator>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -133,34 +122,34 @@
     <Compile Include="ADC.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ADC.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="distanceSensor.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="distanceSensor.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="gyro.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="gyro.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="sensorenhet.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="sensorenhet.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SPI.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI.h">
+    <Compile Include="tapeSensor.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="tapeSensor.c">
+    <Compile Include="ADC.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="distanceSensor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="gyro.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensorenhet.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tapeSensor.h">

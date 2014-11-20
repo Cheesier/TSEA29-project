@@ -9,9 +9,11 @@
 #ifndef TAPESENSOR_H_
 #define TAPESENSOR_H_
 
-uint8_t getTapeData();
+#define F_CPU 8000000UL
+
+extern uint16_t tape_data_done;
+
 int convertToBit(int data);
-uint16_t returnTapeData(uint16_t tape_data);
 
 void calibrateTapeSensor();
 void setOnTape();
