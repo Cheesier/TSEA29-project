@@ -186,7 +186,9 @@ void rightWheelDirection(uint8_t dir) {
 
 // Set the speed of both wheel pairs
 // QUESTION: Why is this needed?
-void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {	
+void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {
+	left_speed = left_speed *(maxSpeed/255);
+	right_speed = right_speed *(maxSpeed/255);
 	if(direction == REVERSE) {
 		uint8_t temp = left_speed;
 		left_speed = right_speed;

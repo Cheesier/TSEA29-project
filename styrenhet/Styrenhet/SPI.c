@@ -13,6 +13,7 @@
 #include <util/delay.h>
 #include "SPI.h"
 #include "Styrenhet.h"
+#include "PDregulator.h"
 
 // SPI ports
 #define SPI_SS PORTB4
@@ -173,23 +174,19 @@ ISR(SPISTC_vect) {
 					d = SPI_Receive();
 					setPD(p, d);
 					break;
-				case 0x07:	// Move forward with the specified speed
-					speed = SPI_Receive() << 1;
-					driveForward(speed);
+				case 0x07:	// Move forward with the specified speed					
+					driveForward();
 					break;
-				case 0x08:	// Move backward with the specified speed
-					speed = SPI_Receive() << 1;
-					driveReverse(speed);
+				case 0x08:	// Move backward with the specified speed					
+					driveReverse();
 					break;
-				case 0x09:	// Rotate left with the specified speed
-					speed = SPI_Receive() << 1;
-					rotateLeft(speed);
+				case 0x09:	// Rotate left with the specified speed					
+					rotateLeft();
 					break;
-				case 0x0A:	// Rotate right with the specified speed
-					speed = SPI_Receive() << 1;
-					rotateRight(speed);
+				case 0x0A:	// Rotate right with the specified speed					
+					rotateRight();
 					break;
-					case 0x0B:	// Close the claw
+				case 0x0B:	// Close the claw
 					gripClaw();
 					break;
 				case 0x0C:	// Open the claw
