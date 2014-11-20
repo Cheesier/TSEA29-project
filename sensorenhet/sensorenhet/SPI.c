@@ -54,6 +54,7 @@ void sendGyro() {
 }
 
 ISR(SPISTC_vect) {
+	cli();
 	char msg = SPDR;
 	char header = msg >> 6;
 	char size = SPI_Receive();
@@ -83,8 +84,7 @@ ISR(SPISTC_vect) {
 			case 0x07:					// Gyro msg
 				break;
 			case 0x08:
-				data = SPI_Receive();
-				cli();
+				data = SPI_Receive();				
 				rotateDegrees(data);				
 				break;
 			default:

@@ -192,8 +192,19 @@ ISR(SPISTC_vect) {
 				case 0x0C:	// Open the claw
 					releaseClaw();
 					break;
-					case 0x0D: // Stop the robot
+				case 0x0D: // Stop the robot
 					stopWheels();
+					break;
+				case 0x0E: // Set speed
+					speed = SPI_Receive();
+					maxSpeed = speed;
+					break;
+				case 0x0F:
+					right_dir = SPI_Receive();
+					left_dir = right_dir >> 1;
+					right_dir = right_dir & 0x01;
+					leftWheelDirection(left_dir);
+					rightWheelDirection(right_dir);					
 					break;
 				default:	// Fetch the message anyway
 					for(int i = 0; i < size; i++) {
