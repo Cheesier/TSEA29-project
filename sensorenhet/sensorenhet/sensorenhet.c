@@ -53,21 +53,13 @@ int main(void) {
 	readADC(0);
 	while(1) {
 		//readADC(0);
-<<<<<<< HEAD
 		//_delay_ms(3);
-=======
-		//_delay_us(1);
-		//_delay_ms(1);
->>>>>>> origin/master
 		//updateDistance();
 		//receiveMessage();
 		//readADC(1);
 		//pollTapeData();
-<<<<<<< HEAD
-		updateDistance();
-		_delay_ms(60);
-=======
->>>>>>> origin/master
+		//updateDistance();
+		//_delay_ms(60);
 	}
 	return 0;
 }
