@@ -12,14 +12,12 @@ int active = 0;
 uint8_t sensorData[4];
 int8_t PD_direction = 0;
 uint8_t p, d;
-uint8_t speed;
 
 void PDactivate() {
 	active = 1;
 }
 void PDdeactivate() {
 	active = 0;
-	speed = 0;
 }
 int PDisActive() {
 	return active;
@@ -40,16 +38,12 @@ void setPD(uint8_t p_value, uint8_t d_value) {
 	d = d_value;
 }
 
-void PDsetSpeed(uint8_t speed_value) {
-	speed = speed_value;
-}
-
 void PDforward() {
-	while (PDisActive() && speed != 0)
+	while (PDisActive())
 	{
 		int8_t correction = PD_direction;
-		uint8_t left_speed = speed;
-		uint8_t right_speed = speed;
+		uint8_t left_speed = 255;
+		uint8_t right_speed = 255;
 		if (correction >= 0) {
 			right_speed -= correction;
 		}

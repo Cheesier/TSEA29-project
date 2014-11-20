@@ -23,7 +23,7 @@ int main(void) {
 	
 	//spi_write(ADDR_SENSORENHET, 0x55);
 	//spi_write(ADDR_STYRENHET, 0xAA);
-	
+
 	/*send_message(0x86, 0, NULL);
 	_delay_us(100);
 	read_message(ADDR_SENSORENHET);*/

@@ -15,7 +15,6 @@ Common symbol       size              file
 p                   0x1               PDregulator.o
 sensorData          0x4               PDregulator.o
 d                   0x1               PDregulator.o
-speed               0x1               PDregulator.o
 
 Discarded input sections
 
@@ -42,10 +41,6 @@ Discarded input sections
  .bss           0x00000000        0x0 SPI.o
  .text.SPI_Send
                 0x00000000        0x6 SPI.o
- .text.receiveMessage
-                0x00000000      0x144 SPI.o
- .progmem.gcc_sw_table.receiveMessage
-                0x00000000       0x1a SPI.o
  .text.errorMessage
                 0x00000000        0x8 SPI.o
  .text.headerError
@@ -247,43 +242,43 @@ END GROUP
  *(.vectors)
  *(.progmem.gcc*)
  .progmem.gcc_sw_table.__vector_10
-                0x00000054       0x1a SPI.o
-                0x0000006e                . = ALIGN (0x2)
-                0x0000006e                __trampolines_start = .
+                0x00000054       0x1e SPI.o
+                0x00000072                . = ALIGN (0x2)
+                0x00000072                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x0000006e        0x0 linker stubs
+ .trampolines   0x00000072        0x0 linker stubs
  *(.trampolines*)
-                0x0000006e                __trampolines_end = .
+                0x00000072                __trampolines_end = .
  *(.progmem*)
-                0x0000006e                . = ALIGN (0x2)
+                0x00000072                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x0000006e                __ctors_start = .
+                0x00000072                __ctors_start = .
  *(.ctors)
-                0x0000006e                __ctors_end = .
-                0x0000006e                __dtors_start = .
+                0x00000072                __ctors_end = .
+                0x00000072                __dtors_start = .
  *(.dtors)
-                0x0000006e                __dtors_end = .
+                0x00000072                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x0000006e        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
-                0x0000006e                __init
+ .init0         0x00000072        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+                0x00000072                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x0000006e        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .init2         0x00000072        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x0000007a       0x16 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
-                0x0000007a                __do_copy_data
- .init4         0x00000090       0x10 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
-                0x00000090                __do_clear_bss
+ .init4         0x0000007e       0x16 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+                0x0000007e                __do_copy_data
+ .init4         0x00000094       0x10 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000094                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -294,114 +289,111 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x000000a0        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .init9         0x000000a4        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  *(.init9)
  *(.text)
- .text          0x000000a8        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
-                0x000000a8                __vector_1
-                0x000000a8                __vector_12
-                0x000000a8                __bad_interrupt
-                0x000000a8                __vector_6
-                0x000000a8                __vector_3
-                0x000000a8                __vector_11
-                0x000000a8                __vector_13
-                0x000000a8                __vector_17
-                0x000000a8                __vector_19
-                0x000000a8                __vector_7
-                0x000000a8                __vector_5
-                0x000000a8                __vector_4
-                0x000000a8                __vector_9
-                0x000000a8                __vector_2
-                0x000000a8                __vector_15
-                0x000000a8                __vector_8
-                0x000000a8                __vector_14
-                0x000000a8                __vector_16
-                0x000000a8                __vector_18
-                0x000000a8                __vector_20
-                0x000000ac                . = ALIGN (0x2)
+ .text          0x000000ac        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+                0x000000ac                __vector_1
+                0x000000ac                __vector_12
+                0x000000ac                __bad_interrupt
+                0x000000ac                __vector_6
+                0x000000ac                __vector_3
+                0x000000ac                __vector_11
+                0x000000ac                __vector_13
+                0x000000ac                __vector_17
+                0x000000ac                __vector_19
+                0x000000ac                __vector_7
+                0x000000ac                __vector_5
+                0x000000ac                __vector_4
+                0x000000ac                __vector_9
+                0x000000ac                __vector_2
+                0x000000ac                __vector_15
+                0x000000ac                __vector_8
+                0x000000ac                __vector_14
+                0x000000ac                __vector_16
+                0x000000ac                __vector_18
+                0x000000ac                __vector_20
+                0x000000b0                . = ALIGN (0x2)
  *(.text.*)
  .text.PDactivate
-                0x000000ac        0xe PDregulator.o
-                0x000000ac                PDactivate
+                0x000000b0        0xe PDregulator.o
+                0x000000b0                PDactivate
  .text.PDdeactivate
-                0x000000ba        0xe PDregulator.o
-                0x000000ba                PDdeactivate
+                0x000000be        0xa PDregulator.o
+                0x000000be                PDdeactivate
  .text.setPD    0x000000c8        0xa PDregulator.o
                 0x000000c8                setPD
- .text.PDsetSpeed
-                0x000000d2        0x6 PDregulator.o
-                0x000000d2                PDsetSpeed
  .text.PDforward
-                0x000000d8       0x40 PDregulator.o
-                0x000000d8                PDforward
+                0x000000d2       0x38 PDregulator.o
+                0x000000d2                PDforward
  .text.clawGrip
-                0x00000118        0x6 pwm.o
-                0x00000118                clawGrip
+                0x0000010a        0x6 pwm.o
+                0x0000010a                clawGrip
  .text.clawRelease
-                0x0000011e        0x6 pwm.o
-                0x0000011e                clawRelease
+                0x00000110        0x6 pwm.o
+                0x00000110                clawRelease
  .text.clawEnable
-                0x00000124        0x8 pwm.o
-                0x00000124                clawEnable
+                0x00000116        0x8 pwm.o
+                0x00000116                clawEnable
  .text.clawDisable
-                0x0000012c        0x8 pwm.o
-                0x0000012c                clawDisable
+                0x0000011e        0x8 pwm.o
+                0x0000011e                clawDisable
  .text.wheelsEnable
-                0x00000134        0x8 pwm.o
-                0x00000134                wheelsEnable
+                0x00000126        0x8 pwm.o
+                0x00000126                wheelsEnable
  .text.wheelsDisable
-                0x0000013c        0x8 pwm.o
-                0x0000013c                wheelsDisable
+                0x0000012e        0x8 pwm.o
+                0x0000012e                wheelsDisable
  .text.init_pwm
-                0x00000144       0x24 pwm.o
-                0x00000144                init_pwm
+                0x00000136       0x24 pwm.o
+                0x00000136                init_pwm
  .text.setSpeeds
-                0x00000168       0x24 pwm.o
-                0x00000168                setSpeeds
+                0x0000015a       0x24 pwm.o
+                0x0000015a                setSpeeds
  .text.setSpeed
-                0x0000018c        0x8 pwm.o
-                0x0000018c                setSpeed
+                0x0000017e        0x8 pwm.o
+                0x0000017e                setSpeed
  .text.SPI_Init
-                0x00000194        0xc SPI.o
-                0x00000194                SPI_Init
+                0x00000186        0xc SPI.o
+                0x00000186                SPI_Init
  .text.SPI_Transceive
-                0x000001a0        0xa SPI.o
-                0x000001a0                SPI_Transceive
+                0x00000192        0xa SPI.o
+                0x00000192                SPI_Transceive
  .text.SPI_Receive
-                0x000001aa        0x8 SPI.o
-                0x000001aa                SPI_Receive
+                0x0000019c        0x8 SPI.o
+                0x0000019c                SPI_Receive
  .text.__vector_10
-                0x000001b2      0x18c SPI.o
-                0x000001b2                __vector_10
- .text.main     0x0000033e       0x10 Styrenhet.o
-                0x0000033e                main
+                0x000001a4      0x1b2 SPI.o
+                0x000001a4                __vector_10
+ .text.main     0x00000356       0x10 Styrenhet.o
+                0x00000356                main
  .text.setDirection
-                0x0000034e       0x14 Styrenhet.o
-                0x0000034e                setDirection
+                0x00000366       0x14 Styrenhet.o
+                0x00000366                setDirection
  .text.driveForward
-                0x00000362       0x24 Styrenhet.o
-                0x00000362                driveForward
+                0x0000037a       0x24 Styrenhet.o
+                0x0000037a                driveForward
  .text.driveReverse
-                0x00000386       0x24 Styrenhet.o
-                0x00000386                driveReverse
+                0x0000039e       0x24 Styrenhet.o
+                0x0000039e                driveReverse
  .text.rotateLeft
-                0x000003aa       0x24 Styrenhet.o
-                0x000003aa                rotateLeft
+                0x000003c2       0x24 Styrenhet.o
+                0x000003c2                rotateLeft
  .text.rotateRight
-                0x000003ce       0x24 Styrenhet.o
-                0x000003ce                rotateRight
+                0x000003e6       0x24 Styrenhet.o
+                0x000003e6                rotateRight
  .text.softTurn
-                0x000003f2       0x3a Styrenhet.o
-                0x000003f2                softTurn
+                0x0000040a       0x3a Styrenhet.o
+                0x0000040a                softTurn
  .text.leftWheelDirection
-                0x0000042c       0x22 Styrenhet.o
-                0x0000042c                leftWheelDirection
+                0x00000444       0x22 Styrenhet.o
+                0x00000444                leftWheelDirection
  .text.rightWheelDirection
-                0x0000044e       0x22 Styrenhet.o
-                0x0000044e                rightWheelDirection
+                0x00000466       0x22 Styrenhet.o
+                0x00000466                rightWheelDirection
  .text.wheelSpeeds
-                0x00000470       0x2c Styrenhet.o
-                0x00000470                wheelSpeeds
+                0x00000488       0x14 Styrenhet.o
+                0x00000488                wheelSpeeds
  .text.stopWheels
                 0x0000049c        0xa Styrenhet.o
                 0x0000049c                stopWheels
@@ -458,7 +450,7 @@ END GROUP
                 0x00800062                _edata = .
                 0x00800062                PROVIDE (__data_end, .)
 
-.bss            0x00800062        0xa
+.bss            0x00800062        0x9
                 0x00800062                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -468,21 +460,20 @@ END GROUP
  .bss.active    0x00800063        0x2 PDregulator.o
                 0x00800063                active
  *(COMMON)
- COMMON         0x00800065        0x7 PDregulator.o
+ COMMON         0x00800065        0x6 PDregulator.o
                 0x00800065                p
                 0x00800066                sensorData
                 0x0080006a                d
-                0x0080006b                speed
-                0x0080006c                PROVIDE (__bss_end, .)
+                0x0080006b                PROVIDE (__bss_end, .)
                 0x000004e0                __data_load_start = LOADADDR (.data)
                 0x000004e2                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080006c        0x0
-                0x0080006c                PROVIDE (__noinit_start, .)
+.noinit         0x0080006b        0x0
+                0x0080006b                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0080006c                PROVIDE (__noinit_end, .)
-                0x0080006c                _end = .
-                0x0080006c                PROVIDE (__heap_start, .)
+                0x0080006b                PROVIDE (__noinit_end, .)
+                0x0080006b                _end = .
+                0x0080006b                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -544,65 +535,65 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x1b0
+.debug_aranges  0x00000000      0x1a0
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x58 PDregulator.o
+                0x00000000       0x50 PDregulator.o
  .debug_aranges
-                0x00000058       0x70 pwm.o
+                0x00000050       0x70 pwm.o
  .debug_aranges
-                0x000000c8       0x58 SPI.o
+                0x000000c0       0x50 SPI.o
  .debug_aranges
-                0x00000120       0x90 Styrenhet.o
+                0x00000110       0x90 Styrenhet.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x115d
+.debug_info     0x00000000      0xedc
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x25e PDregulator.o
- .debug_info    0x0000025e      0x1f0 pwm.o
- .debug_info    0x0000044e      0x856 SPI.o
- .debug_info    0x00000ca4      0x4b9 Styrenhet.o
+ .debug_info    0x00000000      0x224 PDregulator.o
+ .debug_info    0x00000224      0x1f0 pwm.o
+ .debug_info    0x00000414      0x60f SPI.o
+ .debug_info    0x00000a23      0x4b9 Styrenhet.o
 
-.debug_abbrev   0x00000000      0x5f0
+.debug_abbrev   0x00000000      0x5e7
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x147 PDregulator.o
  .debug_abbrev  0x00000147       0xf3 pwm.o
- .debug_abbrev  0x0000023a      0x1f4 SPI.o
- .debug_abbrev  0x0000042e      0x1c2 Styrenhet.o
+ .debug_abbrev  0x0000023a      0x1eb SPI.o
+ .debug_abbrev  0x00000425      0x1c2 Styrenhet.o
 
-.debug_line     0x00000000      0x726
+.debug_line     0x00000000      0x6ba
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x144 PDregulator.o
- .debug_line    0x00000144      0x166 pwm.o
- .debug_line    0x000002aa      0x1f9 SPI.o
- .debug_line    0x000004a3      0x283 Styrenhet.o
+ .debug_line    0x00000000      0x133 PDregulator.o
+ .debug_line    0x00000133      0x166 pwm.o
+ .debug_line    0x00000299      0x1a0 SPI.o
+ .debug_line    0x00000439      0x281 Styrenhet.o
 
-.debug_frame    0x00000000      0x3b0
+.debug_frame    0x00000000      0x360
  *(.debug_frame)
- .debug_frame   0x00000000       0x94 PDregulator.o
- .debug_frame   0x00000094       0xd0 pwm.o
- .debug_frame   0x00000164      0x148 SPI.o
- .debug_frame   0x000002ac      0x104 Styrenhet.o
+ .debug_frame   0x00000000       0x8c PDregulator.o
+ .debug_frame   0x0000008c       0xd0 pwm.o
+ .debug_frame   0x0000015c      0x100 SPI.o
+ .debug_frame   0x0000025c      0x104 Styrenhet.o
 
-.debug_str      0x00000000      0x448
+.debug_str      0x00000000      0x433
  *(.debug_str)
- .debug_str     0x00000000      0x1f3 PDregulator.o
-                                0x247 (size before relaxing)
- .debug_str     0x000001f3       0x97 pwm.o
+ .debug_str     0x00000000      0x1e4 PDregulator.o
+                                0x22a (size before relaxing)
+ .debug_str     0x000001e4       0xa0 pwm.o
                                 0x1f2 (size before relaxing)
- .debug_str     0x0000028a      0x133 SPI.o
-                                0x2d3 (size before relaxing)
- .debug_str     0x000003bd       0x8b Styrenhet.o
+ .debug_str     0x00000284      0x12d SPI.o
+                                0x2c2 (size before relaxing)
+ .debug_str     0x000003b1       0x82 Styrenhet.o
                                 0x2f8 (size before relaxing)
 
-.debug_loc      0x00000000     0x1267
+.debug_loc      0x00000000      0xc37
  *(.debug_loc)
- .debug_loc     0x00000000       0xb9 PDregulator.o
- .debug_loc     0x000000b9       0xd4 pwm.o
- .debug_loc     0x0000018d      0xf92 SPI.o
- .debug_loc     0x0000111f      0x148 Styrenhet.o
+ .debug_loc     0x00000000       0xfa PDregulator.o
+ .debug_loc     0x000000fa       0xd4 pwm.o
+ .debug_loc     0x000001ce      0x92c SPI.o
+ .debug_loc     0x00000afa      0x13d Styrenhet.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -622,12 +613,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x1a0
+.debug_ranges   0x00000000      0x178
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x48 PDregulator.o
- .debug_ranges  0x00000048       0x60 pwm.o
- .debug_ranges  0x000000a8       0x78 SPI.o
- .debug_ranges  0x00000120       0x80 Styrenhet.o
+ .debug_ranges  0x00000000       0x40 PDregulator.o
+ .debug_ranges  0x00000040       0x60 pwm.o
+ .debug_ranges  0x000000a0       0x58 SPI.o
+ .debug_ranges  0x000000f8       0x80 Styrenhet.o
 
 .debug_macro
  *(.debug_macro)
