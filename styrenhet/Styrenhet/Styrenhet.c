@@ -112,7 +112,14 @@ void rotateRight(uint8_t speed) {
 
 // The robot makes a soft turn
 // Turn direction is decided by the input parameters
-void softTurn(uint8_t left_speed, uint8_t right_speed) {	
+void softTurn(uint8_t left_speed, uint8_t right_speed) {
+	if(direction == REVERSE) {
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);
+		setSpeeds(right_speed, left_speed);
+		return;
+		
+	}	
 	PORTA |= (1<<WHEEL_DIRECTION_L);
 	PORTA |= (1<<WHEEL_DIRECTION_R);
 	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
@@ -122,6 +129,12 @@ void softTurn(uint8_t left_speed, uint8_t right_speed) {
 // The robot makes a soft turn in reverse
 // Turn direction is decided by the input parameters
 void softTurnReverse(uint8_t left_speed, uint8_t right_speed) {	
+	if(direction == REVERSE) {		
+		PORTA |= (1<<WHEEL_DIRECTION_L);
+		PORTA |= (1<<WHEEL_DIRECTION_R);
+		setSpeeds(right_speed, left_speed);
+		return;
+	}
 	PORTA &= ~(1<<WHEEL_DIRECTION_L);
 	PORTA &= ~(1<<WHEEL_DIRECTION_R);
 	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
@@ -169,6 +182,11 @@ void rightWheelDirection(uint8_t dir) {
 // Set the speed of both wheel pairs
 // QUESTION: Why is this needed?
 void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {	
+	if(direction == REVERSE) {
+		uint8_t temp = left_speed;
+		left_speed = right_speed;
+		right_speed = temp;
+	}
 	setSpeeds(left_speed, right_speed);
 }
 

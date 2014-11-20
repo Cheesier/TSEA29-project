@@ -7,11 +7,12 @@
 
 #include "SPI.h"
 #include "distanceSensor.h"
+#include "tapeSensor.h"
 
 // Initiates the SPI
 void SPI_Init(void) {
 	DDR_SPI |= (1<<SPI_MISO);		// Set MISO output
-	SPCR = (0<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
+	SPCR = (1<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
 }
 
 // Receive over SPI
@@ -26,8 +27,14 @@ void SPI_Send(char dataout) {
 
 char SPI_Transceive(char dataout) {
 	SPDR = dataout;
+	//cli();
 	WAIT_FOR_TRANSFER;
+<<<<<<< HEAD
 	return SPDR;
+=======
+	//sei();
+	return SPDR;	
+>>>>>>> 6245549884aaa0133b3d64be2ce70ab8a8ed3634
 }
 
 void sendDistanceSensors(void) {
@@ -43,8 +50,17 @@ void sendDistanceSensors(void) {
 void sendTapeSensors() {
 	SPI_Send(0x03);
 	SPI_Send(0x02);
+<<<<<<< HEAD
 	SPI_Send(getTapeData());
 	SPI_Send(0xFF);
+=======
+	//SPI_Send(getTapeData());	
+	uint8_t highByte = (uint8_t)(tape_data_done >> 8);
+	uint8_t lowByte = (uint8_t)(tape_data_done);
+	SPI_Send(highByte);
+	SPI_Send(lowByte);
+	//SPI_Send(0xFF);	
+>>>>>>> 6245549884aaa0133b3d64be2ce70ab8a8ed3634
 }
 
 void receiveMessage() {				// Testing to see if it helps to have this in main-loop instead of interrupts.
@@ -79,16 +95,8 @@ void receiveMessage() {				// Testing to see if it helps to have this in main-lo
 			case 0x07:				// Gyro msg
 				break;
 			default:
-				SPI_Send(0x03);
-				SPI_Send(0x01);
-				SPI_Send(0xFF);
 				break;
 		}
-	}
-	else {
-		SPI_Send(0x03);
-		SPI_Send(0x01);
-		SPI_Send(0x0F);
 	}
 }
 
@@ -96,8 +104,7 @@ void sendGyro() {
 	SPI_Send(returnDegreesRotated());
 }
 
-ISR(SPISTC_vect) {
-	//cli();
+ISR(SPISTC_vect) {	
 	char msg = SPDR;
 	char header = msg >> 6;
 	char size = SPI_Receive();
@@ -128,6 +135,5 @@ ISR(SPISTC_vect) {
 			default:
 				break;
 		}
-	}
-	sei();
+	}	
 }

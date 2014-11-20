@@ -57,7 +57,7 @@ void receiveMessage() {
 	msg = msg & 0x3F;
 	char speed;
 	char left_dir, right_dir, left_speed, right_speed;
-	char unknownMessage[size];	//couldn't be down in the default..
+	char unknownMessage[size];	//couldn't be down in the default...
 
 	if(header == 0x01) {							// Make sure that the message is meant for us
 		switch(msg) {								// Identify the message and act accordingly
@@ -171,7 +171,7 @@ ISR(SPISTC_vect) {
 				case 0x06:	// Set the p and d values
 					p = SPI_Receive();
 					d = SPI_Receive();
-					setPD(p, d); 
+					setPD(p, d);
 					break;
 				case 0x07:	// Move forward with the specified speed
 					speed = SPI_Receive() << 1;

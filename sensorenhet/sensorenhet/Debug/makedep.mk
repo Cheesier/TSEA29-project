@@ -6,6 +6,8 @@ ADC.c
 
 distanceSensor.c
 
+gyro.c
+
 sensorenhet.c
 
 SPI.c
