@@ -15,12 +15,10 @@
 #define DISTANCESENSOR_H_
 
 
-static int distance = 0;
-static int interrupted = 0;
-static uint8_t distanceSensors[SENSOR_COUNT];
+extern int distance;
+extern int interrupted;
+extern uint8_t distanceSensors[SENSOR_COUNT];
 
-uint8_t * getDistance();
-int getDistanceVal();
 void updateDistance();
 void initDistance();
 
