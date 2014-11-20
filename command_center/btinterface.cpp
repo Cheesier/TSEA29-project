@@ -19,8 +19,7 @@ BTInterface::~BTInterface(){
 void BTInterface::connect_to_device(const string &device_address){
 #ifdef LINUX
   socket.reset(new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol));
-  socket->connectToService(QBluetoothAddress( QString(device_address.c_str())),QBluetoothUuid(QString(REMOTE_SERVICE_UUID)));
-
+  socket->connectToService(QBluetoothAddress( QString(device_address.c_str())),QBluetoothUuid(QString(REMOTE_SERVICE_UUID)));  
   QObject::connect(socket.get(),&QBluetoothSocket::connected,[this](){handle_connected();});
   QObject::connect(socket.get(),&QBluetoothSocket::disconnected,[this](){handle_disconnected();});
   QObject::connect(socket.get(),&QBluetoothSocket::readyRead,[this](){do_read();});
@@ -52,7 +51,7 @@ void BTInterface::do_read(){
 
   Message::Size_t bytes_read = read_from_socket((char*)data.data(),size);
   if(bytes_read!=size){
-      printf("** could not get all data\n");
+      printf("%i bytes read, expected %i ** could not get all data\n", bytes_read, size);
       return;
   }
   core->process_new_msg(Msg_ptr(new Message(type,data)));

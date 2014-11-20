@@ -110,32 +110,30 @@ public:
     QPushButton *pushButton_direction;
     QLabel *label_4;
     QLabel *label_direction;
-    QWidget *horizontalLayoutWidget_3;
-    QHBoxLayout *horizontalLayout_10;
-    QPushButton *pushButton_claw_switch;
     QWidget *gridLayoutWidget_5;
     QGridLayout *gridLayout_4;
-    QPushButton *pushButton_forward;
-    QPushButton *pushButton_stop;
-    QPushButton *pushButton_forward_left;
-    QPushButton *pushButton_forward_right;
     QPushButton *pushButton_right;
-    QPushButton *pushButton_left;
-    QPushButton *pushButton_backward;
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout_7;
     QLabel *label_13;
     QLabel *label_speed;
     QSlider *horizontalSlider_speed;
-    QVBoxLayout *verticalLayout_5;
+    QPushButton *pushButton_backward;
+    QPushButton *pushButton_stop;
+    QPushButton *pushButton_left;
+    QPushButton *pushButton_forward;
+    QPushButton *pushButton_forward_right;
+    QPushButton *pushButton_forward_left;
+    QGridLayout *gridLayout_5;
     QHBoxLayout *horizontalLayout_4;
     QLabel *label_5;
-    QLabel *label_p_value;
     QLineEdit *lineEdit_p_value;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label_6;
-    QLabel *label_d_value;
     QLineEdit *lineEdit_d_value;
+    QPushButton *pushButton_set_pd;
+    QPushButton *pushButton_pdf;
+    QPushButton *pushButton_claw_switch;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuHelp;
@@ -147,7 +145,7 @@ public:
         if (Gui->objectName().isEmpty())
             Gui->setObjectName(QStringLiteral("Gui"));
         Gui->setEnabled(true);
-        Gui->resize(1312, 608);
+        Gui->resize(1312, 617);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -164,7 +162,7 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayoutWidget_2 = new QWidget(centralWidget);
         gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
-        gridLayoutWidget_2->setGeometry(QRect(20, 460, 362, 31));
+        gridLayoutWidget_2->setGeometry(QRect(20, 480, 362, 31));
         gridLayout = new QGridLayout(gridLayoutWidget_2);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -185,7 +183,7 @@ public:
         label_bt_status = new QLabel(centralWidget);
         label_bt_status->setObjectName(QStringLiteral("label_bt_status"));
         label_bt_status->setEnabled(true);
-        label_bt_status->setGeometry(QRect(20, 500, 361, 26));
+        label_bt_status->setGeometry(QRect(20, 520, 361, 26));
         QFont font;
         font.setBold(true);
         font.setItalic(false);
@@ -284,7 +282,7 @@ public:
         line->setFrameShadow(QFrame::Sunken);
         line_2 = new QFrame(centralWidget);
         line_2->setObjectName(QStringLiteral("line_2"));
-        line_2->setGeometry(QRect(20, 429, 361, 31));
+        line_2->setGeometry(QRect(20, 459, 361, 21));
         line_2->setFrameShape(QFrame::HLine);
         line_2->setFrameShadow(QFrame::Sunken);
         plainTextEdit_log = new QPlainTextEdit(centralWidget);
@@ -442,7 +440,7 @@ public:
         label_11->setAlignment(Qt::AlignCenter);
         horizontalLayoutWidget_2 = new QWidget(centralWidget);
         horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(420, 30, 391, 21));
+        horizontalLayoutWidget_2->setGeometry(QRect(420, 30, 391, 24));
         horizontalLayout_8 = new QHBoxLayout(horizontalLayoutWidget_2);
         horizontalLayout_8->setSpacing(6);
         horizontalLayout_8->setContentsMargins(11, 11, 11, 11);
@@ -529,7 +527,7 @@ public:
 
         line_3 = new QFrame(centralWidget);
         line_3->setObjectName(QStringLiteral("line_3"));
-        line_3->setGeometry(QRect(20, 370, 361, 31));
+        line_3->setGeometry(QRect(20, 400, 361, 31));
         line_3->setFrameShape(QFrame::HLine);
         line_3->setFrameShadow(QFrame::Sunken);
         line_7 = new QFrame(centralWidget);
@@ -560,79 +558,25 @@ public:
 
         horizontalLayout_9->addWidget(label_direction);
 
-        horizontalLayoutWidget_3 = new QWidget(centralWidget);
-        horizontalLayoutWidget_3->setObjectName(QStringLiteral("horizontalLayoutWidget_3"));
-        horizontalLayoutWidget_3->setGeometry(QRect(20, 400, 361, 31));
-        horizontalLayout_10 = new QHBoxLayout(horizontalLayoutWidget_3);
-        horizontalLayout_10->setSpacing(6);
-        horizontalLayout_10->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
-        horizontalLayout_10->setContentsMargins(0, 0, 0, 0);
-        pushButton_claw_switch = new QPushButton(horizontalLayoutWidget_3);
-        pushButton_claw_switch->setObjectName(QStringLiteral("pushButton_claw_switch"));
-
-        horizontalLayout_10->addWidget(pushButton_claw_switch);
-
         gridLayoutWidget_5 = new QWidget(centralWidget);
         gridLayoutWidget_5->setObjectName(QStringLiteral("gridLayoutWidget_5"));
-        gridLayoutWidget_5->setGeometry(QRect(20, 180, 361, 191));
+        gridLayoutWidget_5->setGeometry(QRect(20, 180, 361, 221));
         gridLayout_4 = new QGridLayout(gridLayoutWidget_5);
         gridLayout_4->setSpacing(6);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        gridLayout_4->setSizeConstraint(QLayout::SetMinAndMaxSize);
         gridLayout_4->setContentsMargins(0, 0, 0, 0);
-        pushButton_forward = new QPushButton(gridLayoutWidget_5);
-        pushButton_forward->setObjectName(QStringLiteral("pushButton_forward"));
+        pushButton_right = new QPushButton(gridLayoutWidget_5);
+        pushButton_right->setObjectName(QStringLiteral("pushButton_right"));
         QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(pushButton_forward->sizePolicy().hasHeightForWidth());
-        pushButton_forward->setSizePolicy(sizePolicy1);
-
-        gridLayout_4->addWidget(pushButton_forward, 0, 1, 1, 1);
-
-        pushButton_stop = new QPushButton(gridLayoutWidget_5);
-        pushButton_stop->setObjectName(QStringLiteral("pushButton_stop"));
-        sizePolicy1.setHeightForWidth(pushButton_stop->sizePolicy().hasHeightForWidth());
-        pushButton_stop->setSizePolicy(sizePolicy1);
-
-        gridLayout_4->addWidget(pushButton_stop, 1, 1, 1, 1);
-
-        pushButton_forward_left = new QPushButton(gridLayoutWidget_5);
-        pushButton_forward_left->setObjectName(QStringLiteral("pushButton_forward_left"));
-        sizePolicy1.setHeightForWidth(pushButton_forward_left->sizePolicy().hasHeightForWidth());
-        pushButton_forward_left->setSizePolicy(sizePolicy1);
-
-        gridLayout_4->addWidget(pushButton_forward_left, 0, 0, 1, 1);
-
-        pushButton_forward_right = new QPushButton(gridLayoutWidget_5);
-        pushButton_forward_right->setObjectName(QStringLiteral("pushButton_forward_right"));
-        sizePolicy1.setHeightForWidth(pushButton_forward_right->sizePolicy().hasHeightForWidth());
-        pushButton_forward_right->setSizePolicy(sizePolicy1);
-
-        gridLayout_4->addWidget(pushButton_forward_right, 0, 2, 1, 1);
-
-        pushButton_right = new QPushButton(gridLayoutWidget_5);
-        pushButton_right->setObjectName(QStringLiteral("pushButton_right"));
         sizePolicy1.setHeightForWidth(pushButton_right->sizePolicy().hasHeightForWidth());
         pushButton_right->setSizePolicy(sizePolicy1);
+        pushButton_right->setMinimumSize(QSize(110, 0));
 
         gridLayout_4->addWidget(pushButton_right, 1, 2, 1, 1);
-
-        pushButton_left = new QPushButton(gridLayoutWidget_5);
-        pushButton_left->setObjectName(QStringLiteral("pushButton_left"));
-        sizePolicy1.setHeightForWidth(pushButton_left->sizePolicy().hasHeightForWidth());
-        pushButton_left->setSizePolicy(sizePolicy1);
-
-        gridLayout_4->addWidget(pushButton_left, 1, 0, 1, 1);
-
-        pushButton_backward = new QPushButton(gridLayoutWidget_5);
-        pushButton_backward->setObjectName(QStringLiteral("pushButton_backward"));
-        sizePolicy1.setHeightForWidth(pushButton_backward->sizePolicy().hasHeightForWidth());
-        pushButton_backward->setSizePolicy(sizePolicy1);
-        pushButton_backward->setMaximumSize(QSize(16777215, 16777215));
-
-        gridLayout_4->addWidget(pushButton_backward, 2, 1, 1, 1);
 
         verticalLayout_6 = new QVBoxLayout();
         verticalLayout_6->setSpacing(6);
@@ -642,11 +586,15 @@ public:
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
         label_13 = new QLabel(gridLayoutWidget_5);
         label_13->setObjectName(QStringLiteral("label_13"));
+        sizePolicy1.setHeightForWidth(label_13->sizePolicy().hasHeightForWidth());
+        label_13->setSizePolicy(sizePolicy1);
 
         horizontalLayout_7->addWidget(label_13);
 
         label_speed = new QLabel(gridLayoutWidget_5);
         label_speed->setObjectName(QStringLiteral("label_speed"));
+        sizePolicy1.setHeightForWidth(label_speed->sizePolicy().hasHeightForWidth());
+        label_speed->setSizePolicy(sizePolicy1);
         label_speed->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_7->addWidget(label_speed);
@@ -656,6 +604,8 @@ public:
 
         horizontalSlider_speed = new QSlider(gridLayoutWidget_5);
         horizontalSlider_speed->setObjectName(QStringLiteral("horizontalSlider_speed"));
+        sizePolicy1.setHeightForWidth(horizontalSlider_speed->sizePolicy().hasHeightForWidth());
+        horizontalSlider_speed->setSizePolicy(sizePolicy1);
         horizontalSlider_speed->setMaximum(127);
         horizontalSlider_speed->setValue(63);
         horizontalSlider_speed->setOrientation(Qt::Horizontal);
@@ -665,24 +615,64 @@ public:
 
         gridLayout_4->addLayout(verticalLayout_6, 2, 2, 1, 1);
 
-        verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setSpacing(6);
-        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        verticalLayout_5->setSizeConstraint(QLayout::SetDefaultConstraint);
+        pushButton_backward = new QPushButton(gridLayoutWidget_5);
+        pushButton_backward->setObjectName(QStringLiteral("pushButton_backward"));
+        sizePolicy1.setHeightForWidth(pushButton_backward->sizePolicy().hasHeightForWidth());
+        pushButton_backward->setSizePolicy(sizePolicy1);
+        pushButton_backward->setMinimumSize(QSize(0, 50));
+        pushButton_backward->setMaximumSize(QSize(16777215, 16777215));
+
+        gridLayout_4->addWidget(pushButton_backward, 2, 1, 1, 1);
+
+        pushButton_stop = new QPushButton(gridLayoutWidget_5);
+        pushButton_stop->setObjectName(QStringLiteral("pushButton_stop"));
+        sizePolicy1.setHeightForWidth(pushButton_stop->sizePolicy().hasHeightForWidth());
+        pushButton_stop->setSizePolicy(sizePolicy1);
+        pushButton_stop->setMinimumSize(QSize(110, 50));
+
+        gridLayout_4->addWidget(pushButton_stop, 1, 1, 1, 1);
+
+        pushButton_left = new QPushButton(gridLayoutWidget_5);
+        pushButton_left->setObjectName(QStringLiteral("pushButton_left"));
+        sizePolicy1.setHeightForWidth(pushButton_left->sizePolicy().hasHeightForWidth());
+        pushButton_left->setSizePolicy(sizePolicy1);
+        pushButton_left->setMinimumSize(QSize(120, 0));
+
+        gridLayout_4->addWidget(pushButton_left, 1, 0, 1, 1);
+
+        pushButton_forward = new QPushButton(gridLayoutWidget_5);
+        pushButton_forward->setObjectName(QStringLiteral("pushButton_forward"));
+        sizePolicy1.setHeightForWidth(pushButton_forward->sizePolicy().hasHeightForWidth());
+        pushButton_forward->setSizePolicy(sizePolicy1);
+        pushButton_forward->setMinimumSize(QSize(0, 50));
+
+        gridLayout_4->addWidget(pushButton_forward, 0, 1, 1, 1);
+
+        pushButton_forward_right = new QPushButton(gridLayoutWidget_5);
+        pushButton_forward_right->setObjectName(QStringLiteral("pushButton_forward_right"));
+        sizePolicy1.setHeightForWidth(pushButton_forward_right->sizePolicy().hasHeightForWidth());
+        pushButton_forward_right->setSizePolicy(sizePolicy1);
+
+        gridLayout_4->addWidget(pushButton_forward_right, 0, 2, 1, 1);
+
+        pushButton_forward_left = new QPushButton(gridLayoutWidget_5);
+        pushButton_forward_left->setObjectName(QStringLiteral("pushButton_forward_left"));
+        sizePolicy1.setHeightForWidth(pushButton_forward_left->sizePolicy().hasHeightForWidth());
+        pushButton_forward_left->setSizePolicy(sizePolicy1);
+
+        gridLayout_4->addWidget(pushButton_forward_left, 0, 0, 1, 1);
+
+        gridLayout_5 = new QGridLayout();
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         label_5 = new QLabel(gridLayoutWidget_5);
         label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setAlignment(Qt::AlignCenter);
+        label_5->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         horizontalLayout_4->addWidget(label_5);
-
-        label_p_value = new QLabel(gridLayoutWidget_5);
-        label_p_value->setObjectName(QStringLiteral("label_p_value"));
-        label_p_value->setAlignment(Qt::AlignCenter);
-
-        horizontalLayout_4->addWidget(label_p_value);
 
         lineEdit_p_value = new QLineEdit(gridLayoutWidget_5);
         lineEdit_p_value->setObjectName(QStringLiteral("lineEdit_p_value"));
@@ -691,22 +681,16 @@ public:
         horizontalLayout_4->addWidget(lineEdit_p_value);
 
 
-        verticalLayout_5->addLayout(horizontalLayout_4);
+        gridLayout_5->addLayout(horizontalLayout_4, 1, 0, 1, 1);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(6);
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         label_6 = new QLabel(gridLayoutWidget_5);
         label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setAlignment(Qt::AlignCenter);
+        label_6->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         horizontalLayout_5->addWidget(label_6);
-
-        label_d_value = new QLabel(gridLayoutWidget_5);
-        label_d_value->setObjectName(QStringLiteral("label_d_value"));
-        label_d_value->setAlignment(Qt::AlignCenter);
-
-        horizontalLayout_5->addWidget(label_d_value);
 
         lineEdit_d_value = new QLineEdit(gridLayoutWidget_5);
         lineEdit_d_value->setObjectName(QStringLiteral("lineEdit_d_value"));
@@ -715,33 +699,30 @@ public:
         horizontalLayout_5->addWidget(lineEdit_d_value);
 
 
-        verticalLayout_5->addLayout(horizontalLayout_5);
+        gridLayout_5->addLayout(horizontalLayout_5, 2, 0, 1, 1);
 
 
-        gridLayout_4->addLayout(verticalLayout_5, 2, 0, 1, 1);
+        gridLayout_4->addLayout(gridLayout_5, 3, 2, 1, 1);
 
+        pushButton_set_pd = new QPushButton(gridLayoutWidget_5);
+        pushButton_set_pd->setObjectName(QStringLiteral("pushButton_set_pd"));
+        sizePolicy1.setHeightForWidth(pushButton_set_pd->sizePolicy().hasHeightForWidth());
+        pushButton_set_pd->setSizePolicy(sizePolicy1);
+        pushButton_set_pd->setMinimumSize(QSize(0, 50));
+
+        gridLayout_4->addWidget(pushButton_set_pd, 3, 1, 1, 1);
+
+        pushButton_pdf = new QPushButton(gridLayoutWidget_5);
+        pushButton_pdf->setObjectName(QStringLiteral("pushButton_pdf"));
+        sizePolicy1.setHeightForWidth(pushButton_pdf->sizePolicy().hasHeightForWidth());
+        pushButton_pdf->setSizePolicy(sizePolicy1);
+
+        gridLayout_4->addWidget(pushButton_pdf, 3, 0, 1, 1);
+
+        pushButton_claw_switch = new QPushButton(centralWidget);
+        pushButton_claw_switch->setObjectName(QStringLiteral("pushButton_claw_switch"));
+        pushButton_claw_switch->setGeometry(QRect(18, 430, 361, 27));
         Gui->setCentralWidget(centralWidget);
-        gridLayoutWidget_2->raise();
-        label_bt_status->raise();
-        verticalLayoutWidget_2->raise();
-        gridLayoutWidget_3->raise();
-        verticalLayoutWidget->raise();
-        label_3->raise();
-        line->raise();
-        line_2->raise();
-        plainTextEdit_log->raise();
-        verticalLayoutWidget_4->raise();
-        line_5->raise();
-        line_6->raise();
-        gridLayoutWidget_4->raise();
-        label_11->raise();
-        horizontalLayoutWidget_2->raise();
-        line_3->raise();
-        line_7->raise();
-        pushButton_send->raise();
-        horizontalLayoutWidget->raise();
-        horizontalLayoutWidget_3->raise();
-        gridLayoutWidget_5->raise();
         menuBar = new QMenuBar(Gui);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 1312, 25));
@@ -817,20 +798,22 @@ public:
         pushButton_direction->setText(QApplication::translate("Gui", "Switch Direction", 0));
         label_4->setText(QApplication::translate("Gui", "Current Direction:", 0));
         label_direction->setText(QApplication::translate("Gui", "Regular", 0));
-        pushButton_claw_switch->setText(QApplication::translate("Gui", "Open Claw", 0));
-        pushButton_forward->setText(QApplication::translate("Gui", "F", 0));
-        pushButton_stop->setText(QApplication::translate("Gui", "S", 0));
-        pushButton_forward_left->setText(QApplication::translate("Gui", "LF", 0));
-        pushButton_forward_right->setText(QApplication::translate("Gui", "RF", 0));
         pushButton_right->setText(QApplication::translate("Gui", "R", 0));
-        pushButton_left->setText(QApplication::translate("Gui", "L", 0));
-        pushButton_backward->setText(QApplication::translate("Gui", "B", 0));
         label_13->setText(QApplication::translate("Gui", "Speed", 0));
         label_speed->setText(QApplication::translate("Gui", "63", 0));
-        label_5->setText(QApplication::translate("Gui", "p  :", 0));
-        label_p_value->setText(QApplication::translate("Gui", "-", 0));
-        label_6->setText(QApplication::translate("Gui", "d  : ", 0));
-        label_d_value->setText(QApplication::translate("Gui", "-", 0));
+        pushButton_backward->setText(QApplication::translate("Gui", "B", 0));
+        pushButton_stop->setText(QApplication::translate("Gui", "S", 0));
+        pushButton_left->setText(QApplication::translate("Gui", "L", 0));
+        pushButton_forward->setText(QApplication::translate("Gui", "F", 0));
+        pushButton_forward_right->setText(QApplication::translate("Gui", "RF", 0));
+        pushButton_forward_left->setText(QApplication::translate("Gui", "LF", 0));
+        label_5->setText(QApplication::translate("Gui", "p :", 0));
+        lineEdit_p_value->setText(QApplication::translate("Gui", "0", 0));
+        label_6->setText(QApplication::translate("Gui", "d : ", 0));
+        lineEdit_d_value->setText(QApplication::translate("Gui", "0", 0));
+        pushButton_set_pd->setText(QApplication::translate("Gui", "SetPD", 0));
+        pushButton_pdf->setText(QApplication::translate("Gui", "PD F", 0));
+        pushButton_claw_switch->setText(QApplication::translate("Gui", "Open Claw", 0));
         menuFile->setTitle(QApplication::translate("Gui", "Data", 0));
         menuHelp->setTitle(QApplication::translate("Gui", "Help", 0));
     } // retranslateUi

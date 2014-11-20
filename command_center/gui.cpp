@@ -77,19 +77,19 @@ void Gui::bt_connected_(){
 
 //  -------------- slots
 void Gui::on_pushButton_forward_pressed(){
-  core->go_forward(ui->label_speed->text().toInt());
+  core->go_forward();
 }
 
 void Gui::on_pushButton_backward_pressed(){
-  core->go_backward(ui->label_speed->text().toInt());
+  core->go_backward();
 }
 
 void Gui::on_pushButton_left_pressed(){
-  core->turn_left(ui->label_speed->text().toInt());
+  core->turn_left();
 }
 
 void Gui::on_pushButton_right_pressed(){
-  core->turn_right(ui->label_speed->text().toInt());
+  core->turn_right();
 }
 
 void Gui::on_pushButton_connect_clicked(){
@@ -150,24 +150,20 @@ void Gui::on_actionOpen_triggered(){
   core->data_open(file_name.toStdString());
 }
 
-void Gui::on_lineEdit_p_value_returnPressed(){
-  const double& val = ui->lineEdit_p_value->text().toDouble();
-  ui->lineEdit_p_value->setText(QString::number(val));
-  core->set_p(val);
+void Gui::on_pushButton_set_pd_clicked(){
+  core->set_pd(ui->lineEdit_p_value->text().toInt(), ui->lineEdit_d_value->text().toInt());
 }
 
-void Gui::on_lineEdit_d_value_returnPressed(){
-  const double& val = ui->lineEdit_d_value->text().toDouble();
-  ui->lineEdit_d_value->setText(QString::number(val));
-  core->set_d(val);
+void Gui::on_pushButton_pdf_clicked(){
+  core->go_forward_pd();
 }
 
 void Gui::on_pushButton_forward_left_pressed(){
-  core->go_forward_left(ui->label_speed->text().toInt());
+  core->go_forward_left();
 }
 
 void Gui::on_pushButton_forward_right_pressed(){
-  core->go_forward_right(ui->label_speed->text().toInt());
+  core->go_forward_right();
 }
 
 
@@ -196,6 +192,7 @@ void Gui::onTapeInput(string tapeData){
 
 void Gui::on_horizontalSlider_speed_valueChanged(){
   ui->label_speed->setText(QString::number(ui->horizontalSlider_speed->value()));
+  core->set_speed(ui->horizontalSlider_speed->value());
 }
 
 

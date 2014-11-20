@@ -72,20 +72,21 @@ public:
   // bluetooth commands
   void custom_msg(const unsigned& type_, const string& payload);
   void echo();
-  void go_forward(int speed);
-  void go_backward(int speed);
-  void turn_right(int speed);
-  void turn_left(int speed);
-  void go_forward_right(int speed);
-  void go_forward_left(int speed);
+  void go_forward();
+  void go_backward();
+  void turn_right();
+  void turn_left();
+  void go_forward_right();
+  void go_forward_left();
+  void set_speed(int speed);
   void stop();
   void open_claw();
   void close_claw();
 
   void change_direction(int direction);
 
-  void set_p(const double& val);
-  void set_d(const double& val);
+  void set_pd(int p, int d);
+  void go_forward_pd();
 
 private:
   void troll_input();

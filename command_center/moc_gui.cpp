@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Gui_t {
-    QByteArrayData data[40];
-    char stringdata[893];
+    QByteArrayData data[39];
+    char stringdata[854];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -63,12 +63,11 @@ QT_MOC_LITERAL(30, 572, 37),
 QT_MOC_LITERAL(31, 610, 24),
 QT_MOC_LITERAL(32, 635, 23),
 QT_MOC_LITERAL(33, 659, 23),
-QT_MOC_LITERAL(34, 683, 33),
-QT_MOC_LITERAL(35, 717, 33),
-QT_MOC_LITERAL(36, 751, 34),
-QT_MOC_LITERAL(37, 786, 35),
-QT_MOC_LITERAL(38, 822, 38),
-QT_MOC_LITERAL(39, 861, 31)
+QT_MOC_LITERAL(34, 683, 28),
+QT_MOC_LITERAL(35, 712, 34),
+QT_MOC_LITERAL(36, 747, 35),
+QT_MOC_LITERAL(37, 783, 38),
+QT_MOC_LITERAL(38, 822, 31)
     },
     "Gui\0console_log\0\0data\0pb_update\0"
     "total_msgs\0current_msg\0status\0bt_reset\0"
@@ -91,8 +90,7 @@ QT_MOC_LITERAL(39, 861, 31)
     "on_horizontalSlider_pb_sliderReleased\0"
     "on_actionReset_triggered\0"
     "on_actionSave_triggered\0on_actionOpen_triggered\0"
-    "on_lineEdit_p_value_returnPressed\0"
-    "on_lineEdit_d_value_returnPressed\0"
+    "on_pushButton_set_pd_clicked\0"
     "on_pushButton_forward_left_pressed\0"
     "on_pushButton_forward_right_pressed\0"
     "on_horizontalSlider_speed_valueChanged\0"
@@ -106,7 +104,7 @@ static const uint qt_meta_data_Gui[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      34,   14, // methods
+      33,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -114,42 +112,41 @@ static const uint qt_meta_data_Gui[] = {
        5,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,  184,    2, 0x06 /* Public */,
-       4,    3,  187,    2, 0x06 /* Public */,
-       8,    0,  194,    2, 0x06 /* Public */,
-       9,    0,  195,    2, 0x06 /* Public */,
-      10,    0,  196,    2, 0x06 /* Public */,
+       1,    1,  179,    2, 0x06 /* Public */,
+       4,    3,  182,    2, 0x06 /* Public */,
+       8,    0,  189,    2, 0x06 /* Public */,
+       9,    0,  190,    2, 0x06 /* Public */,
+      10,    0,  191,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      11,    1,  197,    2, 0x08 /* Private */,
-      12,    3,  200,    2, 0x08 /* Private */,
-      13,    0,  207,    2, 0x08 /* Private */,
-      14,    0,  208,    2, 0x08 /* Private */,
-      15,    0,  209,    2, 0x08 /* Private */,
-      16,    0,  210,    2, 0x08 /* Private */,
-      17,    0,  211,    2, 0x08 /* Private */,
-      18,    0,  212,    2, 0x08 /* Private */,
-      19,    0,  213,    2, 0x08 /* Private */,
-      20,    0,  214,    2, 0x08 /* Private */,
-      21,    0,  215,    2, 0x08 /* Private */,
-      22,    0,  216,    2, 0x08 /* Private */,
-      23,    0,  217,    2, 0x08 /* Private */,
-      24,    0,  218,    2, 0x08 /* Private */,
-      25,    0,  219,    2, 0x08 /* Private */,
-      26,    0,  220,    2, 0x08 /* Private */,
-      27,    0,  221,    2, 0x08 /* Private */,
-      28,    0,  222,    2, 0x08 /* Private */,
-      29,    0,  223,    2, 0x08 /* Private */,
-      30,    0,  224,    2, 0x08 /* Private */,
-      31,    0,  225,    2, 0x08 /* Private */,
-      32,    0,  226,    2, 0x08 /* Private */,
-      33,    0,  227,    2, 0x08 /* Private */,
-      34,    0,  228,    2, 0x08 /* Private */,
-      35,    0,  229,    2, 0x08 /* Private */,
-      36,    0,  230,    2, 0x08 /* Private */,
-      37,    0,  231,    2, 0x08 /* Private */,
-      38,    0,  232,    2, 0x08 /* Private */,
-      39,    0,  233,    2, 0x08 /* Private */,
+      11,    1,  192,    2, 0x08 /* Private */,
+      12,    3,  195,    2, 0x08 /* Private */,
+      13,    0,  202,    2, 0x08 /* Private */,
+      14,    0,  203,    2, 0x08 /* Private */,
+      15,    0,  204,    2, 0x08 /* Private */,
+      16,    0,  205,    2, 0x08 /* Private */,
+      17,    0,  206,    2, 0x08 /* Private */,
+      18,    0,  207,    2, 0x08 /* Private */,
+      19,    0,  208,    2, 0x08 /* Private */,
+      20,    0,  209,    2, 0x08 /* Private */,
+      21,    0,  210,    2, 0x08 /* Private */,
+      22,    0,  211,    2, 0x08 /* Private */,
+      23,    0,  212,    2, 0x08 /* Private */,
+      24,    0,  213,    2, 0x08 /* Private */,
+      25,    0,  214,    2, 0x08 /* Private */,
+      26,    0,  215,    2, 0x08 /* Private */,
+      27,    0,  216,    2, 0x08 /* Private */,
+      28,    0,  217,    2, 0x08 /* Private */,
+      29,    0,  218,    2, 0x08 /* Private */,
+      30,    0,  219,    2, 0x08 /* Private */,
+      31,    0,  220,    2, 0x08 /* Private */,
+      32,    0,  221,    2, 0x08 /* Private */,
+      33,    0,  222,    2, 0x08 /* Private */,
+      34,    0,  223,    2, 0x08 /* Private */,
+      35,    0,  224,    2, 0x08 /* Private */,
+      36,    0,  225,    2, 0x08 /* Private */,
+      37,    0,  226,    2, 0x08 /* Private */,
+      38,    0,  227,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -161,7 +158,6 @@ static const uint qt_meta_data_Gui[] = {
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void, QMetaType::UInt, QMetaType::UInt, QMetaType::UInt,    5,    6,    7,
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -225,12 +221,11 @@ void Gui::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         case 25: _t->on_actionReset_triggered(); break;
         case 26: _t->on_actionSave_triggered(); break;
         case 27: _t->on_actionOpen_triggered(); break;
-        case 28: _t->on_lineEdit_p_value_returnPressed(); break;
-        case 29: _t->on_lineEdit_d_value_returnPressed(); break;
-        case 30: _t->on_pushButton_forward_left_pressed(); break;
-        case 31: _t->on_pushButton_forward_right_pressed(); break;
-        case 32: _t->on_horizontalSlider_speed_valueChanged(); break;
-        case 33: _t->on_pushButton_direction_clicked(); break;
+        case 28: _t->on_pushButton_set_pd_clicked(); break;
+        case 29: _t->on_pushButton_forward_left_pressed(); break;
+        case 30: _t->on_pushButton_forward_right_pressed(); break;
+        case 31: _t->on_horizontalSlider_speed_valueChanged(); break;
+        case 32: _t->on_pushButton_direction_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -294,13 +289,13 @@ int Gui::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 34)
+        if (_id < 33)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 34;
+        _id -= 33;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 34)
+        if (_id < 33)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 34;
+        _id -= 33;
     }
     return _id;
 }
