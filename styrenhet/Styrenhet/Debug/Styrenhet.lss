@@ -3,29 +3,29 @@ Styrenhet.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000482  00000000  00000000  00000094  2**1
+  0 .text         000004e0  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000002  00800060  00000482  00000516  2**0
+  1 .data         00000002  00800060  000004e0  00000574  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000000a  00800062  00800062  00000518  2**0
+  2 .bss          0000000a  00800062  00800062  00000576  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000518  2**0
+  3 .comment      00000030  00000000  00000000  00000576  2**0
                   CONTENTS, READONLY
-  4 .debug_aranges 000001a8  00000000  00000000  00000548  2**0
+  4 .debug_aranges 000001b0  00000000  00000000  000005a6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000011cd  00000000  00000000  000006f0  2**0
+  5 .debug_info   0000115d  00000000  00000000  00000756  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000005e3  00000000  00000000  000018bd  2**0
+  6 .debug_abbrev 000005f0  00000000  00000000  000018b3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000006e9  00000000  00000000  00001ea0  2**0
+  7 .debug_line   00000726  00000000  00000000  00001ea3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000003a0  00000000  00000000  0000258c  2**2
+  8 .debug_frame  000003b0  00000000  00000000  000025cc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000431  00000000  00000000  0000292c  2**0
+  9 .debug_str    00000448  00000000  00000000  0000297c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00001371  00000000  00000000  00002d5d  2**0
+ 10 .debug_loc    00001267  00000000  00000000  00002dc4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000198  00000000  00000000  000040ce  2**0
+ 11 .debug_ranges 000001a0  00000000  00000000  0000402b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -59,12 +59,12 @@ Disassembly of section .text:
   5c:	33 01       	movw	r6, r6
   5e:	4a 01       	movw	r8, r20
   60:	54 01       	movw	r10, r8
-  62:	5a 01       	movw	r10, r20
-  64:	60 01       	movw	r12, r0
-  66:	66 01       	movw	r12, r12
-  68:	6c 01       	movw	r12, r24
-  6a:	6f 01       	movw	r12, r30
-  6c:	72 01       	movw	r14, r4
+  62:	57 01       	movw	r10, r14
+  64:	5a 01       	movw	r10, r20
+  66:	5d 01       	movw	r10, r26
+  68:	60 01       	movw	r12, r0
+  6a:	63 01       	movw	r12, r6
+  6c:	66 01       	movw	r12, r12
 
 0000006e <__ctors_end>:
   6e:	11 24       	eor	r1, r1
@@ -78,7 +78,7 @@ Disassembly of section .text:
   7a:	10 e0       	ldi	r17, 0x00	; 0
   7c:	a0 e6       	ldi	r26, 0x60	; 96
   7e:	b0 e0       	ldi	r27, 0x00	; 0
-  80:	e2 e8       	ldi	r30, 0x82	; 130
+  80:	e0 ee       	ldi	r30, 0xE0	; 224
   82:	f4 e0       	ldi	r31, 0x04	; 4
   84:	02 c0       	rjmp	.+4      	; 0x8a <__do_copy_data+0x10>
   86:	05 90       	lpm	r0, Z+
@@ -100,8 +100,8 @@ Disassembly of section .text:
   9a:	ac 36       	cpi	r26, 0x6C	; 108
   9c:	b2 07       	cpc	r27, r18
   9e:	e1 f7       	brne	.-8      	; 0x98 <.do_clear_bss_loop>
-  a0:	0e 94 ab 01 	call	0x356	; 0x356 <main>
-  a4:	0c 94 3f 02 	jmp	0x47e	; 0x47e <_exit>
+  a0:	0e 94 9f 01 	call	0x33e	; 0x33e <main>
+  a4:	0c 94 6e 02 	jmp	0x4dc	; 0x4dc <_exit>
 
 000000a8 <__bad_interrupt>:
   a8:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -180,7 +180,7 @@ void PDforward() {
   fc:	89 0f       	add	r24, r25
 		}
 		softTurn(left_speed, right_speed);
-  fe:	0e 94 f5 01 	call	0x3ea	; 0x3ea <softTurn>
+  fe:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <softTurn>
 void PDsetSpeed(uint8_t speed_value) {
 	speed = speed_value;
 }
@@ -477,7 +477,7 @@ ISR(SPISTC_vect) {
 		if(header == 0x01) {							// Make sure that the message is meant for us
  218:	91 30       	cpi	r25, 0x01	; 1
  21a:	09 f0       	breq	.+2      	; 0x21e <__vector_10+0x6c>
- 21c:	78 c0       	rjmp	.+240    	; 0x30e <__vector_10+0x15c>
+ 21c:	6c c0       	rjmp	.+216    	; 0x2f6 <__vector_10+0x144>
 ISR(SPISTC_vect) {
 	cli();
 	char msg = SPDR;
@@ -500,7 +500,7 @@ ISR(SPISTC_vect) {
  22c:	20 f4       	brcc	.+8      	; 0x236 <__vector_10+0x84>
  22e:	e6 5d       	subi	r30, 0xD6	; 214
  230:	ff 4f       	sbci	r31, 0xFF	; 255
- 232:	0c 94 39 02 	jmp	0x472	; 0x472 <__tablejump2__>
+ 232:	0c 94 68 02 	jmp	0x4d0	; 0x4d0 <__tablejump2__>
 					break;
 					case 0x0D: // Stop the robot
 					stopWheels();
@@ -512,8 +512,8 @@ ISR(SPISTC_vect) {
  23a:	1a 14       	cp	r1, r10
  23c:	1b 04       	cpc	r1, r11
  23e:	0c f4       	brge	.+2      	; 0x242 <__vector_10+0x90>
- 240:	54 c0       	rjmp	.+168    	; 0x2ea <__vector_10+0x138>
- 242:	68 c0       	rjmp	.+208    	; 0x314 <__vector_10+0x162>
+ 240:	48 c0       	rjmp	.+144    	; 0x2d2 <__vector_10+0x120>
+ 242:	5c c0       	rjmp	.+184    	; 0x2fc <__vector_10+0x14a>
 	char left_dir, right_dir, left_speed, right_speed;
 	char unknownMessage[size];	//couldn't be down in the default..
 		if(header == 0x01) {							// Make sure that the message is meant for us
@@ -526,24 +526,24 @@ ISR(SPISTC_vect) {
  248:	88 0f       	add	r24, r24
  24a:	0e 94 69 00 	call	0xd2	; 0xd2 <PDsetSpeed>
 					break;
- 24e:	62 c0       	rjmp	.+196    	; 0x314 <__vector_10+0x162>
+ 24e:	56 c0       	rjmp	.+172    	; 0x2fc <__vector_10+0x14a>
 				case 0x02:	// Turn on pd
 					PDactivate();
  250:	0e 94 56 00 	call	0xac	; 0xac <PDactivate>
 					break;
- 254:	5f c0       	rjmp	.+190    	; 0x314 <__vector_10+0x162>
+ 254:	53 c0       	rjmp	.+166    	; 0x2fc <__vector_10+0x14a>
 				case 0x03:	// Turn off pd
 					PDdeactivate();
  256:	0e 94 5d 00 	call	0xba	; 0xba <PDdeactivate>
 					break;
- 25a:	5c c0       	rjmp	.+184    	; 0x314 <__vector_10+0x162>
+ 25a:	50 c0       	rjmp	.+160    	; 0x2fc <__vector_10+0x14a>
 				case 0x04:	// Switch forward/backward (used when reversing through the labyrinth)
 					msg = SPI_Receive();
  25c:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
 					setDirection(msg);
- 260:	0e 94 b3 01 	call	0x366	; 0x366 <setDirection>
+ 260:	0e 94 a7 01 	call	0x34e	; 0x34e <setDirection>
 					break;
- 264:	57 c0       	rjmp	.+174    	; 0x314 <__vector_10+0x162>
+ 264:	4b c0       	rjmp	.+150    	; 0x2fc <__vector_10+0x14a>
 				case 0x05:	// Set the speed/direction for the different motors
 					left_speed = SPI_Receive();
  266:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
@@ -554,7 +554,7 @@ ISR(SPISTC_vect) {
  26c:	88 1f       	adc	r24, r24
  26e:	88 27       	eor	r24, r24
  270:	88 1f       	adc	r24, r24
- 272:	0e 94 fa 01 	call	0x3f4	; 0x3f4 <leftWheelDirection>
+ 272:	0e 94 16 02 	call	0x42c	; 0x42c <leftWheelDirection>
 
 					right_speed = SPI_Receive();
  276:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
@@ -565,7 +565,7 @@ ISR(SPISTC_vect) {
  27c:	88 1f       	adc	r24, r24
  27e:	88 27       	eor	r24, r24
  280:	88 1f       	adc	r24, r24
- 282:	0e 94 0b 02 	call	0x416	; 0x416 <rightWheelDirection>
+ 282:	0e 94 27 02 	call	0x44e	; 0x44e <rightWheelDirection>
 					left_speed = left_speed << 1;
 					leftWheelDirection(left_dir);
 
@@ -578,452 +578,502 @@ ISR(SPISTC_vect) {
 					wheelSpeeds(left_speed, right_speed);
  28a:	8f 2d       	mov	r24, r15
  28c:	88 0f       	add	r24, r24
- 28e:	0e 94 1c 02 	call	0x438	; 0x438 <wheelSpeeds>
+ 28e:	0e 94 38 02 	call	0x470	; 0x470 <wheelSpeeds>
 					break;
- 292:	40 c0       	rjmp	.+128    	; 0x314 <__vector_10+0x162>
+ 292:	34 c0       	rjmp	.+104    	; 0x2fc <__vector_10+0x14a>
 				case 0x06:	// Set the p and d values
 					p = SPI_Receive();
  294:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
  298:	f8 2e       	mov	r15, r24
 					d = SPI_Receive();
  29a:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
-					setPD(p, d); 
+					setPD(p, d);
  29e:	68 2f       	mov	r22, r24
  2a0:	8f 2d       	mov	r24, r15
  2a2:	0e 94 64 00 	call	0xc8	; 0xc8 <setPD>
 					break;
- 2a6:	36 c0       	rjmp	.+108    	; 0x314 <__vector_10+0x162>
-				case 0x07:	// Move forward with the specified speed
-					speed = SPI_Receive() << 1;
- 2a8:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
-					driveForward(speed);
- 2ac:	88 0f       	add	r24, r24
- 2ae:	0e 94 bd 01 	call	0x37a	; 0x37a <driveForward>
+ 2a6:	2a c0       	rjmp	.+84     	; 0x2fc <__vector_10+0x14a>
+				case 0x07:	// Move forward with the specified speed					
+					driveForward();
+ 2a8:	0e 94 b1 01 	call	0x362	; 0x362 <driveForward>
 					break;
- 2b2:	30 c0       	rjmp	.+96     	; 0x314 <__vector_10+0x162>
-				case 0x08:	// Move backward with the specified speed
-					speed = SPI_Receive() << 1;
- 2b4:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
-					driveReverse(speed);
- 2b8:	88 0f       	add	r24, r24
- 2ba:	0e 94 cb 01 	call	0x396	; 0x396 <driveReverse>
+ 2ac:	27 c0       	rjmp	.+78     	; 0x2fc <__vector_10+0x14a>
+				case 0x08:	// Move backward with the specified speed					
+					driveReverse();
+ 2ae:	0e 94 c3 01 	call	0x386	; 0x386 <driveReverse>
 					break;
- 2be:	2a c0       	rjmp	.+84     	; 0x314 <__vector_10+0x162>
-				case 0x09:	// Rotate left with the specified speed
-					speed = SPI_Receive() << 1;
- 2c0:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
-					rotateLeft(speed);
- 2c4:	88 0f       	add	r24, r24
- 2c6:	0e 94 d9 01 	call	0x3b2	; 0x3b2 <rotateLeft>
+ 2b2:	24 c0       	rjmp	.+72     	; 0x2fc <__vector_10+0x14a>
+				case 0x09:	// Rotate left with the specified speed					
+					rotateLeft();
+ 2b4:	0e 94 d5 01 	call	0x3aa	; 0x3aa <rotateLeft>
 					break;
- 2ca:	24 c0       	rjmp	.+72     	; 0x314 <__vector_10+0x162>
-				case 0x0A:	// Rotate right with the specified speed
-					speed = SPI_Receive() << 1;
- 2cc:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
-					rotateRight(speed);
- 2d0:	88 0f       	add	r24, r24
- 2d2:	0e 94 e7 01 	call	0x3ce	; 0x3ce <rotateRight>
+ 2b8:	21 c0       	rjmp	.+66     	; 0x2fc <__vector_10+0x14a>
+				case 0x0A:	// Rotate right with the specified speed					
+					rotateRight();
+ 2ba:	0e 94 e7 01 	call	0x3ce	; 0x3ce <rotateRight>
 					break;
- 2d6:	1e c0       	rjmp	.+60     	; 0x314 <__vector_10+0x162>
-					case 0x0B:	// Close the claw
+ 2be:	1e c0       	rjmp	.+60     	; 0x2fc <__vector_10+0x14a>
+				case 0x0B:	// Close the claw
 					gripClaw();
- 2d8:	0e 94 34 02 	call	0x468	; 0x468 <gripClaw>
+ 2c0:	0e 94 63 02 	call	0x4c6	; 0x4c6 <gripClaw>
 					break;
- 2dc:	1b c0       	rjmp	.+54     	; 0x314 <__vector_10+0x162>
+ 2c4:	1b c0       	rjmp	.+54     	; 0x2fc <__vector_10+0x14a>
 				case 0x0C:	// Open the claw
 					releaseClaw();
- 2de:	0e 94 24 02 	call	0x448	; 0x448 <releaseClaw>
+ 2c6:	0e 94 53 02 	call	0x4a6	; 0x4a6 <releaseClaw>
 					break;
- 2e2:	18 c0       	rjmp	.+48     	; 0x314 <__vector_10+0x162>
+ 2ca:	18 c0       	rjmp	.+48     	; 0x2fc <__vector_10+0x14a>
 					case 0x0D: // Stop the robot
 					stopWheels();
- 2e4:	0e 94 1f 02 	call	0x43e	; 0x43e <stopWheels>
+ 2cc:	0e 94 4e 02 	call	0x49c	; 0x49c <stopWheels>
 					break;
- 2e8:	15 c0       	rjmp	.+42     	; 0x314 <__vector_10+0x162>
- 2ea:	69 01       	movw	r12, r18
+ 2d0:	15 c0       	rjmp	.+42     	; 0x2fc <__vector_10+0x14a>
+ 2d2:	69 01       	movw	r12, r18
 				default:	// Fetch the message anyway
 					for(int i = 0; i < size; i++) {
- 2ec:	e1 2c       	mov	r14, r1
- 2ee:	f1 2c       	mov	r15, r1
+ 2d4:	e1 2c       	mov	r14, r1
+ 2d6:	f1 2c       	mov	r15, r1
 						unknownMessage[i] = SPI_Receive();
- 2f0:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
- 2f4:	f6 01       	movw	r30, r12
- 2f6:	81 93       	st	Z+, r24
- 2f8:	6f 01       	movw	r12, r30
+ 2d8:	0e 94 d5 00 	call	0x1aa	; 0x1aa <SPI_Receive>
+ 2dc:	f6 01       	movw	r30, r12
+ 2de:	81 93       	st	Z+, r24
+ 2e0:	6f 01       	movw	r12, r30
 	return SPI_Transceive(0x00);
 }
 
 // Send over SPI
 void SPI_Send(char dataout) {
 	SPI_Transceive(dataout);
- 2fa:	8f e3       	ldi	r24, 0x3F	; 63
- 2fc:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <SPI_Transceive>
+ 2e2:	8f e3       	ldi	r24, 0x3F	; 63
+ 2e4:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <SPI_Transceive>
 					break;
 					case 0x0D: // Stop the robot
 					stopWheels();
 					break;
 				default:	// Fetch the message anyway
 					for(int i = 0; i < size; i++) {
- 300:	ff ef       	ldi	r31, 0xFF	; 255
- 302:	ef 1a       	sub	r14, r31
- 304:	ff 0a       	sbc	r15, r31
- 306:	ea 14       	cp	r14, r10
- 308:	fb 04       	cpc	r15, r11
- 30a:	94 f3       	brlt	.-28     	; 0x2f0 <__vector_10+0x13e>
- 30c:	03 c0       	rjmp	.+6      	; 0x314 <__vector_10+0x162>
+ 2e8:	ff ef       	ldi	r31, 0xFF	; 255
+ 2ea:	ef 1a       	sub	r14, r31
+ 2ec:	ff 0a       	sbc	r15, r31
+ 2ee:	ea 14       	cp	r14, r10
+ 2f0:	fb 04       	cpc	r15, r11
+ 2f2:	94 f3       	brlt	.-28     	; 0x2d8 <__vector_10+0x126>
+ 2f4:	03 c0       	rjmp	.+6      	; 0x2fc <__vector_10+0x14a>
 	return SPI_Transceive(0x00);
 }
 
 // Send over SPI
 void SPI_Send(char dataout) {
 	SPI_Transceive(dataout);
- 30e:	8f e3       	ldi	r24, 0x3F	; 63
- 310:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <SPI_Transceive>
+ 2f6:	8f e3       	ldi	r24, 0x3F	; 63
+ 2f8:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <SPI_Transceive>
 			}
 		}
 		else {			// In case of unexpected header, send an error message
 			headerError(header);
 		}
 	sei();
- 314:	78 94       	sei
+ 2fc:	78 94       	sei
 }
- 316:	0f b6       	in	r0, 0x3f	; 63
- 318:	f8 94       	cli
- 31a:	1e bf       	out	0x3e, r17	; 62
- 31c:	0f be       	out	0x3f, r0	; 63
- 31e:	0d bf       	out	0x3d, r16	; 61
- 320:	df 91       	pop	r29
- 322:	cf 91       	pop	r28
- 324:	ff 91       	pop	r31
- 326:	ef 91       	pop	r30
- 328:	bf 91       	pop	r27
- 32a:	af 91       	pop	r26
- 32c:	9f 91       	pop	r25
- 32e:	8f 91       	pop	r24
- 330:	7f 91       	pop	r23
- 332:	6f 91       	pop	r22
- 334:	5f 91       	pop	r21
- 336:	4f 91       	pop	r20
- 338:	3f 91       	pop	r19
- 33a:	2f 91       	pop	r18
- 33c:	1f 91       	pop	r17
- 33e:	0f 91       	pop	r16
- 340:	ff 90       	pop	r15
- 342:	ef 90       	pop	r14
- 344:	df 90       	pop	r13
- 346:	cf 90       	pop	r12
- 348:	bf 90       	pop	r11
- 34a:	af 90       	pop	r10
- 34c:	0f 90       	pop	r0
- 34e:	0f be       	out	0x3f, r0	; 63
- 350:	0f 90       	pop	r0
- 352:	1f 90       	pop	r1
- 354:	18 95       	reti
+ 2fe:	0f b6       	in	r0, 0x3f	; 63
+ 300:	f8 94       	cli
+ 302:	1e bf       	out	0x3e, r17	; 62
+ 304:	0f be       	out	0x3f, r0	; 63
+ 306:	0d bf       	out	0x3d, r16	; 61
+ 308:	df 91       	pop	r29
+ 30a:	cf 91       	pop	r28
+ 30c:	ff 91       	pop	r31
+ 30e:	ef 91       	pop	r30
+ 310:	bf 91       	pop	r27
+ 312:	af 91       	pop	r26
+ 314:	9f 91       	pop	r25
+ 316:	8f 91       	pop	r24
+ 318:	7f 91       	pop	r23
+ 31a:	6f 91       	pop	r22
+ 31c:	5f 91       	pop	r21
+ 31e:	4f 91       	pop	r20
+ 320:	3f 91       	pop	r19
+ 322:	2f 91       	pop	r18
+ 324:	1f 91       	pop	r17
+ 326:	0f 91       	pop	r16
+ 328:	ff 90       	pop	r15
+ 32a:	ef 90       	pop	r14
+ 32c:	df 90       	pop	r13
+ 32e:	cf 90       	pop	r12
+ 330:	bf 90       	pop	r11
+ 332:	af 90       	pop	r10
+ 334:	0f 90       	pop	r0
+ 336:	0f be       	out	0x3f, r0	; 63
+ 338:	0f 90       	pop	r0
+ 33a:	1f 90       	pop	r1
+ 33c:	18 95       	reti
 
-00000356 <main>:
-#define REVERSE 0
+0000033e <main>:
 
 char direction = FORWARD;
+uint8_t maxSpeed = 255;
 
 int main(void) {
 	SPI_Init();								// Initiate SPI as a slaves
- 356:	0e 94 ca 00 	call	0x194	; 0x194 <SPI_Init>
+ 33e:	0e 94 ca 00 	call	0x194	; 0x194 <SPI_Init>
 	init_pwm();								// Initiates the pins used for PWM
- 35a:	0e 94 a2 00 	call	0x144	; 0x144 <init_pwm>
+ 342:	0e 94 a2 00 	call	0x144	; 0x144 <init_pwm>
 	sei();
- 35e:	78 94       	sei
+ 346:	78 94       	sei
 	
 	while(1) {
 		PDforward();
- 360:	0e 94 6c 00 	call	0xd8	; 0xd8 <PDforward>
- 364:	fd cf       	rjmp	.-6      	; 0x360 <main+0xa>
+ 348:	0e 94 6c 00 	call	0xd8	; 0xd8 <PDforward>
+ 34c:	fd cf       	rjmp	.-6      	; 0x348 <main+0xa>
 
-00000366 <setDirection>:
+0000034e <setDirection>:
 	}
 }
 
 // Set the character keeping track of the direction the robot is traveling in
 void setDirection(uint8_t dir) {
 	if(dir == 1) {
- 366:	81 30       	cpi	r24, 0x01	; 1
- 368:	19 f4       	brne	.+6      	; 0x370 <setDirection+0xa>
+ 34e:	81 30       	cpi	r24, 0x01	; 1
+ 350:	19 f4       	brne	.+6      	; 0x358 <setDirection+0xa>
 		direction = FORWARD;
- 36a:	80 93 60 00 	sts	0x0060, r24
- 36e:	08 95       	ret
+ 352:	80 93 61 00 	sts	0x0061, r24
+ 356:	08 95       	ret
 	}
 	else if(dir == 0) {
- 370:	81 11       	cpse	r24, r1
- 372:	02 c0       	rjmp	.+4      	; 0x378 <setDirection+0x12>
+ 358:	81 11       	cpse	r24, r1
+ 35a:	02 c0       	rjmp	.+4      	; 0x360 <setDirection+0x12>
 		direction = REVERSE;
- 374:	10 92 60 00 	sts	0x0060, r1
- 378:	08 95       	ret
+ 35c:	10 92 61 00 	sts	0x0061, r1
+ 360:	08 95       	ret
 
-0000037a <driveForward>:
-	}
+00000362 <driveForward>:
+	maxSpeed = speed;
 }
 
 // The robot drives forward
-void driveForward(uint8_t speed) {	
+void driveForward() {	
 	if(direction == REVERSE) {
- 37a:	90 91 60 00 	lds	r25, 0x0060
- 37e:	91 11       	cpse	r25, r1
- 380:	05 c0       	rjmp	.+10     	; 0x38c <driveForward+0x12>
+ 362:	80 91 61 00 	lds	r24, 0x0061
+ 366:	81 11       	cpse	r24, r1
+ 368:	07 c0       	rjmp	.+14     	; 0x378 <driveForward+0x16>
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Set wheel direction to reverse by
- 382:	d8 98       	cbi	0x1b, 0	; 27
+ 36a:	d8 98       	cbi	0x1b, 0	; 27
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// clearing the direction pins
- 384:	d9 98       	cbi	0x1b, 1	; 27
-		setSpeed(speed);
- 386:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
- 38a:	08 95       	ret
+ 36c:	d9 98       	cbi	0x1b, 1	; 27
+		setSpeed(maxSpeed);
+ 36e:	80 91 60 00 	lds	r24, 0x0060
+ 372:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
+ 376:	08 95       	ret
 	}
 	else {
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Set wheel direction to forward by
- 38c:	d8 9a       	sbi	0x1b, 0	; 27
+ 378:	d8 9a       	sbi	0x1b, 0	; 27
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// setting the direction pins
- 38e:	d9 9a       	sbi	0x1b, 1	; 27
-		setSpeed(speed);
- 390:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
- 394:	08 95       	ret
+ 37a:	d9 9a       	sbi	0x1b, 1	; 27
+		setSpeed(maxSpeed);
+ 37c:	80 91 60 00 	lds	r24, 0x0060
+ 380:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
+ 384:	08 95       	ret
 
-00000396 <driveReverse>:
-	return;
+00000386 <driveReverse>:
+	}
 }
 
 // The robot drives in reverse
-void driveReverse(uint8_t speed) {	
+void driveReverse() {	
 	if(direction == REVERSE) {
- 396:	90 91 60 00 	lds	r25, 0x0060
- 39a:	91 11       	cpse	r25, r1
- 39c:	05 c0       	rjmp	.+10     	; 0x3a8 <driveReverse+0x12>
+ 386:	80 91 61 00 	lds	r24, 0x0061
+ 38a:	81 11       	cpse	r24, r1
+ 38c:	07 c0       	rjmp	.+14     	; 0x39c <driveReverse+0x16>
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Set wheel direction to forward by
- 39e:	d8 9a       	sbi	0x1b, 0	; 27
+ 38e:	d8 9a       	sbi	0x1b, 0	; 27
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// setting the direction pins
- 3a0:	d9 9a       	sbi	0x1b, 1	; 27
-		setSpeed(speed);
- 3a2:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
- 3a6:	08 95       	ret
+ 390:	d9 9a       	sbi	0x1b, 1	; 27
+		setSpeed(maxSpeed);
+ 392:	80 91 60 00 	lds	r24, 0x0060
+ 396:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
+ 39a:	08 95       	ret
 	}
 	else {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Set wheel direction to reverse by
- 3a8:	d8 98       	cbi	0x1b, 0	; 27
+ 39c:	d8 98       	cbi	0x1b, 0	; 27
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// clearing the direction pins
- 3aa:	d9 98       	cbi	0x1b, 1	; 27
-		setSpeed(speed);
- 3ac:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
- 3b0:	08 95       	ret
+ 39e:	d9 98       	cbi	0x1b, 1	; 27
+		setSpeed(maxSpeed);
+ 3a0:	80 91 60 00 	lds	r24, 0x0060
+ 3a4:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
+ 3a8:	08 95       	ret
 
-000003b2 <rotateLeft>:
-	return;
+000003aa <rotateLeft>:
+	}
 }
 
 // The robot rotates to the left
-void rotateLeft(uint8_t speed) {	
+void rotateLeft() {	
 	if(direction == REVERSE){
- 3b2:	90 91 60 00 	lds	r25, 0x0060
- 3b6:	91 11       	cpse	r25, r1
- 3b8:	05 c0       	rjmp	.+10     	; 0x3c4 <rotateLeft+0x12>
+ 3aa:	80 91 61 00 	lds	r24, 0x0061
+ 3ae:	81 11       	cpse	r24, r1
+ 3b0:	07 c0       	rjmp	.+14     	; 0x3c0 <rotateLeft+0x16>
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
- 3ba:	d8 9a       	sbi	0x1b, 0	; 27
+ 3b2:	d8 9a       	sbi	0x1b, 0	; 27
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
- 3bc:	d9 98       	cbi	0x1b, 1	; 27
-		setSpeed(speed);
- 3be:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
- 3c2:	08 95       	ret
+ 3b4:	d9 98       	cbi	0x1b, 1	; 27
+		setSpeed(maxSpeed);
+ 3b6:	80 91 60 00 	lds	r24, 0x0060
+ 3ba:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
+ 3be:	08 95       	ret
 	}
 	else {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
- 3c4:	d8 98       	cbi	0x1b, 0	; 27
+ 3c0:	d8 98       	cbi	0x1b, 0	; 27
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
- 3c6:	d9 9a       	sbi	0x1b, 1	; 27
-		setSpeed(speed);
+ 3c2:	d9 9a       	sbi	0x1b, 1	; 27
+		setSpeed(maxSpeed);
+ 3c4:	80 91 60 00 	lds	r24, 0x0060
  3c8:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
  3cc:	08 95       	ret
 
 000003ce <rotateRight>:
-	return;
+	}
 }
 
 // The robot rotates to the right
-void rotateRight(uint8_t speed) {	
+void rotateRight() {	
 	if(direction == REVERSE){
- 3ce:	90 91 60 00 	lds	r25, 0x0060
- 3d2:	91 11       	cpse	r25, r1
- 3d4:	05 c0       	rjmp	.+10     	; 0x3e0 <rotateRight+0x12>
+ 3ce:	80 91 61 00 	lds	r24, 0x0061
+ 3d2:	81 11       	cpse	r24, r1
+ 3d4:	07 c0       	rjmp	.+14     	; 0x3e4 <rotateRight+0x16>
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
  3d6:	d8 98       	cbi	0x1b, 0	; 27
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
  3d8:	d9 9a       	sbi	0x1b, 1	; 27
-		setSpeed(speed);
- 3da:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
- 3de:	08 95       	ret
+		setSpeed(maxSpeed);
+ 3da:	80 91 60 00 	lds	r24, 0x0060
+ 3de:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
+ 3e2:	08 95       	ret
 	}
 	else {
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
- 3e0:	d8 9a       	sbi	0x1b, 0	; 27
+ 3e4:	d8 9a       	sbi	0x1b, 0	; 27
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
- 3e2:	d9 98       	cbi	0x1b, 1	; 27
-		setSpeed(speed);
- 3e4:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
- 3e8:	08 95       	ret
+ 3e6:	d9 98       	cbi	0x1b, 1	; 27
+		setSpeed(maxSpeed);
+ 3e8:	80 91 60 00 	lds	r24, 0x0060
+ 3ec:	0e 94 c6 00 	call	0x18c	; 0x18c <setSpeed>
+ 3f0:	08 95       	ret
 
-000003ea <softTurn>:
+000003f2 <softTurn>:
 
 
 // The robot makes a soft turn
 // Turn direction is decided by the input parameters
-void softTurn(uint8_t left_speed, uint8_t right_speed) {	
+void softTurn(uint8_t left_speed, uint8_t right_speed) {
+	left_speed = left_speed * (maxSpeed/255);
+ 3f2:	20 91 60 00 	lds	r18, 0x0060
+ 3f6:	91 e0       	ldi	r25, 0x01	; 1
+ 3f8:	2f 3f       	cpi	r18, 0xFF	; 255
+ 3fa:	08 f4       	brcc	.+2      	; 0x3fe <softTurn+0xc>
+ 3fc:	90 e0       	ldi	r25, 0x00	; 0
+ 3fe:	89 9f       	mul	r24, r25
+ 400:	80 2d       	mov	r24, r0
+ 402:	11 24       	eor	r1, r1
+	right_speed = right_speed * (maxSpeed/255);
+ 404:	69 9f       	mul	r22, r25
+ 406:	90 2d       	mov	r25, r0
+ 408:	11 24       	eor	r1, r1
+	if(direction == REVERSE) {
+ 40a:	20 91 61 00 	lds	r18, 0x0061
+ 40e:	21 11       	cpse	r18, r1
+ 410:	07 c0       	rjmp	.+14     	; 0x420 <softTurn+0x2e>
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);
+ 412:	d8 98       	cbi	0x1b, 0	; 27
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);
+ 414:	d9 98       	cbi	0x1b, 1	; 27
+		setSpeeds(right_speed, left_speed);
+ 416:	68 2f       	mov	r22, r24
+ 418:	89 2f       	mov	r24, r25
+ 41a:	0e 94 b4 00 	call	0x168	; 0x168 <setSpeeds>
+		return;
+ 41e:	08 95       	ret
+		
+	}	
 	PORTA |= (1<<WHEEL_DIRECTION_L);
- 3ea:	d8 9a       	sbi	0x1b, 0	; 27
+ 420:	d8 9a       	sbi	0x1b, 0	; 27
 	PORTA |= (1<<WHEEL_DIRECTION_R);
- 3ec:	d9 9a       	sbi	0x1b, 1	; 27
+ 422:	d9 9a       	sbi	0x1b, 1	; 27
 	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
- 3ee:	0e 94 b4 00 	call	0x168	; 0x168 <setSpeeds>
- 3f2:	08 95       	ret
+ 424:	69 2f       	mov	r22, r25
+ 426:	0e 94 b4 00 	call	0x168	; 0x168 <setSpeeds>
+ 42a:	08 95       	ret
 
-000003f4 <leftWheelDirection>:
+0000042c <leftWheelDirection>:
 	return;
 }
 
 // Set the direction of the left wheel pair according to input
 void leftWheelDirection(uint8_t dir) {
 	if(direction == REVERSE) {
- 3f4:	90 91 60 00 	lds	r25, 0x0060
- 3f8:	91 11       	cpse	r25, r1
- 3fa:	05 c0       	rjmp	.+10     	; 0x406 <leftWheelDirection+0x12>
+ 42c:	90 91 61 00 	lds	r25, 0x0061
+ 430:	91 11       	cpse	r25, r1
+ 432:	05 c0       	rjmp	.+10     	; 0x43e <leftWheelDirection+0x12>
 		if(dir == 1) {
- 3fc:	91 e0       	ldi	r25, 0x01	; 1
- 3fe:	81 30       	cpi	r24, 0x01	; 1
- 400:	09 f4       	brne	.+2      	; 0x404 <leftWheelDirection+0x10>
- 402:	90 e0       	ldi	r25, 0x00	; 0
+ 434:	91 e0       	ldi	r25, 0x01	; 1
+ 436:	81 30       	cpi	r24, 0x01	; 1
+ 438:	09 f4       	brne	.+2      	; 0x43c <leftWheelDirection+0x10>
+ 43a:	90 e0       	ldi	r25, 0x00	; 0
 			dir = 0;
- 404:	89 2f       	mov	r24, r25
+ 43c:	89 2f       	mov	r24, r25
 		else {
 			dir = 1;
 		}
 	}
 	
 	if(dir == 1) {
- 406:	81 30       	cpi	r24, 0x01	; 1
- 408:	11 f4       	brne	.+4      	; 0x40e <leftWheelDirection+0x1a>
+ 43e:	81 30       	cpi	r24, 0x01	; 1
+ 440:	11 f4       	brne	.+4      	; 0x446 <leftWheelDirection+0x1a>
 		PORTA |= (1 << WHEEL_DIRECTION_L);		
- 40a:	d8 9a       	sbi	0x1b, 0	; 27
- 40c:	08 95       	ret
+ 442:	d8 9a       	sbi	0x1b, 0	; 27
+ 444:	08 95       	ret
 	}
 	else if(dir == 0) {
- 40e:	81 11       	cpse	r24, r1
- 410:	01 c0       	rjmp	.+2      	; 0x414 <leftWheelDirection+0x20>
+ 446:	81 11       	cpse	r24, r1
+ 448:	01 c0       	rjmp	.+2      	; 0x44c <leftWheelDirection+0x20>
 		PORTA &= ~(1 << WHEEL_DIRECTION_L);
- 412:	d8 98       	cbi	0x1b, 0	; 27
- 414:	08 95       	ret
+ 44a:	d8 98       	cbi	0x1b, 0	; 27
+ 44c:	08 95       	ret
 
-00000416 <rightWheelDirection>:
+0000044e <rightWheelDirection>:
 	}
 }
 
 // Set the direction of the right wheel pair according to input
 void rightWheelDirection(uint8_t dir) {	
 	if(direction == REVERSE) {
- 416:	90 91 60 00 	lds	r25, 0x0060
- 41a:	91 11       	cpse	r25, r1
- 41c:	05 c0       	rjmp	.+10     	; 0x428 <rightWheelDirection+0x12>
+ 44e:	90 91 61 00 	lds	r25, 0x0061
+ 452:	91 11       	cpse	r25, r1
+ 454:	05 c0       	rjmp	.+10     	; 0x460 <__stack+0x1>
 		if(dir == 1) {
- 41e:	91 e0       	ldi	r25, 0x01	; 1
- 420:	81 30       	cpi	r24, 0x01	; 1
- 422:	09 f4       	brne	.+2      	; 0x426 <rightWheelDirection+0x10>
- 424:	90 e0       	ldi	r25, 0x00	; 0
+ 456:	91 e0       	ldi	r25, 0x01	; 1
+ 458:	81 30       	cpi	r24, 0x01	; 1
+ 45a:	09 f4       	brne	.+2      	; 0x45e <rightWheelDirection+0x10>
+ 45c:	90 e0       	ldi	r25, 0x00	; 0
 			dir = 0;
- 426:	89 2f       	mov	r24, r25
+ 45e:	89 2f       	mov	r24, r25
 		else {
 			dir = 1;
 		}
 	}
 	
 	if(dir == 1) {
- 428:	81 30       	cpi	r24, 0x01	; 1
- 42a:	11 f4       	brne	.+4      	; 0x430 <rightWheelDirection+0x1a>
+ 460:	81 30       	cpi	r24, 0x01	; 1
+ 462:	11 f4       	brne	.+4      	; 0x468 <__stack+0x9>
 		PORTA |= (1 << WHEEL_DIRECTION_R);
- 42c:	d9 9a       	sbi	0x1b, 1	; 27
- 42e:	08 95       	ret
+ 464:	d9 9a       	sbi	0x1b, 1	; 27
+ 466:	08 95       	ret
 	}
 	else if(dir == 0) {
- 430:	81 11       	cpse	r24, r1
- 432:	01 c0       	rjmp	.+2      	; 0x436 <rightWheelDirection+0x20>
+ 468:	81 11       	cpse	r24, r1
+ 46a:	01 c0       	rjmp	.+2      	; 0x46e <__stack+0xf>
 		PORTA &= ~(1 << WHEEL_DIRECTION_R);
- 434:	d9 98       	cbi	0x1b, 1	; 27
- 436:	08 95       	ret
+ 46c:	d9 98       	cbi	0x1b, 1	; 27
+ 46e:	08 95       	ret
 
-00000438 <wheelSpeeds>:
+00000470 <wheelSpeeds>:
 }
 
 // Set the speed of both wheel pairs
 // QUESTION: Why is this needed?
-void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {	
+void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {
+	left_speed = left_speed *(maxSpeed/255);
+ 470:	20 91 60 00 	lds	r18, 0x0060
+ 474:	91 e0       	ldi	r25, 0x01	; 1
+ 476:	2f 3f       	cpi	r18, 0xFF	; 255
+ 478:	08 f4       	brcc	.+2      	; 0x47c <wheelSpeeds+0xc>
+ 47a:	90 e0       	ldi	r25, 0x00	; 0
+ 47c:	89 9f       	mul	r24, r25
+ 47e:	80 2d       	mov	r24, r0
+ 480:	11 24       	eor	r1, r1
+	right_speed = right_speed *(maxSpeed/255);
+ 482:	69 9f       	mul	r22, r25
+ 484:	60 2d       	mov	r22, r0
+ 486:	11 24       	eor	r1, r1
+	if(direction == REVERSE) {
+ 488:	90 91 61 00 	lds	r25, 0x0061
+ 48c:	91 11       	cpse	r25, r1
+ 48e:	03 c0       	rjmp	.+6      	; 0x496 <wheelSpeeds+0x26>
+ 490:	98 2f       	mov	r25, r24
+		uint8_t temp = left_speed;
+		left_speed = right_speed;
+ 492:	86 2f       	mov	r24, r22
+		right_speed = temp;
+ 494:	69 2f       	mov	r22, r25
+	}
 	setSpeeds(left_speed, right_speed);
- 438:	0e 94 b4 00 	call	0x168	; 0x168 <setSpeeds>
- 43c:	08 95       	ret
+ 496:	0e 94 b4 00 	call	0x168	; 0x168 <setSpeeds>
+ 49a:	08 95       	ret
 
-0000043e <stopWheels>:
+0000049c <stopWheels>:
 }
 
 void stopWheels() {	
 	setSpeeds(0,0);	
- 43e:	60 e0       	ldi	r22, 0x00	; 0
- 440:	80 e0       	ldi	r24, 0x00	; 0
- 442:	0e 94 b4 00 	call	0x168	; 0x168 <setSpeeds>
- 446:	08 95       	ret
+ 49c:	60 e0       	ldi	r22, 0x00	; 0
+ 49e:	80 e0       	ldi	r24, 0x00	; 0
+ 4a0:	0e 94 b4 00 	call	0x168	; 0x168 <setSpeeds>
+ 4a4:	08 95       	ret
 
-00000448 <releaseClaw>:
+000004a6 <releaseClaw>:
 }
 
 // Calls PWM functions to release the claw
 void releaseClaw() {
 	clawEnable();
- 448:	0e 94 92 00 	call	0x124	; 0x124 <clawEnable>
+ 4a6:	0e 94 92 00 	call	0x124	; 0x124 <clawEnable>
 	clawRelease();
- 44c:	0e 94 8f 00 	call	0x11e	; 0x11e <clawRelease>
+ 4aa:	0e 94 8f 00 	call	0x11e	; 0x11e <clawRelease>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 450:	2f ef       	ldi	r18, 0xFF	; 255
- 452:	82 e5       	ldi	r24, 0x52	; 82
- 454:	97 e0       	ldi	r25, 0x07	; 7
- 456:	21 50       	subi	r18, 0x01	; 1
- 458:	80 40       	sbci	r24, 0x00	; 0
- 45a:	90 40       	sbci	r25, 0x00	; 0
- 45c:	e1 f7       	brne	.-8      	; 0x456 <releaseClaw+0xe>
- 45e:	00 c0       	rjmp	.+0      	; 0x460 <__stack+0x1>
- 460:	00 00       	nop
+ 4ae:	2f ef       	ldi	r18, 0xFF	; 255
+ 4b0:	82 e5       	ldi	r24, 0x52	; 82
+ 4b2:	97 e0       	ldi	r25, 0x07	; 7
+ 4b4:	21 50       	subi	r18, 0x01	; 1
+ 4b6:	80 40       	sbci	r24, 0x00	; 0
+ 4b8:	90 40       	sbci	r25, 0x00	; 0
+ 4ba:	e1 f7       	brne	.-8      	; 0x4b4 <releaseClaw+0xe>
+ 4bc:	00 c0       	rjmp	.+0      	; 0x4be <releaseClaw+0x18>
+ 4be:	00 00       	nop
 	_delay_ms(300);
 	clawDisable();
- 462:	0e 94 96 00 	call	0x12c	; 0x12c <clawDisable>
- 466:	08 95       	ret
+ 4c0:	0e 94 96 00 	call	0x12c	; 0x12c <clawDisable>
+ 4c4:	08 95       	ret
 
-00000468 <gripClaw>:
+000004c6 <gripClaw>:
 }
 
 // Calls PWM functions to close the claw
 void gripClaw() {
 	clawEnable();
- 468:	0e 94 92 00 	call	0x124	; 0x124 <clawEnable>
+ 4c6:	0e 94 92 00 	call	0x124	; 0x124 <clawEnable>
 	clawGrip();
- 46c:	0e 94 8c 00 	call	0x118	; 0x118 <clawGrip>
- 470:	08 95       	ret
+ 4ca:	0e 94 8c 00 	call	0x118	; 0x118 <clawGrip>
+ 4ce:	08 95       	ret
 
-00000472 <__tablejump2__>:
- 472:	ee 0f       	add	r30, r30
- 474:	ff 1f       	adc	r31, r31
+000004d0 <__tablejump2__>:
+ 4d0:	ee 0f       	add	r30, r30
+ 4d2:	ff 1f       	adc	r31, r31
 
-00000476 <__tablejump__>:
- 476:	05 90       	lpm	r0, Z+
- 478:	f4 91       	lpm	r31, Z
- 47a:	e0 2d       	mov	r30, r0
- 47c:	09 94       	ijmp
+000004d4 <__tablejump__>:
+ 4d4:	05 90       	lpm	r0, Z+
+ 4d6:	f4 91       	lpm	r31, Z
+ 4d8:	e0 2d       	mov	r30, r0
+ 4da:	09 94       	ijmp
 
-0000047e <_exit>:
- 47e:	f8 94       	cli
+000004dc <_exit>:
+ 4dc:	f8 94       	cli
 
-00000480 <__stop_program>:
- 480:	ff cf       	rjmp	.-2      	; 0x480 <__stop_program>
+000004de <__stop_program>:
+ 4de:	ff cf       	rjmp	.-2      	; 0x4de <__stop_program>

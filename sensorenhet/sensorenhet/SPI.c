@@ -26,68 +26,27 @@ void SPI_Send(char dataout) {
 }
 
 char SPI_Transceive(char dataout) {
-	SPDR = dataout;
-	WAIT_FOR_TRANSFER;
+	SPDR = dataout;	
+	WAIT_FOR_TRANSFER;	
 	return SPDR;
 }
 
 void sendDistanceSensors(void) {
 	SPI_Send(0x04);
 	SPI_Send(0x04);
-	uint8_t *sensorData;
-	sensorData = getDistance();
 	for (int i = 0; i < SENSOR_COUNT; i++) {
-		SPI_Send(sensorData[i]);
+		SPI_Send(distanceSensors[i]);
 	}
 }
 
+// Sends the most updated tape data to the huvudenhet
 void sendTapeSensors() {
 	SPI_Send(0x03);
 	SPI_Send(0x02);
-
-	//SPI_Send(getTapeData());
 	uint8_t highByte = (uint8_t)(tape_data_done >> 8);
 	uint8_t lowByte = (uint8_t)(tape_data_done);
 	SPI_Send(highByte);
-	SPI_Send(lowByte);
-	//SPI_Send(0xFF);
-}
-
-void receiveMessage() {				// Testing to see if it helps to have this in main-loop instead of interrupts.
-	char msg = SPI_Receive();		// interrupts are turned off for SPI for now.
-	char header = (msg >> 6) & 3;
-	char size = SPI_Receive();
-	char data;
-	msg = msg & 0x3F;
-	interrupted = 1;				// Maybe useful when updating distance
-	if(header == 0x02) {
-		switch (msg) {
-			case 0x01:				// Reset gyro angle
-				resetDegreesRotated();
-				break;
-			case 0x02:				//how much gyro rotate
-				data = SPI_Receive();
-				rotateDegrees(data);
-				// return value here too?
-				break;
-			case 0x03:				// Set on tape value
-				//tape_black = vals;
-				break;
-			case 0x04:				// Set off tape value
-				//tape_floor = vals;
-				break;
-			case 0x05:				// Send distance data
-				sendDistanceSensors();
-				break;
-			case 0x06:				// Send tape data
-				sendTapeSensors();
-				break;
-			case 0x07:				// Gyro msg
-				break;
-			default:
-				break;
-		}
-	}
+	SPI_Send(lowByte);	
 }
 
 void sendGyro() {
@@ -100,6 +59,7 @@ ISR(SPISTC_vect) {
 	char size = SPI_Receive();
 	msg = msg & 0x3F;
 	interrupted = 1;					// Maybe useful when updating distance
+	uint8_t data;
 	if(header == 0x02) {
 		switch (msg) {
 			case 0x01:					// Reset gyro angle
@@ -122,8 +82,14 @@ ISR(SPISTC_vect) {
 				break;
 			case 0x07:					// Gyro msg
 				break;
+			case 0x08:
+				data = SPI_Receive();
+				cli();
+				rotateDegrees(data);				
+				break;
 			default:
 				break;
 		}
 	}
+	sei();
 }

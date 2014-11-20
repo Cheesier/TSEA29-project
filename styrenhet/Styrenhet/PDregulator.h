@@ -15,7 +15,6 @@ int PDisActive();
 void PDupdateSensorData(uint8_t left, uint8_t right);
 int8_t PDgetCorrection();
 void setPD(uint8_t p_value, uint8_t d_value);
-void PDsetSpeed(uint8_t speed);
 void PDforward();
 
 
