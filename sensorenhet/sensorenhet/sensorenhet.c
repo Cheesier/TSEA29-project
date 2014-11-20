@@ -49,15 +49,14 @@ int main(void) {
 	SPI_Init();
 	sei();
 	//tape_data_done = 578;
-	//readADC(0);
+	readADC(0);
 	while(1) {
-		readADC(0);
-		_delay_ms(3);
+		//readADC(0);
+		_delay_us(1);
 		//updateDistance();
 		//receiveMessage();		
 		//readADC(1);
-		pollTapeData();
-
+		//pollTapeData();
 	}
 	return 0;
 }

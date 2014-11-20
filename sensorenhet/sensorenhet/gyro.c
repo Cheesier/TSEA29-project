@@ -17,10 +17,15 @@
 
 static int gyro_null_value = 0;
 static int degrees_rotated = 0;
+uint16_t gyro_data_done = 0;
+
+void rotateDegrees(uint8_t degrees) {
+	
+}
 
 uint8_t getGyroData() {
 	uint8_t gyro_data;
-	//gyro_data = readADC(1);				// Get gyro data from the ADC. Will return a value between 0 and 1023
+	gyro_data = gyro_data_done;				// Get gyro data from the ADC. Will return a value between 0 and 1023
 
 	// bla bla bla boring math here
 	// bla bla bla boring math here

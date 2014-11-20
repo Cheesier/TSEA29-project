@@ -97,13 +97,9 @@ void initDistance() {
 	
 	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode
 	TIMSK |= (1 << OCIE2);				// Enable Timer2 Output Compare Interrupt
-	OCR2 = 58;							// Compare count
-	//DDRA |= (1<<0);
+	OCR2 = 58;							// Compare count	
 }
 
 ISR(TIMER2_COMP_vect) {
 	distance++;
-	//PORTA |= (1<<0);
-	_delay_us(10);
-	//PORTA &= ~(1<<0);
 }

@@ -2,6 +2,8 @@ Archive member included because of file (symbol)
 
 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
                               c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o (exit)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+                              SPI.o (__tablejump2__)
 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
                               tapeSensor.o (__do_copy_data)
 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
@@ -27,7 +29,7 @@ Discarded input sections
  .data          0x00000000        0x0 gyro.o
  .bss           0x00000000        0x0 gyro.o
  .text.getGyroData
-                0x00000000        0x4 gyro.o
+                0x00000000        0x6 gyro.o
  .text          0x00000000        0x0 sensorenhet.o
  .data          0x00000000        0x0 sensorenhet.o
  .bss           0x00000000        0x0 sensorenhet.o
@@ -46,15 +48,13 @@ Discarded input sections
  .text.getTapeData
                 0x00000000        0x4 tapeSensor.o
  .text.convertToBit
-                0x00000000       0x12 tapeSensor.o
+                0x00000000       0x1a tapeSensor.o
  .text.returnTapeData
                 0x00000000        0x2 tapeSensor.o
  .text.calibrateTapeSensor
                 0x00000000       0x22 tapeSensor.o
- .bss.tape_data
-                0x00000000        0x2 tapeSensor.o
- .data.tape_threshold
-                0x00000000        0x2 tapeSensor.o
+ .text.pollTapeData
+                0x00000000       0x64 tapeSensor.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
@@ -71,6 +71,21 @@ Discarded input sections
                 0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .text.libgcc.fixed
                 0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
  .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
@@ -224,49 +239,51 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x3c8
+.text           0x00000000      0x3c6
  *(.vectors)
  .vectors       0x00000000       0x54 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
                 0x00000000                __vector_default
                 0x00000000                __vectors
  *(.vectors)
  *(.progmem.gcc*)
-                0x00000054                . = ALIGN (0x2)
-                0x00000054                __trampolines_start = .
+ .progmem.gcc_sw_table.__vector_10
+                0x00000054       0x10 SPI.o
+                0x00000064                . = ALIGN (0x2)
+                0x00000064                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x00000054        0x0 linker stubs
+ .trampolines   0x00000064        0x0 linker stubs
  *(.trampolines*)
-                0x00000054                __trampolines_end = .
+                0x00000064                __trampolines_end = .
  *(.progmem*)
-                0x00000054                . = ALIGN (0x2)
+                0x00000064                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000054                __ctors_start = .
+                0x00000064                __ctors_start = .
  *(.ctors)
-                0x00000054                __ctors_end = .
-                0x00000054                __dtors_start = .
+                0x00000064                __ctors_end = .
+                0x00000064                __dtors_start = .
  *(.dtors)
-                0x00000054                __dtors_end = .
+                0x00000064                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000054        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
-                0x00000054                __init
+ .init0         0x00000064        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+                0x00000064                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000054        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .init2         0x00000064        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x00000060       0x16 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
-                0x00000060                __do_copy_data
- .init4         0x00000076       0x10 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
-                0x00000076                __do_clear_bss
+ .init4         0x00000070       0x16 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
+                0x00000070                __do_copy_data
+ .init4         0x00000086       0x10 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+                0x00000086                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -277,95 +294,98 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000086        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+ .init9         0x00000096        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
  *(.init9)
  *(.text)
- .text          0x0000008e        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
-                0x0000008e                __vector_1
-                0x0000008e                __vector_12
-                0x0000008e                __bad_interrupt
-                0x0000008e                __vector_6
-                0x0000008e                __vector_11
-                0x0000008e                __vector_13
-                0x0000008e                __vector_17
-                0x0000008e                __vector_19
-                0x0000008e                __vector_7
-                0x0000008e                __vector_5
-                0x0000008e                __vector_4
-                0x0000008e                __vector_9
-                0x0000008e                __vector_2
-                0x0000008e                __vector_15
-                0x0000008e                __vector_8
-                0x0000008e                __vector_16
-                0x0000008e                __vector_18
-                0x0000008e                __vector_20
-                0x00000092                . = ALIGN (0x2)
+ .text          0x0000009e        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
+                0x0000009e                __vector_1
+                0x0000009e                __vector_12
+                0x0000009e                __bad_interrupt
+                0x0000009e                __vector_6
+                0x0000009e                __vector_11
+                0x0000009e                __vector_13
+                0x0000009e                __vector_17
+                0x0000009e                __vector_19
+                0x0000009e                __vector_7
+                0x0000009e                __vector_5
+                0x0000009e                __vector_4
+                0x0000009e                __vector_9
+                0x0000009e                __vector_2
+                0x0000009e                __vector_15
+                0x0000009e                __vector_8
+                0x0000009e                __vector_16
+                0x0000009e                __vector_18
+                0x0000009e                __vector_20
+                0x000000a2                . = ALIGN (0x2)
  *(.text.*)
- .text.initADC  0x00000092        0xa ADC.o
-                0x00000092                initADC
- .text.readADC  0x0000009c       0x14 ADC.o
-                0x0000009c                readADC
+ .text.initADC  0x000000a2        0xa ADC.o
+                0x000000a2                initADC
+ .text.readADC  0x000000ac       0x10 ADC.o
+                0x000000ac                readADC
  .text.getDistance
-                0x000000b0        0x6 distanceSensor.o
-                0x000000b0                getDistance
+                0x000000bc        0x6 distanceSensor.o
+                0x000000bc                getDistance
  .text.initDistance
-                0x000000b6       0x2a distanceSensor.o
-                0x000000b6                initDistance
+                0x000000c2       0x2a distanceSensor.o
+                0x000000c2                initDistance
  .text.__vector_3
-                0x000000e0       0x36 distanceSensor.o
-                0x000000e0                __vector_3
+                0x000000ec       0x2e distanceSensor.o
+                0x000000ec                __vector_3
+ .text.rotateDegrees
+                0x0000011a        0x2 gyro.o
+                0x0000011a                rotateDegrees
  .text.returnDegreesRotated
-                0x00000116        0x6 gyro.o
-                0x00000116                returnDegreesRotated
+                0x0000011c        0x6 gyro.o
+                0x0000011c                returnDegreesRotated
  .text.resetDegreesRotated
-                0x0000011c        0xa gyro.o
-                0x0000011c                resetDegreesRotated
+                0x00000122        0xa gyro.o
+                0x00000122                resetDegreesRotated
  .text.initGyro
-                0x00000126       0x1c gyro.o
-                0x00000126                initGyro
+                0x0000012c       0x26 gyro.o
+                0x0000012c                initGyro
  .text.initSensors
-                0x00000142       0x1a sensorenhet.o
-                0x00000142                initSensors
- .text.main     0x0000015c       0x22 sensorenhet.o
-                0x0000015c                main
+                0x00000152       0x1a sensorenhet.o
+                0x00000152                initSensors
+ .text.main     0x0000016c       0x1a sensorenhet.o
+                0x0000016c                main
  .text.SPI_Init
-                0x0000017e        0x8 SPI.o
-                0x0000017e                SPI_Init
+                0x00000186        0x8 SPI.o
+                0x00000186                SPI_Init
  .text.SPI_Transceive
-                0x00000186        0xa SPI.o
-                0x00000186                SPI_Transceive
+                0x0000018e        0xa SPI.o
+                0x0000018e                SPI_Transceive
  .text.SPI_Receive
-                0x00000190        0x8 SPI.o
-                0x00000190                SPI_Receive
+                0x00000198        0x8 SPI.o
+                0x00000198                SPI_Receive
  .text.sendDistanceSensors
-                0x00000198       0x3a SPI.o
-                0x00000198                sendDistanceSensors
+                0x000001a0       0x3a SPI.o
+                0x000001a0                sendDistanceSensors
  .text.sendTapeSensors
-                0x000001d2       0x24 SPI.o
-                0x000001d2                sendTapeSensors
+                0x000001da       0x24 SPI.o
+                0x000001da                sendTapeSensors
  .text.sendGyro
-                0x000001f6        0xa SPI.o
-                0x000001f6                sendGyro
+                0x000001fe        0xa SPI.o
+                0x000001fe                sendGyro
  .text.__vector_10
-                0x00000200       0xa8 SPI.o
-                0x00000200                __vector_10
+                0x00000208       0xb0 SPI.o
+                0x00000208                __vector_10
  .text.setOnTape
-                0x000002a8        0xa tapeSensor.o
-                0x000002a8                setOnTape
+                0x000002b8        0xa tapeSensor.o
+                0x000002b8                setOnTape
  .text.setOffTape
-                0x000002b2        0xa tapeSensor.o
-                0x000002b2                setOffTape
- .text.pollTapeData
-                0x000002bc       0x66 tapeSensor.o
-                0x000002bc                pollTapeData
+                0x000002c2        0xa tapeSensor.o
+                0x000002c2                setOffTape
  .text.__vector_14
-                0x00000322       0xa2 tapeSensor.o
-                0x00000322                __vector_14
-                0x000003c4                . = ALIGN (0x2)
+                0x000002cc       0xea tapeSensor.o
+                0x000002cc                __vector_14
+ .text.libgcc   0x000003b6        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_tablejump.o)
+                0x000003b6                __tablejump2__
+                0x000003ba                __tablejump__
+                0x000003c2                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000003c4        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
-                0x000003c4                _exit
-                0x000003c4                exit
+ .fini9         0x000003c2        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x000003c2                _exit
+                0x000003c2                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -384,56 +404,63 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000003c4        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .fini0         0x000003c2        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000003c8                _etext = .
+                0x000003c6                _etext = .
 
-.data           0x00800060        0x0 load address 0x000003c8
+.data           0x00800060        0x2 load address 0x000003c6
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
+ .data.tape_threshold
+                0x00800060        0x2 tapeSensor.o
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x00800060                . = ALIGN (0x2)
-                0x00800060                _edata = .
-                0x00800060                PROVIDE (__data_end, .)
+                0x00800062                . = ALIGN (0x2)
+                0x00800062                _edata = .
+                0x00800062                PROVIDE (__data_end, .)
 
-.bss            0x00800060       0x17
-                0x00800060                PROVIDE (__bss_start, .)
+.bss            0x00800062       0x19
+                0x00800062                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.distanceSensors
-                0x00800060        0x4 distanceSensor.o
- .bss.distance  0x00800064        0x2 distanceSensor.o
- .bss.degrees_rotated
-                0x00800066        0x2 gyro.o
- .bss.gyro_null_value
+                0x00800062        0x4 distanceSensor.o
+ .bss.distance  0x00800066        0x2 distanceSensor.o
+ .bss.gyro_data_done
                 0x00800068        0x2 gyro.o
+                0x00800068                gyro_data_done
+ .bss.degrees_rotated
+                0x0080006a        0x2 gyro.o
+ .bss.gyro_null_value
+                0x0080006c        0x2 gyro.o
  .bss.interrupted
-                0x0080006a        0x2 SPI.o
+                0x0080006e        0x2 SPI.o
  .bss.tape_data_done
-                0x0080006c        0x2 tapeSensor.o
-                0x0080006c                tape_data_done
+                0x00800070        0x2 tapeSensor.o
+                0x00800070                tape_data_done
+ .bss.tape_data
+                0x00800072        0x2 tapeSensor.o
  .bss.current_tape_sensor
-                0x0080006e        0x1 tapeSensor.o
- .bss.off_tape  0x0080006f        0x2 tapeSensor.o
- .bss.on_tape   0x00800071        0x2 tapeSensor.o
- .bss.active_port
-                0x00800073        0x2 tapeSensor.o
- .bss.gyro_data
+                0x00800074        0x1 tapeSensor.o
+ .bss.off_tape_value
                 0x00800075        0x2 tapeSensor.o
+ .bss.on_tape_value
+                0x00800077        0x2 tapeSensor.o
+ .bss.active_port
+                0x00800079        0x2 tapeSensor.o
  *(COMMON)
-                0x00800077                PROVIDE (__bss_end, .)
-                0x000003c8                __data_load_start = LOADADDR (.data)
+                0x0080007b                PROVIDE (__bss_end, .)
+                0x000003c6                __data_load_start = LOADADDR (.data)
                 0x000003c8                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800077        0x0
-                0x00800077                PROVIDE (__noinit_start, .)
+.noinit         0x0080007b        0x0
+                0x0080007b                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800077                PROVIDE (__noinit_end, .)
-                0x00800077                _end = .
-                0x00800077                PROVIDE (__heap_start, .)
+                0x0080007b                PROVIDE (__noinit_end, .)
+                0x0080007b                _end = .
+                0x0080007b                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -497,81 +524,81 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x180
+.debug_aranges  0x00000000      0x188
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 ADC.o
  .debug_aranges
                 0x00000028       0x40 distanceSensor.o
  .debug_aranges
-                0x00000068       0x38 gyro.o
+                0x00000068       0x40 gyro.o
  .debug_aranges
-                0x000000a0       0x28 sensorenhet.o
+                0x000000a8       0x28 sensorenhet.o
  .debug_aranges
-                0x000000c8       0x60 SPI.o
+                0x000000d0       0x60 SPI.o
  .debug_aranges
-                0x00000128       0x58 tapeSensor.o
+                0x00000130       0x58 tapeSensor.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xe1b
+.debug_info     0x00000000      0xe57
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0xa8 ADC.o
- .debug_info    0x000000a8      0x255 distanceSensor.o
- .debug_info    0x000002fd      0x192 gyro.o
- .debug_info    0x0000048f      0x23e sensorenhet.o
- .debug_info    0x000006cd      0x4bc SPI.o
- .debug_info    0x00000b89      0x292 tapeSensor.o
+ .debug_info    0x000000a8      0x205 distanceSensor.o
+ .debug_info    0x000002ad      0x1dd gyro.o
+ .debug_info    0x0000048a      0x20a sensorenhet.o
+ .debug_info    0x00000694      0x4e5 SPI.o
+ .debug_info    0x00000b79      0x2de tapeSensor.o
 
-.debug_abbrev   0x00000000      0x7ec
+.debug_abbrev   0x00000000      0x87e
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x76 ADC.o
- .debug_abbrev  0x00000076      0x16c distanceSensor.o
- .debug_abbrev  0x000001e2      0x129 gyro.o
- .debug_abbrev  0x0000030b      0x173 sensorenhet.o
- .debug_abbrev  0x0000047e      0x20b SPI.o
- .debug_abbrev  0x00000689      0x163 tapeSensor.o
+ .debug_abbrev  0x00000076      0x16a distanceSensor.o
+ .debug_abbrev  0x000001e0      0x165 gyro.o
+ .debug_abbrev  0x00000345      0x160 sensorenhet.o
+ .debug_abbrev  0x000004a5      0x214 SPI.o
+ .debug_abbrev  0x000006b9      0x1c5 tapeSensor.o
 
-.debug_line     0x00000000      0x8f6
+.debug_line     0x00000000      0x8d0
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000       0xc3 ADC.o
- .debug_line    0x000000c3      0x221 distanceSensor.o
- .debug_line    0x000002e4      0x15c gyro.o
- .debug_line    0x00000440      0x195 sensorenhet.o
- .debug_line    0x000005d5      0x1b0 SPI.o
- .debug_line    0x00000785      0x171 tapeSensor.o
+ .debug_line    0x00000000       0xbd ADC.o
+ .debug_line    0x000000bd      0x206 distanceSensor.o
+ .debug_line    0x000002c3      0x16b gyro.o
+ .debug_line    0x0000042e      0x177 sensorenhet.o
+ .debug_line    0x000005a5      0x1b4 SPI.o
+ .debug_line    0x00000759      0x177 tapeSensor.o
 
-.debug_frame    0x00000000      0x340
+.debug_frame    0x00000000      0x350
  *(.debug_frame)
  .debug_frame   0x00000000       0x34 ADC.o
  .debug_frame   0x00000034       0x94 distanceSensor.o
- .debug_frame   0x000000c8       0x54 gyro.o
- .debug_frame   0x0000011c       0x34 sensorenhet.o
- .debug_frame   0x00000150      0x114 SPI.o
- .debug_frame   0x00000264       0xdc tapeSensor.o
+ .debug_frame   0x000000c8       0x64 gyro.o
+ .debug_frame   0x0000012c       0x34 sensorenhet.o
+ .debug_frame   0x00000160      0x114 SPI.o
+ .debug_frame   0x00000274       0xdc tapeSensor.o
 
-.debug_str      0x00000000      0x467
+.debug_str      0x00000000      0x4a1
  *(.debug_str)
  .debug_str     0x00000000      0x137 ADC.o
                                 0x170 (size before relaxing)
- .debug_str     0x00000137       0xef distanceSensor.o
-                                0x244 (size before relaxing)
- .debug_str     0x00000226       0x79 gyro.o
-                                0x20f (size before relaxing)
- .debug_str     0x0000029f       0x50 sensorenhet.o
-                                0x25d (size before relaxing)
- .debug_str     0x000002ef       0xcb SPI.o
-                                0x2aa (size before relaxing)
- .debug_str     0x000003ba       0xad tapeSensor.o
-                                0x287 (size before relaxing)
+ .debug_str     0x00000137       0xdc distanceSensor.o
+                                0x231 (size before relaxing)
+ .debug_str     0x00000213       0xb1 gyro.o
+                                0x23d (size before relaxing)
+ .debug_str     0x000002c4       0x43 sensorenhet.o
+                                0x23d (size before relaxing)
+ .debug_str     0x00000307       0xcb SPI.o
+                                0x2b3 (size before relaxing)
+ .debug_str     0x000003d2       0xcf tapeSensor.o
+                                0x2a1 (size before relaxing)
 
-.debug_loc      0x00000000      0x5a1
+.debug_loc      0x00000000      0x6ac
  *(.debug_loc)
  .debug_loc     0x00000000       0x2d ADC.o
  .debug_loc     0x0000002d      0x187 distanceSensor.o
- .debug_loc     0x000001b4      0x2c5 SPI.o
- .debug_loc     0x00000479      0x128 tapeSensor.o
+ .debug_loc     0x000001b4      0x38a SPI.o
+ .debug_loc     0x0000053e      0x16e tapeSensor.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -591,14 +618,14 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x120
+.debug_ranges   0x00000000      0x128
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 ADC.o
  .debug_ranges  0x00000018       0x30 distanceSensor.o
- .debug_ranges  0x00000048       0x28 gyro.o
- .debug_ranges  0x00000070       0x18 sensorenhet.o
- .debug_ranges  0x00000088       0x50 SPI.o
- .debug_ranges  0x000000d8       0x48 tapeSensor.o
+ .debug_ranges  0x00000048       0x30 gyro.o
+ .debug_ranges  0x00000078       0x18 sensorenhet.o
+ .debug_ranges  0x00000090       0x50 SPI.o
+ .debug_ranges  0x000000e0       0x48 tapeSensor.o
 
 .debug_macro
  *(.debug_macro)
