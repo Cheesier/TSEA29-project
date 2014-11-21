@@ -1,6 +1,8 @@
 #include "core.h"
 #include <string>
 
+#include "serial.h"
+
 #define TROLL_INPUT_MSG " *** invalid input value *** "
 
 Core_ptr core;
@@ -23,6 +25,11 @@ void Core::init(){
   w.reset(new Gui);
   w->show();
   bt.reset(new BTInterface);
+  serial.reset(new Serial);
+
+  serial->init_serial();
+  serial->open_serial(SERIAL_PORT, BAUD_RATE);
+
   data.reset(new Data);
   pb_play_all();
 }
@@ -230,12 +237,18 @@ bool Core::bt_is_connected(){
 
 
 void Core::send(const Msg_ptr &msg){
+#ifdef BT_ACTIVE
   if(!bt->is_connected()) {
       log("failed to send message: bluetooth is not connected");
       return;
     }
-  log(QString("sending new msg [type %1]..").arg(msg->get_type()));
   bt->send(msg);
+#endif
+
+#ifdef SERIAL_ACTIVE
+  serial->serial_write(msg);
+#endif
+  log(QString("sending new msg [type %1]..").arg(msg->get_type()));
 }
 
 void Core::custom_msg(const unsigned &type, const string &payload){

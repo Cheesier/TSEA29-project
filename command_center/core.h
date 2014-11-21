@@ -32,6 +32,9 @@ typedef unique_ptr<BTInterface> BTInterface_ptr;
 class Data;
 typedef unique_ptr<Data> Data_ptr;
 
+class Serial;
+typedef unique_ptr<Serial> Serial_ptr;
+
 extern Core_ptr core;
 
 class Core {
@@ -109,6 +112,7 @@ private:
   //data
   Gui_ptr w;
   BTInterface_ptr bt;
+  Serial_ptr serial;
   Data_ptr data;
 
   unsigned pb_status = PB_PAUSED;
