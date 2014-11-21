@@ -8,12 +8,14 @@
 
 #ifndef SPI_H_
 #define SPI_H_
+#include "Styrenhet.h"
 
 void SPI_Init(void);
 
 char SPI_Recive(void);
 void SPI_Send(char dataout);
 char SPI_Transceive(char dataout);
-void receiveMessage();
+void errorMessage(int size, char *unknownMessage);
+void headerError(int header, int size, char *unknownMessage);
 
 #endif /* SPI_H_ */

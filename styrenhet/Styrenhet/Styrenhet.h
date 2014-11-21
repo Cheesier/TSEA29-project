@@ -10,6 +10,8 @@
 #define STYRENHET_H_
 #include <stdint.h>
 #include "PDregulator.h"
+#include "SPI.h"
+#include "pwm.h"
 
 extern uint8_t maxSpeed;
 

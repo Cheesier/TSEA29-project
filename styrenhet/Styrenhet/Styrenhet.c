@@ -13,12 +13,6 @@
 #include <util/delay.h>
 #include "Styrenhet.h"
 
-// SPI
-#include "SPI.h"
-
-// PWM
-#include "pwm.h"
-
 // Pins handling wheel direction
 #define WHEEL_DIRECTION_L PORTA0
 #define WHEEL_DIRECTION_R PORTA1

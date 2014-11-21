@@ -44,6 +44,14 @@ char SPI_Transceive(char dataout) {
 	return SPDR;
 }
 
+void sendMessage(uint8_t header, uint8_t size, uint8_t payload[]) {
+	SPI_Send(header);
+	SPI_Send(size);
+	for(int i = 0; i < size; i++) {
+		SPI_Send(payload[i]);
+	}
+}
+
 void sendDistanceSensors(void) {
 	SPI_Send(0x04);
 	SPI_Send(0x04);
@@ -137,6 +145,7 @@ ISR(SPISTC_vect) {
 	msg = msg & 0x3F;
 	interrupted = 1;					// Maybe useful when updating distance
 	uint8_t data;
+	char unknownMessage[size];
 	if(header == 0x02) {
 		switch (msg) {
 			case 0x02:					// Reset gyro angle
@@ -163,9 +172,43 @@ ISR(SPISTC_vect) {
 				data = SPI_Receive();				
 				rotateDegrees(data);				
 				break;
-			default:
-				break;
+			default:	// Fetch the message anyway
+			for(int i = 0; i < size; i++) {
+				unknownMessage[i] = SPI_Receive();
+			}
+			errorMessage(size, &unknownMessage);
+			break;
 		}
+	}
+	else {			// In case of unexpected header, send an error message
+		for(int i = 0; i < size; i++) {
+			unknownMessage[i] = SPI_Receive();
+		}
+		headerError(header, size, &unknownMessage);
 	}
 	sei();
 }*/
+
+// Send back unknown messages to the control center
+//TODO: Not any data
+void errorMessage(int size, char *unknownMessage) {
+	SPI_Send(0x3F);
+	SPI_Send(size);
+	for(int i = 0; i < size; i++) {
+		SPI_Send(unknownMessage[i]);
+		//SPI_Send((char*)(*(unknownMessage+i)));
+	}
+}
+
+// Send a message back to the control center if there's an header error
+//TODO: Not any data
+void headerError(int header, int size, char *unknownMessage) {
+	SPI_Send(0x3F);
+	SPI_Send(size+1);
+	SPI_Send(header);
+	for(int i = 0; i < size; i++) {
+		SPI_Send(unknownMessage[i]);
+		//SPI_Send((char*)(*(unknownMessage+1)));
+	}
+	return;
+}
