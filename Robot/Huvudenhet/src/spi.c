@@ -5,6 +5,8 @@
  *  Author: Oscar
  */ 
 
+#define F_CPU 7372800UL
+
 #include "spi.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -25,13 +27,12 @@ void spi_init(void) {
 }
 
 char spi_transceive(char address, char data) {
+	
 	if (address == ADDR_STYRENHET)
 		PORTB &= ~(1<<SS_STYR);
 	else
 		PORTB &= ~(1<<SS_SENSOR);
-	
 	SPDR = data;
-	
 	// read data
 	while(!(SPSR & (1<<SPIF)));
 	
@@ -51,6 +52,7 @@ void spi_write(char address, char data) {
 void spi_send(char header, char size, char* data) {
 	char addr = header & 0xC0;
 	spi_write(addr, header);
+	_delay_us(30);
 	spi_write(addr, size);
 	for (int i = 0; i < size; i++)
 		spi_write(addr, *(data+i));

@@ -11,6 +11,13 @@
 #include "tapeSensor.h"
 #include "gyro.h"
 
+#define GET_HEAD 0
+#define GET_SIZE 1
+#define GET_DATA 2
+
+int currentState = GET_HEAD;
+char address, type, msgSize;
+
 extern int distance;
 extern int interrupted;
 extern uint8_t distanceSensors[SENSOR_COUNT];
@@ -30,7 +37,9 @@ void send_REQ() {
 
 // Receive over SPI
 char SPI_Receive(void) {
-	return SPI_Transceive(0x00);
+	SPDR = 0x00;
+	WAIT_FOR_TRANSFER;
+	return SPDR;
 }
 
 // Send over SPI
@@ -42,6 +51,14 @@ char SPI_Transceive(char dataout) {
 	SPDR = dataout;
 	WAIT_FOR_TRANSFER;
 	return SPDR;
+}
+
+void sendMessage(uint8_t header, uint8_t size, uint8_t payload[]) {
+	SPI_Send(header);
+	SPI_Send(size);
+	for(int i = 0; i < size; i++) {
+		SPI_Send(payload[i]);
+	}
 }
 
 void sendDistanceSensors(void) {
@@ -66,14 +83,78 @@ void sendGyro() {
 	SPI_Send(returnDegreesRotated());
 }
 
+void handle_sensor_message() {
+	cli();
+	char data;
+	switch (type) {
+		case 0x02:					// Reset gyro angle
+		resetDegreesRotated();
+		break;
+		case 0x03:					// How much gyro rotate and who was dog
+		sendGyro();
+		break;
+		case 0x04:					// Set on tape value
+		setOnTape();
+		break;
+		case 0x05:					// Set off tape value
+		setOffTape();
+		break;
+		case 0x06:					// Send distance data
+		sendDistanceSensors();
+		break;
+		case 0x07:					// Send tape data
+		sendTapeSensors();
+		break;
+		case 0x08:					// Gyro msg
+		break;
+		case 0x09:
+		data = SPI_Receive();
+		rotateDegrees(data);
+		break;
+		default:
+		break;
+	}
+	sei();
+}
+
+ISR(SPISTC_vect) {
+
+	char msg = SPDR;
+	SPDR = 0;
+	switch(currentState) {
+		case(GET_HEAD):
+			address = msg >> 6;
+			type = msg & 0x3F;
+			currentState = GET_SIZE;
+			break;
+		case(GET_SIZE):
+			msgSize = msg;
+			if(msgSize != 0) {
+				currentState = GET_DATA;
+			} else {
+				handle_sensor_message();
+				currentState = GET_HEAD;
+			}
+			break;
+		case(GET_DATA):
+			break;
+		default:
+			currentState = GET_HEAD;
+			break;
+	}
+	SPDR = 0;
+}
+
+/*
 ISR(SPISTC_vect) {
 	cli();
 	char msg = SPDR;
-	char header = msg >> 6;
 	char size = SPI_Receive();
-	uint8_t data;
+	char header = msg >> 6;
 	msg = msg & 0x3F;
 	interrupted = 1;					// Maybe useful when updating distance
+	uint8_t data;
+	char unknownMessage[size];
 	if(header == 0x02) {
 		switch (msg) {
 			case 0x02:					// Reset gyro angle
@@ -99,9 +180,43 @@ ISR(SPISTC_vect) {
 				cli();
 				rotateDegrees(data);
 				break;
-			default:
-				break;
+			default:	// Fetch the message anyway
+			for(int i = 0; i < size; i++) {
+				unknownMessage[i] = SPI_Receive();
+			}
+			errorMessage(size, &unknownMessage);
+			break;
 		}
 	}
+	else {			// In case of unexpected header, send an error message
+		for(int i = 0; i < size; i++) {
+			unknownMessage[i] = SPI_Receive();
+		}
+		headerError(header, size, &unknownMessage);
+	}
 	sei();
+}*/
+
+// Send back unknown messages to the control center
+//TODO: Not any data
+void errorMessage(int size, char *unknownMessage) {
+	SPI_Send(0x3F);
+	SPI_Send(size);
+	for(int i = 0; i < size; i++) {
+		SPI_Send(unknownMessage[i]);
+		//SPI_Send((char*)(*(unknownMessage+i)));
+	}
+}
+
+// Send a message back to the control center if there's an header error
+//TODO: Not any data
+void headerError(int header, int size, char *unknownMessage) {
+	SPI_Send(0x3F);
+	SPI_Send(size+1);
+	SPI_Send(header);
+	for(int i = 0; i < size; i++) {
+		SPI_Send(unknownMessage[i]);
+		//SPI_Send((char*)(*(unknownMessage+1)));
+	}
+	return;
 }

@@ -36,7 +36,7 @@ int main(void) {
 		motor_claw_open();*/
 		
 		send_message(0x86, 0, 0);
-		_delay_us(100);
+		_delay_us(30);
 		read_message(ADDR_SENSORENHET);
 	}
 	

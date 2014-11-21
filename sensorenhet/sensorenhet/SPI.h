@@ -33,5 +33,9 @@ void send_REQ();
 char SPI_Receive(void);
 void SPI_Send(char dataout);
 char SPI_Transceive(char dataout);
+void sendMessage(uint8_t header, uint8_t size, uint8_t payload[]);
+
+void errorMessage(int size, char* unknownMessage);
+void headerError(int header, int size, char* unknownMessage);
 
 #endif /* SPI_H_ */

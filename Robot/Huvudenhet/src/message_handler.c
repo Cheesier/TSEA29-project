@@ -24,7 +24,7 @@ void handle_message(char header, char size, char *data) {
 				break;
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
-				send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)(data+2));
+				send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
 				break;
 			default:
 				// not sure how to handle this...

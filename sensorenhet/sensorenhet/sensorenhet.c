@@ -14,7 +14,6 @@ extern uint8_t distanceSensors[SENSOR_COUNT];
 // SPI defines for readability
 #define DDR_SPI DDRB
 #define DDR_MISO DDB6
-#define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)))
 
 // Defines for pins for sensorenhet
 /*MUX ports*/
@@ -30,9 +29,6 @@ extern uint8_t distanceSensors[SENSOR_COUNT];
 #define TAPE_SENS PORTA0
 /* Gyro */
 #define GYRO PORTA1
-
-static int tape_black = 0;
-static int tape_floor = 0;
 
 void initSensors() {
 	// Initiate the mux for the tape sensors
@@ -52,7 +48,6 @@ int main(void) {
 	initSensors();
 	SPI_Init();
 	sei();
-	//tape_data_done = 578;
 	readADC(0);
 	while(1) {
 		updateDistance();

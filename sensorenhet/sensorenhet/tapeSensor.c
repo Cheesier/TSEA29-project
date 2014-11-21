@@ -20,13 +20,11 @@ static int active_port = TAPE_SENSOR_PORT;
 
 static int on_tape_value = 0;
 static int off_tape_value = 0;
-static int tape_threshold = 256; // (on_tape + off_tape) >> 1);// Sets the average value as threshold
-static uint8_t tapeData = 0;
+static int tape_threshold = 256;
 static uint8_t current_tape_sensor = 0;
 static uint16_t tape_data = 0;
 uint16_t tape_data_done = 0;
 
-//TODO
 int convertToBit(int data) {
 	int bit = 0;
 	if(data > tape_threshold) {
@@ -36,37 +34,20 @@ int convertToBit(int data) {
 }
 
 // Calibrate the tape sensors to set a threshold to identify whether or not we're on tape
-// This function expect the robot to stand on tape at the beginning
-void calibrateTapeSensor() {
-	// This version is not autonomic, the robot need to be physically moved for it to work
-	/*setOnTape();
-	_delay_ms(10000);								// Wait 10 seconds for the robot to be moved
-	setOffTape();*/
-	tape_threshold = ((on_tape_value + off_tape_value) >> 1);	// Setting the tape threshold to the average of the
-													// tape data on and off the tape
-
-	// TODO (maybe): A smarter version of the calibration, asks the huvudenhet to reverse the robot before it measures the second time
-/*
-	uint8_t tape_data = getTapeData();
-	on_tape = tape_data;
-	// Move the robot
-	uint8_t tape_data = getTapeData();
-	off_tape = tape_data;
-	tape_threshold = ((on_tape + off_tape) >> 1);	// Setting the tape threshold to the average of the
-													// tape data on and off the tape
-*/
+void calibrateTapeSensor() {	
+	tape_threshold = ((on_tape_value + off_tape_value) >> 1);	// Setting the tape threshold to the average of the two tape values													
 }
 
-// Set on tape value for the tape sensor
-void setOnTape() {
-	//uint8_t tape_data = getTapeData();				// Get data from the sensors
+// Set on_tape_value for the tape sensor
+void setOnTape() {	
 	on_tape_value = tape_data;
+	calibrateTapeSensor();							// Used in both functions so that it doesn't matter which one you call first
 }
 
-// Set off tape value for the tape sensor
-void setOffTape() {
-	//uint8_t tape_data = getTapeData();						// Get data from the sensors
+// Set off_tape_value for the tape sensor
+void setOffTape() {	
 	off_tape_value = tape_data;
+	calibrateTapeSensor();							// Used in both functions so that it doesn't matter which one you call first
 }
 
 ISR(ADC_vect) {
@@ -74,12 +55,12 @@ ISR(ADC_vect) {
 		int tape_bit = convertToBit(ADC);
 		tape_data |= (tape_bit << current_tape_sensor);
 		current_tape_sensor++;		
-		if(current_tape_sensor == 9) {	//LED 10 not working
+		if(current_tape_sensor == 9) {				//LED 10 not working
 			current_tape_sensor = 10;
 		}
 		if(current_tape_sensor == 11) {	
 			tape_data_done = tape_data;
-			if((tape_data_done & (1<<10)) && (tape_data_done & (1<<8))) {
+			if((tape_data_done & (1<<10)) && (tape_data_done & (1<<8))) { // Only for use while LED 10 isn't working
 				tape_data_done |= (1 << 9);
 			}
 			tape_data = 0;				
