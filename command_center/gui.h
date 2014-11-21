@@ -80,15 +80,14 @@ private slots:
 
   void on_actionOpen_triggered();
 
-  void on_lineEdit_p_value_returnPressed();
-
-  void on_lineEdit_d_value_returnPressed();
+  void on_pushButton_set_pd_clicked();
+  void on_pushButton_pdf_clicked();
 
   void on_pushButton_forward_left_pressed();
 
   void on_pushButton_forward_right_pressed();
 
-  void on_horizontalSlider_speed_valueChanged();
+  void on_horizontalSlider_speed_sliderReleased();
 
   void on_pushButton_direction_clicked();
 

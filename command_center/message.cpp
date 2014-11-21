@@ -91,46 +91,45 @@ void Message::echo(){
   encode();
 }
 
-void Message::go_forward(int speed){
+void Message::go_forward(){
   type = ADDR_STYRENHET | T_GO_FORWARD;
-  data = speed;                         //from ui
+  data.clear();
   encode();
 }
 
-void Message::go_backward(int speed){
+void Message::go_backward(){
   type = ADDR_STYRENHET | T_GO_BACKWARD;
-  data = speed;                         //from ui
+  data.clear();
   encode();
 }
 
-void Message::turn_right(int speed){
+void Message::turn_right(){
   type = ADDR_STYRENHET | T_TURN_RIGHT;
-  data = speed;                         //from ui
+  data.clear();
   encode();
 }
 
-void Message::turn_left(int speed){
+void Message::turn_left(){
   type = ADDR_STYRENHET | T_TURN_LEFT;
-  data = speed;                         //from ui
+  data.clear();
   encode();
 }
 
-void Message::go_forward_right(int speed){
+void Message::go_forward_right(){
   type = ADDR_STYRENHET | T_GO_FORWARD_RIGHT;
-  string new_speed = "";
-  new_speed += char(128 + speed);   //from ui
-  new_speed += char(128 + (speed/3));
-  data = new_speed;
+  data.clear();
   encode();
 }
 
-void Message::go_forward_left(int speed){
+void Message::go_forward_left(){
   type = ADDR_STYRENHET | T_GO_FORWARD_LEFT;
-  string new_speed = "";
-  new_speed += char(128 + (speed/3));       //from ui
-  new_speed += char(128 + speed);
+  data.clear();
+  encode();
+}
 
-  data = new_speed;
+void Message::set_speed(int speed){
+  type = ADDR_STYRENHET | T_SET_SPEED;
+  data = speed;
   encode();
 }
 
@@ -159,16 +158,19 @@ void Message::change_direction(int direction){
   encode();
 }
 
-// FEL
-void Message::set_p(const double &val){
-  type = T_P;
-  data.clear();
+void Message::set_pd(int p, int d){
+  type = ADDR_STYRENHET | T_SET_PD;
+
+  string pd = "";
+  pd += char(p);       //from ui
+  pd += char(d);
+
+  data = pd;
   encode();
 }
 
-// FEL
-void Message::set_d(const double &val){
-  type = T_D;
+void Message::go_forward_pd(){
+  type = ADDR_STYRENHET | T_GO_FORWARD_PD;
   data.clear();
   encode();
 }
