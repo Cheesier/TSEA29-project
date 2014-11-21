@@ -9,6 +9,10 @@
 #include "distanceSensor.h"
 #include "tapeSensor.h"
 
+extern int distance;
+extern int interrupted;
+extern uint8_t distanceSensors[SENSOR_COUNT];
+
 // Initiates the SPI
 void SPI_Init(void) {
 	DDR_SPI |= (1<<SPI_MISO);					// Set MISO output
@@ -72,27 +76,27 @@ ISR(SPISTC_vect) {
 	char unknownMessage[size];
 	if(header == 0x02) {
 		switch (msg) {
-			case 0x01:					// Reset gyro angle
+			case 0x02:					// Reset gyro angle
 				resetDegreesRotated();
 				break;
-			case 0x02:					// How much gyro rotate and who was dog
+			case 0x03:					// How much gyro rotate and who was dog
 				sendGyro();
 				break;
-			case 0x03:					// Set on tape value
+			case 0x04:					// Set on tape value
 				setOnTape();
 				break;
-			case 0x04:					// Set off tape value
+			case 0x05:					// Set off tape value
 				setOffTape();
 				break;
-			case 0x05:					// Send distance data
+			case 0x06:					// Send distance data
 				sendDistanceSensors();
 				break;
-			case 0x06:					// Send tape data
+			case 0x07:					// Send tape data
 				sendTapeSensors();
 				break;
-			case 0x07:					// Gyro msg
+			case 0x08:					// Gyro msg
 				break;
-			case 0x08:
+			case 0x09:
 				data = SPI_Receive();				
 				rotateDegrees(data);				
 				break;

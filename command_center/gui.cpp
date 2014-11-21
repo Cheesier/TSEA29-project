@@ -190,7 +190,7 @@ void Gui::onTapeInput(string tapeData){
 }
 
 
-void Gui::on_horizontalSlider_speed_valueChanged(){
+void Gui::on_horizontalSlider_speed_sliderReleased(){
   ui->label_speed->setText(QString::number(ui->horizontalSlider_speed->value()));
   core->set_speed(ui->horizontalSlider_speed->value());
 }

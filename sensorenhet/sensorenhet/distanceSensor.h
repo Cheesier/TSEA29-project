@@ -14,10 +14,9 @@
 #ifndef DISTANCESENSOR_H_
 #define DISTANCESENSOR_H_
 
-
-extern int distance;
-extern int interrupted;
-extern uint8_t distanceSensors[SENSOR_COUNT];
+int distance;
+int interrupted;
+uint8_t distanceSensors[SENSOR_COUNT];
 
 void updateDistance();
 void initDistance();

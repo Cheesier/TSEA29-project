@@ -49,14 +49,21 @@ void BTInterface::do_read(){
 #endif
   string data(size,0);
 
-  Message::Size_t bytes_read = read_from_socket((char*)data.data(),size);
-  if(bytes_read!=size){
+  Message::Size_t bytes_read = size;
+  for (int i = 0; i < size; i++) {
+      while(!socket_can_be_read());
+      read_from_socket((char*)data.data()+i, 1);
+  }
+
+  //Message::Size_t bytes_read = read_from_socket((char*)data.data(),size);
+  /*if(bytes_read!=size){
       printf("%i bytes read, expected %i ** could not get all data\n", bytes_read, size);
       return;
-  }
+  }*/
+
   core->process_new_msg(Msg_ptr(new Message(type,data)));
 
-  do_read();
+  //do_read();
 }
 
 void BTInterface::send(const Msg_ptr& msg){

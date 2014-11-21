@@ -55,6 +55,7 @@ ISR(SPISTC_vect) {
 	char header = msg >> 6;
 	msg = msg & 0x3F;
 	char speed;
+	char left_sensor, right_sensor;
 	uint8_t d, p;
 	char left_dir, right_dir, left_speed, right_speed;
 	char unknownMessage[size];	//couldn't be down in the default..
@@ -64,6 +65,9 @@ ISR(SPISTC_vect) {
 					PDactivate();
 					break;
 				case 0x02:
+					left_sensor = SPI_Receive();
+					right_sensor = SPI_Receive();
+					PDupdateSensorData(left_sensor, right_sensor);
 					break;
 				case 0x03:
 					break;
