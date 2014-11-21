@@ -85,7 +85,7 @@ void initDistance() {
 	interrupted = 0;
 	distance = 0;
 	for(int i = 0; i < SENSOR_COUNT; i++) {
-		distanceSensors[i] = 8;
+		distanceSensors[i] = 0;
 	}
 	
 	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode

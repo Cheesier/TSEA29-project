@@ -9,6 +9,13 @@
 #include "distanceSensor.h"
 #include "tapeSensor.h"
 
+#define GET_HEAD 0
+#define GET_SIZE 1
+#define GET_DATA 2
+
+int currentState = GET_HEAD;
+char address, type, msgSize;
+
 extern int distance;
 extern int interrupted;
 extern uint8_t distanceSensors[SENSOR_COUNT];
@@ -21,7 +28,9 @@ void SPI_Init(void) {
 
 // Receive over SPI
 char SPI_Receive(void) {
-	return SPI_Transceive(0x00);
+	SPDR = 0x00;
+	WAIT_FOR_TRANSFER;
+	return SPDR;
 }
 
 // Send over SPI
@@ -57,11 +66,74 @@ void sendGyro() {
 	SPI_Send(returnDegreesRotated());
 }
 
+void handle_sensor_message() {
+	cli();
+	char data;
+	switch (type) {
+		case 0x02:					// Reset gyro angle
+		resetDegreesRotated();
+		break;
+		case 0x03:					// How much gyro rotate and who was dog
+		sendGyro();
+		break;
+		case 0x04:					// Set on tape value
+		setOnTape();
+		break;
+		case 0x05:					// Set off tape value
+		setOffTape();
+		break;
+		case 0x06:					// Send distance data
+		sendDistanceSensors();
+		break;
+		case 0x07:					// Send tape data
+		sendTapeSensors();
+		break;
+		case 0x08:					// Gyro msg
+		break;
+		case 0x09:
+		data = SPI_Receive();
+		rotateDegrees(data);
+		break;
+		default:
+		break;
+	}
+	sei();
+}
+
+ISR(SPISTC_vect) {
+
+	char msg = SPDR;
+	SPDR = 0;
+	switch(currentState) {
+		case(GET_HEAD):
+			address = msg >> 6;
+			type = msg & 0x3F;
+			currentState = GET_SIZE;
+			break;
+		case(GET_SIZE):
+			msgSize = msg;
+			if(msgSize != 0) {
+				currentState = GET_DATA;
+			} else {
+				handle_sensor_message();
+				currentState = GET_HEAD;
+			}
+			break;
+		case(GET_DATA):
+			break;
+		default:
+			currentState = GET_HEAD;
+			break;
+	}
+	SPDR = 0;
+}
+
+/*
 ISR(SPISTC_vect) {
 	cli();
 	char msg = SPDR;
-	char header = msg >> 6;
 	char size = SPI_Receive();
+	char header = msg >> 6;
 	msg = msg & 0x3F;
 	interrupted = 1;					// Maybe useful when updating distance
 	uint8_t data;
@@ -96,4 +168,4 @@ ISR(SPISTC_vect) {
 		}
 	}
 	sei();
-}
+}*/
