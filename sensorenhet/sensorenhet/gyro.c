@@ -15,8 +15,9 @@
 #include "ADC.h"
 #include "gyro.h"
 
-static int gyro_null_value = 0;
-static int degrees_rotated = 0;
+static uint8_t gyro_null_value = 0;
+static uint8_t degrees_rotated = 0;
+uint16_t gyro_data_done = 0;
 
 void rotateDegrees(uint8_t degrees) {
 	degrees_rotated = 0;					// Reset degrees rotated so we make sure not to rotate to much
@@ -24,20 +25,21 @@ void rotateDegrees(uint8_t degrees) {
 	while (degrees_rotated <= degrees) {	// Rotate until we reach the requested amount of degrees rotated
 		updateGyroData();
 	}
+
+	send_REQ();								// Alert our huvudenhet that we're done and should stop spinning
 }
 
 // Rotate for 10 ms and update degrees_rotated
-uint8_t updateGyroData() {
+uint16_t updateGyroData() {
 	uint16_t gyro_value;
-	//gyro_value = readADC(1);				// Get gyro data from the ADC. Will (probably) return a value between 0 and 1023
-											// The analog output from the gyro is between 0,5 and 4,5 V
+	gyro_value = gyro_data_done;				// Get gyro data from the ADC. Will return a value between 0 and 1023
+												// the analog output from the gyro is between 0,5 and 4,5 V
 
 	// Gyro sensitivity is 300 dgs/s
-	// 1 mV should equal 6.67 dgs/s
-	// Allt stämmer inte än.
+	// Translates into 6.67 dgs/mV
 
 	gyro_value = (gyro_value - gyro_null_value) * 667;		// Sensitivity multiplied by 100 to avoid using floats
-	degrees_rotated += gyro_value; // /100;					// We skip dividing by 100 since we multiplied earlier
+	degrees_rotated += gyro_value; // /100;					// We skip dividing by 100 (10 ms = 1s/100) since we multiplied earlier
 
 	_delay_ms(10);
 	return gyro_value;

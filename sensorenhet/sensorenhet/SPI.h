@@ -17,13 +17,18 @@
 #define SPI_MISO PORTB6
 #define SPI_SCLK PORTB7
 
+/*REQ signal*/
+// Also defined in Sensorenhet.c but that doesn't work for some reason
+#define REQ PORTD0
+
 // SPI register
 #define DDR_SPI DDRB
 
 #define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)));
 
-static int gyro_angle = 0;
 void SPI_Init(void);
+
+void send_REQ();
 
 char SPI_Receive(void);
 void SPI_Send(char dataout);

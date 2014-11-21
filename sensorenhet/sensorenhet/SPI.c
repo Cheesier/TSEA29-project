@@ -5,14 +5,23 @@
  *  Author: microo
  */
 
+#include "sensorenhet.h"
 #include "SPI.h"
 #include "distanceSensor.h"
 #include "tapeSensor.h"
+#include "gyro.h"
 
 // Initiates the SPI
 void SPI_Init(void) {
 	DDR_SPI |= (1<<SPI_MISO);					// Set MISO output
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
+}
+
+// Send a pulse over the REQ pin
+void send_REQ() {
+	DDRD |= (1<<REQ);
+	_delay_us(1);
+	DDRD &= ~(1<<REQ);
 }
 
 // Receive over SPI
@@ -57,7 +66,7 @@ void receiveMessage() {				// Testing to see if it helps to have this in main-lo
 	char msg = SPI_Receive();		// interrupts are turned off for SPI for now.
 	char header = (msg >> 6) & 3;
 	char size = SPI_Receive();
-	char data;
+	uint8_t data;
 	msg = msg & 0x3F;
 	interrupted = 1;				// Maybe useful when updating distance
 	if(header == 0x02) {
@@ -82,7 +91,12 @@ void receiveMessage() {				// Testing to see if it helps to have this in main-lo
 			case 0x06:				// Send tape data
 				sendTapeSensors();
 				break;
-			case 0x07:				// Gyro msg
+			case 0x07:
+				break;
+			case 0x08:				// Rotate data amount of degrees
+				data = SPI_Receive();
+				cli();
+				rotateDegrees(data);
 				break;
 			default:
 				break;
@@ -98,6 +112,7 @@ ISR(SPISTC_vect) {
 	char msg = SPDR;
 	char header = msg >> 6;
 	char size = SPI_Receive();
+	uint8_t data;
 	msg = msg & 0x3F;
 	interrupted = 1;					// Maybe useful when updating distance
 	if(header == 0x02) {
@@ -105,7 +120,7 @@ ISR(SPISTC_vect) {
 			case 0x01:					// Reset gyro angle
 				resetDegreesRotated();
 				break;
-			case 0x02:					// How much gyro rotate and who was dog
+			case 0x02:					// How much gyro rotate
 				sendGyro();
 				break;
 			case 0x03:					// Set on tape value
@@ -120,10 +135,16 @@ ISR(SPISTC_vect) {
 			case 0x06:					// Send tape data
 				sendTapeSensors();
 				break;
-			case 0x07:					// Gyro msg
+			case 0x07:
+				break;
+			case 0x08:					// Rotate data amount of degrees
+				data = SPI_Receive();
+				cli();
+				rotateDegrees(data);
 				break;
 			default:
 				break;
 		}
 	}
+	sei();
 }

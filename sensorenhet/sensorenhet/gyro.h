@@ -10,7 +10,7 @@
 #define GYRO_H_
 
 void rotateDegrees(uint8_t degrees);
-uint8_t updateGyroData();
+uint16_t updateGyroData();
 uint8_t returnGyroData(uint8_t gyro_data);
 uint8_t returnDegreesRotated();
 void resetDegreesRotated();
