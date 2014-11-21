@@ -11,16 +11,19 @@
 #include <stdint.h>
 #include "PDregulator.h"
 
+extern uint8_t maxSpeed;
+
 void setDirection(uint8_t dir);
 
-void driveForward(uint8_t speed);
-void driveReverse(uint8_t speed);
+void driveForward();
+void driveReverse();
 
-void rotateLeft(uint8_t speed);
-void rotateRight(uint8_t speed);
+void rotateLeft();
+void rotateRight();
 
-void softTurn(uint8_t left_speed, uint8_t right_speed);
-void softTurnReverse(uint8_t left_speed, uint8_t right_speed);
+void PDTurning(uint8_t left_speed, uint8_t right_speed);
+void softTurnLeft();
+void softTurnRight();
 
 void leftWheelDirection(uint8_t dir);
 void rightWheelDirection(uint8_t dir);

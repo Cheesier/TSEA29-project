@@ -11,6 +11,10 @@
 #include "tapeSensor.h"
 #include "gyro.h"
 
+extern int distance;
+extern int interrupted;
+extern uint8_t distanceSensors[SENSOR_COUNT];
+
 // Initiates the SPI
 void SPI_Init(void) {
 	DDR_SPI |= (1<<SPI_MISO);					// Set MISO output
@@ -43,65 +47,19 @@ char SPI_Transceive(char dataout) {
 void sendDistanceSensors(void) {
 	SPI_Send(0x04);
 	SPI_Send(0x04);
-	uint8_t *sensorData;
-	sensorData = getDistance();
 	for (int i = 0; i < SENSOR_COUNT; i++) {
-		SPI_Send(sensorData[i]);
+		SPI_Send(distanceSensors[i]);
 	}
 }
 
+// Sends the most updated tape data to the huvudenhet
 void sendTapeSensors() {
 	SPI_Send(0x03);
 	SPI_Send(0x02);
-
-	//SPI_Send(getTapeData());
 	uint8_t highByte = (uint8_t)(tape_data_done >> 8);
 	uint8_t lowByte = (uint8_t)(tape_data_done);
 	SPI_Send(highByte);
 	SPI_Send(lowByte);
-	//SPI_Send(0xFF);
-}
-
-void receiveMessage() {				// Testing to see if it helps to have this in main-loop instead of interrupts.
-	char msg = SPI_Receive();		// interrupts are turned off for SPI for now.
-	char header = (msg >> 6) & 3;
-	char size = SPI_Receive();
-	uint8_t data;
-	msg = msg & 0x3F;
-	interrupted = 1;				// Maybe useful when updating distance
-	if(header == 0x02) {
-		switch (msg) {
-			case 0x01:				// Reset gyro angle
-				resetDegreesRotated();
-				break;
-			case 0x02:				//how much gyro rotate
-				data = SPI_Receive();
-				rotateDegrees(data);
-				// return value here too?
-				break;
-			case 0x03:				// Set on tape value
-				//tape_black = vals;
-				break;
-			case 0x04:				// Set off tape value
-				//tape_floor = vals;
-				break;
-			case 0x05:				// Send distance data
-				sendDistanceSensors();
-				break;
-			case 0x06:				// Send tape data
-				sendTapeSensors();
-				break;
-			case 0x07:
-				break;
-			case 0x08:				// Rotate data amount of degrees
-				data = SPI_Receive();
-				cli();
-				rotateDegrees(data);
-				break;
-			default:
-				break;
-		}
-	}
 }
 
 void sendGyro() {
@@ -109,6 +67,7 @@ void sendGyro() {
 }
 
 ISR(SPISTC_vect) {
+	cli();
 	char msg = SPDR;
 	char header = msg >> 6;
 	char size = SPI_Receive();
@@ -117,25 +76,23 @@ ISR(SPISTC_vect) {
 	interrupted = 1;					// Maybe useful when updating distance
 	if(header == 0x02) {
 		switch (msg) {
-			case 0x01:					// Reset gyro angle
+			case 0x02:					// Reset gyro angle
 				resetDegreesRotated();
 				break;
-			case 0x02:					// How much gyro rotate
+			case 0x03:					// How much gyro rotate
 				sendGyro();
 				break;
-			case 0x03:					// Set on tape value
+			case 0x04:					// Set on tape value
 				setOnTape();
 				break;
-			case 0x04:					// Set off tape value
+			case 0x05:					// Set off tape value
 				setOffTape();
 				break;
-			case 0x05:					// Send distance data
+			case 0x06:					// Send distance data
 				sendDistanceSensors();
 				break;
-			case 0x06:					// Send tape data
+			case 0x07:					// Send tape data
 				sendTapeSensors();
-				break;
-			case 0x07:
 				break;
 			case 0x08:					// Rotate data amount of degrees
 				data = SPI_Receive();

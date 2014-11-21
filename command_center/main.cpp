@@ -1,4 +1,4 @@
-#include <QApplication>
+    #include <QApplication>
 
 #include "glob.h"
 #include "core.h"

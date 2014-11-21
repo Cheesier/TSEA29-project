@@ -28,6 +28,7 @@
 #define REVERSE 0
 
 char direction = FORWARD;
+uint8_t maxSpeed = 255;
 
 int main(void) {
 	SPI_Init();								// Initiate SPI as a slaves
@@ -49,77 +50,93 @@ void setDirection(uint8_t dir) {
 	}
 }
 
+void setMaxSpeed(uint8_t speed) {
+	maxSpeed = speed;
+}
+
 // The robot drives forward
-void driveForward(uint8_t speed) {	
+void driveForward() {	
 	if(direction == REVERSE) {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Set wheel direction to reverse by
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// clearing the direction pins
-		setSpeed(speed);
+		setSpeed(maxSpeed);
 	}
 	else {
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Set wheel direction to forward by
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// setting the direction pins
-		setSpeed(speed);
+		setSpeed(maxSpeed);
 	}
-	return;
 }
 
 // The robot drives in reverse
-void driveReverse(uint8_t speed) {	
+void driveReverse() {	
 	if(direction == REVERSE) {
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Set wheel direction to forward by
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// setting the direction pins
-		setSpeed(speed);
+		setSpeed(maxSpeed);
 	}
 	else {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Set wheel direction to reverse by
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// clearing the direction pins
-		setSpeed(speed);
+		setSpeed(maxSpeed);
 	}
-	return;
 }
 
 // The robot rotates to the left
-void rotateLeft(uint8_t speed) {	
+void rotateLeft() {	
 	if(direction == REVERSE){
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
-		setSpeed(speed);
+		setSpeed(maxSpeed);
 	}
 	else {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
-		setSpeed(speed);
+		setSpeed(maxSpeed);
 	}
-	return;
 }
 
 // The robot rotates to the right
-void rotateRight(uint8_t speed) {	
+void rotateRight() {	
 	if(direction == REVERSE){
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
-		setSpeed(speed);
+		setSpeed(maxSpeed);
 	}
 	else {
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
-		setSpeed(speed);
-	}
-	return;
+		setSpeed(maxSpeed);
+	}	
 }
 
 
 // The robot makes a soft turn
 // Turn direction is decided by the input parameters
-void softTurn(uint8_t left_speed, uint8_t right_speed) {
+void PDTurning(uint8_t left_speed, uint8_t right_speed) {
+	left_speed = left_speed * (maxSpeed/255);
+	right_speed = right_speed * (maxSpeed/255);
+	if(direction == REVERSE) {
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);
+		setSpeeds(right_speed, left_speed);
+		return;		
+	}	
+	PORTA |= (1<<WHEEL_DIRECTION_L);
+	PORTA |= (1<<WHEEL_DIRECTION_R);
+	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
+	return;
+}
+
+void softTurnLeft() {
+	uint8_t left_speed = maxSpeed/3;
+	uint8_t right_speed = maxSpeed;
 	if(direction == REVERSE) {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);
 		setSpeeds(right_speed, left_speed);
 		return;
-		
-	}	
+	}
 	PORTA |= (1<<WHEEL_DIRECTION_L);
 	PORTA |= (1<<WHEEL_DIRECTION_R);
 	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides
@@ -128,7 +145,9 @@ void softTurn(uint8_t left_speed, uint8_t right_speed) {
 
 // The robot makes a soft turn in reverse
 // Turn direction is decided by the input parameters
-void softTurnReverse(uint8_t left_speed, uint8_t right_speed) {	
+void softTurnRight() {	
+	uint8_t left_speed = maxSpeed;
+	uint8_t right_speed = maxSpeed/3;
 	if(direction == REVERSE) {		
 		PORTA |= (1<<WHEEL_DIRECTION_L);
 		PORTA |= (1<<WHEEL_DIRECTION_R);
@@ -181,7 +200,7 @@ void rightWheelDirection(uint8_t dir) {
 
 // Set the speed of both wheel pairs
 // QUESTION: Why is this needed?
-void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {	
+void wheelSpeeds(uint8_t left_speed, uint8_t right_speed) {
 	if(direction == REVERSE) {
 		uint8_t temp = left_speed;
 		left_speed = right_speed;

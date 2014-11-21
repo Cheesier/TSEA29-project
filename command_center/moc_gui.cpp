@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Gui_t {
     QByteArrayData data[40];
-    char stringdata[893];
+    char stringdata[882];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -63,12 +63,12 @@ QT_MOC_LITERAL(30, 572, 37),
 QT_MOC_LITERAL(31, 610, 24),
 QT_MOC_LITERAL(32, 635, 23),
 QT_MOC_LITERAL(33, 659, 23),
-QT_MOC_LITERAL(34, 683, 33),
-QT_MOC_LITERAL(35, 717, 33),
-QT_MOC_LITERAL(36, 751, 34),
-QT_MOC_LITERAL(37, 786, 35),
-QT_MOC_LITERAL(38, 822, 38),
-QT_MOC_LITERAL(39, 861, 31)
+QT_MOC_LITERAL(34, 683, 28),
+QT_MOC_LITERAL(35, 712, 25),
+QT_MOC_LITERAL(36, 738, 34),
+QT_MOC_LITERAL(37, 773, 35),
+QT_MOC_LITERAL(38, 809, 40),
+QT_MOC_LITERAL(39, 850, 31)
     },
     "Gui\0console_log\0\0data\0pb_update\0"
     "total_msgs\0current_msg\0status\0bt_reset\0"
@@ -91,11 +91,11 @@ QT_MOC_LITERAL(39, 861, 31)
     "on_horizontalSlider_pb_sliderReleased\0"
     "on_actionReset_triggered\0"
     "on_actionSave_triggered\0on_actionOpen_triggered\0"
-    "on_lineEdit_p_value_returnPressed\0"
-    "on_lineEdit_d_value_returnPressed\0"
+    "on_pushButton_set_pd_clicked\0"
+    "on_pushButton_pdf_clicked\0"
     "on_pushButton_forward_left_pressed\0"
     "on_pushButton_forward_right_pressed\0"
-    "on_horizontalSlider_speed_valueChanged\0"
+    "on_horizontalSlider_speed_sliderReleased\0"
     "on_pushButton_direction_clicked"
 };
 #undef QT_MOC_LITERAL
@@ -225,11 +225,11 @@ void Gui::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         case 25: _t->on_actionReset_triggered(); break;
         case 26: _t->on_actionSave_triggered(); break;
         case 27: _t->on_actionOpen_triggered(); break;
-        case 28: _t->on_lineEdit_p_value_returnPressed(); break;
-        case 29: _t->on_lineEdit_d_value_returnPressed(); break;
+        case 28: _t->on_pushButton_set_pd_clicked(); break;
+        case 29: _t->on_pushButton_pdf_clicked(); break;
         case 30: _t->on_pushButton_forward_left_pressed(); break;
         case 31: _t->on_pushButton_forward_right_pressed(); break;
-        case 32: _t->on_horizontalSlider_speed_valueChanged(); break;
+        case 32: _t->on_horizontalSlider_speed_sliderReleased(); break;
         case 33: _t->on_pushButton_direction_clicked(); break;
         default: ;
         }

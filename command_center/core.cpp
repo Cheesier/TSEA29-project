@@ -1,6 +1,8 @@
 #include "core.h"
 #include <string>
 
+#include "serial.h"
+
 #define TROLL_INPUT_MSG " *** invalid input value *** "
 
 Core_ptr core;
@@ -23,6 +25,11 @@ void Core::init(){
   w.reset(new Gui);
   w->show();
   bt.reset(new BTInterface);
+  serial.reset(new Serial);
+
+  serial->init_serial();
+  serial->open_serial(SERIAL_PORT, BAUD_RATE);
+
   data.reset(new Data);
   pb_play_all();
 }
@@ -140,7 +147,7 @@ void Core::process_new_msg(const Msg_ptr &msg){
 //not sychronized, hopefully won't be neccessary
 void Core::process_msg(const Msg_ptr &msg){
   thread t([this, msg](){
-      log(QString("processing message [type %1]..").arg(msg->get_type() & 0x3F));
+      log(QString("processing message [type %1]").arg(msg->get_type() & 0x3F));
 
       if ((msg->get_type()/64) != (ADDR_KONTROLLCENTER/64)) {     //see if message is not meant for kontroll center
         log(QString("the message was meant for: %1..").arg(msg->get_type()/64)); // who was it meant for?
@@ -170,7 +177,6 @@ void Core::process_msg(const Msg_ptr &msg){
 }
 
 void Core::handle_echo(const Msg_ptr &msg){
-  w->onSensorInput(msg->get_data());
   msg->print();
 }
 
@@ -231,12 +237,18 @@ bool Core::bt_is_connected(){
 
 
 void Core::send(const Msg_ptr &msg){
+#ifdef BT_ACTIVE
   if(!bt->is_connected()) {
       log("failed to send message: bluetooth is not connected");
       return;
     }
-  log(QString("sending new msg [type %1]..").arg(msg->get_type()));
   bt->send(msg);
+#endif
+
+#ifdef SERIAL_ACTIVE
+  serial->serial_write(msg);
+#endif
+  log(QString("sending new msg [type %1]..").arg(msg->get_type()));
 }
 
 void Core::custom_msg(const unsigned &type, const string &payload){
@@ -251,39 +263,45 @@ void Core::echo(){
   send(msg);
 }
 
-void Core::go_forward(int speed){
+void Core::go_forward(){
   Msg_ptr msg(new Message);
-  msg->go_forward(speed);
+  msg->go_forward();
   send(msg);
 }
 
-void Core::go_backward(int speed){
+void Core::go_backward(){
   Msg_ptr msg(new Message);
-  msg->go_backward(speed);
+  msg->go_backward();
   send(msg);
 }
 
-void Core::turn_right(int speed){
+void Core::turn_right(){
   Msg_ptr msg(new Message);
-  msg->turn_right(speed);
+  msg->turn_right();
   send(msg);
 }
 
-void Core::turn_left(int speed){
+void Core::turn_left(){
   Msg_ptr msg(new Message);
-  msg->turn_left(speed);
+  msg->turn_left();
   send(msg);
 }
 
-void Core::go_forward_right(int speed){
+void Core::go_forward_right(){
   Msg_ptr msg(new Message);
-  msg->go_forward_right(speed);
+  msg->go_forward_right();
   send(msg);
 }
 
-void Core::go_forward_left(int speed){
+void Core::go_forward_left(){
   Msg_ptr msg(new Message);
-  msg->go_forward_left(speed);
+  msg->go_forward_left();
+  send(msg);
+}
+
+void Core::set_speed(int speed){
+  Msg_ptr msg(new Message);
+  msg->set_speed(speed);
   send(msg);
 }
 
@@ -311,23 +329,18 @@ void Core::change_direction(int direction){
   send(msg);
 }
 
-void Core::set_p(const double &val){
-  if(val<=0|| val>1){
-      troll_input();
-      return;
-    }
+void Core::set_pd(int p, int d){
+  if(p <0 || p>255 || d <0 || d>255){
+    troll_input();
+    return;
+  }
   Msg_ptr msg(new Message);
-  msg->set_p(val);
+  msg->set_pd(p,d);
   send(msg);
 }
 
-void Core::set_d(const double &val){
-  if(val<=0|| val>1){
-      troll_input();
-      return;
-    }
+void Core::go_forward_pd(){
   Msg_ptr msg(new Message);
-  msg->set_p(val);
+  msg->go_forward_pd();
   send(msg);
 }
-

@@ -11,17 +11,12 @@
 
 #define F_CPU 8000000UL
 
-extern uint16_t tape_data_done;// = 0;
-static uint16_t gyro_data = 0;
+extern uint16_t tape_data_done;
 
-uint8_t getTapeData();
 int convertToBit(int data);
-uint16_t returnTapeData(uint16_t tape_data);
 
 void calibrateTapeSensor();
 void setOnTape();
 void setOffTape();
-
-void pollTapeData();
 
 #endif /* TAPESENSOR_H_ */

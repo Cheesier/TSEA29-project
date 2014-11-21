@@ -13,17 +13,18 @@ void handle_message(char header, char size, char *data) {
 	if ((header & 0xC0) == ADDR_HUVUDENHET) {
 		char type = header & 0x3F;
 		switch (type) {
-			case 0x00: // Gyro har roterat klart
+			case 0x01: // Gyro har roterat klart
 				// hanter på något sätt
 				break;
-			case 0x01: // Står på stopplinje
+			case 0x02: // Står på stopplinje
 				// hanter på något sätt
-				break;
-			case 0x02: // avståndssensor data
-				send_message(0xE0, size, data);
 				break;
 			case 0x03: // tejpsensor data
 				send_message(0xE1, size, data);
+				break;
+			case 0x04: // avståndssensor data
+				send_message(0xE0, size, data);
+				send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)(data+2));
 				break;
 			default:
 				// not sure how to handle this...
@@ -45,6 +46,10 @@ void send_message(char header, char size, char *data) {
 	else {
 		spi_send(header, size, data);
 	}
+}
+
+void send_message_to(char address, char type, char size, char *data) {
+	send_message(address | type, size, data);
 }
 
 void read_message(char address) {

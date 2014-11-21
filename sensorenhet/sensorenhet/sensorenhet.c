@@ -7,10 +7,13 @@
 
 #include "sensorenhet.h"
 
+extern int distance;
+extern int interrupted;
+extern uint8_t distanceSensors[SENSOR_COUNT];
+
 // SPI defines for readability
 #define DDR_SPI DDRB
 #define DDR_MISO DDB6
-#define SPI_DATA_REG SPDR
 #define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)))
 
 // Defines for pins for sensorenhet
@@ -50,15 +53,10 @@ int main(void) {
 	SPI_Init();
 	sei();
 	//tape_data_done = 578;
-	//readADC(0);
+	readADC(0);
 	while(1) {
-		readADC(0);
-		_delay_ms(3);
-		//updateDistance();
-		//receiveMessage();
-		//readADC(1);
-		pollTapeData();
-
+		updateDistance();
+		_delay_ms(60);
 	}
 	return 0;
 }

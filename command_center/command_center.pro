@@ -17,6 +17,8 @@ TEMPLATE = app
 
 #CONFIG += c++11
 
+QT += serialport
+
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += main.cpp\
@@ -24,13 +26,15 @@ SOURCES += main.cpp\
     core.cpp \
     message.cpp \
     btinterface.cpp \
-    data.cpp
+    data.cpp \
+    serial.cpp
 
 HEADERS  += gui.h \
     core.h \
     glob.h \
     message.h \
     btinterface.h \
-    data.h
+    data.h \
+    serial.h
 
 FORMS    += gui.ui

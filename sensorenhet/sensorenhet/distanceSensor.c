@@ -10,12 +10,12 @@
 
 #define TRIGGER PORTD1
 #define ECHO_FRONT PIND2
-#define ECHO_RIGHT PIND3
-#define ECHO_BACK PIND4
-#define ECHO_LEFT PIND5
+#define ECHO_BACK PIND3
+#define ECHO_LEFT PIND4
+#define ECHO_RIGHT PIND5
 #define SENSOR_INPUT PIND
 #define SENSOR_OUTPUT PORTD
-#define WAIT_FOR_INPUT while(!RIGHT_HIGH||!BACK_HIGH||!LEFT_HIGH||!FRONT_HIGH)
+#define WAIT_FOR_INPUT while(!RIGHT_HIGH/*||!BACK_HIGH*/||!LEFT_HIGH/*||!FRONT_HIGH*/)
 
 #define FRONT_HIGH (SENSOR_INPUT&(1<<ECHO_FRONT))
 #define RIGHT_HIGH (SENSOR_INPUT&(1<<ECHO_RIGHT))
@@ -25,65 +25,48 @@
 #define START_TIMER TCCR2 |= (1<<CS21)
 #define STOP_TIMER TCCR2 &= ~(1<<CS21)
 
-int getDistanceVal(){
-	return distance;
-}
 
 
 
-void updateDistance() {	
-	sei();
+void updateDistance() {
+	//Setup variables
 	uint8_t done[SENSOR_COUNT];
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		done[i] = 0;
 	}
 	distance = 0;
-	interrupted = 0;
+	interrupted = 0;			//
 	TCNT2 = 0;
-	//Trigger sensors
 	
+	//Trigger sensors
 	SENSOR_OUTPUT |= (1<<TRIGGER);
 	_delay_us(10);
 	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
-	
-
 	//Wait for input from sensors
-	WAIT_FOR_INPUT;
+    WAIT_FOR_INPUT;
 	
 	//Measure length of echo signal
 	START_TIMER;
-	while (FRONT_HIGH || RIGHT_HIGH || BACK_HIGH || LEFT_HIGH) {
-		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT]) {
-			STOP_TIMER;
+	while (/*FRONT_HIGH || */RIGHT_HIGH /*|| BACK_HIGH*/ || LEFT_HIGH) {
+		/*if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT]) { 
 			distanceSensors[DISTANCE_FRONT] = distance;
-			START_TIMER;
 			done[DISTANCE_FRONT] = 1;
-		}
+		}*/
 		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT]) {
-			STOP_TIMER;
 			distanceSensors[DISTANCE_RIGHT] = distance;
-			START_TIMER;
 			done[DISTANCE_RIGHT] = 1;
 		}
-		if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK]) {
-			STOP_TIMER;
+		/*if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK]) {
 			distanceSensors[DISTANCE_BACK] = distance;
-			START_TIMER;
 			done[DISTANCE_BACK] = 1;
-		}
+		}*/
 		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT]) {
-			STOP_TIMER;
 			distanceSensors[DISTANCE_LEFT] = distance;
 			done[DISTANCE_LEFT] = 1;
-			START_TIMER;
 		}
 	}
 	STOP_TIMER;
-}
-
-uint8_t * getDistance() {
-	return distanceSensors;
 }
 
 void initDistance() {
@@ -91,19 +74,17 @@ void initDistance() {
 	
 	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
+	interrupted = 0;
+	distance = 0;
 	for(int i = 0; i < SENSOR_COUNT; i++) {
-		distanceSensors[i] = 4;
+		distanceSensors[i] = 0;
 	}
 	
 	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode
 	TIMSK |= (1 << OCIE2);				// Enable Timer2 Output Compare Interrupt
 	OCR2 = 58;							// Compare count
-	//DDRA |= (1<<0);
 }
 
 ISR(TIMER2_COMP_vect) {
 	distance++;
-	//PORTA |= (1<<0);
-	_delay_us(10);
-	//PORTA &= ~(1<<0);
 }
