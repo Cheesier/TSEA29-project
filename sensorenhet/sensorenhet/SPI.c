@@ -105,9 +105,7 @@ void handle_sensor_message() {
 		case 0x07:					// Send tape data
 		sendTapeSensors();
 		break;
-		case 0x08:					// Gyro msg
-		break;
-		case 0x09:
+		case 0x08:					// Gyro rotate
 		data = SPI_Receive();
 		rotateDegrees(data);
 		break;
