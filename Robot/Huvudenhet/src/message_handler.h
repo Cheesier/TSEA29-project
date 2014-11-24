@@ -3,7 +3,7 @@
  *
  * Created: 11/7/2014 12:11:28 PM
  *  Author: oscth887
- */ 
+ */
 
 #define ADDR_HUVUDENHET		 0x00
 #define ADDR_STYRENHET		 0x40
