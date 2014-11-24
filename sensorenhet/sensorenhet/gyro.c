@@ -33,7 +33,7 @@ void rotateDegrees(uint8_t degrees) {
 // Rotate for 10 ms and update degrees_rotated
 uint16_t updateGyroData() {
 	uint16_t gyro_value;
-	gyro_value = gyro_data_done;				// Get gyro data from the ADC. Will return a value between 0 and 1023
+	gyro_value = gyroADC; //gyro_data_done;				// Get gyro data from the ADC. Will return a value between 0 and 1023
 												// the analog output from the gyro is between 0,5 and 4,5 V
 
 	// Gyro sensitivity is 300 dgs/s
@@ -47,7 +47,7 @@ uint16_t updateGyroData() {
 	else {
 		gyro_value = (gyro_null_value - gyro_value) * 74;
 	}
-	degrees_rotated += gyro_value;
+	degrees_rotated += gyro_value/100;			// Divided by 100 because we measure 100 times a second
 
 	// IMPORTANT TO REMEMBER
 	// returned value is 100 times bigger than it should be

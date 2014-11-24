@@ -44,11 +44,13 @@ int main(void) {
 
 // ADDR_SENSORENHET
 
+	send_message_to(ADDR_SENSORENHET, 0x08, 1, (char*)90);	// Rotera 90 grader
+
 	while(1) {
-		/*if (req_set == 1) {
+		if (req_set == 1) {
 		send_message_to(ADDR_SENSORENHET, 0x08, 1, (char*)90);	// Rotera 90 grader
 		req_set = 0;
-		}*/
+		}
 
 		//_delay_ms(100);
 		/*motor_claw_close();

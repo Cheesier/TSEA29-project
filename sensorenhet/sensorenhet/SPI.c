@@ -27,7 +27,7 @@ extern uint8_t distanceSensors[SENSOR_COUNT];
 void SPI_Init(void) {
 	DDR_SPI |= (1<<SPI_MISO);					// Set MISO output
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
-	DDRD |= (1<<PIND0);							// Enable the REQ port
+	DDRD |= (1<<REQ);							// Enable the REQ port
 }
 
 // Send a pulse over the REQ pin
