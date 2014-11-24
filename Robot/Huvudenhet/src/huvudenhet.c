@@ -14,6 +14,11 @@
 #include <util/delay.h>
 #include "motor.h"
 
+void interrupt_init(void) {
+	GICR |= (1<< INT1);		// Enables external interrupts via PD3
+	MCUCR |= (1<<ISC11) | (1<<ISC10);
+}
+
 int main(void) {
 	bt_init();
 	spi_init();
@@ -31,31 +36,35 @@ int main(void) {
 
 	// Vänta på sensorenheten och snurra sedan lite
 	_delay_ms(2000);
-	send_message_to(ADDR_STYRENHET, 0x09, 0, 0);			// Rotera till vänster
-	send_message_to(ADDR_SENSORENHET, 0x08, 1, (char*)90);	// Rotera 90 grader
-	while (req_set == 0) {};
-	send_message_to(ADDR_STYRENHET, 0x0D, 0, 0);			// Stoppa hjulen
+	//motor_rotate_left();			// Rotera till vänster
+	//send_message_to(ADDR_SENSORENHET, 0x08, 1, (char*)90);	// Rotera 90 grader
+	//while (req_set == 0) {};
+	//motor_rotate_left();
+	motor_stop();
 
 // ADDR_SENSORENHET
 
 	while(1) {
+		/*if (req_set == 1) {
+		send_message_to(ADDR_SENSORENHET, 0x08, 1, (char*)90);	// Rotera 90 grader
+		req_set = 0;
+		}*/
 
-		_delay_ms(100);
+		//_delay_ms(100);
 		/*motor_claw_close();
 		_delay_ms(1000);
 		motor_claw_open();*/
 
-		/*send_message(0x86, 0, 0);
-		_delay_us(30);
-		read_message(ADDR_SENSORENHET);*/
+		_delay_ms(100);
+		char dt[] = {100, 50, 40, 70};
+		send_message(0xE0, 4, &dt);
+		//send_message(0x86, 0, 0);
+		//_delay_us(30);
+		//read_message(ADDR_SENSORENHET);
 
 
 
 	}
 
 	return 0;
-}
-
-void interrupt_init(void) {
-	GICR |= (1<< INT1);		// Enables external interrupts via PD3
 }

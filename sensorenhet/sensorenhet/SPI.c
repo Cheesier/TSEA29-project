@@ -26,13 +26,14 @@ extern uint8_t distanceSensors[SENSOR_COUNT];
 void SPI_Init(void) {
 	DDR_SPI |= (1<<SPI_MISO);					// Set MISO output
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
+	DDRD |= (1<<PIND0);							// Enable the REQ port
 }
 
 // Send a pulse over the REQ pin
 void send_REQ() {
-	DDRD |= (1<<REQ);
+	PORTD |= (1<<REQ);
 	_delay_us(1);
-	DDRD &= ~(1<<REQ);
+	PORTD &= ~(1<<REQ);
 }
 
 // Receive over SPI
@@ -85,7 +86,7 @@ void sendGyro() {
 
 void handle_sensor_message(char * data) {
 	cli();
-	char data;
+	//char data;
 	switch (type) {
 		case 0x02:					// Reset gyro angle
 			resetDegreesRotated();
@@ -116,6 +117,7 @@ void handle_sensor_message(char * data) {
 
 ISR(SPISTC_vect) {
 
+	char* data;
 	char msg = SPDR;
 	SPDR = 0;
 	switch(currentState) {

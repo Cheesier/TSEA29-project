@@ -3,7 +3,7 @@
  *
  * Created: 11/19/2014 4:31:58 PM
  *  Author: Oscar
- */ 
+ */
 
 #include "motor.h"
 #include "message_handler.h"
@@ -40,6 +40,10 @@ void motor_go_forward(void) {
 
 void motor_go_backward(void) {
 	send_message_to(ADDR_STYRENHET, 0x08, 0, NO_DATA);
+}
+
+void motor_rotate_left(void) {
+	send_message_to(ADDR_STYRENHET, 0x09, 0, NO_DATA);
 }
 
 void motor_rotate_right(void) {

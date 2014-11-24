@@ -21,7 +21,7 @@ uint16_t gyro_data_done = 0;
 
 void rotateDegrees(uint8_t degrees) {
 	degrees_rotated = 0;					// Reset degrees rotated so we make sure not to rotate to much
-	degrees * 100;							// To compensate for the value returned by updateGyroData being 100 times bigger than it should
+	degrees = degrees * 100;				// To compensate for the value returned by updateGyroData being 100 times bigger than it should
 
 	while (degrees_rotated <= degrees) {	// Rotate until we reach the requested amount of degrees rotated
 		updateGyroData();
