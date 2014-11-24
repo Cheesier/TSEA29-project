@@ -17,6 +17,7 @@
 
 int currentState = GET_HEAD;
 char address, type, msgSize, data_index = 0;
+char* data;
 
 extern int distance;
 extern int interrupted;
@@ -83,9 +84,8 @@ void sendGyro() {
 	SPI_Send(returnDegreesRotated());
 }
 
-void handle_sensor_message(char * data) {
+void handle_sensor_message() {
 	cli();
-	char data;
 	switch (type) {
 		case 0x02:					// Reset gyro angle
 			resetDegreesRotated();
