@@ -170,9 +170,9 @@ void Gui::on_pushButton_forward_right_pressed(){
 
 void Gui::onSensorInput(string sensorData){
   ui->label_forward_sensor->setText(QString::number((int)(sensorData[0])));
-  ui->label_right_sensor->setText(QString::number((int)(sensorData[1])));
-  ui->label_backward_sensor->setText(QString::number((int)(sensorData[2])));
-  ui->label_left_sensor->setText(QString::number((int)(sensorData[3])));
+  ui->label_right_sensor->setText(QString::number((int)(sensorData[3])));
+  ui->label_backward_sensor->setText(QString::number((int)(sensorData[1])));
+  ui->label_left_sensor->setText(QString::number((int)(sensorData[2])));
 }
 
 void Gui::onTapeInput(string tapeData){

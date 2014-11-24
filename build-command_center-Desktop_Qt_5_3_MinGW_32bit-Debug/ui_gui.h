@@ -85,10 +85,10 @@ public:
     QWidget *gridLayoutWidget_4;
     QGridLayout *gridLayout_2;
     QLabel *label_left_sensor;
-    QLabel *label_backward_sensor;
     QLabel *label_12;
-    QLabel *label_forward_sensor;
+    QLabel *label_backward_sensor;
     QLabel *label_right_sensor;
+    QLabel *label_forward_sensor;
     QLabel *label_11;
     QWidget *horizontalLayoutWidget_2;
     QHBoxLayout *horizontalLayout_8;
@@ -299,7 +299,7 @@ public:
         plainTextEdit_log->setBackgroundVisible(false);
         verticalLayoutWidget_4 = new QWidget(centralWidget);
         verticalLayoutWidget_4->setObjectName(QStringLiteral("verticalLayoutWidget_4"));
-        verticalLayoutWidget_4->setGeometry(QRect(420, 460, 851, 71));
+        verticalLayoutWidget_4->setGeometry(QRect(420, 460, 851, 73));
         verticalLayout_4 = new QVBoxLayout(verticalLayoutWidget_4);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -413,29 +413,29 @@ public:
 
         gridLayout_2->addWidget(label_left_sensor, 1, 0, 1, 1);
 
-        label_backward_sensor = new QLabel(gridLayoutWidget_4);
-        label_backward_sensor->setObjectName(QStringLiteral("label_backward_sensor"));
-        label_backward_sensor->setAlignment(Qt::AlignCenter);
-
-        gridLayout_2->addWidget(label_backward_sensor, 2, 1, 1, 1);
-
         label_12 = new QLabel(gridLayoutWidget_4);
         label_12->setObjectName(QStringLiteral("label_12"));
         label_12->setAlignment(Qt::AlignCenter);
 
         gridLayout_2->addWidget(label_12, 1, 1, 1, 1);
 
-        label_forward_sensor = new QLabel(gridLayoutWidget_4);
-        label_forward_sensor->setObjectName(QStringLiteral("label_forward_sensor"));
-        label_forward_sensor->setAlignment(Qt::AlignCenter);
+        label_backward_sensor = new QLabel(gridLayoutWidget_4);
+        label_backward_sensor->setObjectName(QStringLiteral("label_backward_sensor"));
+        label_backward_sensor->setAlignment(Qt::AlignCenter);
 
-        gridLayout_2->addWidget(label_forward_sensor, 0, 1, 1, 1);
+        gridLayout_2->addWidget(label_backward_sensor, 2, 1, 1, 1);
 
         label_right_sensor = new QLabel(gridLayoutWidget_4);
         label_right_sensor->setObjectName(QStringLiteral("label_right_sensor"));
         label_right_sensor->setAlignment(Qt::AlignCenter);
 
         gridLayout_2->addWidget(label_right_sensor, 1, 2, 1, 1);
+
+        label_forward_sensor = new QLabel(gridLayoutWidget_4);
+        label_forward_sensor->setObjectName(QStringLiteral("label_forward_sensor"));
+        label_forward_sensor->setAlignment(Qt::AlignCenter);
+
+        gridLayout_2->addWidget(label_forward_sensor, 0, 1, 1, 1);
 
         label_11 = new QLabel(centralWidget);
         label_11->setObjectName(QStringLiteral("label_11"));
@@ -742,7 +742,7 @@ public:
         Gui->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(Gui);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1312, 25));
+        menuBar->setGeometry(QRect(0, 0, 1312, 26));
         QFont font4;
         font4.setBold(true);
         font4.setItalic(false);
@@ -758,6 +758,7 @@ public:
         mainToolBar = new QToolBar(Gui);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         Gui->addToolBar(Qt::TopToolBarArea, mainToolBar);
+        Gui->insertToolBarBreak(mainToolBar);
         statusBar = new QStatusBar(Gui);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         Gui->setStatusBar(statusBar);
@@ -796,10 +797,10 @@ public:
         label_7->setText(QApplication::translate("Gui", "/", 0));
         label_pb_total->setText(QApplication::translate("Gui", "0", 0));
         label_left_sensor->setText(QApplication::translate("Gui", "--", 0));
-        label_backward_sensor->setText(QApplication::translate("Gui", "--", 0));
         label_12->setText(QApplication::translate("Gui", "--", 0));
-        label_forward_sensor->setText(QApplication::translate("Gui", "--", 0));
+        label_backward_sensor->setText(QApplication::translate("Gui", "--", 0));
         label_right_sensor->setText(QApplication::translate("Gui", "--", 0));
+        label_forward_sensor->setText(QApplication::translate("Gui", "--", 0));
         label_11->setText(QApplication::translate("Gui", "Sensors", 0));
         label_tape_11->setText(QApplication::translate("Gui", "0", 0));
         label_tape_10->setText(QApplication::translate("Gui", "0", 0));

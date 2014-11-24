@@ -36,9 +36,10 @@ void Core::init(){
 
 void Core::log(const QString &data){
 #define BUFFER_SIZE 20
-  char time_str[BUFFER_SIZE];
+
+  char time_str[BUFFER_SIZE] = "";
   time_t timestamp = time(0);
-  strftime(time_str,sizeof(time_str),"%T", localtime(&timestamp));
+  //strftime(time_str,sizeof(time_str),"%T", localtime(&timestamp));
   QString out = QString("[%1] %2").arg(time_str,data);
   w->console_log(out);
   printf("%s\n", qPrintable(out));
