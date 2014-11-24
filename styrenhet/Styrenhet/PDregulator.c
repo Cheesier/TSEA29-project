@@ -7,11 +7,13 @@
 
 #include "PDregulator.h"
 #include "Styrenhet.h"
+#include <avr/interrupt.h>
 
 int active = 0;
-uint8_t sensorData[4];
-int8_t PD_direction = 0;
-uint8_t p, d;
+int16_t sensorData[2];
+int16_t PD_direction = 0;
+uint8_t p = 15;
+uint8_t d = 150;
 
 void PDactivate() {
 	active = 1;
@@ -23,13 +25,13 @@ int PDisActive() {
 	return active;
 }
 void PDupdateSensorData(uint8_t left, uint8_t right) {
-	sensorData[2] = sensorData[0];
-	sensorData[3] = sensorData[1];
-	sensorData[0] = left;
-	sensorData[1] = right;
-	PD_direction = p * (sensorData[1]-sensorData[0]) + d * ((sensorData[1]-sensorData[0])-(sensorData[3]-sensorData[2]));
+	sensorData[1] = sensorData[0];
+	sensorData[0] = right-left;
 }
-int8_t PDgetCorrection() {
+int16_t PDgetCorrection() {
+	cli();
+	PD_direction = p * sensorData[0] + d * (sensorData[0]-sensorData[1]);
+	sei();
 	return PD_direction;
 }
 
@@ -41,14 +43,20 @@ void setPD(uint8_t p_value, uint8_t d_value) {
 void PDforward() {
 	while (PDisActive())
 	{
-		int8_t correction = PD_direction;
+		int16_t correction = PDgetCorrection();
 		uint8_t left_speed = 255;
 		uint8_t right_speed = 255;
 		if (correction >= 0) {
-			right_speed -= correction;
+			right_speed -= correction/4;
+			if(right_speed<51) {
+				right_speed = 51;
+			}
 		}
 		else {
-			left_speed += correction;
+			left_speed += correction/4;
+			if(left_speed<51) {
+				left_speed = 51;
+			}
 		}
 		PDTurning(left_speed, right_speed);
 	}

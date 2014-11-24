@@ -12,6 +12,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "SPI.h"
+#include "Styrenhet.h"
+#include "PDregulator.h"
 
 // SPI ports
 #define SPI_SS PORTB4
@@ -131,41 +133,27 @@ ISR(SPISTC_vect) {
 					break;
 				default:	// Fetch the message anyway
 					for(int i = 0; i < size; i++) {
-						unknownMessage[i] = SPI_Receive();						
+						unknownMessage[i] = SPI_Receive();
+						errorMessage(unknownMessage);
 					}
-					errorMessage(size, &unknownMessage);
 					break;
 			}
 		}
-		else {			// In case of unexpected header, send an error message			
-			for(int i = 0; i < size; i++) {
-				unknownMessage[i] = SPI_Receive();				
-			}
-			headerError(header, size, &unknownMessage);
+		else {			// In case of unexpected header, send an error message
+			headerError(header);
 		}
 	sei();
 }
 
 // Send back unknown messages to the control center
 //TODO: Not any data
-void errorMessage(int size, char *unknownMessage) {
+void errorMessage(char unknownMessage) {
 	SPI_Send(0x3F);
-	SPI_Send(size);
-	for(int i = 0; i < size; i++) {
-		SPI_Send(unknownMessage[i]);
-		//SPI_Send((char*)(*(unknownMessage+i)));
-	}
 }
 
 // Send a message back to the control center if there's an header error
 //TODO: Not any data
-void headerError(int header, int size, char *unknownMessage) {
+void headerError(int header) {
 	SPI_Send(0x3F);
-	SPI_Send(size+1);
-	SPI_Send(header);
-	for(int i = 0; i < size; i++) {
-		SPI_Send(unknownMessage[i]);
-		//SPI_Send((char*)(*(unknownMessage+1)));
-	}
 	return;
 }
