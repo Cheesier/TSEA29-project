@@ -3,7 +3,7 @@
  *
  * Created: 11/10/2014 2:54:42 PM
  *  Author: Oscar
- */ 
+ */
 
 #define F_CPU 7372800UL
 
@@ -17,17 +17,20 @@
 
 #include "message_handler.h"
 
+int req_set = 0;
+
 void spi_init(void) {
 	/* Set MOSI SCK and /SS output*/
 	DDRB |= (1<<SS_SENSOR)|(1<<SS_STYR)|(1<<DDB5)|(1<<DDB7);
 	/* SPI, Master, set clock rate fck/16 */
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<MSTR)|(1<<SPR0);
-	
+
 	PORTB |= (1<<SS_SENSOR) | (1<<SS_STYR);
 }
 
+
 char spi_transceive(char address, char data) {
-	
+
 	if (address == ADDR_STYRENHET)
 		PORTB &= ~(1<<SS_STYR);
 	else
@@ -35,7 +38,7 @@ char spi_transceive(char address, char data) {
 	SPDR = data;
 	// read data
 	while(!(SPSR & (1<<SPIF)));
-	
+
 	PORTB |= (1<<SS_STYR) | (1<<SS_SENSOR);
 
 	return SPDR;
@@ -58,6 +61,12 @@ void spi_send(char header, char size, char* data) {
 		spi_write(addr, *(data+i));
 }
 
+
+// Interrupt routine for the REQ pin
+ISR(INT1_vect) {
+	req_set = 1;
+}
+
 ISR(SPISTC_vect) {
 	//char data = SPDR;
 }
@@ -68,12 +77,12 @@ ISR(SPISTC_vect) {
 	char addr = header & 0xC0;
 	char size;
 	char data[10];
-	
+
 	size = spi_read(addr);
 	for (int i = 0; i < size; i++) {
 		data[i] = spi_read(addr);
 	}
-	
+
 	handle_message(header, size, (char*)&data);
 }
 */

@@ -17,7 +17,7 @@
 #define SPI_MISO PORTB6
 #define SPI_SCLK PORTB7
 
-/*REQ signal*/
+// REQ signal
 // Also defined in Sensorenhet.c but that doesn't work for some reason
 #define REQ PORTD0
 

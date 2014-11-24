@@ -90,7 +90,7 @@ void handle_sensor_message() {
 		case 0x02:					// Reset gyro angle
 		resetDegreesRotated();
 		break;
-		case 0x03:					// How much gyro rotate and who was dog
+		case 0x03:					// How much gyro rotate
 		sendGyro();
 		break;
 		case 0x04:					// Set on tape value
