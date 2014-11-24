@@ -16,7 +16,7 @@
 #define GET_DATA 2
 
 int currentState = GET_HEAD;
-char address, type, msgSize;
+char address, type, msgSize, data_index = 0;
 
 extern int distance;
 extern int interrupted;
@@ -83,36 +83,33 @@ void sendGyro() {
 	SPI_Send(returnDegreesRotated());
 }
 
-void handle_sensor_message() {
+void handle_sensor_message(char * data) {
 	cli();
 	char data;
 	switch (type) {
 		case 0x02:					// Reset gyro angle
-		resetDegreesRotated();
-		break;
+			resetDegreesRotated();
+			break;
 		case 0x03:					// How much gyro rotate and who was dog
-		sendGyro();
-		break;
+			sendGyro();
+			break;
 		case 0x04:					// Set on tape value
-		setOnTape();
-		break;
+			setOnTape();
+			break;
 		case 0x05:					// Set off tape value
-		setOffTape();
-		break;
+			setOffTape();
+			break;
 		case 0x06:					// Send distance data
-		sendDistanceSensors();
-		break;
+			sendDistanceSensors();
+			break;
 		case 0x07:					// Send tape data
-		sendTapeSensors();
-		break;
+			sendTapeSensors();
+			break;
 		case 0x08:					// Gyro msg
-		break;
-		case 0x09:
-		data = SPI_Receive();
-		rotateDegrees(data);
-		break;
+			rotateDegrees(data[0]);
+			break;
 		default:
-		break;
+			break;
 	}
 	sei();
 }
@@ -132,11 +129,17 @@ ISR(SPISTC_vect) {
 			if(msgSize != 0) {
 				currentState = GET_DATA;
 			} else {
-				handle_sensor_message();
+				handle_sensor_message(0);
 				currentState = GET_HEAD;
 			}
 			break;
 		case(GET_DATA):
+			data[data_index] = msg;
+			data_index++;
+			if (data_index == msgSize) {
+				handle_sensor_message(data);
+				currentState = GET_HEAD;
+			}
 			break;
 		default:
 			currentState = GET_HEAD;
