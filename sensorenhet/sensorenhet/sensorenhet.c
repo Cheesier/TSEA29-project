@@ -35,6 +35,7 @@ void initSensors() {
 
 	DDRB |= 0x0F;
 	PORTB &= ~(0x0F);
+	
 
 	// Initiate the Analog to Digital Converter
 	initADC();

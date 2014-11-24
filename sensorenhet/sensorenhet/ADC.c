@@ -33,3 +33,11 @@ void readADC(uint8_t port) {
 
 	//return data;
 }
+
+uint16_t gyroADC() {
+	ADMUX = (ADMUX &= 0xF8) | 1;
+	
+	ADSCRA |= (1<<ADSC);
+	WAIT_FOR_CONVERSION;
+	return ADC;
+}

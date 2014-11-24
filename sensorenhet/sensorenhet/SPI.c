@@ -31,9 +31,9 @@ void SPI_Init(void) {
 
 // Send a pulse over the REQ pin
 void send_REQ() {
-	DDRD |= (1<<REQ);
+	PORTD |= (1<<REQ);
 	_delay_us(1);
-	DDRD &= ~(1<<REQ);
+	PORTD &= ~(1<<REQ);
 }
 
 // Receive over SPI
@@ -115,7 +115,6 @@ void handle_sensor_message() {
 }
 
 ISR(SPISTC_vect) {
-
 	char msg = SPDR;
 	SPDR = 0;
 	switch(currentState) {
@@ -221,5 +220,4 @@ void headerError(int header, int size, char *unknownMessage) {
 		SPI_Send(unknownMessage[i]);
 		//SPI_Send((char*)(*(unknownMessage+1)));
 	}
-	return;
 }

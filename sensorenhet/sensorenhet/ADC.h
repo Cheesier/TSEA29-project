@@ -11,7 +11,7 @@
 
 void initADC();
 void readADC(uint8_t port);
-
+void gyroADC();
 
 
 #endif /* ADC_H_ */
