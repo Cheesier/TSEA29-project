@@ -64,7 +64,7 @@ ISR(ADC_vect) {
 				tape_data_done |= (1 << 9);
 			}
 			tape_data = 0;				
-			//active_port = GYRO_PORT;
+			active_port = GYRO_PORT;
 			current_tape_sensor = 0;
 		}
 		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor

@@ -17,6 +17,7 @@
 
 int currentState = GET_HEAD;
 char address, type, msgSize, data_index = 0;
+char* data;
 
 extern int distance;
 extern int interrupted;
@@ -84,7 +85,7 @@ void sendGyro() {
 	SPI_Send(returnDegreesRotated());
 }
 
-void handle_sensor_message(char * data) {
+void handle_sensor_message() {
 	cli();
 	//char data;
 	switch (type) {
@@ -116,8 +117,6 @@ void handle_sensor_message(char * data) {
 }
 
 ISR(SPISTC_vect) {
-
-	char* data;
 	char msg = SPDR;
 	SPDR = 0;
 	switch(currentState) {
@@ -223,5 +222,4 @@ void headerError(int header, int size, char *unknownMessage) {
 		SPI_Send(unknownMessage[i]);
 		//SPI_Send((char*)(*(unknownMessage+1)));
 	}
-	return;
 }
