@@ -82,6 +82,7 @@ public:
   void go_forward_right();
   void go_forward_left();
   void set_speed(int speed);
+  void set_degrees(int degrees);
   void stop();
   void open_claw();
   void close_claw();

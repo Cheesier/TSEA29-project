@@ -235,7 +235,7 @@ release/moc_gui.cpp: C:/Qt/5.3/mingw482_32/include/QtWidgets/QMainWindow \
 		../command_center/btinterface.h \
 		../command_center/data.h \
 		../command_center/gui.h
-	C:\Qt\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Oscar/Documents/GitHub/TSEA29-project/command_center -IC:/Qt/5.3/mingw482_32/include -IC:/Qt/5.3/mingw482_32/include/QtWidgets -IC:/Qt/5.3/mingw482_32/include/QtSerialPort -IC:/Qt/5.3/mingw482_32/include/QtGui -IC:/Qt/5.3/mingw482_32/include/QtCore -I. ..\command_center\gui.h -o release\moc_gui.cpp
+	C:\Qt\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Oskar/Documents/Programming/TSEA29-project/command_center -IC:/Qt/5.3/mingw482_32/include -IC:/Qt/5.3/mingw482_32/include/QtWidgets -IC:/Qt/5.3/mingw482_32/include/QtSerialPort -IC:/Qt/5.3/mingw482_32/include/QtGui -IC:/Qt/5.3/mingw482_32/include/QtCore -I. ..\command_center\gui.h -o release\moc_gui.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -500,77 +500,7 @@ release/gui.o: ../command_center/gui.cpp ../command_center/gui.h \
 		../command_center/message.h \
 		../command_center/btinterface.h \
 		../command_center/data.h \
-		../command_center/ui_gui.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QVariant \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QAction \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qaction.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qactiongroup.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QApplication \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qapplication.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qcoreapplication.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qeventloop.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qdesktopwidget.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qguiapplication.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qinputmethod.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QButtonGroup \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qbuttongroup.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QComboBox \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qcombobox.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qstyleoption.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qvalidator.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qregularexpression.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qslider.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractslider.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qstyle.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qtabbar.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qrubberband.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qframe.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qabstractitemmodel.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QFrame \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QGridLayout \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qgridlayout.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qlayout.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qboxlayout.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QHBoxLayout \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QHeaderView \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qheaderview.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QLabel \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qlabel.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QLineEdit \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qlineedit.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qtextcursor.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qtextformat.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qpen.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qtextoption.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QMenu \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qmenu.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QMenuBar \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qmenubar.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QPlainTextEdit \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qplaintextedit.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qtextedit.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qtextdocument.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qabstracttextdocumentlayout.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qtextlayout.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qglyphrun.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qrawfont.h \
-		C:/Qt/5.3/mingw482_32/include/QtGui/qfontdatabase.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QPushButton \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qpushbutton.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QSlider \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QStatusBar \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qstatusbar.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QToolBar \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/qtoolbar.h \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QVBoxLayout \
-		C:/Qt/5.3/mingw482_32/include/QtWidgets/QWidget
+		ui_gui.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\gui.o ..\command_center\gui.cpp
 
 release/core.o: ../command_center/core.cpp ../command_center/core.h \
@@ -689,7 +619,11 @@ release/core.o: ../command_center/core.cpp ../command_center/core.h \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/qshortcut.h \
 		../command_center/message.h \
 		../command_center/btinterface.h \
-		../command_center/data.h
+		../command_center/data.h \
+		../command_center/serial.h \
+		C:/Qt/5.3/mingw482_32/include/QtSerialPort/QSerialPort \
+		C:/Qt/5.3/mingw482_32/include/QtSerialPort/qserialport.h \
+		C:/Qt/5.3/mingw482_32/include/QtSerialPort/qserialportglobal.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\core.o ..\command_center\core.cpp
 
 release/message.o: ../command_center/message.cpp ../command_center/message.h \
@@ -820,7 +754,8 @@ release/data.o: ../command_center/data.cpp ../command_center/data.h \
 		../command_center/message.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\data.o ..\command_center\data.cpp
 
-release/serial.o: ../command_center/serial.cpp C:/Qt/5.3/mingw482_32/include/QtSerialPort/QSerialPort \
+release/serial.o: ../command_center/serial.cpp ../command_center/serial.h \
+		C:/Qt/5.3/mingw482_32/include/QtSerialPort/QSerialPort \
 		C:/Qt/5.3/mingw482_32/include/QtSerialPort/qserialport.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qiodevice.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qglobal.h \
@@ -872,7 +807,77 @@ release/serial.o: ../command_center/serial.cpp C:/Qt/5.3/mingw482_32/include/QtS
 		C:/Qt/5.3/mingw482_32/include/QtCore/qisenum.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qobject_impl.h \
 		C:/Qt/5.3/mingw482_32/include/QtSerialPort/qserialportglobal.h \
-		../command_center/serial.h
+		../command_center/message.h \
+		../command_center/glob.h \
+		../command_center/core.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QString \
+		../command_center/gui.h \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/QMainWindow \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/qmainwindow.h \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qwindowdefs_win.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qmargins.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qpaintdevice.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qrect.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qsize.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qpoint.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qpalette.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qcolor.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qrgb.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qpair.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qregexp.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qbrush.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qvector.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qmatrix.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qpolygon.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qregion.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qline.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qtransform.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qimage.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qhash.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qfont.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qfontmetrics.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/qsizepolicy.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qcursor.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qkeysequence.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qevent.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qvariant.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qmap.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qdebug.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qtextstream.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qlocale.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qset.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qcontiguouscache.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qurl.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qurlquery.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qfile.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qfiledevice.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qvector2d.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qtouchdevice.h \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/qtabwidget.h \
+		C:/Qt/5.3/mingw482_32/include/QtGui/qicon.h \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/QFileDialog \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/qfiledialog.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qdir.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qfileinfo.h \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/qdialog.h \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/QShortcut \
+		C:/Qt/5.3/mingw482_32/include/QtWidgets/qshortcut.h \
+		../command_center/btinterface.h \
+		../command_center/data.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QCoreApplication \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qeventloop.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\serial.o ..\command_center\serial.cpp
 
 release/moc_gui.o: release/moc_gui.cpp 

@@ -195,6 +195,10 @@ void Gui::on_horizontalSlider_speed_sliderReleased(){
   core->set_speed(ui->horizontalSlider_speed->value());
 }
 
+void Gui::on_horizontalSlider_degrees_sliderReleased(){
+  ui->label_degrees->setText(QString::number(ui->horizontalSlider_degrees->value()));
+  core->set_degrees(ui->horizontalSlider_degrees->value());
+}
 
 void Gui::on_pushButton_claw_switch_clicked(){
   if (ui->pushButton_claw_switch->text() == "Open Claw"){

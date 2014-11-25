@@ -133,6 +133,11 @@ void Message::set_speed(int speed){
   encode();
 }
 
+void Message::set_degrees(int degrees){
+  type = ADDR_SENSORENHET | T_SET_DEGREES;
+  data = degrees;
+  encode();
+}
 
 void Message::stop(){
   type = ADDR_STYRENHET | T_STOP;

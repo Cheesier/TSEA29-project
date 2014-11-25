@@ -36,9 +36,9 @@ QT_BEGIN_NAMESPACE
 class Ui_Gui
 {
 public:
-    QAction *actionReset;
     QAction *actionOpen;
     QAction *actionSave;
+    QAction *actionReset;
     QWidget *centralWidget;
     QWidget *gridLayoutWidget_2;
     QGridLayout *gridLayout;
@@ -124,6 +124,11 @@ public:
     QPushButton *pushButton_forward;
     QPushButton *pushButton_forward_right;
     QPushButton *pushButton_forward_left;
+    QVBoxLayout *verticalLayout_5;
+    QHBoxLayout *horizontalLayout_11;
+    QLabel *label_8;
+    QLabel *label_degrees;
+    QSlider *horizontalSlider_degrees;
     QPushButton *pushButton_claw_switch;
     QWidget *horizontalLayoutWidget_3;
     QHBoxLayout *horizontalLayout_10;
@@ -155,12 +160,12 @@ public:
         sizePolicy.setHeightForWidth(Gui->sizePolicy().hasHeightForWidth());
         Gui->setSizePolicy(sizePolicy);
         Gui->setStyleSheet(QStringLiteral(""));
-        actionReset = new QAction(Gui);
-        actionReset->setObjectName(QStringLiteral("actionReset"));
         actionOpen = new QAction(Gui);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
         actionSave = new QAction(Gui);
         actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionReset = new QAction(Gui);
+        actionReset->setObjectName(QStringLiteral("actionReset"));
         centralWidget = new QWidget(Gui);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayoutWidget_2 = new QWidget(centralWidget);
@@ -401,7 +406,7 @@ public:
         line_6->setFrameShadow(QFrame::Sunken);
         gridLayoutWidget_4 = new QWidget(centralWidget);
         gridLayoutWidget_4->setObjectName(QStringLiteral("gridLayoutWidget_4"));
-        gridLayoutWidget_4->setGeometry(QRect(420, 50, 391, 371));
+        gridLayoutWidget_4->setGeometry(QRect(420, 60, 391, 361));
         gridLayout_2 = new QGridLayout(gridLayoutWidget_4);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -443,9 +448,9 @@ public:
         label_11->setAlignment(Qt::AlignCenter);
         horizontalLayoutWidget_2 = new QWidget(centralWidget);
         horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(420, 30, 391, 21));
+        horizontalLayoutWidget_2->setGeometry(QRect(420, 30, 391, 30));
         horizontalLayout_8 = new QHBoxLayout(horizontalLayoutWidget_2);
-        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setSpacing(0);
         horizontalLayout_8->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
         horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
@@ -563,7 +568,7 @@ public:
 
         gridLayoutWidget_5 = new QWidget(centralWidget);
         gridLayoutWidget_5->setObjectName(QStringLiteral("gridLayoutWidget_5"));
-        gridLayoutWidget_5->setGeometry(QRect(20, 180, 361, 170));
+        gridLayoutWidget_5->setGeometry(QRect(20, 180, 362, 170));
         gridLayout_4 = new QGridLayout(gridLayoutWidget_5);
         gridLayout_4->setSpacing(0);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -577,7 +582,7 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(pushButton_right->sizePolicy().hasHeightForWidth());
         pushButton_right->setSizePolicy(sizePolicy1);
-        pushButton_right->setMinimumSize(QSize(110, 0));
+        pushButton_right->setMinimumSize(QSize(120, 0));
 
         gridLayout_4->addWidget(pushButton_right, 1, 2, 1, 1);
 
@@ -631,7 +636,7 @@ public:
         pushButton_stop->setObjectName(QStringLiteral("pushButton_stop"));
         sizePolicy1.setHeightForWidth(pushButton_stop->sizePolicy().hasHeightForWidth());
         pushButton_stop->setSizePolicy(sizePolicy1);
-        pushButton_stop->setMinimumSize(QSize(110, 50));
+        pushButton_stop->setMinimumSize(QSize(120, 50));
 
         gridLayout_4->addWidget(pushButton_stop, 1, 1, 1, 1);
 
@@ -664,6 +669,35 @@ public:
         pushButton_forward_left->setSizePolicy(sizePolicy1);
 
         gridLayout_4->addWidget(pushButton_forward_left, 0, 0, 1, 1);
+
+        verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5->setSpacing(0);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        horizontalLayout_11 = new QHBoxLayout();
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        label_8 = new QLabel(gridLayoutWidget_5);
+        label_8->setObjectName(QStringLiteral("label_8"));
+
+        horizontalLayout_11->addWidget(label_8);
+
+        label_degrees = new QLabel(gridLayoutWidget_5);
+        label_degrees->setObjectName(QStringLiteral("label_degrees"));
+        label_degrees->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_11->addWidget(label_degrees);
+
+
+        verticalLayout_5->addLayout(horizontalLayout_11);
+
+        horizontalSlider_degrees = new QSlider(gridLayoutWidget_5);
+        horizontalSlider_degrees->setObjectName(QStringLiteral("horizontalSlider_degrees"));
+        horizontalSlider_degrees->setOrientation(Qt::Horizontal);
+
+        verticalLayout_5->addWidget(horizontalSlider_degrees);
+
+
+        gridLayout_4->addLayout(verticalLayout_5, 2, 0, 1, 1);
 
         pushButton_claw_switch = new QPushButton(centralWidget);
         pushButton_claw_switch->setObjectName(QStringLiteral("pushButton_claw_switch"));
@@ -758,7 +792,6 @@ public:
         mainToolBar = new QToolBar(Gui);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         Gui->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        Gui->insertToolBarBreak(mainToolBar);
         statusBar = new QStatusBar(Gui);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         Gui->setStatusBar(statusBar);
@@ -777,9 +810,9 @@ public:
     void retranslateUi(QMainWindow *Gui)
     {
         Gui->setWindowTitle(QApplication::translate("Gui", "Control Center", 0));
-        actionReset->setText(QApplication::translate("Gui", "Reset", 0));
         actionOpen->setText(QApplication::translate("Gui", "Open", 0));
         actionSave->setText(QApplication::translate("Gui", "Save", 0));
+        actionReset->setText(QApplication::translate("Gui", "Reset", 0));
         pushButton_scan->setText(QApplication::translate("Gui", "Scan..", 0));
         pushButton_connect->setText(QApplication::translate("Gui", "Connect", 0));
         label_bt_status->setText(QApplication::translate("Gui", "No bluetooth device avaible", 0));
@@ -825,6 +858,8 @@ public:
         pushButton_forward->setText(QApplication::translate("Gui", "F", 0));
         pushButton_forward_right->setText(QApplication::translate("Gui", "RF", 0));
         pushButton_forward_left->setText(QApplication::translate("Gui", "LF", 0));
+        label_8->setText(QApplication::translate("Gui", "Degrees", 0));
+        label_degrees->setText(QApplication::translate("Gui", "0", 0));
         pushButton_claw_switch->setText(QApplication::translate("Gui", "Open Claw", 0));
         pushButton_set_pd->setText(QApplication::translate("Gui", "SetPD", 0));
         pushButton_pdf->setText(QApplication::translate("Gui", "PD F", 0));

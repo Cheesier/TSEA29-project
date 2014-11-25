@@ -88,6 +88,7 @@ private slots:
   void on_pushButton_forward_right_pressed();
 
   void on_horizontalSlider_speed_sliderReleased();
+  void on_horizontalSlider_degrees_sliderReleased();
 
   void on_pushButton_direction_clicked();
 
