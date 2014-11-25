@@ -20,7 +20,7 @@ static uint16_t degrees_rotated = 0;
 uint16_t gyro_data_done = 0;
 
 void rotateDegrees(uint16_t degrees) {
-	degrees_rotated = 0;					// Reset degrees rotated so we make sure not to rotate to much
+	degrees_rotated = degrees;					// Reset degrees rotated so we make sure not to rotate to much
 	degrees = degrees * 100;				// To compensate for the value returned by updateGyroData being 100 times bigger than it should
 	while (degrees_rotated < degrees) {		// Rotate until we reach the requested amount of degrees rotated
 		updateGyroData();
@@ -30,7 +30,7 @@ void rotateDegrees(uint16_t degrees) {
 }
 
 // Rotate for 10 ms and update degrees_rotated
-uint16_t updateGyroData() {
+void updateGyroData() {
 	uint16_t gyro_value;
 	gyro_value = gyroADC();						// Get gyro data from the ADC. Will return a value between 0 and 1023
 												// the analog output from the gyro is between 0,5 and 4,5 V
@@ -40,19 +40,14 @@ uint16_t updateGyroData() {
 	// In turn translates to a sensitivity of ~0.74 degrees for each adc value
 	// Sensitivity multiplied by 100 to avoid using floats
 
-	if (gyro_value > gyro_null_value) {
-		gyro_value = (gyro_value - gyro_null_value) * 74;
-	}
-	else {
-		gyro_value = (gyro_null_value - gyro_value) * 74;
-	}
+	gyro_value = (gyro_value - gyro_null_value) * 50;
+	
 	degrees_rotated += gyro_value/100;			// Divided by 100 because we measure 100 times a second
 
 	// IMPORTANT TO REMEMBER
 	// returned value is 100 times bigger than it should be
 
 	_delay_ms(9);
-	return gyro_value;
 }
 
 // Return the amount of degrees the robot have currently rotated

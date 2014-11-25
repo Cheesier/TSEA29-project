@@ -37,7 +37,7 @@ int main(void) {
 	// Vänta på sensorenheten och snurra sedan lite
 	_delay_ms(2000);
 
-	char deg = 10;
+	uint8_t deg = 90;
 	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
 	motor_set_speed(92);
 	motor_rotate_right();
