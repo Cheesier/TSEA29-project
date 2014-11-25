@@ -27,15 +27,16 @@ static int degrees_rotated = 0;
 uint16_t gyro_data_done = 0;
 
 void rotateDegrees(uint16_t degrees) {
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	degrees_rotated = degrees;					// Reset degrees rotated so we make sure not to rotate to much
 	degrees = degrees * 100;				// To compensate for the value returned by updateGyroData being 100 times bigger than it should
 	while (degrees_rotated < degrees) {		// Rotate until we reach the requested amount of degrees rotated
+/*
 =======
 	degrees_rotated = 0;						// Reset degrees rotated so we make sure not to rotate to much
 	degrees = degrees * 100;					// To compensate for the value returned by updateGyroData being 100 times bigger than it should
 	while (abs(degrees_rotated) < degrees) {	// Rotate until we reach the requested amount of degrees rotated
->>>>>>> origin/master
+>>>>>>> origin/master*/
 		updateGyroData();
 	}
 
@@ -43,9 +44,10 @@ void rotateDegrees(uint16_t degrees) {
 }
 
 // Rotate for 10 ms and update degrees_rotated
-<<<<<<< HEAD
+//<<<<<<< HEAD
 void updateGyroData() {
 	uint16_t gyro_value;
+/*
 =======
 int updateGyroData() {
 	int gyro_value;
@@ -53,7 +55,7 @@ int updateGyroData() {
 	TCNT1 = 0;		// Make sure the timer is reset
 	START_TIMER;
 
->>>>>>> origin/master
+>>>>>>> origin/master*/
 	gyro_value = gyroADC();						// Get gyro data from the ADC. Will return a value between 0 and 1023
 												// the analog output from the gyro is between 0,5 and 4,5 V
 
@@ -62,27 +64,29 @@ int updateGyroData() {
 	// In turn translates to a sensitivity of ~0.74 degrees for each adc value
 	// Sensitivity multiplied by 100 to avoid using floats
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	gyro_value = (gyro_value - gyro_null_value) * 50;
-	
+
+/*
 =======
-	/*if (gyro_value > gyro_null_value) {
+	/ *if (gyro_value > gyro_null_value) {
 		gyro_value = (gyro_value - gyro_null_value) * 74;
 	}
 	else {
 		gyro_value = (gyro_null_value - gyro_value) * 74;
-	}*/
+	}* /
 
 	gyro_value = (gyro_value - gyro_null_value) * 74;
 
->>>>>>> origin/master
+>>>>>>> origin/master*/
 	degrees_rotated += gyro_value/100;			// Divided by 100 because we measure 100 times a second
 
 	// IMPORTANT TO REMEMBER
 	// returned value is 100 times bigger than it should be
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	_delay_ms(9);
+/*
 =======
 	// Leave function when 10 ms have passed since we started
 	while (!(TIFR & (1 << OCF1B)));
@@ -92,6 +96,7 @@ int updateGyroData() {
 	return gyro_value;
 >>>>>>> origin/master
 }
+*/
 
 // Return the amount of degrees the robot have currently rotated
 int returnDegreesRotated() {
@@ -109,7 +114,9 @@ void initGyro() {
 	gyro_null_value = gyroADC();	// Should give us a value of approximately 512
 
 
+/*
 	// Initialize timer 1
 	TCCR1B |= (1 << WGM12);			// Set mode to CTC
 	OCR1B = 77;						// This value with the 1024 prescaler result in the timer running for 10 ms
+*/
 }
