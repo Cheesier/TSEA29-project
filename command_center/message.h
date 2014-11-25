@@ -42,8 +42,9 @@ public:
              T_OPEN_CLAW        = 0x0C,
              T_STOP             = 0x0D,
              T_SET_SPEED        = 0x0E,
-             T_GO_FORWARD_RIGHT = 0x10,
              T_GO_FORWARD_LEFT  = 0x0F,
+             T_GO_FORWARD_RIGHT = 0x10,
+             T_SET_DEGREES      = 0x11,
              //Recive
              T_DISTANCE_DATA    = 0x20,
              T_TAPE_DATA        = 0x21,
@@ -75,6 +76,7 @@ public:
   void go_forward_right();
   void go_forward_left();
   void set_speed(int speed);
+  void set_degrees(int degrees);
   void stop();
   void open_claw();
   void close_claw();

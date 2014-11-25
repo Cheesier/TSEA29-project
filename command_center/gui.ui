@@ -404,9 +404,9 @@ color:#ffffff;</string>
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>50</y>
+      <y>60</y>
       <width>391</width>
-      <height>371</height>
+      <height>361</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
@@ -484,10 +484,13 @@ color:#ffffff;</string>
       <x>420</x>
       <y>30</y>
       <width>391</width>
-      <height>21</height>
+      <height>30</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_tape_11">
        <property name="font">
@@ -719,7 +722,7 @@ color:#ffffff;</string>
      <rect>
       <x>20</x>
       <y>180</y>
-      <width>361</width>
+      <width>362</width>
       <height>170</height>
      </rect>
     </property>
@@ -740,7 +743,7 @@ color:#ffffff;</string>
        </property>
        <property name="minimumSize">
         <size>
-         <width>110</width>
+         <width>120</width>
          <height>0</height>
         </size>
        </property>
@@ -840,7 +843,7 @@ color:#ffffff;</string>
        </property>
        <property name="minimumSize">
         <size>
-         <width>110</width>
+         <width>120</width>
          <height>50</height>
         </size>
        </property>
@@ -912,6 +915,41 @@ color:#ffffff;</string>
         <string>LF</string>
        </property>
       </widget>
+     </item>
+     <item row="2" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Degrees</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_degrees">
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QSlider" name="horizontalSlider_degrees">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
@@ -1094,15 +1132,10 @@ color:#ffffff;</string>
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionReset">
-   <property name="text">
-    <string>Reset</string>
-   </property>
-  </action>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
@@ -1111,6 +1144,11 @@ color:#ffffff;</string>
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="text">
+    <string>Reset</string>
    </property>
   </action>
  </widget>

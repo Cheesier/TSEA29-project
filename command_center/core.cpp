@@ -306,6 +306,12 @@ void Core::set_speed(int speed){
   send(msg);
 }
 
+void Core::set_degrees(int degrees){
+  Msg_ptr msg(new Message);
+  msg->set_degrees(degrees);
+  send(msg);
+}
+
 void Core::stop(){
   Msg_ptr msg(new Message);
   msg->stop();
