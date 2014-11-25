@@ -7,7 +7,6 @@
 
 #include "sensorenhet.h"
 
-
 #define TRIGGER PORTD1
 #define ECHO_FRONT PIND2
 #define ECHO_BACK PIND3

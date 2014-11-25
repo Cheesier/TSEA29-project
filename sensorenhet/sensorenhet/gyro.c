@@ -7,15 +7,8 @@
 
 #define F_CPU 8000000UL
 
-#include <stdint.h>
 #include <stdlib.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-/*
 
-#include "ADC.h"
-#include "gyro.h"*/
 #include "sensorenhet.h"
 
 
@@ -28,7 +21,7 @@ uint16_t gyro_data_done = 0;
 
 void rotateDegrees(uint16_t degrees) {
 //<<<<<<< HEAD
-	degrees_rotated = degrees;					// Reset degrees rotated so we make sure not to rotate to much
+	degrees_rotated = 0;					// Reset degrees rotated so we make sure not to rotate to much
 	degrees = degrees * 100;				// To compensate for the value returned by updateGyroData being 100 times bigger than it should
 	while (degrees_rotated < degrees) {		// Rotate until we reach the requested amount of degrees rotated
 /*
@@ -95,8 +88,9 @@ int updateGyroData() {
 
 	return gyro_value;
 >>>>>>> origin/master
-}
 */
+}
+
 
 // Return the amount of degrees the robot have currently rotated
 int returnDegreesRotated() {

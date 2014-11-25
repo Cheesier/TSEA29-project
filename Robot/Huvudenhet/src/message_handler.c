@@ -21,6 +21,10 @@ void handle_message(char header, char size, char *data) {
 				break;
 			case 0x03: // tejpsensor data
 				send_message(0xE1, size, data);
+				// sets tape_data to the data collected
+				tape_data = data[0];
+				tape_data = tape_data << 8;
+				tape_data += data[1];
 				break;
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
