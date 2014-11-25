@@ -92,79 +92,85 @@ void Message::echo(){
 }
 
 void Message::go_forward(){
-  type = ADDR_STYRENHET | T_GO_FORWARD;
+  type = T_GO_FORWARD;
   data.clear();
   encode();
 }
 
 void Message::go_backward(){
-  type = ADDR_STYRENHET | T_GO_BACKWARD;
+  type = T_GO_BACKWARD;
   data.clear();
   encode();
 }
 
 void Message::turn_right(){
-  type = ADDR_STYRENHET | T_TURN_RIGHT;
+  type = T_TURN_RIGHT;
   data.clear();
   encode();
 }
 
 void Message::turn_left(){
-  type = ADDR_STYRENHET | T_TURN_LEFT;
+  type = T_TURN_LEFT;
   data.clear();
   encode();
 }
 
 void Message::go_forward_right(){
-  type = ADDR_STYRENHET | T_GO_FORWARD_RIGHT;
+  type = T_GO_FORWARD_RIGHT;
   data.clear();
   encode();
 }
 
 void Message::go_forward_left(){
-  type = ADDR_STYRENHET | T_GO_FORWARD_LEFT;
+  type = T_GO_FORWARD_LEFT;
   data.clear();
   encode();
 }
 
 void Message::set_speed(int speed){
-  type = ADDR_STYRENHET | T_SET_SPEED;
+  type = T_SET_SPEED;
   data = speed;
   encode();
 }
 
 void Message::set_degrees(int degrees){
-  type = ADDR_SENSORENHET | T_SET_DEGREES;
+  type = T_ALERT_AT_DEGREES;
   data = degrees;
   encode();
 }
 
 void Message::stop(){
-  type = ADDR_STYRENHET | T_STOP;
+  type = T_STOP;
   data.clear();
   encode();
 }
 
 void Message::open_claw(){
-  type = ADDR_STYRENHET | T_OPEN_CLAW;
+  type = T_OPEN_CLAW;
   data.clear();
   encode();
 }
 
 void Message::close_claw(){
-  type = ADDR_STYRENHET | T_CLOSE_CLAW;
+  type = T_CLOSE_CLAW;
   data.clear();
   encode();
 }
 
 void Message::change_direction(int direction){
-  type = ADDR_STYRENHET | T_CHANGE_DIRECTION;
+  type = T_CHANGE_DIRECTION;
   data = direction;
   encode();
 }
 
+void Message::change_drive_mode(int dm){
+  type = T_CHANGE_DRIVE_MODE;
+  data = dm;
+  encode();
+}
+
 void Message::set_pd(int p, int d){
-  type = ADDR_STYRENHET | T_SET_PD;
+  type = T_SET_PD;
 
   string pd = "";
   pd += char(p);       //from ui
@@ -175,7 +181,7 @@ void Message::set_pd(int p, int d){
 }
 
 void Message::go_forward_pd(){
-  type = ADDR_STYRENHET | T_GO_FORWARD_PD;
+  type = T_GO_FORWARD_PD;
   data.clear();
   encode();
 }

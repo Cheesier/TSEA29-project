@@ -2,7 +2,7 @@
 #define MESSAGE_H
 
 
-#define ADDR_KOMMUNIKATIONSENHET 0x00
+#define ADDR_HUVUDENHET          0x00
 #define ADDR_STYRENHET           0x40
 #define ADDR_SENSORENHET         0x80
 #define ADDR_KONTROLLCENTER      0xC0
@@ -31,20 +31,21 @@ public:
   Message(const Type_t& type_, const string& data_);
   enum msg_t{T_ECHO,
              //Send
-             T_GO_FORWARD_PD    = 0x01,
-             T_CHANGE_DIRECTION = 0x04,
-             T_SET_PD           = 0x06,
-             T_GO_FORWARD       = 0x07,
-             T_GO_BACKWARD      = 0x08,
-             T_TURN_LEFT        = 0x09,
-             T_TURN_RIGHT       = 0x0A,
-             T_CLOSE_CLAW       = 0x0B,
-             T_OPEN_CLAW        = 0x0C,
-             T_STOP             = 0x0D,
-             T_SET_SPEED        = 0x0E,
-             T_GO_FORWARD_LEFT  = 0x0F,
-             T_GO_FORWARD_RIGHT = 0x10,
-             T_SET_DEGREES      = 0x11,
+             T_GO_FORWARD_PD     = ADDR_STYRENHET | 0x01,
+             T_CHANGE_DIRECTION  = ADDR_STYRENHET | 0x04,
+             T_SET_PD            = ADDR_STYRENHET | 0x06,
+             T_GO_FORWARD        = ADDR_STYRENHET | 0x07,
+             T_GO_BACKWARD       = ADDR_STYRENHET | 0x08,
+             T_TURN_LEFT         = ADDR_STYRENHET | 0x09,
+             T_TURN_RIGHT        = ADDR_STYRENHET | 0x0A,
+             T_CLOSE_CLAW        = ADDR_STYRENHET | 0x0B,
+             T_OPEN_CLAW         = ADDR_STYRENHET | 0x0C,
+             T_STOP              = ADDR_STYRENHET | 0x0D,
+             T_SET_SPEED         = ADDR_STYRENHET | 0x0E,
+             T_GO_FORWARD_LEFT   = ADDR_STYRENHET | 0x0F,
+             T_GO_FORWARD_RIGHT  = ADDR_STYRENHET | 0x10,
+             T_ALERT_AT_DEGREES  = ADDR_SENSORENHET | 0x08,
+             T_CHANGE_DRIVE_MODE = ADDR_HUVUDENHET | 0x12,
              //Recive
              T_DISTANCE_DATA    = 0x20,
              T_TAPE_DATA        = 0x21,
@@ -82,6 +83,7 @@ public:
   void close_claw();
 
   void change_direction(int direction);
+  void change_drive_mode(int dm);
 
   void set_pd(int p, int d);
   void go_forward_pd();

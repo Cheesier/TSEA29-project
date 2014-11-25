@@ -87,10 +87,13 @@ private slots:
 
   void on_pushButton_forward_right_pressed();
 
-  void on_horizontalSlider_speed_sliderReleased();
-  void on_horizontalSlider_degrees_sliderReleased();
+  void on_horizontalSlider_speed_valueChanged();
+  void on_pushButton_set_speed_clicked();
+  void on_horizontalSlider_degrees_valueChanged();
+  void on_pushButton_rotate_mode_clicked();
 
   void on_pushButton_direction_clicked();
+  void on_pushButton_drive_mode_clicked();
 
 
 private:

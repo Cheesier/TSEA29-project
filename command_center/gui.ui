@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1312</width>
-    <height>634</height>
+    <height>710</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -30,7 +30,7 @@
     <property name="geometry">
      <rect>
       <x>22</x>
-      <y>500</y>
+      <y>429</y>
       <width>362</width>
       <height>31</height>
      </rect>
@@ -65,7 +65,7 @@
     <property name="geometry">
      <rect>
       <x>22</x>
-      <y>540</y>
+      <y>469</y>
       <width>361</width>
       <height>26</height>
      </rect>
@@ -96,7 +96,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>30</y>
+      <y>539</y>
       <width>91</width>
       <height>61</height>
      </rect>
@@ -122,7 +122,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>599</y>
       <width>361</width>
       <height>31</height>
      </rect>
@@ -148,7 +148,7 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>30</y>
+      <y>539</y>
       <width>271</width>
       <height>61</height>
      </rect>
@@ -184,7 +184,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
+      <y>519</y>
       <width>361</width>
       <height>17</height>
      </rect>
@@ -200,9 +200,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>124</y>
+      <y>48</y>
       <width>361</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="orientation">
@@ -213,7 +213,7 @@
     <property name="geometry">
      <rect>
       <x>22</x>
-      <y>479</y>
+      <y>408</y>
       <width>361</width>
       <height>21</height>
      </rect>
@@ -380,7 +380,7 @@ color:#ffffff;</string>
       <x>390</x>
       <y>10</y>
       <width>20</width>
-      <height>551</height>
+      <height>621</height>
      </rect>
     </property>
     <property name="orientation">
@@ -662,7 +662,7 @@ color:#ffffff;</string>
     <property name="geometry">
      <rect>
       <x>22</x>
-      <y>430</y>
+      <y>359</y>
       <width>361</width>
       <height>21</height>
      </rect>
@@ -688,7 +688,7 @@ color:#ffffff;</string>
     <property name="geometry">
      <rect>
       <x>19</x>
-      <y>139</y>
+      <y>68</y>
       <width>361</width>
       <height>41</height>
      </rect>
@@ -721,8 +721,8 @@ color:#ffffff;</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>180</y>
-      <width>362</width>
+      <y>109</y>
+      <width>361</width>
       <height>170</height>
      </rect>
     </property>
@@ -757,15 +757,9 @@ color:#ffffff;</string>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
-          <widget class="QLabel" name="label_13">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+          <widget class="QPushButton" name="pushButton_set_speed">
            <property name="text">
-            <string>Speed</string>
+            <string>Set speed</string>
            </property>
           </widget>
          </item>
@@ -778,7 +772,7 @@ color:#ffffff;</string>
             </sizepolicy>
            </property>
            <property name="text">
-            <string>0</string>
+            <string>255</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -799,7 +793,7 @@ color:#ffffff;</string>
           <number>255</number>
          </property>
          <property name="value">
-          <number>0</number>
+          <number>255</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -924,16 +918,16 @@ color:#ffffff;</string>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_11">
          <item>
-          <widget class="QLabel" name="label_8">
+          <widget class="QPushButton" name="pushButton_rotate_mode">
            <property name="text">
-            <string>Degrees</string>
+            <string>Auto rotate</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_degrees">
            <property name="text">
-            <string>0</string>
+            <string>90</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -944,6 +938,12 @@ color:#ffffff;</string>
        </item>
        <item>
         <widget class="QSlider" name="horizontalSlider_degrees">
+         <property name="maximum">
+          <number>255</number>
+         </property>
+         <property name="value">
+          <number>90</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -957,7 +957,7 @@ color:#ffffff;</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>450</y>
+      <y>379</y>
       <width>361</width>
       <height>27</height>
      </rect>
@@ -970,7 +970,7 @@ color:#ffffff;</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>370</y>
+      <y>299</y>
       <width>361</width>
       <height>68</height>
      </rect>
@@ -1081,7 +1081,7 @@ color:#ffffff;</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>350</y>
+      <y>279</y>
       <width>361</width>
       <height>21</height>
      </rect>
@@ -1089,6 +1089,52 @@ color:#ffffff;</string>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
+   </widget>
+   <widget class="Line" name="line_9">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>500</y>
+      <width>361</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>19</x>
+      <y>8</y>
+      <width>361</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_12">
+     <item>
+      <widget class="QPushButton" name="pushButton_drive_mode">
+       <property name="text">
+        <string>Switch drive mode</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Current drive mode:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_drive_mode">
+       <property name="text">
+        <string>Manual</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

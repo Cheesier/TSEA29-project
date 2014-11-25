@@ -336,6 +336,12 @@ void Core::change_direction(int direction){
   send(msg);
 }
 
+void Core::change_drive_mode(int dm){
+  Msg_ptr msg(new Message);
+  msg->change_drive_mode(dm);
+  send(msg);
+}
+
 void Core::set_pd(int p, int d){
   if(p <0 || p>255 || d <0 || d>255){
     troll_input();

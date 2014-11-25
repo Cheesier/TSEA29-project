@@ -88,6 +88,7 @@ public:
   void close_claw();
 
   void change_direction(int direction);
+  void change_drive_mode(int dm);
 
   void set_pd(int p, int d);
   void go_forward_pd();
