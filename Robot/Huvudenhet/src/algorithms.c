@@ -22,7 +22,7 @@
 #define TYPE_CROSSROAD 6
 #define TYPE_CORRIDOR 7
 
-int currentState = STATE_FIND_WALLS;
+int currentState = STATE_PD;
 uint8_t distanceForward, distanceBackward;
 int useForward;
 int sectionType;
@@ -72,13 +72,7 @@ int wallInRange(char distance) {
 	return distance < DISTANCE_TO_WALL;
 }
 
-char * checkWalls(char * distance) {
-	char * wallsInRange;
-	for(int i = 0; i < 4; i++) {
-		wallsInRange[i] = wallInRange(distance[i]);
-	}
-	return wallsInRange;
-}
+
 
 /*
 void resetGyro() {
@@ -93,11 +87,15 @@ void startTurning() {
 			break;
 		case TYPE_TURN_LEFT:
 			/*resetGyro();*/
+			send_message_to(ADDR_STYRENHET, 0x0D, 0, 0); // STOP
+			_delay_ms(3000);
 			send_message_to(ADDR_SENSORENHET, 0x08, 0x01, 90); // Säg till efter 90 graders rotation
 			send_message_to(ADDR_STYRENHET, 0x09, 0, 0); // Rotera till vänster
 			break;
 		case TYPE_TURN_RIGHT:
 			/*resetGyro();*/
+			send_message_to(ADDR_STYRENHET, 0x0D, 0, 0); // STOP
+			_delay_ms(3000);
 			send_message_to(ADDR_SENSORENHET, 0x08, 0x01, 90); // Säg till efter 90 graders rotation
 			send_message_to(ADDR_STYRENHET, 0x0A, 0, 0); // Rotera till vänster
 			break;
@@ -117,16 +115,25 @@ void startTurning() {
 			currentState = STATE_PD;
 			break;
 	}
+	turningStarted = 1;
 }
 
 void interpretSensorData(char * sensorData) {
-	char * wallsInRange = checkWalls(sensorData);
+	char wallsInRange[4];
+	
+	for(int i = 0; i < 4; i++) {
+		wallsInRange[i] = wallInRange(sensorData[i]);
+	}
+	
 	switch (currentState) {
 		case STATE_PD:
 			if (wallsInRange[0] || !wallsInRange[2] || !wallsInRange[3]) {
+				motor_stop();
 				distanceForward = sensorData[0];
 				distanceBackward = sensorData[1];
 				useForward = distanceForward < distanceBackward;
+				motor_stop();
+				_delay_ms(3000);
 				currentState = STATE_GOTO_MIDDLE;
 			} else {
 				send_message_to(ADDR_STYRENHET, 0x01, 0, 0); //PDForward()
@@ -138,6 +145,8 @@ void interpretSensorData(char * sensorData) {
 					updateSectionType(wallsInRange);
 					currentState = STATE_ROTATE;
 				} else {
+					motor_stop();
+					_delay_ms(1000);
 					send_message_to(ADDR_STYRENHET, 0x07, 0, 0); // driveForward()
 				}
 			} else {
@@ -155,6 +164,7 @@ void interpretSensorData(char * sensorData) {
 				if (isGyroDone()) {
 					send_message_to(ADDR_STYRENHET, 0x0D, 0, 0); // STOP
 					currentState = STATE_FIND_WALLS;
+					_delay_ms(3000);
 				}
 			} else {
 				startTurning();

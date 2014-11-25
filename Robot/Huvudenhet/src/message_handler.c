@@ -8,6 +8,7 @@
 #include "message_handler.h"
 #include "bluetooth.h"
 #include "spi.h"
+#include "algorithms.h"
 
 void handle_message(char header, char size, char *data) {
 	if ((header & 0xC0) == ADDR_HUVUDENHET) {
@@ -25,6 +26,7 @@ void handle_message(char header, char size, char *data) {
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
 				send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+				//interpretSensorData(data);
 				break;
 			default:
 				// not sure how to handle this...

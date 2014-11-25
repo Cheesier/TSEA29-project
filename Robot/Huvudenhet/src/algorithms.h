@@ -9,8 +9,7 @@
 #ifndef ALGORITHMS_H_
 #define ALGORITHMS_H_
 
-#include "message_handler.h"
-#include <avr/io.h>
+#include "huvudenhet.h"
 
 void interpretSensorData(char * sensorData);
 

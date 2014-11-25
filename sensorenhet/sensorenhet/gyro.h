@@ -15,7 +15,7 @@ void rotateDegrees(uint16_t degrees);
 //<<<<<<< HEAD
 void updateGyroData();
 uint8_t returnGyroData(uint8_t gyro_data);
-uint8_t returnDegreesRotated();
+int returnDegreesRotated();
 /*
 =======
 int updateGyroData();

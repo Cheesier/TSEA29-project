@@ -18,6 +18,14 @@
 #include "message_handler.h"
 
 int req_set = 0;
+static int gyroDone = 0;
+int isGyroDone() {
+	return gyroDone;
+}
+
+void resetGyroDone() {
+	gyroDone = 0;
+}
 
 void spi_init(void) {
 	/* Set MOSI SCK and /SS output*/
@@ -64,6 +72,7 @@ void spi_send(char header, char size, char* data) {
 
 // Interrupt routine for the REQ pin TODO: Slightly unfinished
 ISR(INT1_vect) {
+	gyroDone = 1;
 	motor_stop();
 }
 

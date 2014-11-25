@@ -51,6 +51,8 @@ int main(void) {
 	sei();
 	readADC(0);
 	while(1) {
+		updateDistance();
+		_delay_ms(60);
 	}
 	return 0;
 }

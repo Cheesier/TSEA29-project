@@ -28,7 +28,7 @@ uint16_t gyro_data_done = 0;
 
 void rotateDegrees(uint16_t degrees) {
 //<<<<<<< HEAD
-	degrees_rotated = degrees;					// Reset degrees rotated so we make sure not to rotate to much
+	degrees_rotated = 0;					// Reset degrees rotated so we make sure not to rotate to much
 	degrees = degrees * 100;				// To compensate for the value returned by updateGyroData being 100 times bigger than it should
 	while (degrees_rotated < degrees) {		// Rotate until we reach the requested amount of degrees rotated
 /*
@@ -46,7 +46,7 @@ void rotateDegrees(uint16_t degrees) {
 // Rotate for 10 ms and update degrees_rotated
 //<<<<<<< HEAD
 void updateGyroData() {
-	uint16_t gyro_value;
+	int gyro_value;
 /*
 =======
 int updateGyroData() {
@@ -65,20 +65,20 @@ int updateGyroData() {
 	// Sensitivity multiplied by 100 to avoid using floats
 
 //<<<<<<< HEAD
-	gyro_value = (gyro_value - gyro_null_value) * 50;
+	//gyro_value = (gyro_value - gyro_null_value) * 50;
 
-/*
-=======
-	/ *if (gyro_value > gyro_null_value) {
-		gyro_value = (gyro_value - gyro_null_value) * 74;
+
+//=======
+	if (gyro_value > gyro_null_value) {
+		gyro_value = (gyro_value - gyro_null_value) * 56;
 	}
 	else {
-		gyro_value = (gyro_null_value - gyro_value) * 74;
-	}* /
+		gyro_value = (gyro_null_value - gyro_value) * 56;
+	}
 
-	gyro_value = (gyro_value - gyro_null_value) * 74;
+	//gyro_value = (gyro_value - gyro_null_value) * 74;
 
->>>>>>> origin/master*/
+//>>>>>>> origin/master
 	degrees_rotated += gyro_value/100;			// Divided by 100 because we measure 100 times a second
 
 	// IMPORTANT TO REMEMBER
@@ -95,8 +95,7 @@ int updateGyroData() {
 
 	return gyro_value;
 >>>>>>> origin/master
-}
-*/
+*/}
 
 // Return the amount of degrees the robot have currently rotated
 int returnDegreesRotated() {
