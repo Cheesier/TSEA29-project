@@ -34,36 +34,30 @@ int convertToBit(int data) {
 }
 
 // Calibrate the tape sensors to set a threshold to identify whether or not we're on tape
-void calibrateTapeSensor() {	
-	tape_threshold = ((on_tape_value + off_tape_value) >> 1);	// Setting the tape threshold to the average of the two tape values													
+void calibrateTapeSensor() {
+	tape_threshold = ((on_tape_value + off_tape_value) >> 1);	// Setting the tape threshold to the average of the two tape values
 }
 
 // Set on_tape_value for the tape sensor
-void setOnTape() {	
+void setOnTape() {
 	on_tape_value = tape_data;
 	calibrateTapeSensor();							// Used in both functions so that it doesn't matter which one you call first
 }
 
 // Set off_tape_value for the tape sensor
-void setOffTape() {	
+void setOffTape() {
 	off_tape_value = tape_data;
 	calibrateTapeSensor();							// Used in both functions so that it doesn't matter which one you call first
 }
 
 ISR(ADC_vect) {
-	if(active_port == TAPE_SENSOR_PORT) {		
+	if(active_port == TAPE_SENSOR_PORT) {
 		int tape_bit = convertToBit(ADC);
 		tape_data |= (tape_bit << current_tape_sensor);
-		current_tape_sensor++;		
-		if(current_tape_sensor == 9) {				//LED 10 not working
-			current_tape_sensor = 10;
-		}
-		if(current_tape_sensor == 11) {	
+		current_tape_sensor++;
+		if(current_tape_sensor == 11) {
 			tape_data_done = tape_data;
-			if((tape_data_done & (1<<10)) && (tape_data_done & (1<<8))) { // Only for use while LED 10 isn't working
-				tape_data_done |= (1 << 9);
-			}
-			tape_data = 0;				
+			tape_data = 0;
 			active_port = GYRO_PORT;
 			current_tape_sensor = 0;
 		}
