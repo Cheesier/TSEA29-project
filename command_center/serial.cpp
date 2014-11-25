@@ -1,7 +1,8 @@
 #include "serial.h"
 #include "core.h"
+#include <QCoreApplication>
 
-QSerialPort *serial;
+QT_USE_NAMESPACE
 
 unsigned char type;
 unsigned char size;
@@ -29,10 +30,9 @@ void Serial::open_serial(string port, int baud) {
     serial->setFlowControl(QSerialPort::NoFlowControl);
     serial->open(QIODevice::ReadWrite);
 
-    //QObject::connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     QObject::connect(serial,&QSerialPort::readyRead,[this](){serial_read();});
-    //QObject::connect(serial, SIGNAL(readyRead()), this, SLOT(serial_read()));
-
+//    connect(serial, SIGNAL(readyRead()), SLOT(serial_read()));
+//    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), SLOT(handleError(QSerialPort::SerialPortError)));
     printf("connected to serial port\n");
 }
 
@@ -45,13 +45,20 @@ void Serial::serial_write(const Msg_ptr& msg) {
 }
 
 void Serial::serial_read(void) {
+    //readData.append(serial->read(40));
+
+//    read_lock.lock();
     unsigned char buffer[255];
     qint64 amount;
     amount = serial->read((char*)&buffer, 255);
 
+    if (amount == -1)
+        printf("Error reading past stream! \n");
     for (int i = 0; i < amount; i++) {
         read_byte(buffer[i]);
     }
+    //readData.clear();
+//    read_lock.unlock();
 
     /*string mojs = "";
     mojs += char(55);
@@ -94,4 +101,13 @@ void Serial::read_byte(unsigned char byte) {
 
 void Serial::close_serial(void) {
     serial->close();
+}
+
+
+void Serial::handleError(QSerialPort::SerialPortError serialPortError) {
+    if (serialPortError == QSerialPort::ReadError) {
+        //m_standardOutput << QObject::tr("An I/O error occurred while reading the data from port %1, error: %2").arg(m_serialPort->portName()).arg(m_serialPort->errorString()) << endl;
+        printf("Error reading from BT\n");
+        QCoreApplication::exit(1);
+    }
 }

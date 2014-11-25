@@ -4,15 +4,26 @@
 #include <QSerialPort>
 #include <string>
 #include "message.h"
+#include <mutex>
 
-class Serial {
+
+class Serial : public QObject {
 public:
     void init_serial(void);
     void open_serial(string port, int baud);
     void serial_write(const Msg_ptr& msg);
-    void serial_read(void);
     void close_serial();
+
+private slots:
+    void serial_read(void);
+    void handleError(QSerialPort::SerialPortError serialPortError);
+private:
     void read_byte(unsigned char byte);
+
+
+    QSerialPort *serial;
+    QByteArray readData;
+    mutex read_lock;
 };
 
 #endif // SERIAL_H
