@@ -15,15 +15,14 @@
 #include "ADC.h"
 #include "gyro.h"
 
-static uint8_t gyro_null_value = 0;
-static uint8_t degrees_rotated = 0;
+static uint16_t gyro_null_value = 0;
+static uint16_t degrees_rotated = 0;
 uint16_t gyro_data_done = 0;
 
-void rotateDegrees(uint8_t degrees) {
+void rotateDegrees(uint16_t degrees) {
 	degrees_rotated = 0;					// Reset degrees rotated so we make sure not to rotate to much
 	degrees = degrees * 100;				// To compensate for the value returned by updateGyroData being 100 times bigger than it should
-
-	while (degrees_rotated <= degrees) {	// Rotate until we reach the requested amount of degrees rotated
+	while (degrees_rotated < degrees) {		// Rotate until we reach the requested amount of degrees rotated
 		updateGyroData();
 	}
 
@@ -33,7 +32,7 @@ void rotateDegrees(uint8_t degrees) {
 // Rotate for 10 ms and update degrees_rotated
 uint16_t updateGyroData() {
 	uint16_t gyro_value;
-	gyro_value = gyroADC; //gyro_data_done;				// Get gyro data from the ADC. Will return a value between 0 and 1023
+	gyro_value = gyroADC();						// Get gyro data from the ADC. Will return a value between 0 and 1023
 												// the analog output from the gyro is between 0,5 and 4,5 V
 
 	// Gyro sensitivity is 300 dgs/s
@@ -52,7 +51,7 @@ uint16_t updateGyroData() {
 	// IMPORTANT TO REMEMBER
 	// returned value is 100 times bigger than it should be
 
-	_delay_ms(10);
+	_delay_ms(9);
 	return gyro_value;
 }
 
@@ -69,5 +68,5 @@ void resetDegreesRotated(){
 // and then read the value of the gyro to get a standard value
 void initGyro() {
 	_delay_ms(1000);
-	gyro_null_value = gyro_data_done;		// Should give us a value of approximately 512
+	gyro_null_value = gyroADC();		// Should give us a value of approximately 512
 }

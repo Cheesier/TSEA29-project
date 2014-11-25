@@ -15,6 +15,8 @@
 #define GET_SIZE 1
 #define GET_DATA 2
 
+#define TEST_PIN PINC0
+
 int currentState = GET_HEAD;
 char address, type, msgSize, data_index = 0;
 char* data;
@@ -28,6 +30,7 @@ void SPI_Init(void) {
 	DDR_SPI |= (1<<SPI_MISO);					// Set MISO output
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<SPR0);		// Enable SPI Enable interrupts
 	DDRD |= (1<<REQ);							// Enable the REQ port
+	DDRC |= (1<<PINC0);							// test
 }
 
 // Send a pulse over the REQ pin
@@ -107,7 +110,7 @@ void handle_sensor_message() {
 		case 0x07:					// Send tape data
 			sendTapeSensors();
 			break;
-			case 0x08:				// Gyro rotate
+		case 0x08:					// Gyro rotate
 			rotateDegrees(data[0]);
 			break;
 		default:

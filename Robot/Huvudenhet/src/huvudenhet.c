@@ -36,30 +36,31 @@ int main(void) {
 
 	// Vänta på sensorenheten och snurra sedan lite
 	_delay_ms(2000);
-	//motor_rotate_left();			// Rotera till vänster
-	//send_message_to(ADDR_SENSORENHET, 0x08, 1, (char*)90);	// Rotera 90 grader
-	//while (req_set == 0) {};
-	//motor_rotate_left();
-	motor_stop();
 
-// ADDR_SENSORENHET
-
-	send_message_to(ADDR_SENSORENHET, 0x08, 1, (char*)90);	// Rotera 90 grader
+	char deg = 10;
+	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
+	motor_set_speed(92);
+	motor_rotate_right();
 
 	while(1) {
-		if (req_set == 1) {
-		send_message_to(ADDR_SENSORENHET, 0x08, 1, (char*)90);	// Rotera 90 grader
-		req_set = 0;
-		}
+		/*motor_rotate_left();			// Rotera till vänster
+		send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);	// Rotera 90 grader
+		motor_stop();
+		_delay_ms(1000);
+		motor_rotate_right();			// Rotera till vänster
+		send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);	// Rotera 90 grader
+		motor_stop();
+		_delay_ms(1000);
+		*/
 
 		//_delay_ms(100);
 		/*motor_claw_close();
 		_delay_ms(1000);
 		motor_claw_open();*/
 
-		_delay_ms(100);
-		char dt[] = {100, 50, 40, 70};
-		send_message(0xE0, 4, &dt);
+		//_delay_ms(100);
+		//char dt[] = {100, 50, 40, 70};
+		//send_message(0xE0, 4, &dt);
 		//send_message(0x86, 0, 0);
 		//_delay_us(30);
 		//read_message(ADDR_SENSORENHET);

@@ -64,7 +64,7 @@ void spi_send(char header, char size, char* data) {
 
 // Interrupt routine for the REQ pin TODO: Slightly unfinished
 ISR(INT1_vect) {
-	req_set = 1;
+	motor_stop();
 }
 
 ISR(SPISTC_vect) {

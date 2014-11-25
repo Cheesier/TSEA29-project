@@ -35,7 +35,7 @@ void initSensors() {
 
 	DDRB |= 0x0F;
 	PORTB &= ~(0x0F);
-	
+
 
 	// Initiate the Analog to Digital Converter
 	initADC();
@@ -51,8 +51,6 @@ int main(void) {
 	sei();
 	readADC(0);
 	while(1) {
-		updateDistance();
-		_delay_ms(60);
 	}
 	return 0;
 }
