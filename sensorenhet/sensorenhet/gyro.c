@@ -27,9 +27,15 @@ static int degrees_rotated = 0;
 uint16_t gyro_data_done = 0;
 
 void rotateDegrees(uint16_t degrees) {
+<<<<<<< HEAD
+	degrees_rotated = degrees;					// Reset degrees rotated so we make sure not to rotate to much
+	degrees = degrees * 100;				// To compensate for the value returned by updateGyroData being 100 times bigger than it should
+	while (degrees_rotated < degrees) {		// Rotate until we reach the requested amount of degrees rotated
+=======
 	degrees_rotated = 0;						// Reset degrees rotated so we make sure not to rotate to much
 	degrees = degrees * 100;					// To compensate for the value returned by updateGyroData being 100 times bigger than it should
 	while (abs(degrees_rotated) < degrees) {	// Rotate until we reach the requested amount of degrees rotated
+>>>>>>> origin/master
 		updateGyroData();
 	}
 
@@ -37,12 +43,17 @@ void rotateDegrees(uint16_t degrees) {
 }
 
 // Rotate for 10 ms and update degrees_rotated
+<<<<<<< HEAD
+void updateGyroData() {
+	uint16_t gyro_value;
+=======
 int updateGyroData() {
 	int gyro_value;
 
 	TCNT1 = 0;		// Make sure the timer is reset
 	START_TIMER;
 
+>>>>>>> origin/master
 	gyro_value = gyroADC();						// Get gyro data from the ADC. Will return a value between 0 and 1023
 												// the analog output from the gyro is between 0,5 and 4,5 V
 
@@ -51,6 +62,10 @@ int updateGyroData() {
 	// In turn translates to a sensitivity of ~0.74 degrees for each adc value
 	// Sensitivity multiplied by 100 to avoid using floats
 
+<<<<<<< HEAD
+	gyro_value = (gyro_value - gyro_null_value) * 50;
+	
+=======
 	/*if (gyro_value > gyro_null_value) {
 		gyro_value = (gyro_value - gyro_null_value) * 74;
 	}
@@ -60,17 +75,22 @@ int updateGyroData() {
 
 	gyro_value = (gyro_value - gyro_null_value) * 74;
 
+>>>>>>> origin/master
 	degrees_rotated += gyro_value/100;			// Divided by 100 because we measure 100 times a second
 
 	// IMPORTANT TO REMEMBER
 	// returned value is 100 times bigger than it should be
 
+<<<<<<< HEAD
+	_delay_ms(9);
+=======
 	// Leave function when 10 ms have passed since we started
 	while (!(TIFR & (1 << OCF1B)));
 	STOP_TIMER;
 	TIFR |= (1 << OCF1A);	// Reset the timer flag
 
 	return gyro_value;
+>>>>>>> origin/master
 }
 
 // Return the amount of degrees the robot have currently rotated

@@ -15,11 +15,13 @@
 #define GET_SIZE 1
 #define GET_DATA 2
 
+#define MAX_DATA_SIZE 2
+
 #define TEST_PIN PINC0
 
 int currentState = GET_HEAD;
 char address, type, msgSize, data_index = 0;
-char* data;
+char data[MAX_DATA_SIZE];
 
 extern int distance;
 extern int interrupted;
@@ -120,7 +122,7 @@ void handle_sensor_message() {
 }
 
 ISR(SPISTC_vect) {
-	char msg = SPDR;
+    char msg = SPDR;
 	SPDR = 0;
 	switch(currentState) {
 		case(GET_HEAD):
@@ -133,7 +135,7 @@ ISR(SPISTC_vect) {
 			if(msgSize != 0) {
 				currentState = GET_DATA;
 			} else {
-				handle_sensor_message(0);
+				handle_sensor_message();
 				currentState = GET_HEAD;
 			}
 			break;
@@ -141,8 +143,9 @@ ISR(SPISTC_vect) {
 			data[data_index] = msg;
 			data_index++;
 			if (data_index == msgSize) {
-				handle_sensor_message(data);
+				handle_sensor_message();
 				currentState = GET_HEAD;
+				data_index = 0;
 			}
 			break;
 		default:
