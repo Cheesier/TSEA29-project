@@ -56,7 +56,7 @@ ISR(SPISTC_vect) {
 	char size = SPI_Receive();
 	char header = msg >> 6;
 	msg = msg & 0x3F;
-	char speed;
+	char _speed;
 	char left_sensor, right_sensor;
 	uint8_t d, p;
 	char left_dir, right_dir, left_speed, right_speed;
@@ -122,8 +122,8 @@ ISR(SPISTC_vect) {
 					stopWheels();
 					break;
 				case 0x0E: // Set speed
-					speed = SPI_Receive();
-					maxSpeed = speed;
+					_speed = SPI_Receive();
+					speed = _speed;
 					break;
 				case 0x0F:
 					softTurnLeft();				
