@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     message.cpp \
     btinterface.cpp \
     data.cpp \
-    serial.cpp
+    serial.cpp \
+    keymap.cpp
 
 HEADERS  += gui.h \
     core.h \
@@ -35,6 +36,7 @@ HEADERS  += gui.h \
     message.h \
     btinterface.h \
     data.h \
-    serial.h
+    serial.h \
+    keymap.h
 
 FORMS    += gui.ui

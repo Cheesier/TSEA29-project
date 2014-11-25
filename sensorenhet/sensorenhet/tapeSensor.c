@@ -7,11 +7,6 @@
 
 #define F_CPU 8000000UL
 
-#include <stdint.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-
 #include "sensorenhet.h"
 
 #define TAPE_SENSOR_PORT 0

@@ -12,6 +12,8 @@
 #define STATE_GOTO_MIDDLE 1
 #define STATE_ROTATE 2
 #define STATE_FIND_WALLS 3
+#define STATE_FIND_OBJECT 4
+//#define state START 0?
 
 #define TYPE_DEAD_END 0
 #define TYPE_TURN_LEFT 1
@@ -27,6 +29,7 @@ uint8_t distanceForward, distanceBackward;
 int useForward;
 int sectionType;
 int turningStarted = 0;
+uint16_t tape_data = 0;
 
 void updateSectionType(char* wallsInRange) {
 	if (wallsInRange[0]) {
@@ -83,7 +86,8 @@ void resetGyro() {
 void startTurning() {
 	switch (sectionType) {
 		case TYPE_DEAD_END:
-			send_message_to(ADDR_STYRENHET, 0x0D, 0, 0); // STOP
+			motor_stop();
+			//send_message_to(ADDR_STYRENHET, 0x0D, 0, 0); // STOP
 			break;
 		case TYPE_TURN_LEFT:
 			/*resetGyro();*/
@@ -137,6 +141,15 @@ void interpretSensorData(char * sensorData) {
 				currentState = STATE_GOTO_MIDDLE;
 			} else {
 				send_message_to(ADDR_STYRENHET, 0x01, 0, 0); //PDForward()
+				//check for tape!
+				/*
+				send_message_to(ADDR_SENSORENHET, 0x07, 0, 0); // Asks the sensorenhet to send tape data
+				// Might need delay
+				read_message(ADDR_SENSORENHET);
+				if(tape_data > 1 && tape_data != 0x07FF) {
+					currentState = STATE_FIND_OBJECT
+				}
+				*/
 			}
 			break;
 		case STATE_GOTO_MIDDLE:
@@ -175,6 +188,18 @@ void interpretSensorData(char * sensorData) {
 				currentState = STATE_PD;
 			} else {
 				send_message_to(ADDR_STYRENHET, 0x07, 0, 0); // driveForward()
+			}
+			break;
+		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!
+			motor_set_speed(0x7F);	// half max speed, should continue with pdForward()
+			motor_claw_open();
+			send_message_to(ADDR_SENSORENHET, 0x07, 0, 0); // Asks the sensorenhet to send tape data
+			// Might need delay
+			read_message(ADDR_SENSORENHET);
+			if(tape_data == 0x07FF) { // Presumes that this switch-case statement loops somehow
+				motor_stop();
+				_delay_us(50);
+				motor_claw_close();
 			}
 			break;
 		default:

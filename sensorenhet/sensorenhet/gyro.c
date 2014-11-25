@@ -7,15 +7,8 @@
 
 #define F_CPU 8000000UL
 
-#include <stdint.h>
 #include <stdlib.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-/*
 
-#include "ADC.h"
-#include "gyro.h"*/
 #include "sensorenhet.h"
 
 
@@ -94,8 +87,8 @@ int updateGyroData() {
 	TIFR |= (1 << OCF1A);	// Reset the timer flag
 
 	return gyro_value;
->>>>>>> origin/master
-*/}
+>>>>>>> origin/master*/
+}
 
 // Return the amount of degrees the robot have currently rotated
 int returnDegreesRotated() {
