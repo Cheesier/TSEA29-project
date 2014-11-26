@@ -30,6 +30,7 @@ int useForward;
 int sectionType;
 int turningStarted = 0;
 uint16_t tape_data = 0;
+uint16_t distance_data[4] = {0};
 
 void updateSectionType(char* wallsInRange) {
 	if (wallsInRange[0]) {
