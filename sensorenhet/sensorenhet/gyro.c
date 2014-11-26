@@ -49,8 +49,6 @@ void updateGyroData() {
 	// IMPORTANT TO REMEMBER
 	// returned value is 100 times bigger than it should be
 
-	_delay_ms(9);
-
 	// Leave function when 10 ms have passed since we started
 	while (!(TIFR & (1 << OCF1B)));
 	STOP_TIMER;
