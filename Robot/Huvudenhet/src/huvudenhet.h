@@ -17,6 +17,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "motor.h"
+#include "lcd.h"
 
 void autonomSet(char autonomOn);
 

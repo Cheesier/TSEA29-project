@@ -29,6 +29,7 @@ int main(void) {
 	autonom = 0;
 	bt_init();
 	spi_init();
+	lcd_init();
 	interrupt_init();
 	sei();
 

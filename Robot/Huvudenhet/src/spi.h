@@ -22,5 +22,5 @@ void spi_write(char address, char data);
 
 void spi_send(char header, char size, char* data);
 
-int isGyroDone();
-void resetGyroDone();
+int isGyroDone(void);
+void resetGyroDone(void);
