@@ -9,6 +9,7 @@
 #include "bluetooth.h"
 #include "spi.h"
 #include "algorithms.h"
+#include "huvudenhet.h"
 
 void handle_message(char header, char size, char *data) {
 	if ((header & 0xC0) == ADDR_HUVUDENHET) {
@@ -30,7 +31,12 @@ void handle_message(char header, char size, char *data) {
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
 				send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
-				//interpretSensorData(data);
+				/*if (autonom) {
+					interpretSensorData(data);
+				}*/
+				break;
+			case 0x12: // Kör autonomt/sluta köra autonomt
+				autonomSet(data[0]);
 				break;
 			default:
 				// not sure how to handle this...

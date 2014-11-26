@@ -18,6 +18,7 @@
 #include <util/delay.h>
 #include "motor.h"
 
+void autonomSet(char autonomOn);
 
 
 #endif /* HUVUDENHET_H_ */
