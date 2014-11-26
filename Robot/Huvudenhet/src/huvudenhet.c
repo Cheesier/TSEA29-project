@@ -13,6 +13,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "motor.h"
+#include "lcd.h"
 
 void interrupt_init(void) {
 	GICR |= (1<< INT1);		// Enables external interrupts via PD3
@@ -22,6 +23,7 @@ void interrupt_init(void) {
 int main(void) {
 	bt_init();
 	spi_init();
+	lcd_init();
 	interrupt_init();
 	sei();
 
