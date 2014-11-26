@@ -9,6 +9,7 @@
 #ifndef ALGORITHMS_H_
 #define ALGORITHMS_H_
 
+#include <stdint.h>
 #include "huvudenhet.h"
 
 extern uint16_t tape_data;
