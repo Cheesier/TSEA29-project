@@ -44,6 +44,13 @@ int main(void) {
 
 	// Vänta på sensorenheten och snurra sedan lite
 	_delay_ms(2000);
+	
+	
+	//for (int i = 0; i < 64; i++)
+	//	lcd_write('A'+i);
+	char str = "Hello World!";
+	lcd_str_write(str);
+	
 
 	/*uint8_t deg = 90;
 	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
@@ -74,6 +81,8 @@ int main(void) {
 		_delay_us(30);
 		read_message(ADDR_SENSORENHET);*/
 		//send_message_to(ADDR_STYRENHET, 0x01, 0, 0);
+		
+		
 		if (autonom == 1) {
 			_delay_ms(100);
 			send_message(0x86, 0, 0);
