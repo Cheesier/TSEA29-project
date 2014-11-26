@@ -19,6 +19,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "motor.h"
+#include "sensors.h"
 
 
 
