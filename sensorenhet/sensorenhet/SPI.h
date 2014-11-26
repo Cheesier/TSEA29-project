@@ -8,9 +8,6 @@
 #ifndef SPI_H_
 #define SPI_H_
 
-
-#include "sensorenhet.h"
-
 // SPI ports
 #define SPI_SS PORTB4
 #define SPI_MOSI PORTB5

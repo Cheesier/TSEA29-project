@@ -6,13 +6,7 @@
  */
 #define F_CPU 8000000UL
 
-#include <stdint.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-
-#include "ADC.h"
-//#include "sensorenhet.h"
+#include "sensorenhet.h"
 
 #define WAIT_FOR_CONVERSION while(ADCSRA & (1<<ADSC)); // The function to wait for the conversion to finish
 

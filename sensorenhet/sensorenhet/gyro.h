@@ -11,12 +11,15 @@
 
 extern uint16_t gyro_data_done;
 
-void rotateDegrees(uint16_t degrees);
+void rotateDegrees(int degrees);
 void updateGyroData();
-uint8_t returnGyroData(uint8_t gyro_data);
+int returnGyroData(int gyro_data);
+
 int returnDegreesRotated();
 /*
-int returnGyroData(int gyro_data); */
+int updateGyroData();
+int returnGyroData(int gyro_data);*/
+
 void resetDegreesRotated();
 
 void initGyro();

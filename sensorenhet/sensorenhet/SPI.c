@@ -6,10 +6,6 @@
  */
 
 #include "sensorenhet.h"
-#include "SPI.h"
-#include "distanceSensor.h"
-#include "tapeSensor.h"
-#include "gyro.h"
 
 #define GET_HEAD 0
 #define GET_SIZE 1
