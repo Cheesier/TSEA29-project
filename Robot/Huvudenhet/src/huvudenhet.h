@@ -20,7 +20,9 @@
 #include <util/delay.h>
 #include "motor.h"
 #include "sensors.h"
+#include "lcd.h"
 
+void autonomSet(char autonomOn);
 
 
 #endif /* HUVUDENHET_H_ */

@@ -12,6 +12,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+#include "huvudenhet.h"
+
 // temp
 #include "bluetooth.h"
 
