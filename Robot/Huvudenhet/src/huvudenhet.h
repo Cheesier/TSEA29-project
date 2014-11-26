@@ -14,9 +14,12 @@
 #include "bluetooth.h"
 #include "spi.h"
 #include "message_handler.h"
+#include "algorithms.h"
+#include <stdint.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "motor.h"
+#include "sensors.h"
 #include "lcd.h"
 
 void autonomSet(char autonomOn);

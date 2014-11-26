@@ -14,6 +14,7 @@
 extern uint8_t speed;
 
 void setDirection(uint8_t dir);
+void setCurrentSpeed(uint8_t _speed);
 
 void driveForward();
 void driveReverse();

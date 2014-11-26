@@ -38,6 +38,10 @@ void motor_go_forward(void) {
 	send_message_to(ADDR_STYRENHET, 0x07, 0, NO_DATA);
 }
 
+void motor_go_forward_pd(void) {
+	send_message_to(ADDR_STYRENHET, 0x01, 0, NO_DATA);
+}
+
 void motor_go_backward(void) {
 	send_message_to(ADDR_STYRENHET, 0x08, 0, NO_DATA);
 }
