@@ -82,11 +82,13 @@ public:
   void go_forward_right();
   void go_forward_left();
   void set_speed(int speed);
+  void set_degrees(int degrees);
   void stop();
   void open_claw();
   void close_claw();
 
   void change_direction(int direction);
+  void change_drive_mode(int dm);
 
   void set_pd(int p, int d);
   void go_forward_pd();

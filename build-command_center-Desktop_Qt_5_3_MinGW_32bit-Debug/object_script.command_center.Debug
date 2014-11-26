@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\gui.o
+./debug\core.o
+./debug\message.o
+./debug\btinterface.o
+./debug\data.o
+./debug\serial.o
+./debug\keymap.o
+./debug\moc_gui.o
+./debug\moc_keymap.o
+);

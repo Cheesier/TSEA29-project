@@ -11,6 +11,27 @@ Gui::Gui(QWidget *parent) :
   connect(this, &Gui::bt_reset, this, &Gui::bt_reset_);
   connect(this, &Gui::bt_connecting, this, &Gui::bt_connecting_);
   connect(this, &Gui::bt_connected, this, &Gui::bt_connected_);
+
+  // ***Keymap***
+
+  // Forward
+  QShortcut *shortcut_w = new QShortcut(QKeySequence("W"), this);
+  QObject::connect(shortcut_w, SIGNAL(activated()), this, SLOT(on_pushButton_forward_pressed()));
+  // Right
+  QShortcut *shortcut_d = new QShortcut(QKeySequence("D"), this);
+  QObject::connect(shortcut_d, SIGNAL(activated()), this, SLOT(on_pushButton_right_pressed()));
+  // Backwards
+  QShortcut *shortcut_s = new QShortcut(QKeySequence("S"), this);
+  QObject::connect(shortcut_s, SIGNAL(activated()), this, SLOT(on_pushButton_backward_pressed()));
+  // Left
+  QShortcut *shortcut_a = new QShortcut(QKeySequence("A"), this);
+  QObject::connect(shortcut_a, SIGNAL(activated()), this, SLOT(on_pushButton_left_pressed()));
+  // Forward right
+  QShortcut *shortcut_e = new QShortcut(QKeySequence("E"), this);
+  QObject::connect(shortcut_e, SIGNAL(activated()), this, SLOT(on_pushButton_forward_right_pressed()));
+  // Forward left
+  QShortcut *shortcut_q = new QShortcut(QKeySequence("Q"), this);
+  QObject::connect(shortcut_q, SIGNAL(activated()), this, SLOT(on_pushButton_forward_left_pressed()));
 }
 
 Gui::~Gui(){
@@ -85,10 +106,16 @@ void Gui::on_pushButton_backward_pressed(){
 }
 
 void Gui::on_pushButton_left_pressed(){
+  if (ui->pushButton_rotate_mode->text() == "Auto rotate")
+    core->set_degrees(ui->horizontalSlider_degrees->value());
+
   core->turn_left();
 }
 
 void Gui::on_pushButton_right_pressed(){
+  if (ui->pushButton_rotate_mode->text() == "Auto rotate")
+    core->set_degrees(ui->horizontalSlider_degrees->value());
+
   core->turn_right();
 }
 
@@ -169,10 +196,10 @@ void Gui::on_pushButton_forward_right_pressed(){
 
 
 void Gui::onSensorInput(string sensorData){
-  ui->label_forward_sensor->setText(QString::number((int)(sensorData[0])));
-  ui->label_right_sensor->setText(QString::number((int)(sensorData[3])));
-  ui->label_backward_sensor->setText(QString::number((int)(sensorData[1])));
-  ui->label_left_sensor->setText(QString::number((int)(sensorData[2])));
+  ui->label_forward_sensor->setText(QString::number((unsigned char)(sensorData[0])));
+  ui->label_right_sensor->setText(QString::number((unsigned char)(sensorData[3])));
+  ui->label_backward_sensor->setText(QString::number((unsigned char)(sensorData[1])));
+  ui->label_left_sensor->setText(QString::number((unsigned char)(sensorData[2])));
 }
 
 void Gui::onTapeInput(string tapeData){
@@ -190,11 +217,27 @@ void Gui::onTapeInput(string tapeData){
 }
 
 
-void Gui::on_horizontalSlider_speed_sliderReleased(){
+void Gui::on_horizontalSlider_speed_valueChanged(){
   ui->label_speed->setText(QString::number(ui->horizontalSlider_speed->value()));
-  core->set_speed(ui->horizontalSlider_speed->value());
 }
 
+void Gui::on_pushButton_set_speed_clicked(){
+  core->set_speed(ui->horizontalSlider_speed->value());
+
+}
+
+void Gui::on_horizontalSlider_degrees_valueChanged(){
+  ui->label_degrees->setText(QString::number(ui->horizontalSlider_degrees->value()));
+}
+
+void Gui::on_pushButton_rotate_mode_clicked(){
+    if (ui->pushButton_rotate_mode->text() == "Auto rotate"){
+      ui->pushButton_rotate_mode->setText("Manual rotate");
+    }
+    else{
+      ui->pushButton_rotate_mode->setText("Auto rotate");
+    }
+}
 
 void Gui::on_pushButton_claw_switch_clicked(){
   if (ui->pushButton_claw_switch->text() == "Open Claw"){
@@ -221,5 +264,16 @@ void Gui::on_pushButton_direction_clicked(){
   else{
     ui->label_direction->setText("Regular");
     core->change_direction(1); //regular
+  }
+}
+
+void Gui::on_pushButton_drive_mode_clicked(){
+  if (ui->label_drive_mode->text() == "Manual"){
+    ui->label_drive_mode->setText("Autonomous");
+    core->change_drive_mode(1); //Autonomous
+  }
+  else{
+    ui->label_drive_mode->setText("Manual");
+    core->change_drive_mode(0); //Manual
   }
 }

@@ -7,6 +7,7 @@
 
 #include <avr/io.h>
 #include "lcd.h"
+#include <util/delay.h>
 
 #define LCD_PORT PORTA
 #define LCD_EN 0x80
@@ -38,7 +39,7 @@ void lcd_init(void) {
 	
 	lcd_reset();
 	
-	LCD_PORT = 0x03 + LCD_EN_PIN;	
+	LCD_PORT = 0x03 + LCD_EN;	
 	
 	lcd_write(0x28);       // 4-bit mode - 2 line - 5x7 font.
 	lcd_write(0x0C);       // Display no cursor - no blink.

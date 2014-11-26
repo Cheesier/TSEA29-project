@@ -306,6 +306,12 @@ void Core::set_speed(int speed){
   send(msg);
 }
 
+void Core::set_degrees(int degrees){
+  Msg_ptr msg(new Message);
+  msg->set_degrees(degrees);
+  send(msg);
+}
+
 void Core::stop(){
   Msg_ptr msg(new Message);
   msg->stop();
@@ -327,6 +333,12 @@ void Core::close_claw(){
 void Core::change_direction(int direction){
   Msg_ptr msg(new Message);
   msg->change_direction(direction);
+  send(msg);
+}
+
+void Core::change_drive_mode(int dm){
+  Msg_ptr msg(new Message);
+  msg->change_drive_mode(dm);
   send(msg);
 }
 
