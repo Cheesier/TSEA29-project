@@ -37,7 +37,13 @@ int main(void) {
 
 
 	// Vänta på sensorenheten och snurra sedan lite
-	//_delay_ms(2000);
+	_delay_ms(2000);
+	
+	
+	//for (int i = 0; i < 64; i++)
+	//	lcd_write('A'+i);
+	char str = "Hello World!";
+	lcd_str_write(str);
 
 	//uint8_t deg = 90;
 	//send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
@@ -60,6 +66,9 @@ int main(void) {
 		read_message(ADDR_SENSORENHET);
 		//send_message_to(ADDR_STYRENHET, 0x01, 0, 0);
 		
+<<<<<<< HEAD
+		
+=======
 		if(on_tape == 0 && tape_data > 0) {
 			on_tape = 1;
 			motor_set_speed(32);
@@ -82,6 +91,7 @@ int main(void) {
 		send_message_to(ADDR_SENSORENHET, 0x07, 0, 0);
 		_delay_ms(30);
 		read_message(ADDR_SENSORENHET);		*/
+>>>>>>> ccd234c3c47b66ff8b99a0cb11d1a8e18ee8eab0
 		if (autonom == 1) {
 			_delay_ms(100);
 			send_message(0x86, 0, 0);

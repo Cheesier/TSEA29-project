@@ -38,14 +38,28 @@ void lcd_init(void) {
 	LCD_OUTPUT;
 	
 	lcd_reset();
+	//_delay_ms(30);
 	
-	LCD_PORT = 0x03 + LCD_EN;	
+	lcd_cmd(0x28);		// 4-bit mode - 2 line - 5x8 font.
+	lcd_cmd(0x0C);		// Display on - cursor off - blink off
+	lcd_clear();
+	lcd_cmd(0x06);		// increment mode
 	
-	lcd_write(0x28);       // 4-bit mode - 2 line - 5x7 font.
-	lcd_write(0x0C);       // Display no cursor - no blink.
-	lcd_write(0x06);       // Automatic Increment - No Display shift.
-	lcd_write(0x80);       // Address DDRAM with 0 offset 80h.
 	
+	//lcd_cmd(0x0C);		// Display no cursor - no blink.
+	//lcd_cmd(0x06);		// Automatic Increment - No Display shift.
+	//lcd_cmd(0x80);		// Address DDRAM with 0 offset 80h.
+	
+}
+
+void lcd_cmd(uint8_t cmd) {
+	LCD_PORT = (((cmd >>4) & 0x0F)|LCD_EN);
+	LCD_PORT = (((cmd >>4) & 0x0F));
+	
+	LCD_PORT = ((cmd & 0x0F)|LCD_EN);
+	LCD_PORT = (cmd & 0x0F);
+	
+	_delay_us(400);
 }
 
 void lcd_write(uint8_t data) {
@@ -55,9 +69,25 @@ void lcd_write(uint8_t data) {
 	LCD_PORT = ((data & 0x0F)|LCD_EN|LCD_RS);
 	LCD_PORT = ((data & 0x0F)|LCD_RS);
 	
-	_delay_us(500);
+	_delay_us(400);
+}
+
+void lcd_str_write(char *data) {
+	while (*data)
+		lcd_write(*data++);
+}
+
+void lcd_clear(void) {
+	lcd_cmd(0x01);		// clear display
+	_delay_ms(2);
 }
 
 void lcd_set_cursor(uint8_t x, uint8_t y) {
-	
+	uint8_t addr = 0x80; // first bit always set
+	if (y&1) { // is it an odd row? (1 or 3)
+		return addr+x;
+	}
+	else { // for even rows
+		
+	}
 }
