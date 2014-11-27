@@ -123,9 +123,15 @@ void PDTurning(uint16_t left_speed, uint16_t right_speed) {
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);
 		setSpeeds(right_speed, left_speed);
 		return;		
-	}	
-	PORTA |= (1<<WHEEL_DIRECTION_L);
-	PORTA |= (1<<WHEEL_DIRECTION_R);
+	}
+	if(direction != REVERSE) {
+		PORTA |= (1<<WHEEL_DIRECTION_L);
+		PORTA |= (1<<WHEEL_DIRECTION_R);
+	}
+	else {
+		PORTA &= ~(1<<WHEEL_DIRECTION_L);
+		PORTA &= ~(1<<WHEEL_DIRECTION_R);
+	}
 	setSpeeds(left_speed, right_speed);				// The PWM implementation can handle separate speeds for both sides	
 }
 

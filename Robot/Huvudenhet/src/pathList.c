@@ -5,7 +5,6 @@
  *  Author: Cavecanem
  */ 
 
-#include "pathList.h"
 #include "huvudenhet.h"
 
 struct pathList path;
@@ -31,7 +30,6 @@ void addNode() {
 	}
 }
 
-// TODO: Will this cause memory leaks?
 // Remove the last intersection
 void popNode() {
 	if(path.last != NULL) {

@@ -8,9 +8,10 @@
 #ifndef PATHLIST_H_
 #define PATHLIST_H_
 
-#define LEFT		0
-#define FORWARD		1
-#define RIGHT		2
+#define NOT_TURNED	0
+#define LEFT		1
+#define FORWARD		2
+#define RIGHT		3
 
 
 struct intersection {
@@ -23,7 +24,13 @@ struct pathList {
 	struct intersection *first;
 	struct intersection *last;	
 };
-	
-	
+
+extern struct pathList path;
+
+void initPathList();
+void addNode();
+void popNode();
+void setDirection(int dir);
+int getDirection();
 
 #endif /* PATHLIST_H_ */

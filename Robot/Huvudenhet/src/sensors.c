@@ -17,6 +17,7 @@ void calibrateTapeSensor() {
 	send_message_to(ADDR_SENSORENHET, 0x05, 0, NO_DATA); // Sets the off_tape value	
 }
 
+// Fetches tapeData, it updates the tape_data variable automatically
 void getTapeData() {
 	send_message_to(ADDR_SENSORENHET, 0x07, 0, NO_DATA);
 	_delay_us(30);

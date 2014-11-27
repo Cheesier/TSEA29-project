@@ -6,7 +6,8 @@
  */
 
 #include "motor.h"
-#include "message_handler.h"
+//#include "message_handler.h"
+#include "huvudenhet.h"
 
 void init_motor(void) {
 	// whatever there is to do here
@@ -22,7 +23,7 @@ void motor_claw_open(void) {
 
 void motor_set_direction(char dir) {
 	char data[] = {dir};
-	send_message_to(ADDR_STYRENHET, 0x04, 1, (char*)&data);
+	send_message_to(ADDR_STYRENHET, 0x04, 1, (char*)&data);	// 1 for forward, 0 for backwards
 }
 
 void motor_set_speed(char speed) {
@@ -52,4 +53,14 @@ void motor_rotate_left(void) {
 
 void motor_rotate_right(void) {
 	send_message_to(ADDR_STYRENHET, 0x0A, 0, NO_DATA);
+}
+
+void motor_rotate_left_degrees(uint8_t degrees) {
+	send_message_to(ADDR_SENSORENHET, 0x08, 0x01, degrees); // Send interrupt when we've reached degrees degrees
+	send_message_to(ADDR_STYRENHET, 0x09, 0, 0);			// Rotate left
+}
+
+void motor_rotate_right_degrees(uint8_t degrees) {
+	send_message_to(ADDR_SENSORENHET, 0x08, 0x01, degrees); // Send interrupt when we've reached degrees degrees
+	send_message_to(ADDR_STYRENHET, 0x0A, 0, 0);			// Rotate right
 }
