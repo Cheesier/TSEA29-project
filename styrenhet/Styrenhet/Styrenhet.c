@@ -30,6 +30,7 @@
 
 char direction = FORWARD;
 uint8_t speed = 255;
+uint8_t rotate_speed = 128;
 
 int main(void) {
 	SPI_Init();								// Initiate SPI as a slaves
@@ -51,7 +52,7 @@ void setDirection(uint8_t dir) {
 	}
 }
 
-void setSpeed(uint8_t _speed) {
+void setCurrentSpeed(uint8_t _speed) {
 	speed = _speed;
 }
 
@@ -88,12 +89,12 @@ void rotateLeft() {
 	if(direction == REVERSE){
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
-		setSpeed(speed);
+		setSpeed(rotate_speed);
 	}
 	else {
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
-		setSpeed(speed);
+		setSpeed(rotate_speed);
 	}
 }
 
@@ -102,12 +103,12 @@ void rotateRight() {
 	if(direction == REVERSE){
 		PORTA &= ~(1<<WHEEL_DIRECTION_L);		// Make the robot turn left by setting
 		PORTA |= (1<<WHEEL_DIRECTION_R);		// the right wheels to forward and vice versa
-		setSpeed(speed);
+		setSpeed(rotate_speed);
 	}
 	else {
 		PORTA |= (1<<WHEEL_DIRECTION_L);		// Make the robot turn right by setting
 		PORTA &= ~(1<<WHEEL_DIRECTION_R);		// the left wheels to forward and vice versa
-		setSpeed(speed);
+		setSpeed(rotate_speed);
 	}	
 }
 
