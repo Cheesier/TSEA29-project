@@ -134,20 +134,20 @@ void Core::data_open(const string &file_name){
 // --------- comm --------------
 
 void Core::process_new_msg(const Msg_ptr &msg){
-  thread t([this,msg](){
+  //thread t([this,msg](){
       data->append_msg(msg);
       if(!pb_is_live()) {
           pb_gui_update();
           return;
         }
       pb_play_all();
-    });
-  t.detach();
+   // });
+  //t.detach();
 }
 
 //not sychronized, hopefully won't be neccessary
 void Core::process_msg(const Msg_ptr &msg){
-  thread t([this, msg](){
+  //thread t([this, msg](){
       log(QString("processing message [type %1]").arg(msg->get_type() & 0x3F));
 
       if ((msg->get_type()/64) != (ADDR_KONTROLLCENTER/64)) {     //see if message is not meant for kontroll center
@@ -173,8 +173,8 @@ void Core::process_msg(const Msg_ptr &msg){
               break;
           }
       }
-    });
-  t.detach();
+   // });
+  //t.detach();
 }
 
 void Core::handle_echo(const Msg_ptr &msg){
