@@ -11,16 +11,18 @@
 
 #define F_CPU 7372800UL
 
-#include "bluetooth.h"
-#include "spi.h"
-#include "message_handler.h"
-#include "algorithms.h"
 #include <stdint.h>
+#include <stdlib.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "motor.h"
 #include "sensors.h"
 #include "lcd.h"
+#include "bluetooth.h"
+#include "spi.h"
+#include "message_handler.h"
+#include "algorithms.h"
+#include "pathList.h"
 
 void autonomSet(char autonomOn);
 

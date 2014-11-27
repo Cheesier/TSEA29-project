@@ -5,7 +5,7 @@
  *  Author: Jonathan
  */ 
 
-#include "algorithms.h"
+#include "huvudenhet.h"
 
 #define DISTANCE_TO_WALL 40
 #define STATE_PD 0

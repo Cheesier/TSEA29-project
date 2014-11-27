@@ -10,7 +10,6 @@
 #define ALGORITHMS_H_
 
 #include <stdint.h>
-#include "huvudenhet.h"
 
 extern uint16_t tape_data;
 extern uint16_t distance_data[4];
