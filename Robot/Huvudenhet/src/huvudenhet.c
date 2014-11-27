@@ -45,11 +45,11 @@ int main(void) {
 		printf("row: %i", i);
 	}
 	
-	uint8_t deg = 45;
+	/*uint8_t deg = 45;
 	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
 
 	motor_set_speed(128);
-	motor_go_forward();
+	motor_go_forward();*/
 	//motor_rotate_right();
 	
 	while(1) {
@@ -62,12 +62,9 @@ int main(void) {
 		motor_stop();
 		_delay_ms(1000);
 		*/
-
-		_delay_ms(500);
 		/*motor_claw_close();
 		_delay_ms(500);
 		motor_claw_open();*/
-		_delay_ms(100);
 
 		//char dt[] = {100, 50, 40, 70};
 		//send_message(0xE0, 4, &dt);
@@ -103,15 +100,13 @@ int main(void) {
 		send_message_to(ADDR_SENSORENHET, 0x07, 0, 0);
 		_delay_ms(30);
 		read_message(ADDR_SENSORENHET);		*/
+		
+		
+		_delay_ms(100);
+		lcd_set_cursor(0,0);
+		printf("Tape: %4x", tape_data);
 		if (autonom == 1) {
-			_delay_ms(100);
-			send_message(0x86, 0, 0);
-			_delay_us(30);
-			read_message(ADDR_SENSORENHET);
-			_delay_us(30);
-			send_message_to(ADDR_SENSORENHET, 0x07, 0, NO_DATA);
-			_delay_us(30);
-			read_message(ADDR_SENSORENHET);
+			_delay_ms(1);
 		} else {
 			_delay_ms(1);
 		}

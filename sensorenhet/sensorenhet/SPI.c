@@ -6,6 +6,7 @@
  */
 
 #include "sensorenhet.h"
+#include "tapeSensor.h"
 
 #define GET_HEAD 0
 #define GET_SIZE 1
@@ -76,12 +77,14 @@ void sendDistanceSensors(void) {
 
 // Sends the most updated tape data to the huvudenhet
 void sendTapeSensors() {
+	cli();
+	uint8_t highByte = (uint8_t)((tape_data_done&0xFF00) >> 8);
+	uint8_t lowByte = (uint8_t)(tape_data_done&0x00FF);
 	SPI_Send(0x03);
 	SPI_Send(0x02);
-	uint8_t highByte = (uint8_t)(tape_data_done >> 8);
-	uint8_t lowByte = (uint8_t)(tape_data_done);
 	SPI_Send(highByte);
 	SPI_Send(lowByte);
+	sei();
 }
 
 void sendGyro() {
