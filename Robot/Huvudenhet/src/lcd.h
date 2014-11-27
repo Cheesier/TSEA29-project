@@ -17,4 +17,8 @@
 
 void lcd_reset(void);
 void lcd_init(void);
-void lcd_write(uint8_t data);
+void lcd_cmd(uint8_t cmd);
+void lcd_clear(void);
+void lcd_write(char data);
+void lcd_str_write(char *data);
+void lcd_set_cursor(uint8_t x, uint8_t y);

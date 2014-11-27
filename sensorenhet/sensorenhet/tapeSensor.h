@@ -16,7 +16,7 @@
 
 extern uint16_t tape_data_done;
 
-int convertToBit(int data);
+int convertToBit(uint16_t data);
 
 void calibrateTapeSensor();
 void setOnTape();

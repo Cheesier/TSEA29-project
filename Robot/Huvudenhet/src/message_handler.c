@@ -31,6 +31,9 @@ void handle_message(char header, char size, char *data) {
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
 				send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+				for(int i = 0; i < size; i++) {
+					distance_data[i] = data[i];
+				}
 				/*if (autonom) {
 					interpretSensorData(data);
 				}*/

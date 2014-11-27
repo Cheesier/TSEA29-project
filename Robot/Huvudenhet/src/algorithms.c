@@ -5,7 +5,7 @@
  *  Author: Jonathan
  */ 
 
-#include "algorithms.h"
+#include "huvudenhet.h"
 
 #define DISTANCE_TO_WALL 40
 #define STATE_PD 0
@@ -13,7 +13,7 @@
 #define STATE_ROTATE 2
 #define STATE_FIND_WALLS 3
 #define STATE_FIND_OBJECT 4
-//#define state START 0?
+#define STATE_START 5 //
 
 #define TYPE_DEAD_END 0
 #define TYPE_TURN_LEFT 1
@@ -30,6 +30,7 @@ int useForward;
 int sectionType;
 int turningStarted = 0;
 uint16_t tape_data = 0;
+uint16_t distance_data[4] = {0};
 
 void updateSectionType(char* wallsInRange) {
 	if (wallsInRange[0]) {
@@ -132,24 +133,24 @@ void interpretSensorData(char * sensorData) {
 	switch (currentState) {
 		case STATE_PD:
 			if (wallsInRange[0] || !wallsInRange[2] || !wallsInRange[3]) {
-				motor_stop();
+				/*motor_stop();
 				distanceForward = sensorData[0];
 				distanceBackward = sensorData[1];
 				useForward = distanceForward < distanceBackward;
 				motor_stop();
-				_delay_ms(3000);
+				_delay_ms(3000);*/
 				currentState = STATE_GOTO_MIDDLE;
-			} else {
-				send_message_to(ADDR_STYRENHET, 0x01, 0, 0); //PDForward()
-				//check for tape!
-				/*
+			} else {				 
+				motor_go_forward_pd();
+				
+				//check for tape!				
 				send_message_to(ADDR_SENSORENHET, 0x07, 0, 0); // Asks the sensorenhet to send tape data
 				// Might need delay
 				read_message(ADDR_SENSORENHET);
-				if(tape_data > 1 && tape_data != 0x07FF) {
-					currentState = STATE_FIND_OBJECT
+				if(tape_data > 0 && tape_data != 0x07FF) {
+					currentState = STATE_FIND_OBJECT;
 				}
-				*/
+				
 			}
 			break;
 		case STATE_GOTO_MIDDLE:
@@ -191,16 +192,23 @@ void interpretSensorData(char * sensorData) {
 			}
 			break;
 		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!
-			motor_set_speed(0x7F);	// half max speed, should continue with pdForward()
-			motor_claw_open();
+			motor_set_speed(0x20);	// going with speed 32, should continue with pdForward()
+			motor_go_forward_pd();	
+					
+			//Continue to update tape data
 			send_message_to(ADDR_SENSORENHET, 0x07, 0, 0); // Asks the sensorenhet to send tape data
 			// Might need delay
 			read_message(ADDR_SENSORENHET);
-			if(tape_data == 0x07FF) { // Presumes that this switch-case statement loops somehow
+			//if(tape_data == 0x07FF) { // Assumes that this switch-case statement loops somehow
+			if(tape_data == 0x0000) {
 				motor_stop();
 				_delay_us(50);
 				motor_claw_close();
+				currentState = STATE_START;
 			}
+			break;
+		case STATE_START:
+			motor_stop();
 			break;
 		default:
 			break;
