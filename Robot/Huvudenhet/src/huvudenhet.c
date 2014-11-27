@@ -40,20 +40,18 @@ int main(void) {
 	// Vänta på sensorenheten och snurra sedan lite
 	_delay_ms(2000);
 
-
-	//for (int i = 0; i < 64; i++)
-	//	lcd_write('A'+i);
-	char str = "Hello World!";
-	lcd_str_write(str);
-
+	for (int i = 0; i < 4; i++) {
+		lcd_set_cursor(i+1, i);
+		printf("row: %i", i);
+	}
+	
 	uint8_t deg = 45;
 	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
 
 	motor_set_speed(128);
 	motor_go_forward();
 	//motor_rotate_right();
-
-
+	
 	while(1) {
 		_delay_ms(100);
 
