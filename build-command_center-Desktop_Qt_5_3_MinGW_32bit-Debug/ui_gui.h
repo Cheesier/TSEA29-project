@@ -148,6 +148,14 @@ public:
     QPushButton *pushButton_drive_mode;
     QLabel *label_9;
     QLabel *label_drive_mode;
+    QLabel *label_debug;
+    QWidget *horizontalLayoutWidget_5;
+    QHBoxLayout *horizontalLayout_13;
+    QLabel *label_tape_16;
+    QLabel *label_tape_15;
+    QLabel *label_tape_14;
+    QLabel *label_tape_13;
+    QLabel *label_tape_12;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuHelp;
@@ -412,7 +420,7 @@ public:
         line_6->setFrameShadow(QFrame::Sunken);
         gridLayoutWidget_4 = new QWidget(centralWidget);
         gridLayoutWidget_4->setObjectName(QStringLiteral("gridLayoutWidget_4"));
-        gridLayoutWidget_4->setGeometry(QRect(420, 60, 391, 361));
+        gridLayoutWidget_4->setGeometry(QRect(420, 100, 391, 321));
         gridLayout_2 = new QGridLayout(gridLayoutWidget_4);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -574,7 +582,7 @@ public:
 
         gridLayoutWidget_5 = new QWidget(centralWidget);
         gridLayoutWidget_5->setObjectName(QStringLiteral("gridLayoutWidget_5"));
-        gridLayoutWidget_5->setGeometry(QRect(20, 109, 361, 170));
+        gridLayoutWidget_5->setGeometry(QRect(20, 109, 367, 170));
         gridLayout_4 = new QGridLayout(gridLayoutWidget_5);
         gridLayout_4->setSpacing(0);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -807,6 +815,52 @@ public:
 
         horizontalLayout_12->addWidget(label_drive_mode);
 
+        label_debug = new QLabel(centralWidget);
+        label_debug->setObjectName(QStringLiteral("label_debug"));
+        label_debug->setGeometry(QRect(512, 570, 81, 51));
+        horizontalLayoutWidget_5 = new QWidget(centralWidget);
+        horizontalLayoutWidget_5->setObjectName(QStringLiteral("horizontalLayoutWidget_5"));
+        horizontalLayoutWidget_5->setGeometry(QRect(420, 60, 391, 31));
+        horizontalLayout_13 = new QHBoxLayout(horizontalLayoutWidget_5);
+        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
+        horizontalLayout_13->setContentsMargins(0, 0, 0, 0);
+        label_tape_16 = new QLabel(horizontalLayoutWidget_5);
+        label_tape_16->setObjectName(QStringLiteral("label_tape_16"));
+        label_tape_16->setFont(font3);
+        label_tape_16->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_13->addWidget(label_tape_16);
+
+        label_tape_15 = new QLabel(horizontalLayoutWidget_5);
+        label_tape_15->setObjectName(QStringLiteral("label_tape_15"));
+        label_tape_15->setFont(font3);
+        label_tape_15->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_13->addWidget(label_tape_15);
+
+        label_tape_14 = new QLabel(horizontalLayoutWidget_5);
+        label_tape_14->setObjectName(QStringLiteral("label_tape_14"));
+        label_tape_14->setFont(font3);
+        label_tape_14->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_13->addWidget(label_tape_14);
+
+        label_tape_13 = new QLabel(horizontalLayoutWidget_5);
+        label_tape_13->setObjectName(QStringLiteral("label_tape_13"));
+        label_tape_13->setFont(font3);
+        label_tape_13->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_13->addWidget(label_tape_13);
+
+        label_tape_12 = new QLabel(horizontalLayoutWidget_5);
+        label_tape_12->setObjectName(QStringLiteral("label_tape_12"));
+        label_tape_12->setFont(font3);
+        label_tape_12->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_13->addWidget(label_tape_12);
+
         Gui->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(Gui);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -884,7 +938,7 @@ public:
         label_4->setText(QApplication::translate("Gui", "Current Direction:", 0));
         label_direction->setText(QApplication::translate("Gui", "Regular", 0));
         pushButton_right->setText(QApplication::translate("Gui", "R", 0));
-        pushButton_set_speed->setText(QApplication::translate("Gui", "Set speed", 0));
+        pushButton_set_speed->setText(QApplication::translate("Gui", "Current speed", 0));
         label_speed->setText(QApplication::translate("Gui", "255", 0));
         pushButton_backward->setText(QApplication::translate("Gui", "B", 0));
         pushButton_stop->setText(QApplication::translate("Gui", "S", 0));
@@ -904,6 +958,12 @@ public:
         pushButton_drive_mode->setText(QApplication::translate("Gui", "Switch drive mode", 0));
         label_9->setText(QApplication::translate("Gui", "Current drive mode:", 0));
         label_drive_mode->setText(QApplication::translate("Gui", "Manual", 0));
+        label_debug->setText(QString());
+        label_tape_16->setText(QApplication::translate("Gui", "0", 0));
+        label_tape_15->setText(QApplication::translate("Gui", "0", 0));
+        label_tape_14->setText(QApplication::translate("Gui", "0", 0));
+        label_tape_13->setText(QApplication::translate("Gui", "0", 0));
+        label_tape_12->setText(QApplication::translate("Gui", "0", 0));
         menuFile->setTitle(QApplication::translate("Gui", "Data", 0));
         menuHelp->setTitle(QApplication::translate("Gui", "Help", 0));
     } // retranslateUi

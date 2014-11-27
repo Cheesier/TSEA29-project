@@ -17,7 +17,7 @@ enum CurrentStep {
 
 CurrentStep state;
 
-void Serial::init_serial(void) {
+Serial::Serial() {
     serial = new QSerialPort(Q_NULLPTR);
 }
 

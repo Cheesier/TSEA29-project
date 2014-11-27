@@ -27,7 +27,6 @@ void Core::init(){
   bt.reset(new BTInterface);
   serial.reset(new Serial);
 
-  serial->init_serial();
   serial->open_serial(SERIAL_PORT, BAUD_RATE);
 
   data.reset(new Data);
