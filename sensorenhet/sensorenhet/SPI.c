@@ -65,11 +65,13 @@ void sendMessage(uint8_t header, uint8_t size, uint8_t payload[]) {
 }
 
 void sendDistanceSensors(void) {
+	cli();
 	SPI_Send(0x04);
 	SPI_Send(0x04);
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		SPI_Send(distanceSensors[i]);
 	}
+	sei();
 }
 
 // Sends the most updated tape data to the huvudenhet

@@ -74,6 +74,8 @@ void updateDistance() {
 		}
 	}
 	STOP_TIMER;
+	/*send_REQ();
+	sendDistanceSensors();*/
 }
 
 void initDistance() {

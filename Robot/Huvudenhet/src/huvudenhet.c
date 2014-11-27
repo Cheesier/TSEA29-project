@@ -62,9 +62,9 @@ int main(void) {
 		_delay_ms(1000);
 		*/
 
-		//_delay_ms(100);
+		_delay_ms(500);
 		/*motor_claw_close();
-		_delay_ms(1000);
+		_delay_ms(500);
 		motor_claw_open();*/
 
 		/*_delay_ms(100);
@@ -74,18 +74,11 @@ int main(void) {
 		_delay_us(30);
 		read_message(ADDR_SENSORENHET);*/
 		//send_message_to(ADDR_STYRENHET, 0x01, 0, 0);
-		if (autonom == 1) {
-			_delay_ms(100);
-			send_message(0x86, 0, 0);
-			_delay_us(30);
-			read_message(ADDR_SENSORENHET);
-			_delay_us(30);
-			send_message_to(ADDR_SENSORENHET, 0x07, 0, NO_DATA);
-			_delay_us(30);
-			read_message(ADDR_SENSORENHET);
+		/*if (autonom == 1) {
+			_delay_ms(1);
 		} else {
 			_delay_ms(1);
-		}
+		}*/
 	}
 
 	return 0;

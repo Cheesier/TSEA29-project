@@ -9,6 +9,9 @@
 #ifndef TAPESENSOR_H_
 #define TAPESENSOR_H_
 
+#define TAPE_SENSOR_PORT 0
+#define GYRO_PORT 1
+
 #define F_CPU 8000000UL
 
 extern uint16_t tape_data_done;

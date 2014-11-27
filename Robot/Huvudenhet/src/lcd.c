@@ -7,6 +7,7 @@
 
 #include <avr/io.h>
 #include "lcd.h"
+#include "huvudenhet.h"
 #include <util/delay.h>
 
 #define LCD_PORT PORTA

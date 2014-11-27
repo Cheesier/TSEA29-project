@@ -9,8 +9,7 @@
 
 #include "sensorenhet.h"
 
-#define TAPE_SENSOR_PORT 0
-#define GYRO_PORT 1
+
 static int active_port = TAPE_SENSOR_PORT;
 
 static int on_tape_value = 0;
@@ -55,12 +54,17 @@ ISR(ADC_vect) {
 			tape_data = 0;
 			active_port = GYRO_PORT;
 			current_tape_sensor = 0;
+			PORTB |= (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
+			tapeDone();
+			
+		} else {
+			PORTB |= (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
+			readADC(active_port);
 		}
-		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
 	}
 	else if(active_port == GYRO_PORT) {
 		gyro_data_done = ADC;
 		active_port = TAPE_SENSOR_PORT;
+		readADC(active_port);
 	}
-	readADC(active_port);
 }
