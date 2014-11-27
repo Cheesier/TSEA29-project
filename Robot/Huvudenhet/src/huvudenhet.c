@@ -5,8 +5,8 @@
  *  Author: oscth887
  */
 
-
 #include "huvudenhet.h"
+
 void interrupt_init(void) {
 	GICR |= (1<< INT1);		// Enables external interrupts via PD3
 	MCUCR |= (1<<ISC11) | (1<<ISC10);
@@ -30,7 +30,7 @@ int main(void) {
 	// Vänta på sensorenheten och snurra sedan lite
 	_delay_ms(2000);
 
-	uint8_t deg = 90;
+	uint8_t deg = 45;
 	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
 	motor_set_speed(128);
 	motor_rotate_right();
