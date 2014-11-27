@@ -11,6 +11,9 @@ extern int distance;
 extern int interrupted;
 extern uint8_t distanceSensors[SENSOR_COUNT];
 
+static int tapeIsDone = 0;
+static int distanceMode= 0;
+
 // SPI defines for readability
 #define DDR_SPI DDRB
 #define DDR_MISO DDB6
@@ -45,14 +48,41 @@ void initSensors() {
 	initGyro();
 }
 
+void tapeDone() {
+	tapeIsDone = 1;
+}
+
+void initDistanceMode() {
+	// Initialize timer 1
+	TCCR1B |= (1 << WGM12);			// Set mode to CTC
+	OCR1B = 469;						// This value with the 1024 prescaler result in the timer running for 60 ms
+	START_TIMER;
+	distanceMode = 1;
+}
+
 int main(void) {
 	initSensors();
 	SPI_Init();
 	sei();
 	readADC(0);
+	initDistanceMode();
 	while(1) {
-		updateDistance();
-		_delay_ms(60);
+		START_TIMER;
+		while (/*distanceMode*/1){
+			while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
+			TIFR |= (1 << OCF1A);			// Reset the timer flag
+			TCNT1 = 0;
+			/*_delay_ms(60);*/
+			updateDistance();
+			send_REQ();
+			sendDistanceSensors();
+			tapeIsDone = 0;
+			readADC(TAPE_SENSOR_PORT);
+			while(tapeIsDone);
+			send_REQ();
+			sendTapeSensors();
+		}
+		_delay_ms(1);
 	}
 	return 0;
 }

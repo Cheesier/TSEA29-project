@@ -34,7 +34,9 @@ void spi_init(void) {
 	DDRB |= (1<<SS_SENSOR)|(1<<SS_STYR)|(1<<DDB5)|(1<<DDB7);
 	/* SPI, Master, set clock rate fck/16 */
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<MSTR)|(1<<SPR0);
-
+	
+	DDRD &= ~(1<<PIND3);
+	
 	PORTB |= (1<<SS_SENSOR) | (1<<SS_STYR);
 }
 
@@ -74,8 +76,10 @@ void spi_send(char header, char size, char* data) {
 
 // Interrupt routine for the REQ pin TODO: Slightly unfinished
 ISR(INT1_vect) {
-	gyroDone = 1;
-	motor_stop();
+	/*gyroDone = 1;
+	motor_stop();*/ // There must be something that keeps track on whether the sensor unit is in Gyro- or Distance-mode
+	_delay_us(30);
+	read_message(ADDR_SENSORENHET);
 }
 
 ISR(SPISTC_vect) {

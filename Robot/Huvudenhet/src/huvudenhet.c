@@ -41,22 +41,31 @@ int main(void) {
 	// Vänta på sensorenheten och snurra sedan lite
 	_delay_ms(2000);
 
-
-	//for (int i = 0; i < 64; i++)
-	//	lcd_write('A'+i);
-	char str = "Hello World!";
-	lcd_str_write(str);
-
-	uint8_t deg = 45;
+	for (int i = 0; i < 4; i++) {
+		lcd_set_cursor(i+1, i);
+		printf("row: %i", i);
+	}
+	
+	/*uint8_t deg = 45;
 	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
 
 	motor_set_speed(128);
-	motor_go_forward();
+	motor_go_forward();*/
 	//motor_rotate_right();
-
-
+	
 	while(1) {
-		_delay_ms(100);
+		/*motor_rotate_left();			// Rotera till vänster
+		send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);	// Rotera 90 grader
+		motor_stop();
+		_delay_ms(1000);
+		motor_rotate_right();			// Rotera till vänster
+		send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);	// Rotera 90 grader
+		motor_stop();
+		_delay_ms(1000);
+		*/
+		/*motor_claw_close();
+		_delay_ms(500);
+		motor_claw_open();*/
 
 		//char dt[] = {100, 50, 40, 70};
 		//send_message(0xE0, 4, &dt);
@@ -68,6 +77,8 @@ int main(void) {
 		_delay_us(30);
 		read_message(ADDR_SENSORENHET);
 		//send_message_to(ADDR_STYRENHET, 0x01, 0, 0);
+		/*if (autonom == 1) {
+			_delay_ms(1);
 		if(on_tape == 0 && tape_data > 0) {
 			on_tape = 1;
 			motor_set_speed(32);
@@ -90,15 +101,13 @@ int main(void) {
 		send_message_to(ADDR_SENSORENHET, 0x07, 0, 0);
 		_delay_ms(30);
 		read_message(ADDR_SENSORENHET);		*/
+		
+		
+		_delay_ms(100);
+		lcd_set_cursor(0,0);
+		printf("Tape: %4x", tape_data);
 		if (autonom == 1) {
-			_delay_ms(100);
-			send_message(0x86, 0, 0);
-			_delay_us(30);
-			read_message(ADDR_SENSORENHET);
-			_delay_us(30);
-			send_message_to(ADDR_SENSORENHET, 0x07, 0, NO_DATA);
-			_delay_us(30);
-			read_message(ADDR_SENSORENHET);
+			_delay_ms(1);
 		} else {
 			_delay_ms(1);
 		}

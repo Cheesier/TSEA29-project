@@ -9,24 +9,19 @@
 
 #include "sensorenhet.h"
 
-#define TAPE_SENSOR_PORT 0
-#define GYRO_PORT 1
+
 static int active_port = TAPE_SENSOR_PORT;
 
 uint16_t led_1_value = 0;
 uint16_t on_tape_value = 0;
 uint16_t off_tape_value = 0;
 uint16_t tape_threshold = 400;
-static uint8_t current_tape_sensor = 0;
-static uint16_t tape_data = 0;
+uint8_t current_tape_sensor = 0;
+uint16_t tape_data = 0;
 uint16_t tape_data_done = 0;
 
-int convertToBit(uint16_t data) {
-	int bit = 0;
-	if(data > tape_threshold) {
-		bit = 1;
-	}
-	return bit;
+uint16_t convertToBit(uint16_t data) {
+	return data > tape_threshold;
 }
 
 // Calibrate the tape sensors to set a threshold to identify whether or not we're on tape
@@ -49,29 +44,19 @@ void setOffTape() {
 }
 
 ISR(ADC_vect) {
-	if(active_port == TAPE_SENSOR_PORT) {
-		int tape_bit = convertToBit(ADC);
-		led_1_value = ADC;
-		tape_data |= (tape_bit << current_tape_sensor);
-		current_tape_sensor++;
-		if(current_tape_sensor == 9) {
-			current_tape_sensor = 10;
-		}
-		if(current_tape_sensor == 11) {
-			tape_data_done = tape_data;
-			if(tape_data_done & (1<<10) && tape_data_done & (1<<8))
-				tape_data_done |= (1<<9);
-			else
-				tape_data_done &= ~(1<<9);
-			tape_data = 0;
-			active_port = GYRO_PORT;
-			current_tape_sensor = 0;
-		}
+	uint16_t tape_bit = convertToBit(ADC);
+	led_1_value = ADC;
+	tape_data |= (tape_bit << current_tape_sensor);
+	current_tape_sensor++;
+	if(current_tape_sensor == 11) {
+		tape_data_done = tape_data;
+		tape_data = 0;
+		current_tape_sensor = 0;
 		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
+		tapeDone();
+			
+	} else {
+		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
+		readADC(active_port);
 	}
-	else if(active_port == GYRO_PORT) {
-		gyro_data_done = ADC;
-		active_port = TAPE_SENSOR_PORT;
-	}
-	readADC(active_port);
 }

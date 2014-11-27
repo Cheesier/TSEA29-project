@@ -34,5 +34,7 @@ void sendMessage(uint8_t header, uint8_t size, uint8_t payload[]);
 
 void errorMessage(int size, char* unknownMessage);
 void headerError(int header, int size, char* unknownMessage);
+void sendDistanceSensors();
+void sendTapeSensors();
 
 #endif /* SPI_H_ */

@@ -7,13 +7,17 @@
 
 #include <avr/io.h>
 #include "lcd.h"
+#include "huvudenhet.h"
 #include <util/delay.h>
+#include <stdio.h>
 
 #define LCD_PORT PORTA
 #define LCD_EN 0x80
 #define LCD_RS 0x20
 
 #define LCD_OUTPUT (DDRA = 0xFF)
+
+static FILE mystdout = FDEV_SETUP_STREAM(lcd_write, NULL, _FDEV_SETUP_WRITE);
 
 void lcd_reset(void) {
 	// a "standard" reset of the lcd, needs to be done to enter 4-bit mode
@@ -45,6 +49,7 @@ void lcd_init(void) {
 	lcd_clear();
 	lcd_cmd(0x06);		// increment mode
 	
+	stdout = &mystdout;
 	
 	//lcd_cmd(0x0C);		// Display no cursor - no blink.
 	//lcd_cmd(0x06);		// Automatic Increment - No Display shift.
@@ -62,7 +67,7 @@ void lcd_cmd(uint8_t cmd) {
 	_delay_us(400);
 }
 
-void lcd_write(uint8_t data) {
+void lcd_write(char data) {
 	LCD_PORT = (((data >>4) & 0x0F)|LCD_EN|LCD_RS);
 	LCD_PORT = (((data >>4) & 0x0F)|LCD_RS);
 	
@@ -70,6 +75,14 @@ void lcd_write(uint8_t data) {
 	LCD_PORT = ((data & 0x0F)|LCD_RS);
 	
 	_delay_us(400);
+}
+
+void lcd_dec_write(uint8_t value) {
+	
+}
+
+void lcd_hex_write(uint8_t value) {
+	
 }
 
 void lcd_str_write(char *data) {
@@ -84,10 +97,19 @@ void lcd_clear(void) {
 
 void lcd_set_cursor(uint8_t x, uint8_t y) {
 	uint8_t addr = 0x80; // first bit always set
-	if (y&1) { // is it an odd row? (1 or 3)
-		return addr+x;
+	switch (y) {
+		case 0:
+			addr += 0;
+			break;
+		case 1:
+			addr += 64;
+			break;
+		case 2:
+			addr += 16;
+			break;
+		case 3:
+			addr += 80;
+			break;
 	}
-	else { // for even rows
-		
-	}
+	lcd_cmd(addr+x);
 }

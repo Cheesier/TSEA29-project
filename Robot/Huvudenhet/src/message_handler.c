@@ -10,6 +10,7 @@
 #include "spi.h"
 #include "algorithms.h"
 #include "huvudenhet.h"
+#include "lcd.h"
 
 void handle_message(char header, char size, char *data) {
 	if ((header & 0xC0) == ADDR_HUVUDENHET) {

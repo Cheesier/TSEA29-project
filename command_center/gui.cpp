@@ -1,4 +1,4 @@
-#include "gui.h"
+    #include "gui.h"
 #include "ui_gui.h"
 
 Gui::Gui(QWidget *parent) :
@@ -32,6 +32,9 @@ Gui::Gui(QWidget *parent) :
   // Forward left
   QShortcut *shortcut_q = new QShortcut(QKeySequence("Q"), this);
   QObject::connect(shortcut_q, SIGNAL(activated()), this, SLOT(on_pushButton_forward_left_pressed()));
+  // Stop
+  QShortcut *shortcut_space = new QShortcut(QKeySequence("SPACE"), this);
+  QObject::connect(shortcut_space, SIGNAL(activated()), this, SLOT(on_pushButton_stop_clicked()));
 }
 
 Gui::~Gui(){
