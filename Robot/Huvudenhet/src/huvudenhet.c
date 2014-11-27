@@ -67,7 +67,6 @@ int main(void) {
 		_delay_us(30);
 		read_message(ADDR_SENSORENHET);
 		//send_message_to(ADDR_STYRENHET, 0x01, 0, 0);
-
 		if(on_tape == 0 && tape_data > 0) {
 			on_tape = 1;
 			motor_set_speed(32);

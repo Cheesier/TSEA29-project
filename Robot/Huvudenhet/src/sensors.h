@@ -9,7 +9,8 @@
 #ifndef SENSORS_H_
 #define SENSORS_H_
 
-
+void calibrateTapeSensor();
+void getTapeData();
 
 
 #endif /* HUVUDENHET_H_ */
