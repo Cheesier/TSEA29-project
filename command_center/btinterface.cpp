@@ -61,7 +61,7 @@ void BTInterface::do_read(){
       return;
   }*/
 
-  core->process_new_msg(Msg_ptr(new Message(type,data)));
+  //core->process_new_msg(Msg_ptr(new Message(type,data)));
 
   //do_read();
 }

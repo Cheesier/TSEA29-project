@@ -1,4 +1,4 @@
-    #ifndef MESSAGE_H
+#ifndef MESSAGE_H
 #define MESSAGE_H
 
 
@@ -16,6 +16,7 @@
 #include<fstream>
 
 #include "glob.h"
+#include <QByteArray>
 
 class Message;
 typedef shared_ptr<Message> Msg_ptr;
@@ -27,8 +28,8 @@ public:
   typedef unsigned char Size_t;
   typedef unsigned char Type_t;
 
-  Message(){}
-  Message(const Type_t& type_, const string& data_);
+  Message();
+  Message(const Type_t& type_, const QByteArray* data_);
   enum msg_t{T_ECHO,
              //Send
              T_GO_FORWARD_PD     = ADDR_STYRENHET | 0x01,
@@ -58,7 +59,7 @@ public:
   friend istream& operator >> (istream& os, Message& msg);
 
   Type_t get_type() const;
-  string get_data() const;
+  QByteArray get_data() const;
   hr_clock::time_point get_created_at()const;
   Size_t get_data_size() const;
   char * get_raw_data();
@@ -92,7 +93,7 @@ public:
 private:
 
   Type_t type;
-  string data;
+  QByteArray* data;
   hr_clock::time_point created_at;
 
   string raw_data;

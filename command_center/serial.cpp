@@ -6,8 +6,8 @@ QT_USE_NAMESPACE
 
 unsigned char type;
 unsigned char size;
-unsigned char index;
-string data;
+unsigned char dataIndex;
+QByteArray* data;
 
 enum CurrentStep {
     getType,
@@ -19,6 +19,7 @@ CurrentStep state;
 
 Serial::Serial() {
     serial = new QSerialPort(Q_NULLPTR);
+    //data = new QByteArray();
 }
 
 void Serial::open_serial(string port, int baud) {
@@ -40,7 +41,7 @@ void Serial::serial_write(const Msg_ptr& msg) {
     QByteArray* data = new QByteArray();
     data->append((char)msg->get_type());
     data->append((char)msg->get_data_size());
-    data->append((char*)msg->get_data().data(), msg->get_data_size());
+    data->append(msg->get_data());
     serial->write(*data);
 }
 
@@ -76,23 +77,23 @@ void Serial::read_byte(unsigned char byte) {
         case getSize:
             size = byte;
             if (size != 0) {
-                data = "";
-                index = 0;
+                data->clear();
+                dataIndex = 0;
                 state = getData;
             }
             else {
                 printf("message: %x%x\n", type, size);
-                core->process_new_msg(Msg_ptr(new Message(type,data)));
+                //core->process_new_msg(Msg_ptr(new Message(type,data)));
                 state = getType;
             }
             break;
         case getData:
-            data.append((char*)&byte);
-            index++;
-            if (index == size) {
+            data->append((char*)&byte);
+            dataIndex++;
+            if (dataIndex == size) {
                 //printf("message: %x%x");
                 //printf("message sent, data: %s", (char*)&data);
-                core->process_new_msg(Msg_ptr(new Message(type,data)));
+                //core->process_new_msg(Msg_ptr(new Message(type,data)));
                 state = getType;
             }
             break;
