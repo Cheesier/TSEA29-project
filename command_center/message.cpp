@@ -3,6 +3,9 @@
 
 #include <string.h>
 
+Message::Message() {
+    data = new QByteArray();
+}
 
 Message::Message(const Type_t& type_, const QByteArray* data_):
   type(type_), created_at(hr_clock::now()){
@@ -13,7 +16,7 @@ Message::Type_t Message::get_type() const{
   return type;
 }
 
-string Message::get_data() const{
+QByteArray Message::get_data() const{
   return data->data();
 }
 
@@ -60,7 +63,7 @@ ostream& operator << (ostream& os, const Message& msg){
   const uint64_t& timestamp = chrono::duration_cast<chrono::nanoseconds>(duration).count();
   const Message::Type_t& type = msg.get_type();
   const Message::Size_t& size = msg.get_data_size();
-  const string& data = msg.get_data();
+  const string& data = msg.get_data().data();
   os.write((char*)&timestamp,sizeof(timestamp));
   os.write((char*)&type, sizeof(type));
   os.write((char*)&size, sizeof(size));

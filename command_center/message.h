@@ -28,7 +28,7 @@ public:
   typedef unsigned char Size_t;
   typedef unsigned char Type_t;
 
-  Message(){}
+  Message();
   Message(const Type_t& type_, const QByteArray* data_);
   enum msg_t{T_ECHO,
              //Send
@@ -59,7 +59,7 @@ public:
   friend istream& operator >> (istream& os, Message& msg);
 
   Type_t get_type() const;
-  string get_data() const;
+  QByteArray get_data() const;
   hr_clock::time_point get_created_at()const;
   Size_t get_data_size() const;
   char * get_raw_data();

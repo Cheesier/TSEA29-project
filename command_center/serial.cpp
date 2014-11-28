@@ -41,7 +41,7 @@ void Serial::serial_write(const Msg_ptr& msg) {
     QByteArray* data = new QByteArray();
     data->append((char)msg->get_type());
     data->append((char)msg->get_data_size());
-    data->append((char*)msg->get_data().data(), msg->get_data_size());
+    data->append(msg->get_data());
     serial->write(*data);
 }
 

@@ -190,8 +190,8 @@ void Core::handle_tape_data(const Msg_ptr &msg){
 
 //handles error messages 0x3F
 void Core::handle_error(const Msg_ptr & msg){
-    string message = "Error message recived: " + msg->get_data();
-    log(QString::fromStdString(message));
+    //string message = "Error message recived: " + msg->get_data().;
+    //log(QString::fromStdString(message));
     msg->print();
 }
 
