@@ -16,10 +16,10 @@
 #include "PDregulator.h"
 
 // SPI ports
-#define SPI_SS PORTB4
-#define SPI_MOSI PORTB5
-#define SPI_MISO PORTB6
-#define SPI_SCLK PORTB7
+#define SPI_SS		PORTB4
+#define SPI_MOSI	PORTB5
+#define SPI_MISO	PORTB6
+#define SPI_SCLK	PORTB7
 
 // SPI register
 #define DDR_SPI DDRB

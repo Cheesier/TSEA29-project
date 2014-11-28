@@ -12,9 +12,14 @@ void calibrateTapeSensor() {
 	send_message_to(ADDR_SENSORENHET, 0x04, 0, NO_DATA); // Sets the on_tape value
 	_delay_ms(1);
 	motor_go_forward();
-	_delay_ms(100); // This value needs to be tested
+	_delay_ms(200); // This value needs to be tested
 	motor_stop();
-	send_message_to(ADDR_SENSORENHET, 0x05, 0, NO_DATA); // Sets the off_tape value	
+	_delay_ms(10);
+	send_message_to(ADDR_SENSORENHET, 0x05, 0, NO_DATA); // Sets the off_tape value		
+	lcd_set_cursor(0,2);
+	printf("Calibrated!");
+	_delay_ms(5000);
+	lcd_clear();
 }
 
 // Fetches tapeData, it updates the tape_data variable automatically

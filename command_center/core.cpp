@@ -190,8 +190,8 @@ void Core::handle_tape_data(const Msg_ptr &msg){
 
 //handles error messages 0x3F
 void Core::handle_error(const Msg_ptr & msg){
-    string message = "Error message recived: " + msg->get_data();
-    log(QString::fromStdString(message));
+    //string message = "Error message recived: " + msg->get_data().;
+    //log(QString::fromStdString(message));
     msg->print();
 }
 
@@ -252,7 +252,9 @@ void Core::send(const Msg_ptr &msg){
 }
 
 void Core::custom_msg(const unsigned &type, const string &payload){
-  Msg_ptr msg(new Message(type,payload));
+  QByteArray* pl = new QByteArray();
+  pl->append(QString::fromStdString(payload));
+  Msg_ptr msg(new Message(type,pl));
   msg->encode();
   send(msg);
 }

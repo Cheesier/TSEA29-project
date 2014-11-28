@@ -29,7 +29,7 @@
 #define MAXSPEED 255
 
 char direction = FORWARD;
-uint8_t speed = 255;
+uint8_t speed = 128;
 uint8_t rotate_speed = 128;
 
 int main(void) {
