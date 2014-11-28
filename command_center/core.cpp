@@ -252,7 +252,9 @@ void Core::send(const Msg_ptr &msg){
 }
 
 void Core::custom_msg(const unsigned &type, const string &payload){
-  Msg_ptr msg(new Message(type,payload));
+  QByteArray* pl = new QByteArray();
+  pl->append(QString::fromStdString(payload));
+  Msg_ptr msg(new Message(type,pl));
   msg->encode();
   send(msg);
 }
