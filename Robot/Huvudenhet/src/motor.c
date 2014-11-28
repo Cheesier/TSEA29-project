@@ -57,10 +57,12 @@ void motor_rotate_right(void) {
 
 void motor_rotate_left_degrees(uint8_t degrees) {
 	send_message_to(ADDR_SENSORENHET, 0x08, 0x01, degrees); // Send interrupt when we've reached degrees degrees
+	gyroModeON();
 	send_message_to(ADDR_STYRENHET, 0x09, 0, 0);			// Rotate left
 }
 
 void motor_rotate_right_degrees(uint8_t degrees) {
 	send_message_to(ADDR_SENSORENHET, 0x08, 0x01, degrees); // Send interrupt when we've reached degrees degrees
+	gyroModeON();
 	send_message_to(ADDR_STYRENHET, 0x0A, 0, 0);			// Rotate right
 }

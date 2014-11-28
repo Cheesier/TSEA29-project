@@ -28,6 +28,8 @@ void handle_message(char header, char size, char *data) {
 				tape_data = data[0];
 				tape_data = tape_data << 8;
 				tape_data += data[1];
+				lcd_set_cursor(4,0);
+				printf("Tape: %2x %2x", data[0], data[1]);
 				break;
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
@@ -35,6 +37,17 @@ void handle_message(char header, char size, char *data) {
 				for(int i = 0; i < size; i++) {
 					distance_data[i] = data[i];
 				}
+				lcd_set_cursor(0,1);
+				printf("F:%3u", distance_data[0]);
+				
+				lcd_set_cursor(7,1);
+				printf("B:%3u", distance_data[1]);
+				
+				lcd_set_cursor(0,2);
+				printf("V:%3u", distance_data[2]);
+				
+				lcd_set_cursor(7,2);
+				printf("H:%3u", distance_data[3]);
 				/*if (autonom) {
 					interpretSensorData(data);
 				}*/

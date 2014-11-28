@@ -123,8 +123,13 @@ void startTurning() {
 	turningStarted = 1;
 }
 
-void interpretSensorData(char * sensorData) {
+void interpretSensorData() {
 	char wallsInRange[4];
+	char sensorData[4];
+	
+	for (int i = 0; i < 4; i++) {
+		sensorData[i] = distance_data[i];
+	}
 	
 	for(int i = 0; i < 4; i++) {
 		wallsInRange[i] = wallInRange(sensorData[i]);
@@ -139,17 +144,27 @@ void interpretSensorData(char * sensorData) {
 				useForward = distanceForward < distanceBackward;
 				motor_stop();
 				_delay_ms(3000);*/
+				motor_stop();
+				lcd_set_cursor(0, 3);
+				printf("F:%i B:%i V:%i H:%i", wallsInRange[0], wallsInRange[1], wallsInRange[2], wallsInRange[3]);
+				_delay_ms(2000);
 				currentState = STATE_GOTO_MIDDLE;
 			} else {				 
 				motor_go_forward_pd();
+				lcd_set_cursor(0,3);
+				printf("PD-forward");
 				
-				//check for tape!				
+				/*_delay_ms(500);
+				motor_stop();
+				_delay_ms(500);*/
+				
+				/*//check for tape!				
 				send_message_to(ADDR_SENSORENHET, 0x07, 0, 0); // Asks the sensorenhet to send tape data
 				// Might need delay
-				read_message(ADDR_SENSORENHET);
-				if(tape_data > 0 && tape_data != 0x07FF) {
+				read_message(ADDR_SENSORENHET);*/
+				/*if(tape_data > 0 && tape_data != 0x07FF) {
 					currentState = STATE_FIND_OBJECT;
-				}
+				}*/
 				
 			}
 			break;

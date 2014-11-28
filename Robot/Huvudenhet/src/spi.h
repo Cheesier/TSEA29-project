@@ -24,3 +24,6 @@ void spi_send(char header, char size, char* data);
 
 int isGyroDone(void);
 void resetGyroDone(void);
+
+void gyroModeON();
+void gyroModeOFF();

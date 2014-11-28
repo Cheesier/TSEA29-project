@@ -19,6 +19,16 @@
 
 #include "message_handler.h"
 
+int gyroMode = 0;
+
+void gyroModeON() {
+	gyroMode = 1;
+}
+
+void gyroModeOFF() {
+	gyroMode = 0;
+}
+
 int req_set = 0;
 static int gyroDone = 0;
 int isGyroDone() {
@@ -76,10 +86,14 @@ void spi_send(char header, char size, char* data) {
 
 // Interrupt routine for the REQ pin TODO: Slightly unfinished
 ISR(INT1_vect) {
-	/*gyroDone = 1;
-	motor_stop();*/ // There must be something that keeps track on whether the sensor unit is in Gyro- or Distance-mode
-	_delay_us(30);
-	read_message(ADDR_SENSORENHET);
+	if (gyroMode) {
+		motor_stop();
+		gyroDone = 1;
+		gyroModeOFF();
+	} else {
+		_delay_us(30);
+		read_message(ADDR_SENSORENHET);
+	}
 }
 
 ISR(SPISTC_vect) {

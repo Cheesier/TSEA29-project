@@ -39,7 +39,7 @@ void updateDistance() {
 	
 	//Trigger sensors
 	SENSOR_OUTPUT |= (1<<TRIGGER);
-	_delay_us(10);
+	_delay_us(15);
 	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
 	//Wait for input from sensors

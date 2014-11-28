@@ -62,6 +62,7 @@ void initDistanceMode() {
 
 void distanceModeON() {
 	distanceMode = 1;
+	initDistanceMode();
 }
 
 void distanceModeOFF() {
@@ -75,11 +76,11 @@ int main(void) {
 	readADC(0);
 	initDistanceMode();
 	while(1) {
-		START_TIMER;
 		while (distanceMode){
 			while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
 			TIFR |= (1 << OCF1A);			// Reset the timer flag
 			TCNT1 = 0;
+			START_TIMER;
 			updateDistance();
 			send_REQ();
 			sendDistanceSensors();

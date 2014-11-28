@@ -30,7 +30,7 @@ void autonomSet (char autonomOn) {
 }
 
 int main(void) {
-	autonom = 0;
+	autonom = 1;
 	bt_init();
 	spi_init();
 	lcd_init();
@@ -41,10 +41,11 @@ int main(void) {
 	// Vänta på sensorenheten och snurra sedan lite
 	_delay_ms(2000);
 
-	for (int i = 0; i < 4; i++) {
+	motor_set_speed(150);
+	/*for (int i = 0; i < 4; i++) {
 		lcd_set_cursor(i+1, i);
 		printf("row: %i", i);
-	}
+	}*/
 	
 	/*uint8_t deg = 45;
 	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
@@ -101,16 +102,21 @@ int main(void) {
 		send_message_to(ADDR_SENSORENHET, 0x07, 0, 0);
 		_delay_ms(30);
 		read_message(ADDR_SENSORENHET);		*/
-		
-		
-		_delay_ms(100);
-		lcd_set_cursor(0,0);
-		printf("Tape: %4x", tape_data);
 		if (autonom == 1) {
-			_delay_ms(1);
+			interpretSensorData();
+			_delay_ms(30);
 		} else {
 			_delay_ms(1);
 		}
+		/*_delay_ms(2000);
+		lcd_set_cursor(1, 2);
+		printf("Rotating left");
+		motor_rotate_left_degrees(90);
+		
+		_delay_ms(2000);
+		lcd_set_cursor(1, 2);
+		printf("Rotating right");
+		motor_rotate_right_degrees(90);*/
 	}
 
 	return 0;

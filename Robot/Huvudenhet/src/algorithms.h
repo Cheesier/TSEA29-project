@@ -14,6 +14,6 @@
 extern uint16_t tape_data;
 extern uint16_t distance_data[4];
 
-void interpretSensorData(char * sensorData);
+void interpretSensorData();
 
 #endif /* ALGORITHMS_H_ */

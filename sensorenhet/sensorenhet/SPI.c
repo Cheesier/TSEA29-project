@@ -116,6 +116,7 @@ void handle_sensor_message() {
 		case 0x08:					// Gyro rotate
 			distanceModeOFF();
 			rotateDegrees(data[0]);
+			distanceModeON();
 			break;
 		default:
 			break;
