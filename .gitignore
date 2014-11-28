@@ -39,3 +39,7 @@ Release/
 
 ASF/
 *.atsuo
+
+*.pro.user*
+build-command_center*
+
