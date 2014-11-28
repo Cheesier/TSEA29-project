@@ -15,7 +15,14 @@ static int gyro_null_value = 0;
 static int degrees_rotated = 0;
 uint16_t gyro_data_done = 0;
 
+void initTimer() {
+	// Initialize timer 1
+	TCCR1B |= (1 << WGM12);			// Set mode to CTC
+	OCR1B = 77;						// This value with the 1024 prescaler result in the timer running for 10 ms
+}
+
 void rotateDegrees(int degrees) {
+	initTimer();
 	degrees_rotated = 0;						// Reset degrees rotated so we make sure not to rotate to much
 	degrees = degrees * 100;					// To compensate for the value returned by updateGyroData being 100 times bigger than it should
 	while (abs(degrees_rotated) < degrees) {	// Rotate until we reach the requested amount of degrees rotated
@@ -68,8 +75,4 @@ void resetDegreesRotated(){
 void initGyro() {
 	_delay_ms(1000);
 	gyro_null_value = gyroADC();	// Should give us a value of approximately 512
-
-	// Initialize timer 1
-	TCCR1B |= (1 << WGM12);			// Set mode to CTC
-	OCR1B = 77;						// This value with the 1024 prescaler result in the timer running for 10 ms
 }

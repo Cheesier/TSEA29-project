@@ -28,5 +28,7 @@
 void initSensors();
 int main();
 void tapeDone();
+void distanceModeON();
+void distanceModeOFF();
 
 #endif /* SENSORENHET_H_ */

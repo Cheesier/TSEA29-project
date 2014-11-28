@@ -114,6 +114,7 @@ void handle_sensor_message() {
 			sendTapeSensors();
 			break;
 		case 0x08:					// Gyro rotate
+			distanceModeOFF();
 			rotateDegrees(data[0]);
 			break;
 		default:

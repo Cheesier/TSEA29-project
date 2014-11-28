@@ -60,6 +60,14 @@ void initDistanceMode() {
 	distanceMode = 1;
 }
 
+void distanceModeON() {
+	distanceMode = 1;
+}
+
+void distanceModeOFF() {
+	distanceMode = 0;
+}
+
 int main(void) {
 	initSensors();
 	SPI_Init();
@@ -68,11 +76,10 @@ int main(void) {
 	initDistanceMode();
 	while(1) {
 		START_TIMER;
-		while (/*distanceMode*/1){
+		while (distanceMode){
 			while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
 			TIFR |= (1 << OCF1A);			// Reset the timer flag
 			TCNT1 = 0;
-			/*_delay_ms(60);*/
 			updateDistance();
 			send_REQ();
 			sendDistanceSensors();
