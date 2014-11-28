@@ -77,6 +77,8 @@ int main(void) {
 			send_REQ();
 			sendDistanceSensors();
 			tapeIsDone = 0;
+			PORTB = (PORTB & 0xF0); // Start LED1	
+			_delay_ms(1);
 			readADC(TAPE_SENSOR_PORT);
 			while(tapeIsDone);
 			send_REQ();
