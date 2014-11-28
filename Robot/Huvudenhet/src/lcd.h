@@ -22,3 +22,4 @@ void lcd_clear(void);
 void lcd_write(char data);
 void lcd_str_write(char *data);
 void lcd_set_cursor(uint8_t x, uint8_t y);
+void lcd_distance_sensors(uint8_t *distance_data);

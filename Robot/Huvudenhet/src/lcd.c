@@ -113,3 +113,14 @@ void lcd_set_cursor(uint8_t x, uint8_t y) {
 	}
 	lcd_cmd(addr+x);
 }
+
+void lcd_distance_sensors(uint8_t *distance_data) {	
+	lcd_set_cursor(0,2);
+	printf("F: %3i", distance_data[0]);
+	lcd_set_cursor(7,2);
+	printf("B: %3i", distance_data[1]);
+	lcd_set_cursor(0,3);
+	printf("L: %3i", distance_data[2]);
+	lcd_set_cursor(7,3);
+	printf("R: %3i", distance_data[3]);
+}

@@ -12,8 +12,10 @@
 #include <stdint.h>
 
 extern uint16_t tape_data;
-extern uint16_t distance_data[4];
+extern uint8_t distance_data[4];
 
-void interpretSensorData(char * sensorData);
+int checkReversing();
+void swapSensorDirections(uint8_t *sensorData);
+void interpretSensorData(uint8_t *sensorData);
 
 #endif /* ALGORITHMS_H_ */
