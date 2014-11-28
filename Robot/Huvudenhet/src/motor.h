@@ -5,10 +5,10 @@
  *  Author: Oscar
  */ 
 
-
 #ifndef MOTOR_H_
 #define MOTOR_H_
 
+#include <stdint.h>
 
 #endif /* MOTOR_H_ */
 
@@ -25,3 +25,5 @@ void motor_go_forward_pd(void);
 void motor_go_backward(void);
 void motor_rotate_left(void);
 void motor_rotate_right(void);
+void motor_rotate_left_degrees(uint8_t degrees);
+void motor_rotate_right_degrees(uint8_t degrees);

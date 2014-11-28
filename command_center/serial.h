@@ -9,7 +9,7 @@
 
 class Serial : public QObject {
 public:
-    void init_serial(void);
+    Serial();
     void open_serial(string port, int baud);
     void serial_write(const Msg_ptr& msg);
     void close_serial();

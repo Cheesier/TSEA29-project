@@ -1,4 +1,4 @@
-    #include "gui.h"
+#include "gui.h"
 #include "ui_gui.h"
 
 Gui::Gui(QWidget *parent) :
@@ -35,6 +35,9 @@ Gui::Gui(QWidget *parent) :
   // Stop
   QShortcut *shortcut_space = new QShortcut(QKeySequence("SPACE"), this);
   QObject::connect(shortcut_space, SIGNAL(activated()), this, SLOT(on_pushButton_stop_clicked()));
+  // Claw
+  QShortcut *shortcut_c = new QShortcut(QKeySequence("C"), this);
+  QObject::connect(shortcut_c, SIGNAL(activated()), this, SLOT(on_pushButton_claw_switch_clicked()));
 }
 
 Gui::~Gui(){
@@ -206,25 +209,51 @@ void Gui::onSensorInput(string sensorData){
 }
 
 void Gui::onTapeInput(string tapeData){
-  ui->label_tape_1->setText(QString::number(((char)(tapeData[1]) & 1)/1)); //get first bit in second byte
-  ui->label_tape_2->setText(QString::number(((char)(tapeData[1]) & 2)/2));
-  ui->label_tape_3->setText(QString::number(((char)(tapeData[1]) & 4)/4));
-  ui->label_tape_4->setText(QString::number(((char)(tapeData[1]) & 8)/8));
-  ui->label_tape_5->setText(QString::number(((char)(tapeData[1]) & 16)/16));
-  ui->label_tape_6->setText(QString::number(((char)(tapeData[1]) & 32)/32));
-  ui->label_tape_7->setText(QString::number(((char)(tapeData[1]) & 64)/64));
-  ui->label_tape_8->setText(QString::number(((char)(tapeData[1]) & 128)/128));
-  ui->label_tape_9->setText(QString::number(((char)(tapeData[0]) & 1)/1));
-  ui->label_tape_10->setText(QString::number(((char)(tapeData[0]) & 2)/2));
-  ui->label_tape_11->setText(QString::number(((char)(tapeData[0]) & 4)/4));
+  char data0 = tapeData[1];
+  char data1 = tapeData[0];
+
+  ui->label_tape_1->setText(QString::number(data0&0x01 ? 1 : 0));
+  ui->label_tape_2->setText(QString::number(data0&0x02 ? 1 : 0));
+  ui->label_tape_3->setText(QString::number(data0&0x04 ? 1 : 0));
+  ui->label_tape_4->setText(QString::number(data0&0x08 ? 1 : 0));
+  ui->label_tape_5->setText(QString::number(data0&0x10 ? 1 : 0));
+  ui->label_tape_6->setText(QString::number(data0&0x20 ? 1 : 0));
+  ui->label_tape_7->setText(QString::number(data0&0x40 ? 1 : 0));
+  ui->label_tape_8->setText(QString::number(data0&0x80 ? 1 : 0));
+
+  ui->label_tape_9->setText(QString::number(data1&0x01 ? 1 : 0));
+  ui->label_tape_10->setText(QString::number(data1&0x02 ? 1 : 0));
+  ui->label_tape_11->setText(QString::number(data1&0x04 ? 1 : 0));
+
+  /*ui->label_tape_1->setText(QString::number((data1&0x01)/1)); //get first bit in second byte
+  ui->label_tape_2->setText(QString::number((((char)(tapeData[1])) & 2)/2));
+  ui->label_tape_3->setText(QString::number((((char)(tapeData[1])) & 4)/4));
+  ui->label_tape_4->setText(QString::number((((char)(tapeData[1])) & 8)/8));
+  ui->label_tape_5->setText(QString::number((((char)(tapeData[1])) & 16)/16));
+  ui->label_tape_6->setText(QString::number((((char)(tapeData[1])) & 32)/32));
+  ui->label_tape_7->setText(QString::number((((char)(tapeData[1])) & 64)/64));
+  ui->label_tape_8->setText(QString::number((((char)(tapeData[1])) & 128)/128));
+  ui->label_tape_9->setText(QString::number((((char)(tapeData[0])) & 1)/1));
+  ui->label_tape_10->setText(QString::number((((char)(tapeData[0])) & 2)/2));
+  ui->label_tape_11->setText(QString::number((((char)(tapeData[0])) & 4)/4));*/
+
+  //debug
+  /*ui->label_tape_12->setText(QString::number(((char)(tapeData[0]) & 8)/8));
+  ui->label_tape_13->setText(QString::number(((char)(tapeData[0]) & 16)/16));
+  ui->label_tape_14->setText(QString::number(((char)(tapeData[0]) & 32)/32));
+  ui->label_tape_15->setText(QString::number(((char)(tapeData[0]) & 64)/64));
+  ui->label_tape_16->setText(QString::number(((char)(tapeData[0]) & 128)/128));*/
+
 }
 
 
 void Gui::on_horizontalSlider_speed_valueChanged(){
+  ui->pushButton_set_speed->setText("Set speed");
   ui->label_speed->setText(QString::number(ui->horizontalSlider_speed->value()));
 }
 
 void Gui::on_pushButton_set_speed_clicked(){
+  ui->pushButton_set_speed->setText("Current speed");
   core->set_speed(ui->horizontalSlider_speed->value());
 
 }

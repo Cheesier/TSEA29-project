@@ -5,15 +5,16 @@
  *  Author: oscth887
  */
 
-int on_tape = 0;
-
 #include "huvudenhet.h"
+
+int on_tape = 0;
+int autonom;
 
 void interrupt_init(void) {
 	GICR |= (1<< INT1);		// Enables external interrupts via PD3
 	MCUCR |= (1<<ISC11) | (1<<ISC10);
 }
-static int autonom;
+
 void autonomSet (char autonomOn) {
 	if (autonomOn == 0x00) {
 		autonom = 0;
