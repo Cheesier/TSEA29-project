@@ -25,8 +25,8 @@ public:
   explicit Gui(QWidget *parent = 0);
   ~Gui();
 
-  void onSensorInput(QByteArray sensorData);
-  void onTapeInput(QByteArray tapeData);
+  void onSensorInput(char* sensorData);
+  void onTapeInput(char* tapeData);
 
   // --------- SIGNALS ------------
 signals:

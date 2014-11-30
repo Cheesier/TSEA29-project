@@ -59,7 +59,7 @@ public:
   friend istream& operator >> (istream& os, Message& msg);
 
   Type_t get_type() const;
-  QByteArray get_data() const;
+  char * get_data() const;
   hr_clock::time_point get_created_at()const;
   Size_t get_data_size() const;
   char * get_raw_data();

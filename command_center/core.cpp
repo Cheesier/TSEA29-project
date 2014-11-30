@@ -41,7 +41,7 @@ void Core::log(const QString &data){
   //strftime(time_str,sizeof(time_str),"%T", localtime(&timestamp));
   QString out = QString("[%1] %2").arg(time_str,data);
   w->console_log(out);
-  printf("%s\n", qPrintable(out));
+  //printf("%s\n", qPrintable(out));
 }
 
 void Core::troll_input(){

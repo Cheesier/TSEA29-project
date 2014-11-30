@@ -1,7 +1,7 @@
 #include "btinterface.h"
 
 BTInterface::BTInterface(){
-  printf("creating bluetooth interface..\n");
+  //printf("creating bluetooth interface..\n");
 
 #ifdef LINUX
   dev.reset(new QBluetoothLocalDevice);
@@ -9,11 +9,11 @@ BTInterface::BTInterface(){
 
   if(is_avaible())
       core->bt_avaible();
-  else printf("did not find any local bluetooth devices\n");
+  //else printf("did not find any local bluetooth devices\n");
 }
 
 BTInterface::~BTInterface(){
-    printf("destroying bluetooth interface..\n");
+    //printf("destroying bluetooth interface..\n");
 }
 
 void BTInterface::connect_to_device(const string &device_address){

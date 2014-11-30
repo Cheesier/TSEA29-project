@@ -16,7 +16,7 @@ Message::Type_t Message::get_type() const{
   return type;
 }
 
-QByteArray Message::get_data() const{
+char* Message::get_data() const{
   return data->data();
 }
 
@@ -63,7 +63,7 @@ ostream& operator << (ostream& os, const Message& msg){
   const uint64_t& timestamp = chrono::duration_cast<chrono::nanoseconds>(duration).count();
   const Message::Type_t& type = msg.get_type();
   const Message::Size_t& size = msg.get_data_size();
-  const string& data = msg.get_data().data();
+  const string& data = msg.get_data();
   os.write((char*)&timestamp,sizeof(timestamp));
   os.write((char*)&type, sizeof(type));
   os.write((char*)&size, sizeof(size));
