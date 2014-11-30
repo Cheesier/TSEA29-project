@@ -35,9 +35,11 @@ void handle_message(char header, char size, char *data) {
 				for(int i = 0; i < size; i++) {
 					distance_data[i] = data[i];
 				}
-				/*if (autonom) {
-					interpretSensorData(data);
-				}*/
+				break;
+			case 0x05: // kört klart till mitten
+				lcd_set_cursor(6,2);
+				printf("DONE");
+				middle_done = 1;
 				break;
 			case 0x12: // Kör autonomt/sluta köra autonomt
 				autonomSet(data[0]);

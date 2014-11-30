@@ -66,3 +66,7 @@ void motor_rotate_right_degrees(uint8_t degrees) {
 	gyroModeON();
 	send_message_to(ADDR_STYRENHET, 0x0A, 0, 0);			// Rotate right
 }
+
+void motor_forward_to_middle() {
+	send_message_to(ADDR_STYRENHET, 0x11, 0, NO_DATA);
+}

@@ -9,7 +9,7 @@
 #include "pathList.h"
 
 #define DISTANCE_TO_WALL 34
-#define DISTANCE_TO_WALL_FORWARD 34
+#define DISTANCE_TO_WALL_FORWARD 30
 #define DISTANCE_TO_WALL_BACKWARD 34
 #define DISTANCE_TO_WALL_SIDES 30
 
@@ -42,6 +42,12 @@ int sectionType;
 int turningStarted = 0;
 uint16_t tape_data = 0;
 uint8_t distance_data[4] = {0};
+	
+int counter = 0;
+	
+int lock = 0;
+
+int middle_done = 0;
 	
 
 void updateSectionType(uint8_t* wallsInRange) {
@@ -120,7 +126,8 @@ int checkReversing() {
 
 // Handles the different intersections and turns
 void startTurning() {
-	lcd_set_cursor(0, 0);
+	turningStarted = 1;
+	lcd_set_cursor(4,2);
 	lcd_clear();
 	switch (sectionType) {
 		
@@ -296,6 +303,7 @@ void interpretSensorData(uint8_t *sensorData) {
 	lcd_set_cursor(0,1);
 	switch (currentState) {		
 		case STATE_PD:
+			lcd_set_cursor(4,1);
 			printf("STATE_PD");
 			if (wallsInRange[0] || !wallsInRange[2] || !wallsInRange[3]) {
 				//motor_stop();
@@ -305,10 +313,11 @@ void interpretSensorData(uint8_t *sensorData) {
 				motor_stop();
 				_delay_ms(3000);*/				
 				motor_stop();
-				motor_set_speed(64);
-				motor_go_forward();
+				/*motor_set_speed(64);
+				motor_go_forward();*/
 				currentState = STATE_GOTO_MIDDLE;
 			} else {
+				motor_set_speed(200);
 				motor_go_forward_pd();
 				//check for tape!
 				if(!reversingOut && tape_data > 0 && tape_data != 0x07FF) {
@@ -321,36 +330,35 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_GOTO_MIDDLE:
-			printf("GO_TO_MIDDLE");
-			if (useForward) {
-				if (distanceForward-sensorData[0] >= DISTANCE_TO_MIDDLE) {
-					motor_set_speed(128);
-					motor_stop();				
-					_delay_ms(1000);
-					updateSectionType(wallsInRange);
-					currentState = STATE_ROTATE;
-				} else {
-					motor_set_speed(64);										
-					motor_go_forward();
-				}
+			if (middle_done) {
+				lcd_clear();
+				lcd_set_cursor(4,1);
+				printf("DONE");
+				middle_done = 0;
+				lock = 0;
+				motor_stop();
+				updateSectionType(wallsInRange);
+				currentState = STATE_ROTATE;
 			} else {
-				
-				if (sensorData[1]-distanceBackward >= DISTANCE_TO_MIDDLE) {
-					motor_set_speed(128);
+				if(!lock) {
+					lcd_set_cursor(4,1);
+					printf("GO_TO_MIDDLE");
 					motor_stop();
-					_delay_ms(1000);
-					updateSectionType(wallsInRange);
-					currentState = STATE_ROTATE;
-				} else {	
-					motor_set_speed(64);														
-					motor_go_forward();
+					_delay_ms(2000);
+					motor_forward_to_middle();
+					lock = 1;
 				}
+				lcd_set_cursor(4,1);
+				printf("%u", counter++);
+				_delay_ms(1);
 			}
 			break;
 		case STATE_ROTATE:
+			lcd_set_cursor(4,1);
 			printf("ROTATE");
 			if (turningStarted) {
 				if (isGyroDone()) {
+					turningStarted = 0;
 					motor_stop();					
 					currentState = STATE_FIND_WALLS;
 					_delay_ms(3000);
@@ -360,6 +368,7 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_FIND_WALLS:
+			lcd_set_cursor(4,1);
 			printf("FIND_WALLS");
 			if (wallsInRange[2] && wallsInRange[3]) {
 				currentState = STATE_PD;
@@ -383,6 +392,8 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_DONE:
+			lcd_set_cursor(4,1);
+			printf("STATE DONE");
 			motor_stop();
 			//while(1); //
 			break;

@@ -88,12 +88,27 @@ int main(void) {
 	_delay_ms(1000);
 	motor_claw_open();
 	motor_stop();*/
+
+	motor_set_speed(200);
+	int lock = 0;
+	uint8_t test = 0;
 	
 	while(1){						
 		for(int i = 0; i < 4; i++) {
 			distance_data_done[i] = distance_data[i];
 		}
 		lcd_distance_sensors((uint8_t*)&distance_data_done);
+		_delay_ms(10);
+		if (!lock) {
+			autonomSet(1);
+			lock = 1;
+		}
+
+		if (distance_data_done[0] < 20) {
+			motor_stop();
+		}
+		
+		
 		if (autonom == 1) {
 			interpretSensorData(distance_data_done);
 			_delay_ms(30);

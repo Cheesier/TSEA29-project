@@ -14,7 +14,7 @@
 #define ECHO_RIGHT PIND5
 #define SENSOR_INPUT PIND
 #define SENSOR_OUTPUT PORTD
-#define WAIT_FOR_INPUT while(!RIGHT_HIGH||!BACK_HIGH||!LEFT_HIGH||!FRONT_HIGH)
+#define WAIT_FOR_INPUT while(!RIGHT_HIGH)
 
 #define FRONT_HIGH (SENSOR_INPUT&(1<<ECHO_FRONT))
 #define RIGHT_HIGH (SENSOR_INPUT&(1<<ECHO_RIGHT))
@@ -28,10 +28,13 @@
 
 
 void updateDistance() {
+	
 	//Setup variables
 	uint8_t done[SENSOR_COUNT];
+	uint8_t was_high[SENSOR_COUNT];
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		done[i] = 0;
+		was_high[i] = 0;
 	}
 	distance = 0;
 	interrupted = 0;			//
@@ -47,26 +50,38 @@ void updateDistance() {
 	
 	//Measure length of echo signal
 	START_TIMER;
-	while (FRONT_HIGH || RIGHT_HIGH || BACK_HIGH || LEFT_HIGH) {
-		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT]) { 
+	while (distance<255) {
+		if(FRONT_HIGH) {
+			was_high[DISTANCE_FRONT] = 1;
+		}
+		if(BACK_HIGH) {
+			was_high[DISTANCE_BACK] = 1;
+		}
+		if(LEFT_HIGH) {
+			was_high[DISTANCE_LEFT] = 1;
+		}
+		if(RIGHT_HIGH) {
+			was_high[DISTANCE_RIGHT] = 1;
+		}
+		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT] && was_high[DISTANCE_FRONT]) { 
 			STOP_TIMER;
 			distanceSensors[DISTANCE_FRONT] = distance;
 			START_TIMER;
 			done[DISTANCE_FRONT] = 1;
 		}
-		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT]) {
+		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT] && was_high[DISTANCE_RIGHT]) {
 			STOP_TIMER;
 			distanceSensors[DISTANCE_RIGHT] = distance;
 			START_TIMER;
 			done[DISTANCE_RIGHT] = 1;
 		}
-		if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK]) {
+		if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK] && was_high[DISTANCE_BACK]) {
 			STOP_TIMER;
 			distanceSensors[DISTANCE_BACK] = distance;
 			START_TIMER;
 			done[DISTANCE_BACK] = 1;
 		}
-		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT]) {
+		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT] && was_high[DISTANCE_LEFT]) {
 			STOP_TIMER;
 			distanceSensors[DISTANCE_LEFT] = distance;
 			START_TIMER;
@@ -74,6 +89,11 @@ void updateDistance() {
 		}
 	}
 	STOP_TIMER;
+	for(int i = 0; i < SENSOR_COUNT; i++) {
+		if(!done[i]) {
+			distanceSensors[i] = 255;
+		}
+	}
 	/*send_REQ();
 	sendDistanceSensors();*/
 }

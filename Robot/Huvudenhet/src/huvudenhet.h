@@ -26,6 +26,7 @@
 #include "pathList.h"
 
 void autonomSet(char autonomOn);
+extern int autonom;
 
 
 #endif /* HUVUDENHET_H_ */

@@ -45,6 +45,7 @@ void spi_init(void) {
 	/* SPI, Master, set clock rate fck/16 */
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<MSTR)|(1<<SPR0);
 	
+	DDRD &= ~(1<<PIND2);
 	DDRD &= ~(1<<PIND3);
 	
 	PORTB |= (1<<SS_SENSOR) | (1<<SS_STYR);
@@ -94,6 +95,14 @@ ISR(INT1_vect) {
 		_delay_us(30);
 		read_message(ADDR_SENSORENHET);
 	}
+}
+
+ISR(INT0_vect) {
+	
+	lcd_set_cursor(6,2);
+	printf("DONE");
+	_delay_us(30);
+	read_message(ADDR_STYRENHET);
 }
 
 ISR(SPISTC_vect) {
