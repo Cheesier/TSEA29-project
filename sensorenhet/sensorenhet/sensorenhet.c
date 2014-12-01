@@ -7,6 +7,9 @@
 
 #include "sensorenhet.h"
 
+#define START_TIMER TCCR1B |= (1 << CS10) | (1 << CS12);	// Set the prescaler to 1024
+#define STOP_TIMER TCCR1B &= ~((1 << CS10) | (1 << CS12));
+
 extern int distance;
 extern int interrupted;
 extern uint8_t distanceSensors[SENSOR_COUNT];

@@ -9,6 +9,8 @@
 //#include "message_handler.h"
 #include "huvudenhet.h"
 
+
+
 void init_motor(void) {
 	// whatever there is to do here
 }

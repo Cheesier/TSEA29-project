@@ -94,8 +94,13 @@ int main(void) {
 	uint8_t test = 0;
 	
 	while(1){
+		
+		if (!lock) {
+			lock = 1;
+			motor_rotate_right_degrees(90);
+		}
 							
-		for(int i = 0; i < 4; i++) {
+		/*for(int i = 0; i < 4; i++) {
 			distance_data_done[i] = distance_data[i];
 		}
 		lcd_distance_sensors((uint8_t*)&distance_data_done);
@@ -104,18 +109,13 @@ int main(void) {
 			autonomSet(1);
 			lock = 1;
 		}
-
-		if (distance_data_done[0] < 20) {
-			motor_stop();
-		}
-		
 		
 		if (autonom == 1) {
 			interpretSensorData(distance_data_done);
 			_delay_ms(30);
 		} else {
 			_delay_ms(1);
-		}
+		}*/
 		
 		/*_delay_ms(2000);
 		lcd_set_cursor(1, 2);

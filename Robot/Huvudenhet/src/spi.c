@@ -98,10 +98,11 @@ ISR(INT1_vect) {
 }
 
 ISR(INT0_vect) {
-	lcd_set_cursor(4,2);
-	printf("INTERRUPT");
-	_delay_us(30);
-	read_message(ADDR_STYRENHET);
+	//lcd_set_cursor(4,2);
+	//printf("INTERRUPT");
+	middle_done = 1;
+	//_delay_us(30);
+	//read_message(ADDR_STYRENHET);
 }
 
 ISR(SPISTC_vect) {

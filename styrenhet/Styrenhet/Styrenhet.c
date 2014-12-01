@@ -232,12 +232,11 @@ void gripClaw() {
 
 void forwardToMiddle() {
 	setSpeed(64);
-	_delay_ms(250);
+	_delay_ms(500);
 	stopWheels();
 	send_REQ();
-	cli();
+	/*cli();
 	SPI_Send(0x05);
 	SPI_Send(0x00);
-	SPI_Send(0x00);
-	sei();
+	sei();*/
 }

@@ -127,14 +127,13 @@ int checkReversing() {
 // Handles the different intersections and turns
 void startTurning() {
 	turningStarted = 1;
-	lcd_set_cursor(4,2);
 	lcd_clear();
+	lcd_set_cursor(4,2);
 	switch (sectionType) {
 		
 		case TYPE_DEAD_END:
 			motor_stop();
 			printf("Dead end");
-			currentState = STATE_DONE;
 			/*motor_stop();
 			_delay_ms(1000);
 			reversing = TRUE;
@@ -144,27 +143,18 @@ void startTurning() {
 			break;
 			
 		case TYPE_TURN_LEFT:
-			motor_stop();
 			printf("Left turn");
-			currentState = STATE_DONE;			
-			/*motor_stop();			
-			_delay_ms(3000);
-			motor_rotate_left_degrees(90);*/
+			motor_rotate_left_degrees(90);
 			break;
 			
-		case TYPE_TURN_RIGHT:					
-			motor_stop();
+		case TYPE_TURN_RIGHT:
 			printf("Right turn");
-			currentState = STATE_DONE;
-			/*motor_stop();			
-			_delay_ms(3000);
-			motor_rotate_right_degrees(90);*/
+			motor_rotate_right_degrees(90);
 			break;
 			
 		case TYPE_T_CROSS:
 			motor_stop();
 			printf("T-cross");
-			currentState = STATE_DONE;	
 			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
@@ -191,7 +181,6 @@ void startTurning() {
 		case TYPE_T_CROSS_LEFT:
 			motor_stop();
 			printf("T-cross left");
-			currentState = STATE_DONE;
 			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
@@ -217,7 +206,6 @@ void startTurning() {
 		case TYPE_T_CROSS_RIGHT:
 			motor_stop();
 			printf("T-cross right");
-			currentState = STATE_DONE;
 			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
@@ -242,8 +230,7 @@ void startTurning() {
 			
 		case TYPE_CROSSROAD:
 			motor_stop();
-			printf("Intersection");
-			currentState = STATE_DONE;			
+			printf("Intersection");		
 			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
