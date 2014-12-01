@@ -201,14 +201,14 @@ void Gui::on_pushButton_forward_right_pressed(){
 
 
 
-void Gui::onSensorInput(QByteArray sensorData){
+void Gui::onSensorInput(char* sensorData){
   ui->label_forward_sensor->setText(QString::number((unsigned char)(sensorData[0])));
   ui->label_right_sensor->setText(QString::number((unsigned char)(sensorData[3])));
   ui->label_backward_sensor->setText(QString::number((unsigned char)(sensorData[1])));
   ui->label_left_sensor->setText(QString::number((unsigned char)(sensorData[2])));
 }
 
-void Gui::onTapeInput(QByteArray tapeData){
+void Gui::onTapeInput(char* tapeData){
   char data0 = tapeData[1];
   char data1 = tapeData[0];
 
@@ -224,26 +224,6 @@ void Gui::onTapeInput(QByteArray tapeData){
   ui->label_tape_9->setText(QString::number(data1&0x01 ? 1 : 0));
   ui->label_tape_10->setText(QString::number(data1&0x02 ? 1 : 0));
   ui->label_tape_11->setText(QString::number(data1&0x04 ? 1 : 0));
-
-  /*ui->label_tape_1->setText(QString::number((data1&0x01)/1)); //get first bit in second byte
-  ui->label_tape_2->setText(QString::number((((char)(tapeData[1])) & 2)/2));
-  ui->label_tape_3->setText(QString::number((((char)(tapeData[1])) & 4)/4));
-  ui->label_tape_4->setText(QString::number((((char)(tapeData[1])) & 8)/8));
-  ui->label_tape_5->setText(QString::number((((char)(tapeData[1])) & 16)/16));
-  ui->label_tape_6->setText(QString::number((((char)(tapeData[1])) & 32)/32));
-  ui->label_tape_7->setText(QString::number((((char)(tapeData[1])) & 64)/64));
-  ui->label_tape_8->setText(QString::number((((char)(tapeData[1])) & 128)/128));
-  ui->label_tape_9->setText(QString::number((((char)(tapeData[0])) & 1)/1));
-  ui->label_tape_10->setText(QString::number((((char)(tapeData[0])) & 2)/2));
-  ui->label_tape_11->setText(QString::number((((char)(tapeData[0])) & 4)/4));*/
-
-  //debug
-  /*ui->label_tape_12->setText(QString::number(((char)(tapeData[0]) & 8)/8));
-  ui->label_tape_13->setText(QString::number(((char)(tapeData[0]) & 16)/16));
-  ui->label_tape_14->setText(QString::number(((char)(tapeData[0]) & 32)/32));
-  ui->label_tape_15->setText(QString::number(((char)(tapeData[0]) & 64)/64));
-  ui->label_tape_16->setText(QString::number(((char)(tapeData[0]) & 128)/128));*/
-
 }
 
 
