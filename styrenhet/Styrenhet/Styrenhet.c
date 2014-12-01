@@ -235,7 +235,9 @@ void forwardToMiddle() {
 	_delay_ms(250);
 	stopWheels();
 	send_REQ();
+	cli();
 	SPI_Send(0x05);
 	SPI_Send(0x00);
 	SPI_Send(0x00);
+	sei();
 }

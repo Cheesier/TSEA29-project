@@ -36,6 +36,7 @@ void SPI_Init(void) {
 	SPCR |= (1<<SPR0);				// Prescaler 16
 	
 	DDRD |= (1<<REQ);
+	PORTD &= ~(1<<REQ);
 }
 
 // Receive from SPI

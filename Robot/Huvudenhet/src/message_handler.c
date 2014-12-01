@@ -37,6 +37,7 @@ void handle_message(char header, char size, char *data) {
 				}
 				break;
 			case 0x05: // kört klart till mitten
+				lcd_clear();
 				lcd_set_cursor(6,2);
 				printf("DONE");
 				middle_done = 1;

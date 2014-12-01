@@ -98,9 +98,8 @@ ISR(INT1_vect) {
 }
 
 ISR(INT0_vect) {
-	
-	lcd_set_cursor(6,2);
-	printf("DONE");
+	lcd_set_cursor(4,2);
+	printf("INTERRUPT");
 	_delay_us(30);
 	read_message(ADDR_STYRENHET);
 }

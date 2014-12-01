@@ -12,17 +12,17 @@ int autonom = 1;
 uint8_t distance_data_done[4];
 
 void interrupt_init(void) {
-	GICR |= (1<< INT1);		// Enables external interrupts via PD3
-	MCUCR |= (1<<ISC11) | (1<<ISC10);
+	GICR |= (1<< INT1)|(1<<INT0);		// Enables external interrupts via PD3
+	MCUCR |= (1<<ISC11) | (1<<ISC10)|(1<<ISC01) | (1<<ISC00);
 }
 
 void autonomSet (char autonomOn) {
 	if (autonomOn == 0x00) {
 		autonom = 0;
 	} else if (autonomOn == 0x01) {
-		motor_claw_open();
-		_delay_ms(500);
 		motor_claw_close();
+		_delay_ms(500);
+		motor_claw_open();
 		_delay_ms(500);
 		autonom = 1;
 	} else {
@@ -93,7 +93,8 @@ int main(void) {
 	int lock = 0;
 	uint8_t test = 0;
 	
-	while(1){						
+	while(1){
+							
 		for(int i = 0; i < 4; i++) {
 			distance_data_done[i] = distance_data[i];
 		}
@@ -115,6 +116,7 @@ int main(void) {
 		} else {
 			_delay_ms(1);
 		}
+		
 		/*_delay_ms(2000);
 		lcd_set_cursor(1, 2);
 		printf("Rotating left");

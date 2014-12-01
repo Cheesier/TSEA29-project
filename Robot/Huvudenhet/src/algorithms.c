@@ -331,12 +331,11 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		case STATE_GOTO_MIDDLE:
 			if (middle_done) {
-				lcd_clear();
-				lcd_set_cursor(4,1);
-				printf("DONE");
 				middle_done = 0;
 				lock = 0;
 				motor_stop();
+				lcd_set_cursor(6,2);
+				printf("DONE!");
 				updateSectionType(wallsInRange);
 				currentState = STATE_ROTATE;
 			} else {
@@ -344,13 +343,9 @@ void interpretSensorData(uint8_t *sensorData) {
 					lcd_set_cursor(4,1);
 					printf("GO_TO_MIDDLE");
 					motor_stop();
-					_delay_ms(2000);
 					motor_forward_to_middle();
 					lock = 1;
 				}
-				lcd_set_cursor(4,1);
-				printf("%u", counter++);
-				_delay_ms(1);
 			}
 			break;
 		case STATE_ROTATE:
