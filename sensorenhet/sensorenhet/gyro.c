@@ -9,7 +9,9 @@
 
 #include "sensorenhet.h"
 
-
+// Timers
+#define START_TIMER TCCR1B |= (1 << CS10) | (1 << CS12);	// Set the prescaler to 1024
+#define STOP_TIMER TCCR1B &= ~((1 << CS10) | (1 << CS12));
 
 static int gyro_null_value = 0;
 static int degrees_rotated = 0;
