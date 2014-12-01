@@ -128,7 +128,7 @@ ISR(SPISTC_vect) {
 					break;
 				case 0x0E: // Set speed
 					speed = SPI_Receive();
-					maxSpeed = speed;
+					setCurrentSpeed(speed);
 					break;
 				case 0x0F:
 					softTurnLeft();				

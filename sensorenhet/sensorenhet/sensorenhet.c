@@ -35,6 +35,9 @@ static int distanceMode= 0;
 #define TAPE_SENS PORTA0
 /* Gyro */
 #define GYRO PORTA1
+// Timers
+#define START_TIMER TCCR1B |= (1 << CS10) | (1 << CS12);	// Set the prescaler to 1024
+#define STOP_TIMER TCCR1B &= ~((1 << CS10) | (1 << CS12));
 
 void initSensors() {
 	// Initiate the mux for the tape sensors
