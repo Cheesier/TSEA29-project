@@ -16,10 +16,12 @@
 #include "PDregulator.h"
 
 // SPI ports
-#define SPI_SS		PORTB4
-#define SPI_MOSI	PORTB5
-#define SPI_MISO	PORTB6
-#define SPI_SCLK	PORTB7
+#define SPI_SS PORTB4
+#define SPI_MOSI PORTB5
+#define SPI_MISO PORTB6
+#define SPI_SCLK PORTB7
+
+#define REQ PORTD0
 
 // SPI register
 #define DDR_SPI DDRB
@@ -32,6 +34,8 @@ void SPI_Init(void) {
 	SPCR = (1<<SPE);				// Enable SPI
 	SPCR |= (1<<SPIE);				// Enable interrupts
 	SPCR |= (1<<SPR0);				// Prescaler 16
+	
+	DDRD |= (1<<REQ);
 }
 
 // Receive from SPI
@@ -56,7 +60,7 @@ ISR(SPISTC_vect) {
 	char size = SPI_Receive();
 	char header = msg >> 6;
 	msg = msg & 0x3F;
-	char _speed;
+	char speed;
 	char left_sensor, right_sensor;
 	uint8_t d, p;
 	char left_dir, right_dir, left_speed, right_speed;
@@ -122,14 +126,17 @@ ISR(SPISTC_vect) {
 					stopWheels();
 					break;
 				case 0x0E: // Set speed
-					_speed = SPI_Receive();
-					speed = _speed;
+					speed = SPI_Receive();
+					maxSpeed = speed;
 					break;
 				case 0x0F:
 					softTurnLeft();				
 					break;
 				case 0x10:
 					softTurnRight();
+					break;
+				case 0x11:
+					forwardToMiddle();
 					break;
 				default:	// Fetch the message anyway
 					for(int i = 0; i < size; i++) {
@@ -156,4 +163,10 @@ void errorMessage(char unknownMessage) {
 void headerError(int header) {
 	SPI_Send(0x3F);
 	return;
+}
+
+void send_REQ() {
+	PORTD |= (1<<REQ);
+	_delay_us(1);
+	PORTD &= ~(1<<REQ);
 }

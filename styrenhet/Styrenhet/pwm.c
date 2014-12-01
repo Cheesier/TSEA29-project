@@ -47,7 +47,6 @@ void init_pwm() {
 	DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); // sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
 	
 	wheelsDisable();
-	clawRelease();
 	clawDisable();
 }
 

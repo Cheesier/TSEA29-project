@@ -17,6 +17,7 @@ int16_t PDgetCorrection();
 void setPD(uint8_t p_value, uint8_t d_value);
 void PDforward();
 
+extern int PDnewData;
 
 
 #endif /* PD-REGULATOR_H_ */

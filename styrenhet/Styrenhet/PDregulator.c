@@ -9,11 +9,15 @@
 #include "Styrenhet.h"
 #include <avr/interrupt.h>
 
+#define D_SCALING 3
+
 int active = 0;
-int16_t sensorData[2];
+int16_t sensorData[3];
 int16_t PD_direction = 0;
-uint8_t p = 15;
-uint8_t d = 150;
+uint8_t p = 12;
+uint8_t d = 22;
+
+int PDnewData = 0;
 
 void PDactivate() {
 	active = 1;
@@ -25,13 +29,14 @@ int PDisActive() {
 	return active;
 }
 void PDupdateSensorData(uint8_t left, uint8_t right) {
+	sensorData[2] = sensorData[1];
 	sensorData[1] = sensorData[0];
 	sensorData[0] = right-left;
+	PDnewData = 1;
 }
 int16_t PDgetCorrection() {
-	cli();
-	PD_direction = p * sensorData[0] + d * (sensorData[0]-sensorData[1]);
-	sei();
+	PD_direction = p * sensorData[0] + d * D_SCALING * (sensorData[0]-sensorData[2]);
+	PDnewData = 0;
 	return PD_direction;
 }
 
@@ -41,23 +46,20 @@ void setPD(uint8_t p_value, uint8_t d_value) {
 }
 
 void PDforward() {
-	while (PDisActive())
-	{
-		int16_t correction = PDgetCorrection();
-		uint8_t left_speed = 255;
-		uint8_t right_speed = 255;
-		if (correction >= 0) {
-			right_speed -= correction/4;
-			if(right_speed<51) {
-				right_speed = 51;
-			}
-		}
-		else {
-			left_speed += correction/4;
-			if(left_speed<51) {
-				left_speed = 51;
-			}
-		}
-		PDTurning(left_speed, right_speed);
+	int16_t correction = PDgetCorrection();
+	uint8_t left_speed = 255;
+	uint8_t right_speed = 255;
+	if (correction >= 0) {
+		right_speed -= correction;
+		/*if(right_speed<51) {
+			right_speed = 51;
+		}*/
 	}
+	else {
+		left_speed += correction;
+		/*if(left_speed<51) {
+			left_speed = 51;
+		}*/
+	}
+	PDTurning(left_speed, right_speed);
 }

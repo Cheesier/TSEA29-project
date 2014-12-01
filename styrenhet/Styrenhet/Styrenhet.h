@@ -11,10 +11,9 @@
 #include <stdint.h>
 #include "PDregulator.h"
 
-extern uint8_t speed;
+extern uint8_t maxSpeed;
 
 void setDirection(uint8_t dir);
-void setCurrentSpeed(uint8_t _speed);
 
 void driveForward();
 void driveReverse();
@@ -34,5 +33,7 @@ void wheelSpeeds(uint8_t left_speed, uint8_t right_speed);
 void releaseClaw();
 void gripClaw();
 void stopWheels();
+
+void forwardToMiddle();
 
 #endif /* STYRENHET_H_ */

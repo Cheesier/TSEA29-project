@@ -15,5 +15,6 @@ char SPI_Recive(void);
 void SPI_Send(char dataout);
 char SPI_Transceive(char dataout);
 void receiveMessage();
+void send_REQ();
 
 #endif /* SPI_H_ */
