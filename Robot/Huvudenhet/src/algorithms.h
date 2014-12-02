@@ -14,6 +14,7 @@
 extern uint16_t tape_data;
 extern uint8_t distance_data[4];
 extern int middle_done;
+extern int reversing;
 
 
 int checkReversing();

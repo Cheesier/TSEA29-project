@@ -50,7 +50,7 @@ void updateGyroData() {
 	// In turn translates to a sensitivity of ~0.74 degrees for each adc value
 	// Sensitivity multiplied by 100 to avoid using floats
 
-	gyro_value = (gyro_value - gyro_null_value) * 56;
+	gyro_value = (gyro_value - gyro_null_value) * 28;
 
 	degrees_rotated += gyro_value/100;		// Divided by 100 because we measure 100 times a second
 

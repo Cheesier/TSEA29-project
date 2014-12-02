@@ -31,7 +31,9 @@ void autonomSet (char autonomOn) {
 }
 
 
-int main(void) {	
+int main(void) {
+	
+	
 	bt_init();
 	spi_init();
 	lcd_init();
@@ -40,6 +42,11 @@ int main(void) {
 	sei();
 
 	_delay_ms(5000);
+	
+	motor_set_speed(200);
+	int lock = 0;
+	uint8_t test = 0;
+	
 	//calibrateTapeSensor();
 
 	/*for (int i = 0; i < 4; i++) {
@@ -88,23 +95,18 @@ int main(void) {
 	_delay_ms(1000);
 	motor_claw_open();
 	motor_stop();*/
-
-	motor_set_speed(200);
-	int lock = 0;
-	uint8_t test = 0;
 	
+	//motor_rotate_right_degrees(90);
 	while(1){
-		
-		if (!lock) {
-			lock = 1;
-			motor_rotate_right_degrees(90);
-		}
 							
-		/*for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < 4; i++) {
+			if (i == 1 && distance_data[1] == 8) {
+				continue;
+			}
 			distance_data_done[i] = distance_data[i];
 		}
 		lcd_distance_sensors((uint8_t*)&distance_data_done);
-		_delay_ms(10);
+		/*_delay_ms(10);
 		if (!lock) {
 			autonomSet(1);
 			lock = 1;
@@ -127,6 +129,5 @@ int main(void) {
 		printf("Rotating right");
 		motor_rotate_right_degrees(90);*/
 	}
-
 	return 0;
 }

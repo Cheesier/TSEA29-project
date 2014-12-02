@@ -127,16 +127,20 @@ ISR(SPISTC_vect) {
 					stopWheels();
 					break;
 				case 0x0E: // Set speed
+					PDdeactivate(); //Begin with deactivating PD-regulation
 					speed = SPI_Receive();
 					setCurrentSpeed(speed);
 					break;
 				case 0x0F:
+					PDdeactivate(); //Begin with deactivating PD-regulation
 					softTurnLeft();				
 					break;
 				case 0x10:
+					PDdeactivate(); //Begin with deactivating PD-regulation
 					softTurnRight();
 					break;
 				case 0x11:
+					PDdeactivate(); //Begin with deactivating PD-regulation
 					forwardToMiddle();
 					break;
 				default:	// Fetch the message anyway
@@ -166,7 +170,7 @@ void headerError(int header) {
 	return;
 }
 
-void send_REQ() {
+void send_REQ_styrenhet() {
 	PORTD |= (1<<REQ);
 	_delay_us(1);
 	PORTD &= ~(1<<REQ);

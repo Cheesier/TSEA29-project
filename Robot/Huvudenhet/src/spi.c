@@ -30,7 +30,7 @@ void gyroModeOFF() {
 }
 
 int req_set = 0;
-static int gyroDone = 0;
+int gyroDone = 0;
 int isGyroDone() {
 	return gyroDone;
 }
