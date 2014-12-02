@@ -96,13 +96,10 @@ int main(void) {
 	motor_claw_open();
 	motor_stop();*/
 	
-	//motor_rotate_right_degrees(90);
+	motor_rotate_left_degrees(90);
 	while(1){
 							
 		for(int i = 0; i < 4; i++) {
-			if (i == 1 && distance_data[1] == 8) {
-				continue;
-			}
 			distance_data_done[i] = distance_data[i];
 		}
 		lcd_distance_sensors((uint8_t*)&distance_data_done);
@@ -117,8 +114,8 @@ int main(void) {
 			_delay_ms(30);
 		} else {
 			_delay_ms(1);
-		}*/
-		
+		}
+		*/
 		/*_delay_ms(2000);
 		lcd_set_cursor(1, 2);
 		printf("Rotating left");

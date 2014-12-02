@@ -17,8 +17,8 @@
 #define TEST_PIN PINC0
 
 int currentState = GET_HEAD;
-char address, type, msgSize, data_index = 0;
-char data[MAX_DATA_SIZE];
+uint8_t address, type, msgSize, data_index = 0;
+uint8_t data[MAX_DATA_SIZE] = {90,90};
 
 extern int distance;
 extern int interrupted;
@@ -125,7 +125,7 @@ void handle_sensor_message() {
 }
 
 ISR(SPISTC_vect) {
-    char msg = SPDR;
+    uint8_t msg = SPDR;
 	SPDR = 0;
 	switch(currentState) {
 		case(GET_HEAD):

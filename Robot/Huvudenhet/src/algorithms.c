@@ -133,9 +133,9 @@ void continueTurning() {
 	switch (sectionType) {
 		
 		case TYPE_DEAD_END:
-			motor_stop();
+			//motor_stop();
 			printf("Dead end");
-			motor_rotate_right();
+			//motor_rotate_right();
 			break;
 			
 		case TYPE_TURN_LEFT:
@@ -191,6 +191,7 @@ void startTurning() {
 			_delay_ms(1000);
 			reversing = TRUE;
 			motor_set_direction(0);	// Puts the robot in reverse-mode
+			//motor_rotate_left_degrees(180);
 			currentState = STATE_PD;	
 			// TODO: Back until we come to the last intersection
 			break;
