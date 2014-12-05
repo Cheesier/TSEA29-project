@@ -9,6 +9,23 @@
 #ifndef ALGORITHMS_H_
 #define ALGORITHMS_H_
 
+#define STATE_PD 0
+#define STATE_GOTO_MIDDLE 1
+#define STATE_ROTATE 2
+#define STATE_FIND_WALLS 3
+#define STATE_FIND_OBJECT 4
+#define STATE_DONE 5
+
+#define TYPE_DEAD_END 0
+#define TYPE_TURN_LEFT 1
+#define TYPE_TURN_RIGHT 2
+#define TYPE_T_CROSS 3
+#define TYPE_T_CROSS_LEFT 4
+#define TYPE_T_CROSS_RIGHT 5
+#define TYPE_CROSSROAD 6
+#define TYPE_CORRIDOR 7
+#define TYPE_NONE 255
+
 #include <stdint.h>
 
 extern uint16_t tape_data;

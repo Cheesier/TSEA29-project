@@ -11,6 +11,12 @@
 #include <stdint.h>
 #include "PDregulator.h"
 
+// SPI
+#include "SPI.h"
+
+// PWM
+#include "pwm.h"
+
 extern uint8_t speed;
 
 void setDirection(uint8_t dir);

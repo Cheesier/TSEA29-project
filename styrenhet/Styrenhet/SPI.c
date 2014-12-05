@@ -26,17 +26,19 @@
 // SPI register
 #define DDR_SPI DDRB
 
-#define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)));
-
 // Initiates the SPI
 void SPI_Init(void) {
-	DDR_SPI = (1<<SPI_MISO);		// Set MISO output
-	SPCR = (1<<SPE);				// Enable SPI
-	SPCR |= (1<<SPIE);				// Enable interrupts
-	SPCR |= (1<<SPR0);				// Prescaler 16
+	DDR_SPI = (1<<SPI_MISO);				// Set MISO output
+	SPCR = (1<<SPE)|(1<<SPIE)|(1<<SPR0);	// Enable SPI, interrupts and Prescaler 16			
 	
 	DDRD |= (1<<REQ);
-	PORTD &= ~(1<<REQ);
+}
+
+char SPI_Transceive(uint8_t dataout) {
+	SPDR = dataout;
+	WAIT_FOR_TRANSFER;
+	SPSR &= ~(1<<SPIF);
+	return SPDR;
 }
 
 // Receive from SPI
@@ -45,14 +47,21 @@ char SPI_Receive(void) {
 }
 
 // Send over SPI
-void SPI_Send(char dataout) {
+void SPI_Send(uint8_t dataout) {
 	SPI_Transceive(dataout);
 }
 
-char SPI_Transceive(char dataout) {
-	SPDR = dataout;
-	WAIT_FOR_TRANSFER;
-	return SPDR;
+// Send back unknown messages to the control center
+//TODO: Not any data
+void errorMessage(char *unknownMessage) {
+	SPI_Send(0x3F);
+}
+
+// Send a message back to the control center if there's an header error
+//TODO: Not any data
+void headerError(int header) {
+	SPI_Send(0x3F);
+	return;
 }
 
 ISR(SPISTC_vect) {
@@ -154,23 +163,11 @@ ISR(SPISTC_vect) {
 		else {			// In case of unexpected header, send an error message
 			headerError(header);
 		}
+	//msg = SPDR;
 	sei();
 }
 
-// Send back unknown messages to the control center
-//TODO: Not any data
-void errorMessage(char unknownMessage) {
-	SPI_Send(0x3F);
-}
-
-// Send a message back to the control center if there's an header error
-//TODO: Not any data
-void headerError(int header) {
-	SPI_Send(0x3F);
-	return;
-}
-
-void send_REQ_styrenhet() {
+void send_REQ_styrenhet(void) {
 	PORTD |= (1<<REQ);
 	_delay_us(1);
 	PORTD &= ~(1<<REQ);

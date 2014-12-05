@@ -33,6 +33,8 @@ void rotateDegrees(int degrees) {
 	}
 
 	send_REQ();		// Alert our huvudenhet that we're done and should stop spinning
+	SPI_Send(0x01);
+	SPI_Send(0x00);
 }
 
 // Rotate for 10 ms and update degrees_rotated

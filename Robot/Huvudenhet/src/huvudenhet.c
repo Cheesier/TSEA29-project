@@ -96,14 +96,13 @@ int main(void) {
 	motor_claw_open();
 	motor_stop();*/
 	
-	motor_rotate_left_degrees(90);
 	while(1){
 							
 		for(int i = 0; i < 4; i++) {
 			distance_data_done[i] = distance_data[i];
 		}
 		lcd_distance_sensors((uint8_t*)&distance_data_done);
-		/*_delay_ms(10);
+		_delay_ms(10);
 		if (!lock) {
 			autonomSet(1);
 			lock = 1;
@@ -115,16 +114,6 @@ int main(void) {
 		} else {
 			_delay_ms(1);
 		}
-		*/
-		/*_delay_ms(2000);
-		lcd_set_cursor(1, 2);
-		printf("Rotating left");
-		motor_rotate_left_degrees(90);
-		
-		_delay_ms(2000);
-		lcd_set_cursor(1, 2);
-		printf("Rotating right");
-		motor_rotate_right_degrees(90);*/
 	}
 	return 0;
 }

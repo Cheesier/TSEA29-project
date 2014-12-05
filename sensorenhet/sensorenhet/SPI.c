@@ -54,6 +54,7 @@ void SPI_Send(char dataout) {
 char SPI_Transceive(char dataout) {
 	SPDR = dataout;
 	WAIT_FOR_TRANSFER;
+	SPSR &= ~(1<<SPIF);
 	return SPDR;
 }
 

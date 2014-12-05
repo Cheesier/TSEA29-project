@@ -13,12 +13,6 @@
 #include <util/delay.h>
 #include "Styrenhet.h"
 
-// SPI
-#include "SPI.h"
-
-// PWM
-#include "pwm.h"
-
 // Pins handling wheel direction
 #define WHEEL_DIRECTION_L PORTA0
 #define WHEEL_DIRECTION_R PORTA1
@@ -234,11 +228,13 @@ void gripClaw() {
 
 void forwardToMiddle() {
 	setSpeed(64);
-	_delay_ms(500);
+	_delay_ms(250);
 	stopWheels();
+	
+	cli();
 	send_REQ_styrenhet();
-	/*cli();
+	SPSR &= ~(1<<SPIF);
 	SPI_Send(0x05);
 	SPI_Send(0x00);
-	sei();*/
+	sei();
 }

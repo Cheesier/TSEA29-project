@@ -20,6 +20,7 @@
 #include "message_handler.h"
 
 int gyroMode = 0;
+uint8_t indent = 0;
 
 void gyroModeON() {
 	gyroMode = 1;
@@ -39,16 +40,19 @@ void resetGyroDone() {
 	gyroDone = 0;
 }
 
+void setGyroDone() {
+	gyroDone = 1;
+}
+
 void spi_init(void) {
 	/* Set MOSI SCK and /SS output*/
 	DDRB |= (1<<SS_SENSOR)|(1<<SS_STYR)|(1<<DDB5)|(1<<DDB7);
+	PORTB |= (1<<SS_SENSOR) | (1<<SS_STYR);
 	/* SPI, Master, set clock rate fck/16 */
 	SPCR = (1<<SPIE)|(1<<SPE)|(1<<MSTR)|(1<<SPR0);
 	
 	DDRD &= ~(1<<PIND2);
 	DDRD &= ~(1<<PIND3);
-	
-	PORTB |= (1<<SS_SENSOR) | (1<<SS_STYR);
 }
 
 
@@ -61,6 +65,8 @@ char spi_transceive(char address, char data) {
 	SPDR = data;
 	// read data
 	while(!(SPSR & (1<<SPIF)));
+	
+	
 
 	PORTB |= (1<<SS_STYR) | (1<<SS_SENSOR);
 
@@ -82,27 +88,20 @@ void spi_send(char header, char size, char* data) {
 	spi_write(addr, size);
 	for (int i = 0; i < size; i++)
 		spi_write(addr, *(data+i));
+	
 }
 
 
 // Interrupt routine for the REQ pin TODO: Slightly unfinished
 ISR(INT1_vect) {
-	if (gyroMode) {
-		motor_stop();
-		gyroDone = 1;
-		gyroModeOFF();
-	} else {
-		_delay_us(30);
-		read_message(ADDR_SENSORENHET);
-	}
+	_delay_us(30);
+	read_message(ADDR_SENSORENHET);
 }
 
 ISR(INT0_vect) {
-	//lcd_set_cursor(4,2);
-	//printf("INTERRUPT");
-	middle_done = 1;
-	//_delay_us(30);
-	//read_message(ADDR_STYRENHET);
+	//middle_done = 1;
+	_delay_us(50);
+	read_message(ADDR_STYRENHET);
 }
 
 ISR(SPISTC_vect) {

@@ -51,5 +51,5 @@ int getDirection() {
 	if(path.last != NULL)
 		return path.last->direction;
 	else
-		return -1;
+		return NOT_TURNED;
 }

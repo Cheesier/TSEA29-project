@@ -9,12 +9,14 @@
 #ifndef SPI_H_
 #define SPI_H_
 
+#define WAIT_FOR_TRANSFER while(!(SPSR & (1<<SPIF)));
+
 void SPI_Init(void);
 
 char SPI_Recive(void);
-void SPI_Send(char dataout);
-char SPI_Transceive(char dataout);
-void receiveMessage();
-void send_REQ_styrenhet();
+void SPI_Send(uint8_t dataout);
+char SPI_Transceive(uint8_t dataout);
+void receiveMessage(void);
+void send_REQ_styrenhet(void);
 
 #endif /* SPI_H_ */

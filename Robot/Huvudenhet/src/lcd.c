@@ -114,17 +114,94 @@ void lcd_set_cursor(uint8_t x, uint8_t y) {
 	lcd_cmd(addr+x);
 }
 
-void lcd_distance_sensors(uint8_t *distance_data) {	
-	lcd_set_cursor(14,1);
-	printf("F");
-	lcd_set_cursor(13,2);
-	printf("%3i", distance_data[0]);
-	lcd_set_cursor(1,1);
-	printf("B");
+void lcd_distance_sensors(uint8_t *distance_data) {
+	lcd_set_cursor(12,0);
+	printf("|%3i", distance_data[0]);
+	lcd_set_cursor(12,1);
+	printf("|%3i", distance_data[1]);
+	lcd_set_cursor(12,2);
+	printf("|%3i", distance_data[2]);
+	lcd_set_cursor(12,3);
+	printf("|%3i", distance_data[3]);
+}
+
+void lcd_state(uint8_t state_to_print) {
+	lcd_set_cursor(0,0);
+	switch(state_to_print) {
+		case STATE_PD:
+			printf("[ P-D ]");
+			break;
+		case STATE_GOTO_MIDDLE:
+			printf("[ MID ]");
+			break;
+		case STATE_ROTATE:
+			printf("[ ROT ]");
+			break;
+		case STATE_FIND_WALLS:
+			printf("[ WAL ]");
+			break;
+		case STATE_FIND_OBJECT:
+			printf("[ OBJ ]");
+			break;
+		case STATE_DONE:
+			printf("[ DON ]");
+			break;
+		default:
+			printf("[     ]");
+			break;
+	}
+}
+
+void lcd_section_type(uint8_t section_to_print) {
+	lcd_set_cursor(0,1);
+	switch(section_to_print) {
+		case TYPE_DEAD_END:
+			printf("[ D_E ]");
+			break;
+		case TYPE_TURN_LEFT:
+			printf("[ LEF ]");
+			break;
+		case TYPE_TURN_RIGHT:
+			printf("[ RIG ]");
+			break;
+		case TYPE_T_CROSS:
+			printf("[  T  ]");
+			break;
+		case TYPE_T_CROSS_LEFT:
+			printf("[ T_L ]");
+			break;
+		case TYPE_T_CROSS_RIGHT:
+			printf("[ T_R ]");
+			break;
+		case TYPE_CROSSROAD:
+			printf("[ CRO ]");
+			break;
+		case TYPE_CORRIDOR:
+			printf("[ COR ]");
+			break;
+		default:
+			printf("[     ]");
+			break;
+	}
+}
+
+void lcd_direction(uint8_t direction_to_print) {
 	lcd_set_cursor(0,2);
-	printf("%3i", distance_data[1]);
-	lcd_set_cursor(6,0);
-	printf("L:%3i", distance_data[2]);
-	lcd_set_cursor(6,3);
-	printf("R:%3i", distance_data[3]);
+	switch(direction_to_print) {
+		case NOT_TURNED:
+			printf("[ N_T ]");
+			break;
+		case LEFT:
+			printf("[ LEF ]");
+			break;
+		case FORWARD:
+			printf("[ FOR ]");
+			break;
+		case RIGHT:
+			printf("[ RIG ]");
+			break;
+		default:
+			printf("[     ]");
+			break;
+	}
 }
