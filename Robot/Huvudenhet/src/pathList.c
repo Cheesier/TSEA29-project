@@ -17,16 +17,16 @@ void initPathList() {
 
 // Adds a new intersection to the list
 void addNode() {
-	struct intersection node;
-	node.next = NULL;
+	struct intersection *node = malloc(sizeof(struct intersection));
+	node->next = NULL;
 	
 	if(path.first != NULL) {
-		node.previous = path.last;
-		path.last->next = &node;
+		node->previous = path.last;
+		path.last->next = node;
 	}
 	else {
-		node.previous = NULL;		
-		path.first = &node;	
+		node->previous = NULL;
+		path.first = node;	
 	}
 }
 

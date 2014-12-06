@@ -26,23 +26,39 @@
 #define TRUE 1
 #define FALSE 0
 
-int reversing = 0;
-int reversingOut = 0;
-int currentState = STATE_PD;
+uint8_t reversing = 0;
+uint8_t reversingOut = 0;
+uint8_t currentState = STATE_PD;
 uint8_t distanceForward, distanceBackward;
-int useForward = TRUE;
-int sectionType;
-int turningStarted = 0;
+uint8_t useForward = TRUE;
+uint8_t sectionType;
+uint8_t turningStarted = 0;
 uint16_t tape_data = 0;
 uint8_t distance_data[4] = {0};
 	
-int counter = 0;
+uint8_t counter = 0;
+uint8_t old_intersection = FALSE;
 	
-int lock = 0;
-int PD_activated = 0;
+uint8_t lock = 0;
+uint8_t PD_activated = 0;
+uint8_t middle_done = 0;
+	
+void resetRotation() {		
+	turningStarted = 1;
+	int dir = getDirection();
+	switch(dir) {
+		case RIGHT:
+			motor_rotate_left_degrees(90);
+			break;
+		case LEFT:
+			motor_rotate_right_degrees(90);
+			break;
+		default:
+			setGyroDone();
+			break;
+	}
+}
 
-int middle_done = 0;
-	
 
 void updateSectionType(uint8_t* wallsInRange) {
 	if (wallsInRange[WALL_FRONT]) {
@@ -92,7 +108,7 @@ void updateSectionType(uint8_t* wallsInRange) {
 				currentState = STATE_ROTATE;
 				return;
 			} else {
-				sectionType = TYPE_CROSSROAD;
+				sectionType = TYPE_INTERSECTION;
 				currentState = STATE_ROTATE;
 				return;
 			}
@@ -105,7 +121,7 @@ int wallInRange(char distance, char distanceToWall) {
 }
 
 // Returns TRUE if we're heading for the end goal
-int checkReversing() {
+uint8_t checkReversing() {
 	if(reversing) {
 		int dir = getDirection();
 		switch(dir) {
@@ -118,7 +134,12 @@ int checkReversing() {
 			default:
 				break;
 		}
-		if(!reversingOut) {
+		while(!isGyroDone());
+		gyroModeOFF();				
+		resetGyroDone();		
+		
+		
+		if(!reversingOut) {			
 			reversing = FALSE;	
 			motor_set_direction(1);		
 		}
@@ -133,7 +154,7 @@ void startTurning() {
 	lcd_direction(getDirection());
 	switch (sectionType) {
 			
-		case TYPE_TURN_LEFT:
+		case TYPE_TURN_LEFT:			
 			motor_rotate_left_degrees(90);
 			break;
 			
@@ -142,99 +163,89 @@ void startTurning() {
 			break;
 			
 		case TYPE_T_CROSS:
-			if(checkReversing()) {
+			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
 				break;
-			}
+			}*/
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the intersection
 				motor_rotate_right_degrees(90);
-				setDirection(RIGHT);
-				currentState = STATE_FIND_WALLS;
+				setDirection(RIGHT);				
 			}
 			else if(getDirection() == RIGHT) {		// If we've already gone right
 				motor_rotate_left_degrees(90);		// TODO: When we've returned to the intersection it should rotate to face the same way as the first time it entered the intersection
-				setDirection(LEFT);
-				currentState = STATE_FIND_WALLS;
+				setDirection(LEFT);				
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
 				reversing = TRUE;
 				motor_set_direction(0);	// Puts the robot in reverse-mode
-				currentState = STATE_PD;
 				popNode();
 			}
 			break;
 			
 		case TYPE_T_CROSS_LEFT:
-			if(checkReversing()) {
+			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
 				break;
-			}
+			}*/
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the intersection
 				setDirection(FORWARD);
-				currentState = STATE_FIND_WALLS;
+				setGyroDone();
 			}
 			else if(getDirection() == FORWARD) {	// If we've already gone forward
 				motor_rotate_left_degrees(90);
 				setDirection(LEFT);
-				currentState = STATE_FIND_WALLS;
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
 				reversing = TRUE;
 				motor_set_direction(0);	// Puts the robot in reverse-mode
-				currentState = STATE_PD;
 				popNode();
 			}
 			break;
 			
 		case TYPE_T_CROSS_RIGHT:
-			if(checkReversing()) {
+			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
 				break;
-			}
+			}*/
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the intersection
 				motor_rotate_right_degrees(90);
 				setDirection(RIGHT);
-				currentState = STATE_FIND_WALLS;
 			}
 			else if(getDirection() == RIGHT) {		// If we've already gone forward
 				setDirection(FORWARD);
-				currentState = STATE_FIND_WALLS;
+				setGyroDone();
 			}
 			else if(getDirection() == FORWARD) {	// If we've visited all roads
 				reversing = TRUE;
 				motor_set_direction(0);	// Puts the robot in reverse-mode
-				currentState = STATE_PD;
 				popNode();
 			}
 			break;
 			
-		case TYPE_CROSSROAD:
-			if(checkReversing()) {
+		case TYPE_INTERSECTION:
+			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
 				break;
-			}
+			}*/
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the crossroad
 				motor_rotate_right_degrees(90);
 				setDirection(RIGHT);
-				currentState = STATE_FIND_WALLS;
 			}
 			else if(getDirection() == RIGHT) {		// If we've already gone right
 				setDirection(FORWARD);
-				currentState = STATE_FIND_WALLS;
+				setGyroDone();
 			}
 			else if(getDirection() == FORWARD) {	// If we've already gone forward
 				motor_rotate_left_degrees(90);
 				setDirection(LEFT);
-				currentState = STATE_FIND_WALLS;
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
 				reversing = TRUE;
 				motor_set_direction(0);	// Puts the robot in reverse-mode
-				currentState = STATE_PD;
 				popNode();
 			}
 			break;
@@ -308,6 +319,14 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_ROTATE:
+			if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) {
+				currentState = STATE_ROTATE_RESET;
+				break;
+			}
+			else if(old_intersection && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT){
+				addNode();
+				old_intersection = FALSE;
+			}
 			if (!turningStarted) {
 				resetGyroDone();
 				startTurning();
@@ -328,6 +347,27 @@ void interpretSensorData(uint8_t *sensorData) {
 			} else {
 				motor_set_speed(128);
 				motor_go_forward();				
+			}
+			break;
+		case STATE_ROTATE_RESET:
+			if (!turningStarted) {
+				resetGyroDone();
+				resetRotation();
+				turningStarted = 1;
+				} else {
+				if (isGyroDone()) {
+					gyroModeOFF();
+					resetGyroDone();
+					turningStarted = 0;
+					if(!reversingOut) {
+						reversing = FALSE;
+						motor_set_direction(1);
+					}
+					lcd_direction(getDirection());
+					//_delay_ms(3000);
+					old_intersection = TRUE;
+					currentState = STATE_ROTATE;
+				}
 			}
 			break;
 		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!
@@ -353,3 +393,4 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 	}
 }
+

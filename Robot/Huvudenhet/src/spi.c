@@ -19,8 +19,10 @@
 
 #include "message_handler.h"
 
-int gyroMode = 0;
+uint8_t gyroMode = 0;
 uint8_t indent = 0;
+uint8_t req_set = 0;
+uint8_t gyroDone = 0;
 
 void gyroModeON() {
 	gyroMode = 1;
@@ -30,8 +32,6 @@ void gyroModeOFF() {
 	gyroMode = 0;
 }
 
-int req_set = 0;
-int gyroDone = 0;
 int isGyroDone() {
 	return gyroDone;
 }
@@ -94,7 +94,7 @@ void spi_send(char header, char size, char* data) {
 
 // Interrupt routine for the REQ pin TODO: Slightly unfinished
 ISR(INT1_vect) {
-	_delay_us(30);
+	_delay_us(30);	
 	read_message(ADDR_SENSORENHET);
 }
 

@@ -140,6 +140,9 @@ void lcd_state(uint8_t state_to_print) {
 		case STATE_FIND_WALLS:
 			printf("[ WAL ]");
 			break;
+		case STATE_ROTATE_RESET:
+			printf("[ RRT ]");
+			break;
 		case STATE_FIND_OBJECT:
 			printf("[ OBJ ]");
 			break;
@@ -173,7 +176,7 @@ void lcd_section_type(uint8_t section_to_print) {
 		case TYPE_T_CROSS_RIGHT:
 			printf("[ T_R ]");
 			break;
-		case TYPE_CROSSROAD:
+		case TYPE_INTERSECTION:
 			printf("[ CRO ]");
 			break;
 		case TYPE_CORRIDOR:

@@ -5,6 +5,8 @@
  *  Author: Oscar
  */
 
+#include <stdint.h>
+
 #define SS_STYR		PORTB4
 #define SS_SENSOR	PORTB3
 
@@ -13,7 +15,7 @@
 #define REQ_SENSORENHET PORTD3
 
 // tmep
-extern int req_set;
+extern uint8_t req_set;
 
 void spi_init(void);
 char spi_transceive(char address, char data);
