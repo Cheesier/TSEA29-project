@@ -19,6 +19,7 @@ void initPathList() {
 void addNode() {
 	struct intersection *node = malloc(sizeof(struct intersection));
 	node->next = NULL;
+	node->direction = NOT_TURNED;
 	
 	if(path.first != NULL) {
 		node->previous = path.last;
@@ -26,7 +27,8 @@ void addNode() {
 	}
 	else {
 		node->previous = NULL;
-		path.first = node;	
+		path.first = node;
+		path.last = node;
 	}
 }
 
@@ -40,16 +42,16 @@ void popNode() {
 }
 
 // Sets the direction we turned in the last intersection
-void setDirection(int dir) {
+void setDirection(uint8_t dir) {
 	if(path.last != NULL) {
-		path.last->direction = dir;		
+		path.last->direction = dir;
 	}
 }
 
 // Returns the direction we turned in the last intersection
-int getDirection() {
+uint8_t getDirection() {
 	if(path.last != NULL)
 		return path.last->direction;
 	else
-		return NOT_TURNED;
+		return ERROR;
 }

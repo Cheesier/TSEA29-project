@@ -33,14 +33,14 @@ void autonomSet (char autonomOn) {
 
 int main(void) {
 	
-	
+	initPathList();
 	bt_init();
 	spi_init();
 	lcd_init();
 	interrupt_init();
 	motor_claw_open();
-	sei();
-
+	sei();	
+	
 	_delay_ms(5000);
 	
 	motor_set_speed(200);

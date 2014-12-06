@@ -12,12 +12,13 @@
 #define LEFT		1
 #define FORWARD		2
 #define RIGHT		3
+#define ERROR		33
 
 
 struct intersection {
 	struct intersection *previous;
 	struct intersection *next;
-	int direction;
+	uint8_t direction;
 };
 	
 struct pathList {
@@ -30,7 +31,7 @@ extern struct pathList path;
 void initPathList();
 void addNode();
 void popNode();
-void setDirection(int dir);
-int getDirection();
+void setDirection(uint8_t dir);
+uint8_t getDirection();
 
 #endif /* PATHLIST_H_ */

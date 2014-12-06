@@ -81,5 +81,5 @@ void read_message(char address) {
 	for (int i = 0; i < size; i++) {
 		data[i] = spi_read(address);
 	}
-	handle_message(header, size, &data);
+	handle_message(header, size, (char *)&data);
 }
