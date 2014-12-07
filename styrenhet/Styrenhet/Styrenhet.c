@@ -227,8 +227,8 @@ void gripClaw() {
 }
 
 void forwardToMiddle() {
-	setSpeed(64);
-	_delay_ms(250);
+	setSpeed(128);
+	_delay_ms(100);
 	stopWheels();
 	
 	cli();

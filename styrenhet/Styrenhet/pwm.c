@@ -43,7 +43,7 @@ void init_pwm() {
 	//	COM sets the compare output mode	| COM1A1 & COM1B1 => Clear OC1A:B on match, set on BOTTOM
 	/************************************************************************/
 	WHEEL_TIMER_A |= (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
-	WHEEL_TIMER_B |= (1 << WGM12) | (1 << CS12) | (1 << CS10);
+	WHEEL_TIMER_B |= (1 << WGM12) | (1 << CS10);
 	DDRD |= (1 << RIGHT_WHEEL_PIN) | (1 << LEFT_WHEEL_PIN); // sets 0C1A:B as outputs (OC1A = Left, OC1B = Right)	
 	
 	wheelsDisable();

@@ -11,6 +11,8 @@ int on_tape = 0;
 int autonom = 1;
 uint8_t distance_data_done[4];
 
+uint8_t checkpoints[4];
+
 void interrupt_init(void) {
 	GICR |= (1<< INT1)|(1<<INT0);		// Enables external interrupts via PD3
 	MCUCR |= (1<<ISC11) | (1<<ISC10)|(1<<ISC01) | (1<<ISC00);
@@ -103,6 +105,10 @@ int main(void) {
 	motor_stop();*/
 	
 	while(1){
+		
+		for (int i = 0; i < 4; i++) { // Reset all checkpoints
+			checkpoints[i] = FALSE;
+		}
 							
 		updateSensorData();
 		lcd_distance_sensors((uint8_t*)&distance_data_done);

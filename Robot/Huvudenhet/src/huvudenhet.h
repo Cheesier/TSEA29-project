@@ -11,6 +11,9 @@
 
 #define F_CPU 7372800UL
 
+#define TRUE 1
+#define FALSE 0
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
@@ -27,6 +30,7 @@
 
 void autonomSet(char autonomOn);
 extern int autonom;
+extern uint8_t checkpoints[4];
 
 void updateSensorData(void);
 

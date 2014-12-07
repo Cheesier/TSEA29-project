@@ -9,14 +9,19 @@
 
 struct pathList path;
 
+uint8_t nodeCounter = 0;
+
 // Initializes the list
 void initPathList() {
+	nodeCounter = 0;
 	path.first = NULL;
 	path.last = NULL;
 }
 
 // Adds a new intersection to the list
 void addNode() {
+	nodeCounter += 1;
+	lcd_nodes(nodeCounter);
 	struct intersection *node = malloc(sizeof(struct intersection));
 	node->next = NULL;
 	node->direction = NOT_TURNED;
@@ -24,6 +29,7 @@ void addNode() {
 	if(path.first != NULL) {
 		node->previous = path.last;
 		path.last->next = node;
+		path.last = node;
 	}
 	else {
 		node->previous = NULL;
@@ -34,6 +40,8 @@ void addNode() {
 
 // Remove the last intersection
 void popNode() {
+	nodeCounter -= 1;
+	lcd_nodes(nodeCounter);
 	if(path.last != NULL) {
 		struct intersection* section_to_delete = path.last;
 		path.last = path.last->previous;

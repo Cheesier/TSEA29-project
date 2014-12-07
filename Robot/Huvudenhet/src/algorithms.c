@@ -16,15 +16,12 @@
 #define WALL_COUNT 4
 
 #define DISTANCE_TO_WALL 34
-#define DISTANCE_TO_WALL_FORWARD 30
+#define DISTANCE_TO_WALL_FORWARD 24
 #define DISTANCE_TO_WALL_BACKWARD 34
 #define DISTANCE_TO_WALL_SIDES 30
 
 #define DISTANCE_TO_MIDDLE 5
 
-
-#define TRUE 1
-#define FALSE 0
 
 uint8_t reversing = 0;
 uint8_t reversingOut = 0;
@@ -153,7 +150,6 @@ uint8_t checkReversing() {
 // Handles the different intersections and turns
 void startTurning() {
 	turningStarted = 1;
-	lcd_direction(getDirection());
 	switch (sectionType) {
 			
 		case TYPE_TURN_LEFT:			
@@ -165,6 +161,7 @@ void startTurning() {
 			break;
 			
 		case TYPE_T_CROSS:
+			lcd_direction(getDirection());
 			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
@@ -187,6 +184,7 @@ void startTurning() {
 			break;
 			
 		case TYPE_T_CROSS_LEFT:
+			lcd_direction(getDirection());
 			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
@@ -209,6 +207,7 @@ void startTurning() {
 			break;
 			
 		case TYPE_T_CROSS_RIGHT:
+			lcd_direction(getDirection());
 			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
@@ -231,6 +230,7 @@ void startTurning() {
 			break;
 			
 		case TYPE_INTERSECTION:
+			lcd_direction(getDirection());
 			/*if(checkReversing()) {
 				popNode();
 				currentState = STATE_FIND_WALLS;
@@ -298,7 +298,7 @@ void interpretSensorData(uint8_t *sensorData) {
 			} else {
 				if (!PD_activated) {
 					PD_activated = 1;
-					motor_set_speed(200);
+					motor_set_speed(150);
 					motor_go_forward_pd();
 				}
 				//check for tape!
@@ -325,19 +325,23 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_ROTATE:
-			if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) {
-				currentState = STATE_ROTATE_RESET;
-				break;
-			}
-			else if(!old_intersection && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT){
-				addNode();	
-			}
-			old_intersection = FALSE;
 			if (!turningStarted) {
+				checkpoints[0] = TRUE;
+				if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) {
+					checkpoints[1] = TRUE;
+					currentState = STATE_ROTATE_RESET;
+					break;
+				}
+				else if(!old_intersection && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT){
+					checkpoints[2] = TRUE;
+					addNode();
+				}
+				old_intersection = FALSE;
 				resetGyroDone();
 				startTurning();
-				turningStarted = 1;
+				turningStarted = TRUE;
 			} else {
+				checkpoints[3] = TRUE;
 				if (isGyroDone()) {
 					lcd_section_type(TYPE_NONE);
 					resetGyroDone();
@@ -348,8 +352,10 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		case STATE_FIND_WALLS:
 			if (wallsInRange[WALL_LEFT] && wallsInRange[WALL_RIGHT]) {
+				lock = 0;
 				currentState = STATE_PD;
-			} else {
+			} else if(!lock) {
+				lock = 1;
 				motor_set_speed(128);
 				motor_go_forward();				
 			}
@@ -410,4 +416,3 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 	}
 }
-

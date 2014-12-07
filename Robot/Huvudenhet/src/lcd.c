@@ -211,3 +211,19 @@ void lcd_direction(uint8_t direction_to_print) {
 			break;
 	}
 }
+
+void lcd_nodes(uint8_t amountOfNodes) {
+	lcd_set_cursor(0,3);
+	printf("[ %3u ]", amountOfNodes);
+}
+
+void lcd_checkpoints() {
+	for (int i = 0; i < 4; i++) {
+		lcd_set_cursor(7, i);
+		if (checkpoints[i]) {
+			printf("TRUE!");
+		} else {
+			printf("FALSE");
+		}
+	}
+}

@@ -12,10 +12,10 @@
 #define D_SCALING 3
 
 int active = 0;
-int16_t sensorData[3];
+int16_t sensorData[7];
 int16_t PD_direction = 0;
-uint8_t p = 12;
-uint8_t d = 22;
+uint8_t p = 8;
+uint8_t d = 40;
 
 int PDnewData = 0;
 
@@ -29,13 +29,18 @@ int PDisActive() {
 	return active;
 }
 void PDupdateSensorData(uint8_t left, uint8_t right) {
+	sensorData[7] = sensorData[6];
+	sensorData[6] = sensorData[5];
+	sensorData[5] = sensorData[4];
+	sensorData[4] = sensorData[3];
+	sensorData[3] = sensorData[2];
 	sensorData[2] = sensorData[1];
 	sensorData[1] = sensorData[0];
 	sensorData[0] = right-left;
 	PDnewData = 1;
 }
 int16_t PDgetCorrection() {
-	PD_direction = p * sensorData[0] + d * D_SCALING * (sensorData[0]-sensorData[2]);
+	PD_direction = p * sensorData[0] + d * D_SCALING * (sensorData[0]-sensorData[1]);
 	PDnewData = 0;
 	return PD_direction;
 }

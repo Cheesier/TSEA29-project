@@ -5,6 +5,10 @@
  *  Author: Oscar
  */ 
 
+
+#ifndef LCD_H_
+#define LCD_H_
+
 #include <inttypes.h>
 
 /*#define LCD_RS_PIN PINA
@@ -26,3 +30,7 @@ void lcd_distance_sensors(uint8_t *distance_data);
 void lcd_state(uint8_t state_to_print);
 void lcd_section_type(uint8_t section_to_print);
 void lcd_direction(uint8_t direction_to_print);
+void lcd_nodes(uint8_t amountOfNodes);
+void lcd_checkpoints();
+
+#endif /* LCD_H_ */
