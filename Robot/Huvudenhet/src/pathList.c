@@ -35,9 +35,14 @@ void addNode() {
 // Remove the last intersection
 void popNode() {
 	if(path.last != NULL) {
-		path.last = path.last->previous;	// Sets the last node to the previous node
-		if(path.last->previous != NULL)
-			path.last->next = NULL;			// Sets the previous last node to NULL, only if that node isn't NULL (if it is the first)
+		struct intersection* section_to_delete = path.last;
+		path.last = path.last->previous;
+		
+		if (path.last != NULL) {
+			path.last->next = NULL;
+		}
+		
+		free(section_to_delete);
 	}
 }
 

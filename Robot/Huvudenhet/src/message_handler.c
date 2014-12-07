@@ -18,7 +18,8 @@ void handle_message(char header, char size, char *data) {
 		switch (type) {
 			case 0x01: // Gyro har roterat klart
 				motor_stop();				
-				setGyroDone();				
+				setGyroDone();
+				gyroModeOFF();				
 				break;
 			case 0x02: // Står på stopplinje
 				// hantera på något sätt

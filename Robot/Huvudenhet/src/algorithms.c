@@ -43,6 +43,8 @@ uint8_t lock = 0;
 uint8_t PD_activated = 0;
 uint8_t middle_done = 0;
 
+uint8_t extra_iteration = FALSE;
+
 // Resets the rotation to how it entered the intersection the first time.
 void resetRotation() {		
 	turningStarted = 1;
@@ -135,8 +137,7 @@ uint8_t checkReversing() {
 			default:
 				break;
 		}
-		while(!isGyroDone());
-		gyroModeOFF();				
+		while(!isGyroDone());			
 		resetGyroDone();
 			
 		
@@ -338,7 +339,6 @@ void interpretSensorData(uint8_t *sensorData) {
 				turningStarted = 1;
 			} else {
 				if (isGyroDone()) {
-					gyroModeOFF();
 					lcd_section_type(TYPE_NONE);
 					resetGyroDone();
 					turningStarted = 0;
@@ -355,27 +355,35 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_ROTATE_RESET:
-			if (!turningStarted) {
+			if (extra_iteration) { //To wait for a new sensor-data input
+				extra_iteration = FALSE;
+				updateSectionType(wallsInRange);
+				lcd_section_type(sectionType);
+				lcd_direction(getDirection());
+			}
+			else if (!turningStarted) {
 				resetGyroDone();
 				resetRotation();
 				turningStarted = 1;
 			} 
 			else {
 				if (isGyroDone()) {
-					gyroModeOFF();
 					resetGyroDone();
-					//swapSensorDirections((uint8_t*)&wallsInRange);
+					
 					turningStarted = 0;
 					if(!reversingOut) {
 						reversing = FALSE;
 						motor_set_direction(1);
+						swapSensorDirections((uint8_t*)&wallsInRange);
 					}
 					lcd_direction(getDirection());
 					//_delay_ms(3000);
 					old_intersection = TRUE;
 					//middle_done = 1;
 					//currentState = STATE_GOTO_MIDDLE;
-					currentState = STATE_ROTATE;
+					
+					extra_iteration = TRUE;
+					_delay_ms(60);
 				}
 			}
 			break;

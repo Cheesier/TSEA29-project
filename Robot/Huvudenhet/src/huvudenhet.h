@@ -28,5 +28,7 @@
 void autonomSet(char autonomOn);
 extern int autonom;
 
+void updateSensorData(void);
+
 
 #endif /* HUVUDENHET_H_ */

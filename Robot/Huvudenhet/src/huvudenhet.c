@@ -30,6 +30,12 @@ void autonomSet (char autonomOn) {
 	}
 }
 
+void updateSensorData() {
+	for(int i = 0; i < 4; i++) {
+		distance_data_done[i] = distance_data[i];
+	}
+}
+
 
 int main(void) {
 	
@@ -98,9 +104,7 @@ int main(void) {
 	
 	while(1){
 							
-		for(int i = 0; i < 4; i++) {
-			distance_data_done[i] = distance_data[i];
-		}
+		updateSensorData();
 		lcd_distance_sensors((uint8_t*)&distance_data_done);
 		_delay_ms(10);
 		if (!lock) {
