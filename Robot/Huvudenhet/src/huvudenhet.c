@@ -8,7 +8,7 @@
 #include "huvudenhet.h"
 
 int on_tape = 0;
-int autonom = 1;
+int autonom = 0;
 uint8_t distance_data_done[4];
 
 uint8_t checkpoints[4];
@@ -49,7 +49,7 @@ int main(void) {
 	motor_claw_open();
 	sei();	
 	
-	_delay_ms(5000);
+	_delay_ms(2000);
 	
 	motor_set_speed(200);
 	int lock = 0;
@@ -103,8 +103,18 @@ int main(void) {
 	_delay_ms(1000);
 	motor_claw_open();
 	motor_stop();*/
-	
-	while(1){
+		
+	while(1){		
+		// Checks if the calbirate button is pressed
+		if(PIND & (1<<4) && !autonom) {
+			calibrateTapeSensor();
+		}
+		
+		if ((PIND & (1<<LABYRINTH_BUTTON))) {			
+			autonom = !autonom;
+			while((PIND & (1<<LABYRINTH_BUTTON)));
+			_delay_ms(500);
+		}
 		
 		for (int i = 0; i < 4; i++) { // Reset all checkpoints
 			checkpoints[i] = FALSE;
@@ -114,7 +124,7 @@ int main(void) {
 		lcd_distance_sensors((uint8_t*)&distance_data_done);
 		_delay_ms(10);
 		if (!lock) {
-			autonomSet(1);
+			//autonomSet(1);
 			lock = 1;
 		}
 		

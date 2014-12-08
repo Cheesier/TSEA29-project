@@ -28,6 +28,8 @@
 #include "algorithms.h"
 #include "pathList.h"
 
+#define LABYRINTH_BUTTON PORTD5
+
 void autonomSet(char autonomOn);
 extern int autonom;
 extern uint8_t checkpoints[4];

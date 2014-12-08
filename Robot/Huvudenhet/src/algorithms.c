@@ -255,9 +255,9 @@ void interpretSensorData(uint8_t *sensorData) {
 				if(!reversingOut && tape_data > 0 && tape_data != 0x07FF) {
 					currentState = STATE_FIND_OBJECT;
 				}
-				else if(reversingOut && tape_data == 0x07FF) {
+				/*else if(reversingOut && tape_data == 0x07FF) {
 					//currentState = STATE_DONE;
-				}
+				}*/
 				
 			}
 			break;
@@ -338,7 +338,7 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!
-			motor_set_speed(32);
+			motor_set_speed(110);
 			motor_go_forward_pd();	
 					
 			//Continue to update tape data
@@ -347,9 +347,13 @@ void interpretSensorData(uint8_t *sensorData) {
 				motor_stop();
 				_delay_us(50);
 				motor_claw_close();
-				reversing = TRUE;
-				reversingOut = TRUE;				
-				currentState = STATE_FIND_WALLS;
+				motor_set_direction(0);
+				reversingOut = TRUE;
+				motor_set_speed(150);
+				currentState = STATE_PD;
+			} else if(tape_data == 0) {
+				motor_set_speed(150);
+				currentState = STATE_PD;				
 			}
 			break;
 		case STATE_DONE:

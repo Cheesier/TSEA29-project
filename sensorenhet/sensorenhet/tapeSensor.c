@@ -15,7 +15,7 @@ static int active_port = TAPE_SENSOR_PORT;
 uint16_t led_1_value = 0;
 uint16_t on_tape_value = 0;
 uint16_t off_tape_value = 0;
-uint16_t tape_threshold = 400;
+uint16_t tape_threshold = 500;
 uint8_t current_tape_sensor = 0;
 uint16_t tape_data = 0;
 uint16_t tape_data_done = 0;
@@ -26,7 +26,7 @@ uint16_t convertToBit(uint16_t data) {
 
 // Calibrate the tape sensors to set a threshold to identify whether or not we're on tape
 void calibrateTapeSensor() {
-	tape_threshold = ((on_tape_value + off_tape_value) >> 1) + 128;	// Setting the tape threshold to the average of the two tape values
+	tape_threshold = ((on_tape_value + off_tape_value) >> 1) + 200;	// Setting the tape threshold to the average of the two tape values
 }
 
 // Set on_tape_value for the tape sensor

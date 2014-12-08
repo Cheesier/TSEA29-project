@@ -9,6 +9,7 @@
 
 // Assumes the robot stands on tape when calling this
 void calibrateTapeSensor() {
+	_delay_ms(1000);
 	send_message_to(ADDR_SENSORENHET, 0x04, 0, NO_DATA); // Sets the on_tape value
 	_delay_ms(1);
 	motor_go_forward();
