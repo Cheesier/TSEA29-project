@@ -7,7 +7,7 @@
 
 #include "huvudenhet.h"
 
-struct pathList path;
+static struct pathList path;
 
 uint8_t nodeCounter = 0;
 

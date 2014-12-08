@@ -23,7 +23,7 @@
 
 char direction = FORWARD;
 #define MAXSPEED 255
-uint8_t rotateSpeed = 128;
+uint8_t rotateSpeed = 150;
 uint8_t speed = 128;
 
 int main(void) {
@@ -228,9 +228,12 @@ void gripClaw() {
 
 void forwardToMiddle() {
 	setSpeed(128);
-	_delay_ms(100);
+	if (direction == FORWARD)
+		_delay_ms(100);
+	if (direction == REVERSE)
+		_delay_ms(160);
 	stopWheels();
-	
+	_delay_ms(100);
 	cli();
 	send_REQ_styrenhet();
 	SPSR &= ~(1<<SPIF);

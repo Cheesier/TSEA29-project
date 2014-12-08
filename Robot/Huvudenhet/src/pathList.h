@@ -26,7 +26,7 @@ struct pathList {
 	struct intersection *last;	
 };
 
-extern struct pathList path;
+//extern struct pathList path;
 
 void initPathList();
 void addNode();

@@ -16,35 +16,35 @@
 #define WALL_COUNT 4
 
 #define DISTANCE_TO_WALL 34
-#define DISTANCE_TO_WALL_FORWARD 24
+#define DISTANCE_TO_WALL_FORWARD 30
 #define DISTANCE_TO_WALL_BACKWARD 34
-#define DISTANCE_TO_WALL_SIDES 30
+#define DISTANCE_TO_WALL_SIDES 34
 
 #define DISTANCE_TO_MIDDLE 5
 
 
-uint8_t reversing = 0;
-uint8_t reversingOut = 0;
+uint8_t reversing = FALSE;
+uint8_t reversingOut = FALSE;
 uint8_t currentState = STATE_PD;
 uint8_t distanceForward, distanceBackward;
 uint8_t useForward = TRUE;
 uint8_t sectionType;
-uint8_t turningStarted = 0;
+uint8_t turningStarted = FALSE;
 uint16_t tape_data = 0;
 uint8_t distance_data[4] = {0};
 	
 uint8_t counter = 0;
 uint8_t old_intersection = FALSE;
 	
-uint8_t lock = 0;
-uint8_t PD_activated = 0;
-uint8_t middle_done = 0;
+uint8_t lock = FALSE;
+uint8_t PD_activated = FALSE;
+uint8_t middle_done = FALSE;
 
 uint8_t extra_iteration = FALSE;
 
 // Resets the rotation to how it entered the intersection the first time.
 void resetRotation() {		
-	turningStarted = 1;
+	turningStarted = TRUE;
 	uint8_t dir = getDirection();
 	switch(dir) {
 		case RIGHT:
@@ -65,14 +65,12 @@ void updateSectionType(uint8_t* wallsInRange) {
 		if (wallsInRange[WALL_LEFT]) {
 			if (wallsInRange[WALL_RIGHT]) {
 				sectionType = TYPE_DEAD_END;
-				currentState = STATE_PD;
 				motor_stop();
 				if (reversing) {
-					reversing = FALSE;
-					motor_set_direction(1);	// Puts the robot in reverse-mode
+					currentState = STATE_DONE;
 				} else {
-					reversing = TRUE;
-					motor_set_direction(0);	// Puts the robot in reverse-mode
+					motor_set_direction(FALSE);	// Puts the robot in reverse-mode
+					currentState = STATE_PD;
 				}
 				return;
 			} else {
@@ -120,36 +118,9 @@ int wallInRange(char distance, char distanceToWall) {
 	return distance < distanceToWall;
 }
 
-// Returns TRUE if we're heading for the end goal
-uint8_t checkReversing() {
-	if(reversing) {
-		int dir = getDirection();
-		switch(dir) {
-			case RIGHT:
-				motor_rotate_right_degrees(90);
-				break;
-			case LEFT:
-				motor_rotate_left_degrees(90);
-				break;
-			default:
-				break;
-		}
-		while(!isGyroDone());			
-		resetGyroDone();
-			
-		
-		
-		if(!reversingOut) {			
-			reversing = FALSE;	
-			motor_set_direction(1);		
-		}
-	}
-	return reversingOut;
-}
-
 // Handles the different intersections and turns
 void startTurning() {
-	turningStarted = 1;
+	turningStarted = TRUE;
 	switch (sectionType) {
 			
 		case TYPE_TURN_LEFT:			
@@ -162,11 +133,7 @@ void startTurning() {
 			
 		case TYPE_T_CROSS:
 			lcd_direction(getDirection());
-			/*if(checkReversing()) {
-				popNode();
-				currentState = STATE_FIND_WALLS;
-				break;
-			}*/
+			
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the intersection
 				motor_rotate_right_degrees(90);
 				setDirection(RIGHT);
@@ -176,20 +143,15 @@ void startTurning() {
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				reversing = TRUE;
-				motor_set_direction(0);	// Puts the robot in reverse-mode
+				motor_set_direction(FALSE);	// Puts the robot in reverse-mode
 				popNode();
-				currentState = STATE_FIND_WALLS;
+				setGyroDone();
 			}
 			break;
 			
 		case TYPE_T_CROSS_LEFT:
 			lcd_direction(getDirection());
-			/*if(checkReversing()) {
-				popNode();
-				currentState = STATE_FIND_WALLS;
-				break;
-			}*/
+			
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the intersection
 				setDirection(FORWARD);
 				setGyroDone();
@@ -199,20 +161,15 @@ void startTurning() {
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				reversing = TRUE;
-				motor_set_direction(0);	// Puts the robot in reverse-mode
+				motor_set_direction(FALSE);	// Puts the robot in reverse-mode
 				popNode();
-				currentState = STATE_FIND_WALLS;
+				setGyroDone();
 			}
 			break;
 			
 		case TYPE_T_CROSS_RIGHT:
 			lcd_direction(getDirection());
-			/*if(checkReversing()) {
-				popNode();
-				currentState = STATE_FIND_WALLS;
-				break;
-			}*/
+			
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the intersection
 				motor_rotate_right_degrees(90);
 				setDirection(RIGHT);
@@ -222,20 +179,15 @@ void startTurning() {
 				setGyroDone();
 			}
 			else if(getDirection() == FORWARD) {	// If we've visited all roads
-				reversing = TRUE;
-				motor_set_direction(0);	// Puts the robot in reverse-mode
+				motor_set_direction(FALSE);	// Puts the robot in reverse-mode
 				popNode();
-				currentState = STATE_FIND_WALLS;
+				setGyroDone();
 			}
 			break;
 			
 		case TYPE_INTERSECTION:
 			lcd_direction(getDirection());
-			/*if(checkReversing()) {
-				popNode();
-				currentState = STATE_FIND_WALLS;
-				break;
-			}*/
+			
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the crossroad
 				motor_rotate_right_degrees(90);
 				setDirection(RIGHT);
@@ -249,10 +201,9 @@ void startTurning() {
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				reversing = TRUE;
-				motor_set_direction(0);	// Puts the robot in reverse-mode
+				motor_set_direction(FALSE);	// Puts the robot in reverse-mode
 				popNode();
-				currentState = STATE_FIND_WALLS;
+				setGyroDone();
 			}
 			break;
 			
@@ -261,7 +212,6 @@ void startTurning() {
 			sectionType = TYPE_CORRIDOR;
 			break;
 	}
-	turningStarted = 1;
 }
 
 
@@ -279,7 +229,7 @@ void interpretSensorData(uint8_t *sensorData) {
 	wallsInRange[WALL_LEFT] = wallInRange(sensorData[2], DISTANCE_TO_WALL_SIDES);
 	wallsInRange[WALL_RIGHT] = wallInRange(sensorData[3], DISTANCE_TO_WALL_SIDES);
 	
-	if(reversing == TRUE) {
+	if(reversing) {
 		swapSensorDirections((uint8_t*)&wallsInRange);
 		
 	}
@@ -290,20 +240,20 @@ void interpretSensorData(uint8_t *sensorData) {
 	switch (currentState) {		
 		case STATE_PD:
 			if (wallsInRange[WALL_FRONT] || !wallsInRange[WALL_LEFT] || !wallsInRange[WALL_RIGHT]) {
-				PD_activated = 0;
+				PD_activated = FALSE;
 				distanceForward = sensorData[0];
 				distanceBackward = sensorData[1];				
 				motor_stop();
 				currentState = STATE_GOTO_MIDDLE;
 			} else {
 				if (!PD_activated) {
-					PD_activated = 1;
+					PD_activated = TRUE;
 					motor_set_speed(150);
 					motor_go_forward_pd();
 				}
 				//check for tape!
 				if(!reversingOut && tape_data > 0 && tape_data != 0x07FF) {
-					//currentState = STATE_FIND_OBJECT;
+					currentState = STATE_FIND_OBJECT;
 				}
 				else if(reversingOut && tape_data == 0x07FF) {
 					//currentState = STATE_DONE;
@@ -313,14 +263,14 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		case STATE_GOTO_MIDDLE:
 			if (middle_done) {
-				middle_done = 0;
-				lock = 0;
+				middle_done = FALSE;
+				lock = FALSE;
 				updateSectionType(wallsInRange);
 				lcd_section_type(sectionType);
 			} else {
 				if(!lock) {					
 					motor_forward_to_middle();
-					lock = 1;
+					lock = TRUE;
 				}
 			}
 			break;
@@ -339,23 +289,22 @@ void interpretSensorData(uint8_t *sensorData) {
 				old_intersection = FALSE;
 				resetGyroDone();
 				startTurning();
-				turningStarted = TRUE;
 			} else {
 				checkpoints[3] = TRUE;
 				if (isGyroDone()) {
 					lcd_section_type(TYPE_NONE);
 					resetGyroDone();
-					turningStarted = 0;
+					turningStarted = FALSE;
 					currentState = STATE_FIND_WALLS;
 				}
 			}
 			break;
 		case STATE_FIND_WALLS:
 			if (wallsInRange[WALL_LEFT] && wallsInRange[WALL_RIGHT]) {
-				lock = 0;
+				lock = FALSE;
 				currentState = STATE_PD;
 			} else if(!lock) {
-				lock = 1;
+				lock = TRUE;
 				motor_set_speed(128);
 				motor_go_forward();				
 			}
@@ -370,24 +319,19 @@ void interpretSensorData(uint8_t *sensorData) {
 			else if (!turningStarted) {
 				resetGyroDone();
 				resetRotation();
-				turningStarted = 1;
 			} 
 			else {
 				if (isGyroDone()) {
 					resetGyroDone();
 					
-					turningStarted = 0;
+					turningStarted = FALSE;
 					if(!reversingOut) {
-						reversing = FALSE;
-						motor_set_direction(1);
+						motor_set_direction(TRUE);
 						swapSensorDirections((uint8_t*)&wallsInRange);
 					}
 					lcd_direction(getDirection());
-					//_delay_ms(3000);
-					old_intersection = TRUE;
-					//middle_done = 1;
-					//currentState = STATE_GOTO_MIDDLE;
 					
+					old_intersection = TRUE;
 					extra_iteration = TRUE;
 					_delay_ms(60);
 				}
@@ -398,8 +342,8 @@ void interpretSensorData(uint8_t *sensorData) {
 			motor_go_forward_pd();	
 					
 			//Continue to update tape data
-			//if(tape_data == 0x07FF) { // Assumes that this switch-case statement loops somehow
-			if(tape_data == 0x0000) {
+			if(tape_data == 0x07FF) { // Assumes that this switch-case statement loops somehow
+			//if(tape_data == 0x0000) {
 				motor_stop();
 				_delay_us(50);
 				motor_claw_close();
@@ -410,7 +354,6 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		case STATE_DONE:
 			motor_stop();
-			//while(1); //
 			break;
 		default:
 			break;
