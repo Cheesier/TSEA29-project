@@ -103,7 +103,7 @@ int main(void) {
 	_delay_ms(1000);
 	motor_claw_open();
 	motor_stop();*/
-		
+
 	while(1){		
 		// Checks if the calbirate button is pressed
 		if(PIND & (1<<4) && !autonom) {

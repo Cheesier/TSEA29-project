@@ -36,6 +36,7 @@ extern uint8_t reversing;
 
 
 uint8_t checkReversing();
+uint8_t countBits(uint16_t number);
 void swapSensorDirections(uint8_t *sensorData);
 void interpretSensorData(uint8_t *sensorData);
 

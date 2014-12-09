@@ -19,7 +19,7 @@ void calibrateTapeSensor() {
 	send_message_to(ADDR_SENSORENHET, 0x05, 0, NO_DATA); // Sets the off_tape value		
 	lcd_set_cursor(0,2);
 	printf("Calibrated!");
-	_delay_ms(5000);
+	_delay_ms(1000);
 	lcd_clear();
 }
 
@@ -28,5 +28,10 @@ void getTapeData() {
 	send_message_to(ADDR_SENSORENHET, 0x07, 0, NO_DATA);
 	_delay_us(30);
 	read_message(ADDR_SENSORENHET);
+	_delay_us(30);
+}
+
+void setDistanceMode() {
+	send_message_to(ADDR_SENSORENHET, 0x09, 0, NO_DATA);
 	_delay_us(30);
 }

@@ -11,6 +11,7 @@
 
 void calibrateTapeSensor();
 void getTapeData();
+void setDistanceMode();
 
 
 #endif /* HUVUDENHET_H_ */

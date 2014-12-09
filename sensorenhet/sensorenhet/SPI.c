@@ -21,7 +21,7 @@ uint8_t address, type, msgSize, data_index = 0;
 uint8_t data[MAX_DATA_SIZE] = {90,90};
 
 extern int distance;
-extern int interrupted;
+//extern int interrupted;
 extern uint8_t distanceSensors[SENSOR_COUNT];
 
 // Initiates the SPI
@@ -68,6 +68,7 @@ void sendMessage(uint8_t header, uint8_t size, uint8_t payload[]) {
 
 void sendDistanceSensors(void) {
 	cli();
+	send_REQ();
 	SPI_Send(0x04);
 	SPI_Send(0x04);
 	for (int i = 0; i < SENSOR_COUNT; i++) {
@@ -79,6 +80,7 @@ void sendDistanceSensors(void) {
 // Sends the most updated tape data to the huvudenhet
 void sendTapeSensors() {
 	cli();
+	send_REQ();
 	uint8_t highByte = (uint8_t)((tape_data_done&0xFF00) >> 8);
 	uint8_t lowByte = (uint8_t)(tape_data_done&0x00FF);
 	SPI_Send(0x03);
@@ -117,6 +119,9 @@ void handle_sensor_message() {
 		case 0x08:					// Gyro rotate
 			distanceModeOFF();
 			rotateDegrees(data[0]);
+			distanceModeON();
+			break;
+		case 0x09:
 			distanceModeON();
 			break;
 		default:

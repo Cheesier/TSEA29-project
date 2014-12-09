@@ -33,5 +33,6 @@ void addNode();
 void popNode();
 void setDirection(uint8_t dir);
 uint8_t getDirection();
+void setNodesDone();
 
 #endif /* PATHLIST_H_ */

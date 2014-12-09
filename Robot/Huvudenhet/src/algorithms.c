@@ -37,6 +37,7 @@ uint8_t counter = 0;
 uint8_t old_intersection = FALSE;
 	
 uint8_t lock = FALSE;
+uint8_t lock_wall = FALSE;
 uint8_t PD_activated = FALSE;
 uint8_t middle_done = FALSE;
 
@@ -121,6 +122,11 @@ int wallInRange(char distance, char distanceToWall) {
 // Handles the different intersections and turns
 void startTurning() {
 	turningStarted = TRUE;
+	if(reversingOut && !(TYPE_TURN_LEFT || TYPE_TURN_RIGHT)) {
+		popNode();
+		setGyroDone();
+		return;
+	}
 	switch (sectionType) {
 			
 		case TYPE_TURN_LEFT:			
@@ -139,7 +145,7 @@ void startTurning() {
 				setDirection(RIGHT);
 			}
 			else if(getDirection() == RIGHT) {		// If we've already gone right
-				motor_rotate_left_degrees(90);		// TODO: When we've returned to the intersection it should rotate to face the same way as the first time it entered the intersection
+				motor_rotate_left_degrees(90);		
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
@@ -161,7 +167,7 @@ void startTurning() {
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				motor_set_direction(FALSE);	// Puts the robot in reverse-mode
+				motor_set_direction(FALSE);			// Puts the robot in reverse-mode
 				popNode();
 				setGyroDone();
 			}
@@ -179,7 +185,7 @@ void startTurning() {
 				setGyroDone();
 			}
 			else if(getDirection() == FORWARD) {	// If we've visited all roads
-				motor_set_direction(FALSE);	// Puts the robot in reverse-mode
+				motor_set_direction(FALSE);			// Puts the robot in reverse-mode
 				popNode();
 				setGyroDone();
 			}
@@ -201,7 +207,7 @@ void startTurning() {
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				motor_set_direction(FALSE);	// Puts the robot in reverse-mode
+				motor_set_direction(FALSE);			// Puts the robot in reverse-mode
 				popNode();
 				setGyroDone();
 			}
@@ -214,6 +220,18 @@ void startTurning() {
 	}
 }
 
+// Counts and returns the number of bits set in the tape_data
+uint8_t countBits(uint16_t number) {
+	uint8_t bits = 0;
+	
+	for(int i = 0; i < 11; i++) {
+		if ((number & 1) == 1)
+			bits++;
+		number >>= 1;
+	}
+	
+	return bits;
+}
 
 void swapSensorDirections(uint8_t *sensorData) {
 	char temp = sensorData[0];
@@ -230,8 +248,7 @@ void interpretSensorData(uint8_t *sensorData) {
 	wallsInRange[WALL_RIGHT] = wallInRange(sensorData[3], DISTANCE_TO_WALL_SIDES);
 	
 	if(reversing) {
-		swapSensorDirections((uint8_t*)&wallsInRange);
-		
+		swapSensorDirections((uint8_t*)&wallsInRange);		
 	}
 	
 	lcd_state(currentState);
@@ -254,6 +271,8 @@ void interpretSensorData(uint8_t *sensorData) {
 				//check for tape!
 				if(!reversingOut && tape_data > 0 && tape_data != 0x07FF) {
 					currentState = STATE_FIND_OBJECT;
+					motor_stop();
+					_delay_ms(100);
 				}
 				/*else if(reversingOut && tape_data == 0x07FF) {
 					//currentState = STATE_DONE;
@@ -262,7 +281,19 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_GOTO_MIDDLE:
-			if (middle_done) {
+			cli();
+			motor_set_speed(128);
+			motor_go_forward();		
+			if (!reversing)
+				_delay_ms(100);
+			if (reversing)
+				_delay_ms(160);
+			motor_stop();
+			sei();
+			
+			updateSectionType(wallsInRange);
+			lcd_section_type(sectionType);
+			/*if (middle_done) {				
 				middle_done = FALSE;
 				lock = FALSE;
 				updateSectionType(wallsInRange);
@@ -272,7 +303,8 @@ void interpretSensorData(uint8_t *sensorData) {
 					motor_forward_to_middle();
 					lock = TRUE;
 				}
-			}
+				_delay_us(1);
+			}*/
 			break;
 		case STATE_ROTATE:
 			if (!turningStarted) {
@@ -300,13 +332,16 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_FIND_WALLS:
+			setDistanceMode();
 			if (wallsInRange[WALL_LEFT] && wallsInRange[WALL_RIGHT]) {
-				lock = FALSE;
+				lock_wall = FALSE;
 				currentState = STATE_PD;
-			} else if(!lock) {
-				lock = TRUE;
-				motor_set_speed(128);
+			} else if(!lock_wall) {
+				lock_wall = TRUE;
+				motor_set_speed(150);
 				motor_go_forward();				
+			} else {
+				_delay_us(1);
 			}
 			break;
 		case STATE_ROTATE_RESET:
@@ -338,18 +373,19 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!
-			motor_set_speed(110);
+			motor_set_speed(90);
 			motor_go_forward_pd();	
 					
 			//Continue to update tape data
-			if(tape_data == 0x07FF) { // Assumes that this switch-case statement loops somehow
-			//if(tape_data == 0x0000) {
+			//if(tape_data == 0x07FF) { // Assumes that this switch-case statement loops somehow
+			if(countBits(tape_data) >= 9) {
 				motor_stop();
 				_delay_us(50);
 				motor_claw_close();
-				motor_set_direction(0);
-				reversingOut = TRUE;
+				motor_set_direction(FALSE);
+				_delay_ms(150);
 				motor_set_speed(150);
+				reversingOut = TRUE;
 				currentState = STATE_PD;
 			} else if(tape_data == 0) {
 				motor_set_speed(150);

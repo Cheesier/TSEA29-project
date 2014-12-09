@@ -10,9 +10,9 @@
 #define START_TIMER TCCR1B |= (1 << CS10) | (1 << CS12);	// Set the prescaler to 1024
 #define STOP_TIMER TCCR1B &= ~((1 << CS10) | (1 << CS12));
 
-extern int distance;
-extern int interrupted;
-extern uint8_t distanceSensors[SENSOR_COUNT];
+//extern int distance;
+//extern int interrupted;
+//extern uint8_t distanceSensors[SENSOR_COUNT];
 
 static int tapeIsDone = 0;
 static int distanceMode= 0;
@@ -79,23 +79,21 @@ int main(void) {
 	initSensors();
 	SPI_Init();
 	sei();
-	readADC(0);
+	readADC(0);			// varför?
 	initDistanceMode();
 	while(1) {
-		while (distanceMode){
+		while (distanceMode){			
 			while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
 			TIFR |= (1 << OCF1A);			// Reset the timer flag
 			TCNT1 = 0;
-			START_TIMER;
+			START_TIMER;			
 			updateDistance();
-			send_REQ();
 			sendDistanceSensors();
-			tapeIsDone = 0;
-			PORTB = (PORTB & 0xF0); // Start LED1	
+			//tapeIsDone = 0;
+			PORTB = (PORTB & 0xF0);			// Start LED1	// ska bort?
 			_delay_ms(1);
 			readADC(TAPE_SENSOR_PORT);
-			while(tapeIsDone);
-			send_REQ();
+			//while(tapeIsDone);				// ska vara !tapeDone???
 			sendTapeSensors();
 		}
 		_delay_ms(1);
