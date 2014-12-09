@@ -193,3 +193,15 @@ void Message::go_forward_pd(){
   data->clear();
   encode();
 }
+
+void Message::calibrate_black(){
+  type = T_CALIBRATE_BLACK;
+  data->clear();
+  encode();
+}
+
+void Message::calibrate_white(){
+  type = T_CALIBRATE_WHITE;
+  data->clear();
+  encode();
+}

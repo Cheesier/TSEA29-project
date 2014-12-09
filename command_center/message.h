@@ -45,6 +45,8 @@ public:
              T_SET_SPEED         = ADDR_STYRENHET | 0x0E,
              T_GO_FORWARD_LEFT   = ADDR_STYRENHET | 0x0F,
              T_GO_FORWARD_RIGHT  = ADDR_STYRENHET | 0x10,
+             T_CALIBRATE_BLACK   = ADDR_SENSORENHET | 0x04,
+             T_CALIBRATE_WHITE   = ADDR_SENSORENHET | 0x05,
              T_ALERT_AT_DEGREES  = ADDR_SENSORENHET | 0x08,
              T_CHANGE_DRIVE_MODE = ADDR_HUVUDENHET | 0x12,
              //Recive
@@ -89,6 +91,10 @@ public:
   void set_pd(int p, int d);
   void go_forward_pd();
 
+
+
+  void calibrate_black();
+  void calibrate_white();
 
 private:
 
