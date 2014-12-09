@@ -32,5 +32,6 @@ void lcd_section_type(uint8_t section_to_print);
 void lcd_direction(uint8_t direction_to_print);
 void lcd_nodes(uint8_t amountOfNodes);
 void lcd_checkpoints();
+void lcd_tape(uint16_t tapeData);
 
 #endif /* LCD_H_ */

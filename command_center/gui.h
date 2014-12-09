@@ -95,6 +95,9 @@ private slots:
   void on_pushButton_direction_clicked();
   void on_pushButton_drive_mode_clicked();
 
+  void on_pushButton_calibrate_black_clicked();
+  void on_pushButton_calibrate_white_clicked();
+
 
 private:
 

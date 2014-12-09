@@ -25,7 +25,28 @@
 #define STOP_TIMER TCCR2 &= ~(1<<CS21)
 
 
+uint8_t distanceBuffer[4][3];
+uint8_t distanceCircularBuffer;
 
+uint8_t findMedian(uint8_t currentSensor) {
+	if (distanceBuffer[currentSensor][0] < distanceBuffer[currentSensor][1]) {
+		if (distanceBuffer[currentSensor][1] < distanceBuffer[currentSensor][2]) {
+			return distanceBuffer[currentSensor][1];
+		} else if (distanceBuffer[currentSensor][0] < distanceBuffer[currentSensor][2]) {
+			return distanceBuffer[currentSensor][2];
+		} else {
+			return distanceBuffer[currentSensor][0];
+		}
+	} else {
+		if (distanceBuffer[currentSensor][0] < distanceBuffer[currentSensor][2]) {
+			return distanceBuffer[currentSensor][0];
+		} else if (distanceBuffer[currentSensor][1] < distanceBuffer[currentSensor][2]) {
+			return distanceBuffer[currentSensor][2];
+		} else {
+			return distanceBuffer[currentSensor][1];
+		}
+	}
+}
 
 void updateDistance() {
 	
@@ -65,25 +86,25 @@ void updateDistance() {
 		}
 		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT] && was_high[DISTANCE_FRONT]) { 
 			STOP_TIMER;
-			distanceSensors[DISTANCE_FRONT] = distance;
+			distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = distance;
 			START_TIMER;
 			done[DISTANCE_FRONT] = 1;
 		}
 		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT] && was_high[DISTANCE_RIGHT]) {
 			STOP_TIMER;
-			distanceSensors[DISTANCE_RIGHT] = distance;
+			distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer] = distance;
 			START_TIMER;
 			done[DISTANCE_RIGHT] = 1;
 		}
 		if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK] && was_high[DISTANCE_BACK]) {
 			STOP_TIMER;
-			distanceSensors[DISTANCE_BACK] = distance;
+			distanceBuffer[DISTANCE_BACK][distanceCircularBuffer] = distance;
 			START_TIMER;
 			done[DISTANCE_BACK] = 1;
 		}
 		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT] && was_high[DISTANCE_LEFT]) {
 			STOP_TIMER;
-			distanceSensors[DISTANCE_LEFT] = distance;
+			distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer] = distance;
 			START_TIMER;
 			done[DISTANCE_LEFT] = 1;
 		}
@@ -91,11 +112,13 @@ void updateDistance() {
 	STOP_TIMER;
 	for(int i = 0; i < SENSOR_COUNT; i++) {
 		if(!done[i]) {
-			distanceSensors[i] = 255;
+			distanceBuffer[i][distanceCircularBuffer] = 255;
 		}
+		distanceSensors[i] = findMedian(i);
 	}
-	/*send_REQ();
-	sendDistanceSensors();*/
+	distanceCircularBuffer += 1;
+	if (distanceCircularBuffer == 3)
+		distanceCircularBuffer = 0;
 }
 
 void initDistance() {
@@ -105,8 +128,12 @@ void initDistance() {
 	
 	interrupted = 0;
 	distance = 0;
+	distanceCircularBuffer = 0;
 	for(int i = 0; i < SENSOR_COUNT; i++) {
 		distanceSensors[i] = 0;
+		for (int j = 0; j < 3; j++) {
+			distanceBuffer[i][j] = 0;
+		}
 	}
 	
 	TCCR2 |= (1 << WGM21);				// Configure timer 1 for CTC mode

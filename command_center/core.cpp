@@ -358,3 +358,15 @@ void Core::go_forward_pd(){
   msg->go_forward_pd();
   send(msg);
 }
+
+void Core::calibrate_black(){
+  Msg_ptr msg(new Message);
+  msg->calibrate_black();
+  send(msg);
+}
+
+void Core::calibrate_white(){
+  Msg_ptr msg(new Message);
+  msg->calibrate_black();
+  send(msg);
+}

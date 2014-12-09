@@ -289,3 +289,11 @@ void Gui::on_pushButton_drive_mode_clicked(){
     core->change_drive_mode(0); //Manual
   }
 }
+
+void Gui::on_pushButton_calibrate_black_clicked(){
+    core->calibrate_black();
+}
+
+void Gui::on_pushButton_calibrate_white_clicked(){
+    core->calibrate_white();
+}

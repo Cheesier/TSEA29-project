@@ -93,6 +93,9 @@ public:
   void set_pd(int p, int d);
   void go_forward_pd();
 
+  void calibrate_black();
+  void calibrate_white();
+
 private:
   void troll_input();
 
