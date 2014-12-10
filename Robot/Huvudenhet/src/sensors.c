@@ -35,3 +35,23 @@ void setDistanceMode() {
 	send_message_to(ADDR_SENSORENHET, 0x09, 0, NO_DATA);
 	_delay_us(30);
 }
+
+uint8_t getTapeDistanceToSide() {
+	uint8_t data = tape_data;
+	uint8_t distanceRight = 20;
+	for(int i = 1; i <= 11; i++) {
+		if((data & 1) == 1) {
+			if(i == 6) {
+				break;
+			} else if(i < 6) {
+				distanceRight += (6-i)*3;
+				break;
+			} else if(i > 6) {
+				distanceRight -= (i-6)*3;
+				break;
+			}
+		}		
+		data >>= 1;
+	}
+	return distanceRight;
+}

@@ -5,6 +5,7 @@
  *  Author: Jonathan
  */ 
 
+#include "algorithms.h"
 #include "huvudenhet.h"
 #include "pathList.h"
 
@@ -14,6 +15,8 @@
 #define WALL_RIGHT 3
 
 #define WALL_COUNT 4
+
+#define STATE_GOTO_MIDDLE 1 // Doesn't seem to find it if it isn't here :s TODO
 
 #define DISTANCE_TO_WALL 34
 #define DISTANCE_TO_WALL_FORWARD 30
@@ -32,6 +35,8 @@ uint8_t sectionType;
 uint8_t turningStarted = FALSE;
 uint16_t tape_data = 0;
 uint8_t distance_data[4] = {0};
+uint8_t tapeSpeed = 150;
+uint8_t findingObject = FALSE;
 	
 uint8_t counter = 0;
 uint8_t old_intersection = FALSE;
@@ -60,8 +65,8 @@ void resetRotation() {
 	}
 }
 
-
-void updateSectionType(uint8_t* wallsInRange) {					//Checks what kind of intersection it is with the given distancesensors
+// Checks what kind of intersection it is with the given distancesensors
+void updateSectionType(uint8_t* wallsInRange) {
 	if (wallsInRange[WALL_FRONT]) {
 		if (wallsInRange[WALL_LEFT]) {
 			if (wallsInRange[WALL_RIGHT]) {
@@ -70,7 +75,7 @@ void updateSectionType(uint8_t* wallsInRange) {					//Checks what kind of inters
 				if (reversing) {
 					currentState = STATE_DONE;
 				} else {
-					motor_set_direction(FALSE);	// Puts the robot in reverse-mode
+					motor_set_direction(FALSE);		// Puts the robot in reverse-mode
 					currentState = STATE_PD;
 				}
 				return;
@@ -150,7 +155,7 @@ void startTurning() {
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				motor_set_direction(FALSE);	// Puts the robot in reverse-mode
+				motor_set_direction(FALSE);			// Puts the robot in reverse-mode
 				popNode();
 				setGyroDone();
 			}
@@ -255,8 +260,7 @@ void interpretSensorData(uint8_t *sensorData) {
 	}
 	
 	lcd_state(currentState);
-	
-	
+		
 	switch (currentState) {
 		// STATE_PD
 		// In this state the robots moves forward with PD-regulation activated
@@ -277,9 +281,11 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 				//check for tape!
 				if(!reversingOut && tape_data > 0 && tape_data != 0x07FF) {
+					PD_activated = FALSE;
 					currentState = STATE_FIND_OBJECT;
+					//motor_set_pd(50,220);
 					motor_stop();
-					_delay_ms(100);
+					motor_go_forward_pd();			
 				}
 				/*else if(reversingOut && tape_data == 0x07FF) {
 					//currentState = STATE_DONE;
@@ -390,9 +396,15 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 			}
 			break;
-		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!
-			motor_set_speed(90);
-			motor_go_forward_pd();	
+		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!			
+			findingObject = TRUE;
+			//motor_set_speed(tapeSpeed);
+			motor_set_pd(10,220);
+			motor_set_speed(110);
+			motor_go_forward_pd();
+			if(tapeSpeed > 90) {
+				//tapeSpeed -= 10;
+			}	
 					
 			//Continue to update tape data
 			//if(tape_data == 0x07FF) { // Assumes that this switch-case statement loops somehow
@@ -403,10 +415,14 @@ void interpretSensorData(uint8_t *sensorData) {
 				motor_set_direction(FALSE);
 				_delay_ms(150);
 				motor_set_speed(150);
+				motor_reset_pd();
+				findingObject = FALSE;
 				reversingOut = TRUE;
 				currentState = STATE_PD;
 			} else if(tape_data == 0) {
 				motor_set_speed(150);
+				findingObject = FALSE;
+				motor_reset_pd();
 				currentState = STATE_PD;				
 			}
 			break;

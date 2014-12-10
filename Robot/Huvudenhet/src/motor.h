@@ -28,3 +28,5 @@ void motor_rotate_right(void);
 void motor_rotate_left_degrees(uint8_t degrees);
 void motor_rotate_right_degrees(uint8_t degrees);
 void motor_forward_to_middle();
+void motor_set_pd(uint8_t p, uint8_t d);
+void motor_reset_pd();

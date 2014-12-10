@@ -33,6 +33,7 @@ extern uint16_t tape_data;
 extern uint8_t distance_data[4];
 extern uint8_t middle_done;
 extern uint8_t reversing;
+extern uint8_t findingObject;
 
 
 uint8_t checkReversing();

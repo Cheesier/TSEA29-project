@@ -12,6 +12,7 @@
 void calibrateTapeSensor();
 void getTapeData();
 void setDistanceMode();
+uint8_t getTapeDistanceToSide();
 
 
 #endif /* HUVUDENHET_H_ */

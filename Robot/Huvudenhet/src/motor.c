@@ -73,3 +73,13 @@ void motor_rotate_right_degrees(uint8_t degrees) {
 void motor_forward_to_middle() {
 	send_message_to(ADDR_STYRENHET, 0x11, 0, NO_DATA);
 }
+
+void motor_set_pd(uint8_t p, uint8_t d) {
+	char data[] = {p,d};
+	send_message_to(ADDR_STYRENHET, 0x06, 2, &data);
+}
+
+void motor_reset_pd() {
+	char data[] = {8,40};
+	send_message_to(ADDR_STYRENHET, 0x06, 2, &data);
+}

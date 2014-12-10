@@ -41,7 +41,13 @@ void handle_message(char header, char size, char *data) {
 					data[2] = data[3];
 					data[3] = temp;
 				}*/
-				send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+				if(!findingObject) {
+					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+				} else {
+					uint8_t distanceRight = getTapeDistanceToSide();
+					char distance[] = {40-distanceRight, distanceRight};
+					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&distance);
+				}
 				break;
 			case 0x05: // kört klart till mitten
 				middle_done = 1;
