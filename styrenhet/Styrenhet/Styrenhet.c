@@ -35,7 +35,7 @@ int main(void) {
 		if(PDnewData && PDisActive()) {
 			PDforward();
 		}
-		_delay_ms(5);
+		_delay_us(1);
 	}
 }
 
@@ -233,11 +233,10 @@ void forwardToMiddle() {
 	if (direction == REVERSE)
 		_delay_ms(160);
 	stopWheels();
-	_delay_ms(100);
-	cli();
+	//cli();  // This is already done in the SPI interrupt
 	send_REQ_styrenhet();
 	SPSR &= ~(1<<SPIF);
 	SPI_Send(0x05);
 	SPI_Send(0x00);
-	sei();
+	//sei();
 }

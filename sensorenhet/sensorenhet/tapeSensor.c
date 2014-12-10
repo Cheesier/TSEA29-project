@@ -10,12 +10,12 @@
 #include "sensorenhet.h"
 
 
-static int active_port = TAPE_SENSOR_PORT;
+static uint8_t active_port = TAPE_SENSOR_PORT;
 
 uint16_t led_1_value = 0;
 uint16_t on_tape_value = 0;
 uint16_t off_tape_value = 0;
-uint16_t tape_threshold = 500;
+uint16_t tape_threshold = 700;
 uint8_t current_tape_sensor = 0;
 uint16_t tape_data = 0;
 uint16_t tape_data_done = 0;
@@ -55,8 +55,7 @@ ISR(ADC_vect) {
 		tape_data = 0;
 		current_tape_sensor = 0;
 		PORTB = (PORTB & 0xF0) | (0x0F);
-		tapeDone();
-			
+		tapeDone();			
 	} else {
 		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
 		readADC(active_port);
