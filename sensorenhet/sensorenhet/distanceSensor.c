@@ -30,27 +30,27 @@
 void updateDistance() {
 	
 	//Setup variables
-	uint8_t done[SENSOR_COUNT];
-	uint8_t was_high[SENSOR_COUNT];
-	for (int i = 0; i < SENSOR_COUNT; i++) {
+	uint8_t done[SENSOR_COUNT];							// Array to check that sensors doesn't get value multiple times
+	uint8_t was_high[SENSOR_COUNT];						// Array to check if sensor echo output gets high
+	for (int i = 0; i < SENSOR_COUNT; i++) {			// Resets done and was_high array
 		done[i] = 0;
 		was_high[i] = 0;
 	}
-	distance = 0;
-	interrupted = 0;			//
-	TCNT2 = 0;
+	distance = 0;										// Distance in cm
+	interrupted = 0;									// Flag to check other interrupts
+	TCNT2 = 0;											// Resets counter
 	
 	//Trigger sensors
-	SENSOR_OUTPUT |= (1<<TRIGGER);
+	SENSOR_OUTPUT |= (1<<TRIGGER);						// Trigger signal for sensors
 	_delay_us(15);
 	SENSOR_OUTPUT &= ~(1<<TRIGGER);
 	
 	//Wait for input from sensors
-    WAIT_FOR_INPUT;
+    WAIT_FOR_INPUT;										// Wait for echo signal start
 	
 	//Measure length of echo signal
 	START_TIMER;
-	while (distance<255) {
+	while (distance<255) {								// Safecode so distance doesn't go over 255 (max for uint8_t)
 		if(FRONT_HIGH) {
 			was_high[DISTANCE_FRONT] = 1;
 		}
@@ -64,10 +64,10 @@ void updateDistance() {
 			was_high[DISTANCE_RIGHT] = 1;
 		}
 		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT] && was_high[DISTANCE_FRONT]) { 
-			STOP_TIMER;
-			distanceSensors[DISTANCE_FRONT] = distance;
+			STOP_TIMER;																				// Need to stop timer to use distance variable
+			distanceSensors[DISTANCE_FRONT] = distance;												// Saves distance mesured by sensor
 			START_TIMER;
-			done[DISTANCE_FRONT] = 1;
+			done[DISTANCE_FRONT] = 1;																// Set sensor to done
 		}
 		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT] && was_high[DISTANCE_RIGHT]) {
 			STOP_TIMER;
@@ -89,7 +89,7 @@ void updateDistance() {
 		}
 	}
 	STOP_TIMER;
-	for(int i = 0; i < SENSOR_COUNT; i++) {
+	for(int i = 0; i < SENSOR_COUNT; i++) {						//Sensor that takes to much time is set to 255
 		if(!done[i]) {
 			distanceSensors[i] = 255;
 		}
@@ -115,5 +115,5 @@ void initDistance() {
 }
 
 ISR(TIMER2_COMP_vect) {
-	distance++;
+	distance++;				// Add distance every 58 ms
 }

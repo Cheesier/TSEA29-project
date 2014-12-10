@@ -37,6 +37,7 @@ uint8_t counter = 0;
 uint8_t old_intersection = FALSE;
 	
 uint8_t lock = FALSE;
+uint8_t lock_wall = FALSE;
 uint8_t PD_activated = FALSE;
 uint8_t middle_done = FALSE;
 
@@ -60,7 +61,7 @@ void resetRotation() {
 }
 
 
-void updateSectionType(uint8_t* wallsInRange) {
+void updateSectionType(uint8_t* wallsInRange) {					//Checks what kind of intersection it is with the given distancesensors
 	if (wallsInRange[WALL_FRONT]) {
 		if (wallsInRange[WALL_LEFT]) {
 			if (wallsInRange[WALL_RIGHT]) {
@@ -114,6 +115,7 @@ void updateSectionType(uint8_t* wallsInRange) {
 	}
 }
 
+// Check if a wall is in a given interval 
 int wallInRange(char distance, char distanceToWall) {
 	return distance < distanceToWall;
 }
@@ -214,14 +216,15 @@ void startTurning() {
 	}
 }
 
-
+// Swaps the front and back sensors data
 void swapSensorDirections(uint8_t *sensorData) {
 	char temp = sensorData[0];
 	sensorData[0] = sensorData[1];
 	sensorData[1] = temp;
 }
 
-void interpretSensorData(uint8_t *sensorData) {
+//The maze algorithm 
+void interpretSensorData(uint8_t *sensorData) { 
 	uint8_t wallsInRange[WALL_COUNT];
 	
 	wallsInRange[WALL_FRONT] = wallInRange(sensorData[0], DISTANCE_TO_WALL_FORWARD);
@@ -231,13 +234,16 @@ void interpretSensorData(uint8_t *sensorData) {
 	
 	if(reversing) {
 		swapSensorDirections((uint8_t*)&wallsInRange);
-		
 	}
 	
 	lcd_state(currentState);
 	
 	
-	switch (currentState) {		
+	switch (currentState) {
+		// STATE_PD
+		// In this state the robots moves forward with PD-regulation activated
+		// STATE_PD ends when we get a wall in front of us, or we don't have a wall to the right or to the left of us (in a given interval)
+		// When it notices a wall in front or a wall to the side disappear it sets currentState to GO_TO_MIDDLE
 		case STATE_PD:
 			if (wallsInRange[WALL_FRONT] || !wallsInRange[WALL_LEFT] || !wallsInRange[WALL_RIGHT]) {
 				PD_activated = FALSE;
@@ -261,6 +267,12 @@ void interpretSensorData(uint8_t *sensorData) {
 				
 			}
 			break;
+		// STATE_GOTO_MIDDLE
+		// Used to make the robot move into the middle of an intersection when we have to turn
+		// The motors is turned on without PD-regulation and then turned off after a set time
+		// The function is handled by Styrenheten. A message is sent to Styrenheten to initiate the function and an interrupt is triggerd in Huvudenheten when it's done
+		// Time based and is affected by the speed at which the robots moves in corridors (thanks to wheels still having momentum when turned off)
+		// When done sets currentsState to STATE_ROTATE
 		case STATE_GOTO_MIDDLE:
 			if (middle_done) {
 				middle_done = FALSE;
@@ -274,6 +286,10 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 			}
 			break;
+		// STATE_ROTATE
+		// Used to check how to rotate and start to rotate the robot when the right rotation is found
+		// Checks if the intersection is an old intersection or a new one. If new it adds a new node and if it's an old node it pops it. 
+		// When done sets currentState to STATE_ROTATE_RESET
 		case STATE_ROTATE:
 			if (!turningStarted) {
 				checkpoints[0] = TRUE;
@@ -299,12 +315,13 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 			}
 			break;
+		//
 		case STATE_FIND_WALLS:
 			if (wallsInRange[WALL_LEFT] && wallsInRange[WALL_RIGHT]) {
-				lock = FALSE;
+				lock_wall = FALSE;
 				currentState = STATE_PD;
-			} else if(!lock) {
-				lock = TRUE;
+			} else if(!lock_wall) {
+				lock_wall = TRUE;
 				motor_set_speed(128);
 				motor_go_forward();				
 			}
