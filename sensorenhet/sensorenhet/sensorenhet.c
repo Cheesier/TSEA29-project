@@ -66,8 +66,7 @@ void initDistanceMode() {
 	distanceMode = 1;
 }
 
-void distanceModeON() {
-	distanceMode = 1;
+void distanceModeON() {	
 	initDistanceMode();
 }
 
@@ -89,11 +88,9 @@ int main(void) {
 			START_TIMER;			
 			updateDistance();
 			sendDistanceSensors();
-			//tapeIsDone = 0;
-			PORTB = (PORTB & 0xF0);			// Start LED1	// ska bort?
+			PORTB = (PORTB & 0xF0);			// Start LED1
 			_delay_ms(1);
 			readADC(TAPE_SENSOR_PORT);
-			//while(tapeIsDone);				// ska vara !tapeDone???
 			sendTapeSensors();
 		}
 		_delay_ms(1);

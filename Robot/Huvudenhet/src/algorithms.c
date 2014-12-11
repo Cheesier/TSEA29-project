@@ -399,7 +399,7 @@ void interpretSensorData(uint8_t *sensorData) {
 		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!			
 			findingObject = TRUE;
 			//motor_set_speed(tapeSpeed);
-			motor_set_pd(10,220);
+			motor_set_pd(15,20);
 			motor_set_speed(110);
 			motor_go_forward_pd();
 			if(tapeSpeed > 90) {

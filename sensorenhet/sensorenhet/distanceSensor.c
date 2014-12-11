@@ -27,6 +27,7 @@
 
 uint8_t distanceBuffer[4][3];
 uint8_t distanceCircularBuffer;
+uint8_t distanceSensors[SENSOR_COUNT];
 
 uint8_t findMedian(uint8_t currentSensor) {
 	if (distanceBuffer[currentSensor][0] < distanceBuffer[currentSensor][1]) {

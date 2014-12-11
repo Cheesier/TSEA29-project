@@ -228,6 +228,6 @@ void lcd_checkpoints() {
 	}
 }
 void lcd_tape(uint16_t tapeData	) {
-	lcd_set_cursor(7, 3);
+	lcd_set_cursor(6, 3);
 	printf("[ %3x ]", tapeData);
 }

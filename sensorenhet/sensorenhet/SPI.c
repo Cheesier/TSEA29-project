@@ -20,9 +20,9 @@ int currentState = GET_HEAD;
 uint8_t address, type, msgSize, data_index = 0;
 uint8_t data[MAX_DATA_SIZE] = {90,90};
 
-extern int distance;
+//extern int distance;
 //extern int interrupted;
-extern uint8_t distanceSensors[SENSOR_COUNT];
+//uint8_t distanceSensors[SENSOR_COUNT];
 
 // Initiates the SPI
 void SPI_Init(void) {
