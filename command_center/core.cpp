@@ -81,9 +81,9 @@ void Core::pb_goto(const unsigned &idx){
   w_lock l(pb_mtx);
   pb_status = PB_PAUSED;
   if(idx<data->get_current_idx()){
-      log(REWIND_MSG);
-      data->rewind();
-    }
+    log(REWIND_MSG);
+    data->rewind();
+  }
   while(data->get_current_idx()<idx)
     pb_play_one();
   pb_gui_update();
@@ -134,45 +134,45 @@ void Core::data_open(const string &file_name){
 
 void Core::process_new_msg(const Msg_ptr &msg){
   //thread t([this,msg](){
-      data->append_msg(msg);
-      if(!pb_is_live()) {
-          pb_gui_update();
-          return;
-        }
-      pb_play_all();
-   // });
+  data->append_msg(msg);
+  if(!pb_is_live()) {
+    pb_gui_update();
+    return;
+  }
+  pb_play_all();
+  // });
   //t.detach();
 }
 
 //not sychronized, hopefully won't be neccessary
 void Core::process_msg(const Msg_ptr &msg){
   //thread t([this, msg](){
-      log(QString("processing message [type %1]").arg(msg->get_type() & 0x3F));
+  //log(QString("processing message [type %1]").arg(msg->get_type() & 0x3F));
 
-      if ((msg->get_type()/64) != (ADDR_KONTROLLCENTER/64)) {     //see if message is not meant for kontroll center
-        log(QString("the message was meant for: %1..").arg(msg->get_type()/64)); // who was it meant for?
-        return;
-      }
-      else {    // it was meant for kontroll center
-          switch(msg->get_type() - ADDR_KONTROLLCENTER){  //remove ADDR
-            case Message::T_ECHO:
-              handle_echo(msg);
-              break;
-            case Message::T_DISTANCE_DATA:
-              handle_distance_data(msg);
-              break;
-            case Message::T_TAPE_DATA:
-              handle_tape_data(msg);
-              break;
-            case Message::T_ERROR:
-              handle_error(msg);
-              break;
-            default:
-              handle_unknown(msg);
-              break;
-          }
-      }
-   // });
+  if ((msg->get_type()/64) != (ADDR_KONTROLLCENTER/64)) {     //see if message is not meant for kontroll center
+    log(QString("the message was meant for: %1..").arg(msg->get_type()/64)); // who was it meant for?
+    return;
+  }
+  else {    // it was meant for kontroll center
+    switch(msg->get_type() - ADDR_KONTROLLCENTER){  //remove ADDR
+    case Message::T_ECHO:
+      handle_echo(msg);
+      break;
+    case Message::T_DISTANCE_DATA:
+      handle_distance_data(msg);
+      break;
+    case Message::T_TAPE_DATA:
+      handle_tape_data(msg);
+      break;
+    case Message::T_ERROR:
+      handle_error(msg);
+      break;
+    default:
+      handle_unknown(msg);
+      break;
+    }
+  }
+  // });
   //t.detach();
 }
 
@@ -181,18 +181,18 @@ void Core::handle_echo(const Msg_ptr &msg){
 }
 
 void Core::handle_distance_data(const Msg_ptr &msg){
-    w->onSensorInput(msg->get_data());
+  w->sensor_input(msg->get_data());
 }
 
 void Core::handle_tape_data(const Msg_ptr &msg){
-    w->onTapeInput(msg->get_data());
+  w->tape_input(msg->get_data());
 }
 
 //handles error messages 0x3F
 void Core::handle_error(const Msg_ptr & msg){
-    //string message = "Error message recived: " + msg->get_data().;
-    //log(QString::fromStdString(message));
-    msg->print();
+  //string message = "Error message recived: " + msg->get_data().;
+  //log(QString::fromStdString(message));
+  msg->print();
 }
 
 void Core::handle_unknown(const Msg_ptr &msg){
@@ -239,23 +239,20 @@ bool Core::bt_is_connected(){
 void Core::send(const Msg_ptr &msg){
 #ifdef BT_ACTIVE
   if(!bt->is_connected()) {
-      log("failed to send message: bluetooth is not connected");
-      return;
-    }
+    log("failed to send message: bluetooth is not connected");
+    return;
+  }
   bt->send(msg);
 #endif
 
 #ifdef SERIAL_ACTIVE
-  serial->serial_write(msg);
+  serial->send(msg);
 #endif
   log(QString("sending new msg [type %1]..").arg(msg->get_type()));
 }
 
 void Core::custom_msg(const unsigned &type, const string &payload){
-  QByteArray* pl = new QByteArray();
-  pl->append(QString::fromStdString(payload));
-  Msg_ptr msg(new Message(type,pl));
-  msg->encode();
+  Msg_ptr msg(new Message(type,payload));
   send(msg);
 }
 

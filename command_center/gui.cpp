@@ -11,6 +11,8 @@ Gui::Gui(QWidget *parent) :
   connect(this, &Gui::bt_reset, this, &Gui::bt_reset_);
   connect(this, &Gui::bt_connecting, this, &Gui::bt_connecting_);
   connect(this, &Gui::bt_connected, this, &Gui::bt_connected_);
+  connect(this, &Gui::tape_input, this, &Gui::tape_input_);
+  connect(this, &Gui::sensor_input, this, &Gui::sensor_input_);
 
   // ***Keymap***
 
@@ -199,18 +201,16 @@ void Gui::on_pushButton_forward_right_pressed(){
   core->go_forward_right();
 }
 
-
-
-void Gui::onSensorInput(char* sensorData){
-  ui->label_forward_sensor->setText(QString::number((unsigned char)(sensorData[0])));
-  ui->label_right_sensor->setText(QString::number((unsigned char)(sensorData[3])));
-  ui->label_backward_sensor->setText(QString::number((unsigned char)(sensorData[1])));
-  ui->label_left_sensor->setText(QString::number((unsigned char)(sensorData[2])));
+void Gui::sensor_input_(const string& data){
+  ui->label_forward_sensor->setText(QString::number((unsigned char)(data[0])));
+  ui->label_right_sensor->setText(QString::number((unsigned char)(data[3])));
+  ui->label_backward_sensor->setText(QString::number((unsigned char)(data[1])));
+  ui->label_left_sensor->setText(QString::number((unsigned char)(data[2])));
 }
 
-void Gui::onTapeInput(char* tapeData){
-  char data0 = tapeData[1];
-  char data1 = tapeData[0];
+void Gui::tape_input_(const string& data){
+  char data0 = data[1];
+  char data1 = data[0];
 
   ui->label_tape_1->setText(QString::number(data0&0x01 ? 1 : 0));
   ui->label_tape_2->setText(QString::number(data0&0x02 ? 1 : 0));

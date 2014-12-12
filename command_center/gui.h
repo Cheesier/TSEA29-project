@@ -25,12 +25,12 @@ public:
   explicit Gui(QWidget *parent = 0);
   ~Gui();
 
-  void onSensorInput(char* sensorData);
-  void onTapeInput(char* tapeData);
-
   // --------- SIGNALS ------------
 signals:
   void console_log(const QString& data);
+
+  void sensor_input(const string& data);
+  void tape_input(const string& data);
 
   //playback
   void pb_update(const unsigned& total_msgs, const unsigned& current_msg, const unsigned& status);
@@ -40,10 +40,13 @@ signals:
   void bt_connecting();
   void bt_connected();
 
-
-
   // ---------- SLOTS -------------
 private slots:
+
+  void sensor_input_(const string& data);
+  void tape_input_(const string& data);
+
+
   void console_log_(const QString& data);
 
   void pb_update_(const unsigned& total_msgs, const unsigned& current_msg, const unsigned& status);

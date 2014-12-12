@@ -29,7 +29,7 @@ public:
   typedef unsigned char Type_t;
 
   Message();
-  Message(const Type_t& type_, const QByteArray* data_);
+  Message(const Type_t& type_, const string& data_);
   enum msg_t{T_ECHO,
              //Send
              T_GO_FORWARD_PD     = ADDR_STYRENHET | 0x01,
@@ -61,14 +61,13 @@ public:
   friend istream& operator >> (istream& os, Message& msg);
 
   Type_t get_type() const;
-  char * get_data() const;
+  string get_data() const;
   hr_clock::time_point get_created_at()const;
   Size_t get_data_size() const;
   char * get_raw_data();
   size_t get_raw_data_size();
 
   void print();
-  void encode();
 
   //constructors
 
@@ -98,8 +97,15 @@ public:
 
 private:
 
+  template<typename... Ts>
+  void make(const Type_t& type_, const Ts&... args);
+  template<typename T,typename... Ts>
+  void make_args(const T& var, const Ts&...args);
+  void make_args();
+
   Type_t type;
-  QByteArray* data;
+  //QByteArray* data;
+  string data;
   hr_clock::time_point created_at;
 
   string raw_data;
