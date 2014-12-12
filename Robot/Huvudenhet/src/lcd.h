@@ -33,5 +33,6 @@ void lcd_direction(uint8_t direction_to_print);
 void lcd_nodes(uint8_t amountOfNodes);
 void lcd_checkpoints();
 void lcd_tape(uint16_t tapeData);
+void lcd_reversing();
 
 #endif /* LCD_H_ */

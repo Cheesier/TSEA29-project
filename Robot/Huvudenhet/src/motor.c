@@ -25,7 +25,12 @@ void motor_claw_open(void) {
 
 void motor_set_direction(char dir) {
 	char data[] = {dir};
-	reversing = !dir;
+	if(dir == DIR_REVERSE) {
+		reversing = TRUE;
+	}
+	else {
+		reversing = FALSE;
+	}
 	send_message_to(ADDR_STYRENHET, 0x04, 1, (char*)&data);	// 1 for forward, 0 for backwards
 }
 

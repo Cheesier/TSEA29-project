@@ -14,7 +14,6 @@
 #define WALL_LEFT 2
 #define WALL_RIGHT 3
 
-#define WALL_COUNT 4
 
 #define STATE_GOTO_MIDDLE 1 // Doesn't seem to find it if it isn't here :s TODO
 
@@ -37,6 +36,7 @@ uint16_t tape_data = 0;
 uint8_t distance_data[4] = {0};
 uint8_t tapeSpeed = 150;
 uint8_t findingObject = FALSE;
+uint8_t wallsInRange[WALL_COUNT];
 	
 uint8_t counter = 0;
 uint8_t old_intersection = FALSE;
@@ -45,6 +45,7 @@ uint8_t lock = FALSE;
 uint8_t lock_wall = FALSE;
 uint8_t PD_activated = FALSE;
 uint8_t middle_done = FALSE;
+uint8_t update_section = FALSE;
 
 uint8_t extra_iteration = FALSE;
 
@@ -73,9 +74,9 @@ void updateSectionType(uint8_t* wallsInRange) {
 				sectionType = TYPE_DEAD_END;
 				motor_stop();
 				if (reversing) {
-					currentState = STATE_DONE;
+					//currentState = STATE_DONE;
 				} else {
-					motor_set_direction(FALSE);		// Puts the robot in reverse-mode
+					motor_set_direction(DIR_REVERSE);		// Puts the robot in reverse-mode						
 					currentState = STATE_PD;
 				}
 				return;
@@ -131,6 +132,7 @@ void startTurning() {
 	if(reversingOut && !(TYPE_TURN_LEFT || TYPE_TURN_RIGHT)) {
 		popNode();
 		setGyroDone();
+		setDistanceModeOn();
 		return;
 	}
 	switch (sectionType) {
@@ -149,13 +151,13 @@ void startTurning() {
 			if(getDirection() == NOT_TURNED) {		// If it's the first time in the intersection
 				motor_rotate_right_degrees(90);
 				setDirection(RIGHT);
-			}
+			} 
 			else if(getDirection() == RIGHT) {		// If we've already gone right
 				motor_rotate_left_degrees(90);		
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				motor_set_direction(FALSE);			// Puts the robot in reverse-mode
+				motor_set_direction(DIR_REVERSE);	// Puts the robot in reverse-mode
 				popNode();
 				setGyroDone();
 			}
@@ -173,7 +175,7 @@ void startTurning() {
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				motor_set_direction(FALSE);			// Puts the robot in reverse-mode
+				motor_set_direction(DIR_REVERSE);	// Puts the robot in reverse-mode
 				popNode();
 				setGyroDone();
 			}
@@ -191,7 +193,7 @@ void startTurning() {
 				setGyroDone();
 			}
 			else if(getDirection() == FORWARD) {	// If we've visited all roads
-				motor_set_direction(FALSE);			// Puts the robot in reverse-mode
+				motor_set_direction(DIR_REVERSE);	// Puts the robot in reverse-mode
 				popNode();
 				setGyroDone();
 			}
@@ -213,7 +215,7 @@ void startTurning() {
 				setDirection(LEFT);
 			}
 			else if(getDirection() == LEFT) {		// If we've visited all roads
-				motor_set_direction(FALSE);			// Puts the robot in reverse-mode
+				motor_set_direction(DIR_REVERSE);	// Puts the robot in reverse-mode
 				popNode();
 				setGyroDone();
 			}
@@ -248,7 +250,13 @@ void swapSensorDirections(uint8_t *sensorData) {
 
 //The maze algorithm 
 void interpretSensorData(uint8_t *sensorData) { 
-	uint8_t wallsInRange[WALL_COUNT];
+	//uint8_t wallsInRange[WALL_COUNT];
+	if(update_section) {
+		updateSectionType(wallsInRange);
+		lcd_section_type(sectionType);
+		lcd_direction(getDirection());
+		update_section = FALSE;
+	}
 	
 	wallsInRange[WALL_FRONT] = wallInRange(sensorData[0], DISTANCE_TO_WALL_FORWARD);
 	wallsInRange[WALL_BACK] = wallInRange(sensorData[1], DISTANCE_TO_WALL_BACKWARD);
@@ -260,6 +268,7 @@ void interpretSensorData(uint8_t *sensorData) {
 	}
 	
 	lcd_state(currentState);
+	lcd_reversing();
 		
 	switch (currentState) {
 		// STATE_PD
@@ -304,14 +313,13 @@ void interpretSensorData(uint8_t *sensorData) {
 			motor_set_speed(128);
 			motor_go_forward();		
 			if (!reversing)
-				_delay_ms(100);
+				//_delay_ms(30);		//100 worke before
 			if (reversing)
-				_delay_ms(160);
+				_delay_ms(300);
 			motor_stop();
 			sei();
 			
-			updateSectionType(wallsInRange);
-			lcd_section_type(sectionType);
+			update_section = TRUE;
 			/*if (middle_done) {				
 				middle_done = FALSE;
 				lock = FALSE;
@@ -349,6 +357,7 @@ void interpretSensorData(uint8_t *sensorData) {
 				if (isGyroDone()) {
 					lcd_section_type(TYPE_NONE);
 					resetGyroDone();
+					setDistanceModeOn(); //TODO
 					turningStarted = FALSE;
 					currentState = STATE_FIND_WALLS;
 				}
@@ -356,7 +365,7 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		//
 		case STATE_FIND_WALLS:
-			setDistanceMode();
+			setDistanceModeOn();
 			if (wallsInRange[WALL_LEFT] && wallsInRange[WALL_RIGHT]) {
 				lock_wall = FALSE;
 				currentState = STATE_PD;
@@ -369,13 +378,13 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_ROTATE_RESET:
-			if (extra_iteration) { //To wait for a new sensor-data input
+			/*if (extra_iteration) { //To wait for a new sensor-data input
 				extra_iteration = FALSE;
 				updateSectionType(wallsInRange);
 				lcd_section_type(sectionType);
 				lcd_direction(getDirection());
-			}
-			else if (!turningStarted) {
+			}*/
+			if (!turningStarted) {
 				resetGyroDone();
 				resetRotation();
 			} 
@@ -385,13 +394,14 @@ void interpretSensorData(uint8_t *sensorData) {
 					
 					turningStarted = FALSE;
 					if(!reversingOut) {
-						motor_set_direction(TRUE);
+						motor_set_direction(DIR_FORWARD);
 						swapSensorDirections((uint8_t*)&wallsInRange);
 					}
 					lcd_direction(getDirection());
 					
 					old_intersection = TRUE;
-					extra_iteration = TRUE;
+					//extra_iteration = TRUE;
+					update_section = TRUE;
 					_delay_ms(60);
 				}
 			}
@@ -412,7 +422,7 @@ void interpretSensorData(uint8_t *sensorData) {
 				motor_stop();
 				_delay_us(50);
 				motor_claw_close();
-				motor_set_direction(FALSE);
+				motor_set_direction(DIR_REVERSE);
 				_delay_ms(150);
 				motor_set_speed(150);
 				motor_reset_pd();
@@ -423,7 +433,7 @@ void interpretSensorData(uint8_t *sensorData) {
 				motor_set_speed(150);
 				findingObject = FALSE;
 				motor_reset_pd();
-				currentState = STATE_PD;				
+				currentState = STATE_PD;
 			}
 			break;
 		case STATE_DONE:

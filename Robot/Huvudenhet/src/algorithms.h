@@ -27,6 +27,11 @@
 #define TYPE_CORRIDOR 7
 #define TYPE_NONE 255
 
+#define WALL_COUNT 4
+
+#define DIR_REVERSE 0
+#define DIR_FORWARD 1
+
 #include <stdint.h>
 
 extern uint16_t tape_data;
@@ -34,6 +39,7 @@ extern uint8_t distance_data[4];
 extern uint8_t middle_done;
 extern uint8_t reversing;
 extern uint8_t findingObject;
+extern uint8_t wallsInRange[WALL_COUNT];
 
 
 uint8_t checkReversing();

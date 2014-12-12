@@ -31,7 +31,7 @@ void getTapeData() {
 	_delay_us(30);
 }
 
-void setDistanceMode() {
+void setDistanceModeOn() {
 	send_message_to(ADDR_SENSORENHET, 0x09, 0, NO_DATA);
 	_delay_us(30);
 }

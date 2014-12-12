@@ -228,6 +228,15 @@ void lcd_checkpoints() {
 	}
 }
 void lcd_tape(uint16_t tapeData	) {
-	lcd_set_cursor(6, 3);
+	lcd_set_cursor(5, 3);
 	printf("[ %3x ]", tapeData);
+}
+
+void lcd_reversing() {
+	lcd_set_cursor(0,3);
+	if(reversing == TRUE) {
+		printf("[REV]");
+	} else {
+		printf("[FOR]");
+	}
 }

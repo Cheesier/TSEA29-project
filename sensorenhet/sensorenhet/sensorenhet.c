@@ -81,7 +81,7 @@ int main(void) {
 	readADC(0);			// varför?
 	initDistanceMode();
 	while(1) {
-		while (distanceMode){			
+		while (distanceMode){
 			while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
 			TIFR |= (1 << OCF1A);			// Reset the timer flag
 			TCNT1 = 0;
