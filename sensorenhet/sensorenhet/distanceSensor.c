@@ -43,15 +43,15 @@
 
 uint8_t current_pair;
 
-uint8_t distanceBuffer[4][3];
-uint8_t distanceCircularBuffer;
-uint8_t distanceSensors[SENSOR_COUNT];
+uint16_t distanceBuffer[4][3];
+uint8_t distanceCircularBuffer; // index
+uint16_t distanceSensors[SENSOR_COUNT];
 
 // Timeout-fix
 uint8_t timeoutMode;
 uint8_t timedOut;
 
-uint8_t findMedian(uint8_t currentSensor) {
+uint16_t findMedian(uint8_t currentSensor) {
 	if (distanceBuffer[currentSensor][0] < distanceBuffer[currentSensor][1]) {
 		if (distanceBuffer[currentSensor][1] < distanceBuffer[currentSensor][2]) {
 			return distanceBuffer[currentSensor][1];

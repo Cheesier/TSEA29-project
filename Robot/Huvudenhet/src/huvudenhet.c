@@ -9,7 +9,7 @@
 
 int on_tape = 0;
 int autonom = 0;
-uint8_t distance_data_done[4];
+uint16_t distance_data_done[4];
 
 uint8_t checkpoints[4];
 
@@ -121,7 +121,7 @@ int main(void) {
 		}
 							
 		updateSensorData();
-		lcd_distance_sensors((uint8_t*)&distance_data_done);
+		lcd_distance_sensors(distance_data_done);
 		lcd_tape(tape_data);
 		_delay_ms(10);
 		if (!lock) {

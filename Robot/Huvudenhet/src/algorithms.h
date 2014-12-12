@@ -35,7 +35,7 @@
 #include <stdint.h>
 
 extern uint16_t tape_data;
-extern uint8_t distance_data[4];
+extern uint16_t distance_data[4];
 extern uint8_t middle_done;
 extern uint8_t reversing;
 extern uint8_t findingObject;
@@ -44,7 +44,7 @@ extern uint8_t wallsInRange[WALL_COUNT];
 
 uint8_t checkReversing();
 uint8_t countBits(uint16_t number);
-void swapSensorDirections(uint8_t *sensorData);
-void interpretSensorData(uint8_t *sensorData);
+void swapSensorDirections(uint16_t *sensorData);
+void interpretSensorData(uint16_t *sensorData);
 
 #endif /* ALGORITHMS_H_ */

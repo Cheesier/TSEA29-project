@@ -33,7 +33,7 @@ uint8_t useForward = TRUE;
 uint8_t sectionType;
 uint8_t turningStarted = FALSE;
 uint16_t tape_data = 0;
-uint8_t distance_data[4] = {0};
+uint16_t distance_data[4] = {0};
 uint8_t tapeSpeed = 150;
 uint8_t findingObject = FALSE;
 uint8_t wallsInRange[WALL_COUNT];
@@ -242,14 +242,14 @@ uint8_t countBits(uint16_t number) {
 }
 
 // Swaps the front and back sensors data
-void swapSensorDirections(uint8_t *sensorData) {
+void swapSensorDirections(uint16_t *sensorData) {
 	char temp = sensorData[0];
 	sensorData[0] = sensorData[1];
 	sensorData[1] = temp;
 }
 
 //The maze algorithm 
-void interpretSensorData(uint8_t *sensorData) { 
+void interpretSensorData(uint16_t *sensorData) { 
 	//uint8_t wallsInRange[WALL_COUNT];
 	if(update_section) {
 		updateSectionType(wallsInRange);
@@ -264,7 +264,7 @@ void interpretSensorData(uint8_t *sensorData) {
 	wallsInRange[WALL_RIGHT] = wallInRange(sensorData[3], DISTANCE_TO_WALL_SIDES);
 	
 	if(reversing) {
-		swapSensorDirections((uint8_t*)&wallsInRange);
+		swapSensorDirections((uint16_t*)&wallsInRange);
 	}
 	
 	lcd_state(currentState);
@@ -395,7 +395,7 @@ void interpretSensorData(uint8_t *sensorData) {
 					turningStarted = FALSE;
 					if(!reversingOut) {
 						motor_set_direction(DIR_FORWARD);
-						swapSensorDirections((uint8_t*)&wallsInRange);
+						swapSensorDirections((uint16_t*)&wallsInRange);
 					}
 					lcd_direction(getDirection());
 					

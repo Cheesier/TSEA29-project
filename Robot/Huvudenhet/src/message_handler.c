@@ -34,8 +34,8 @@ void handle_message(char header, char size, char *data) {
 				break;
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
-				for(int i = 0; i < size; i++) {
-					distance_data[i] = data[i];
+				for(int i = 0; i < size; i+=2) {
+					distance_data[i/2] = (data[i]<<8) + data[i+1];
 				}
 				/*if (reversing) {
 					char temp = data[2];
@@ -43,11 +43,12 @@ void handle_message(char header, char size, char *data) {
 					data[3] = temp;
 				}*/
 				if(!findingObject) {
-					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+					uint8_t temp_data[] = {distance_data[5], distance_data[7]}; // low bytes of distance L and R
+					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*) &temp_data);
 				} else {
 					uint8_t distanceRight = getTapeDistanceToSide();
 					char distance[] = {40-distanceRight, distanceRight};
-					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&distance);
+					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*) &distance);
 				}
 				break;
 			case 0x05: // kört klart till mitten

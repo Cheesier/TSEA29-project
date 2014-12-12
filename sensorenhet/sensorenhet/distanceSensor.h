@@ -16,7 +16,7 @@
 
 int distance;
 int interrupted;
-extern uint8_t distanceSensors[SENSOR_COUNT];
+extern uint16_t distanceSensors[SENSOR_COUNT];
 
 void updateDistance();
 void initDistance();
