@@ -313,9 +313,9 @@ void interpretSensorData(uint8_t *sensorData) {
 			motor_set_speed(128);
 			motor_go_forward();		
 			if (!reversing)
-				//_delay_ms(30);		//100 worke before
+				_delay_ms(100);		//100 worked before
 			if (reversing)
-				_delay_ms(300);
+				_delay_ms(150);
 			motor_stop();
 			sei();
 			
@@ -402,7 +402,7 @@ void interpretSensorData(uint8_t *sensorData) {
 					old_intersection = TRUE;
 					//extra_iteration = TRUE;
 					update_section = TRUE;
-					_delay_ms(60);
+					_delay_ms(200);
 				}
 			}
 			break;

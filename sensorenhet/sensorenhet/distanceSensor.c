@@ -7,14 +7,28 @@
 
 #include "sensorenhet.h"
 
-#define TRIGGER PORTD1
+#define TRIGGER_FRONT PORTD6
+#define TRIGGER_LEFT PORTD7
+#define TRIGGER_BACK PORTC0
+#define TRIGGER_RIGHT PORTC1
+
 #define ECHO_FRONT PIND2
 #define ECHO_BACK PIND3
 #define ECHO_LEFT PIND4
 #define ECHO_RIGHT PIND5
 #define SENSOR_INPUT PIND
-#define SENSOR_OUTPUT PORTD
-#define WAIT_FOR_INPUT while(!RIGHT_HIGH || !FRONT_HIGH || !LEFT_HIGH || !BACK_HIGH)
+#define SENSOR_OUTPUT_FRONT_AND_LEFT PORTD
+#define SENSOR_OUTPUT_BACK_AND_RIGHT PORTC
+
+// Old version, may be the reason the sensor-unit is freezing.
+//#define WAIT_FOR_INPUT_FRONT_AND_LEFT while((!FRONT_HIGH || !LEFT_HIGH)&&!timedOut)
+//#define WAIT_FOR_INPUT_BACK_AND_RIGHT while((!BACK_HIGH || !RIGHT_HIGH)&&!timedOut)
+
+
+// New version
+#define WAIT_FOR_INPUT_FRONT_AND_LEFT _delay_us(760)
+#define WAIT_FOR_INPUT_BACK_AND_RIGHT _delay_us(760)
+
 
 #define FRONT_HIGH (SENSOR_INPUT&(1<<ECHO_FRONT))
 #define RIGHT_HIGH (SENSOR_INPUT&(1<<ECHO_RIGHT))
@@ -24,10 +38,18 @@
 #define START_TIMER TCCR2 |= (1<<CS21)
 #define STOP_TIMER TCCR2 &= ~(1<<CS21)
 
+#define FRONT_AND_LEFT 0
+#define BACK_AND_RIGHT 1
+
+uint8_t current_pair;
 
 uint8_t distanceBuffer[4][3];
 uint8_t distanceCircularBuffer;
 uint8_t distanceSensors[SENSOR_COUNT];
+
+// Timeout-fix
+uint8_t timeoutMode;
+uint8_t timedOut;
 
 uint8_t findMedian(uint8_t currentSensor) {
 	if (distanceBuffer[currentSensor][0] < distanceBuffer[currentSensor][1]) {
@@ -63,59 +85,94 @@ void updateDistance() {
 	TCNT2 = 0;											// Resets counter
 	
 	//Trigger sensors
-	SENSOR_OUTPUT |= (1<<TRIGGER);						// Trigger signal for sensors
-	_delay_us(15);
-	SENSOR_OUTPUT &= ~(1<<TRIGGER);
-	
-	//Wait for input from sensors
-    WAIT_FOR_INPUT;										// Wait for echo signal start
+	if (current_pair == FRONT_AND_LEFT) {
+		SENSOR_OUTPUT_FRONT_AND_LEFT |= (1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT);						// Trigger signal for sensors
+		_delay_us(15);
+		SENSOR_OUTPUT_FRONT_AND_LEFT &= ~((1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT));
+		//Wait for input from sensors
+		WAIT_FOR_INPUT_FRONT_AND_LEFT;										// Wait for echo signal start
+	} else {
+		SENSOR_OUTPUT_BACK_AND_RIGHT |= (1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT);						// Trigger signal for sensors
+		_delay_us(15);
+		SENSOR_OUTPUT_BACK_AND_RIGHT &= ~((1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT));
+		//Wait for input from sensors
+		WAIT_FOR_INPUT_BACK_AND_RIGHT;										// Wait for echo signal start
+	}
 	
 	//Measure length of echo signal
 	START_TIMER;
 	while (distance<255) {								// Safecode so distance doesn't go over 255 (max for uint8_t)
-		if(FRONT_HIGH) {
-			was_high[DISTANCE_FRONT] = 1;
-		}
-		if(BACK_HIGH) {
-			was_high[DISTANCE_BACK] = 1;
-		}
-		if(LEFT_HIGH) {
-			was_high[DISTANCE_LEFT] = 1;
-		}
-		if(RIGHT_HIGH) {
-			was_high[DISTANCE_RIGHT] = 1;
-		}
-		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT] && was_high[DISTANCE_FRONT]) { 
-			STOP_TIMER;																				// Need to stop timer to use distance variable
-			distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = distance;						// Saves distance mesured by sensor
-			START_TIMER;
-			done[DISTANCE_FRONT] = 1;																// Set sensor to done
-		}
-		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT] && was_high[DISTANCE_RIGHT]) {
-			STOP_TIMER;
-			distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer] = distance;
-			START_TIMER;
-			done[DISTANCE_RIGHT] = 1;
-		}
-		if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK] && was_high[DISTANCE_BACK]) {
-			STOP_TIMER;
-			distanceBuffer[DISTANCE_BACK][distanceCircularBuffer] = distance;
-			START_TIMER;
-			done[DISTANCE_BACK] = 1;
-		}
-		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT] && was_high[DISTANCE_LEFT]) {
-			STOP_TIMER;
-			distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer] = distance;
-			START_TIMER;
-			done[DISTANCE_LEFT] = 1;
+		if (current_pair == FRONT_AND_LEFT) {
+			if(FRONT_HIGH) {
+				was_high[DISTANCE_FRONT] = 1;
+			}
+			if(LEFT_HIGH) {
+				was_high[DISTANCE_LEFT] = 1;
+			}
+			if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT] && was_high[DISTANCE_FRONT]) {
+				STOP_TIMER;																				// Need to stop timer to use distance variable
+				distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = distance;						// Saves distance mesured by sensor
+				START_TIMER;
+				done[DISTANCE_FRONT] = 1;																// Set sensor to done
+			}
+			if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT] && was_high[DISTANCE_LEFT]) {
+				STOP_TIMER;
+				distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer] = distance;
+				START_TIMER;
+				done[DISTANCE_LEFT] = 1;
+			}
+		} else {
+			if(BACK_HIGH) {
+				was_high[DISTANCE_BACK] = 1;
+			}
+			if(RIGHT_HIGH) {
+				was_high[DISTANCE_RIGHT] = 1;
+			}
+			if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK] && was_high[DISTANCE_BACK]) {
+				STOP_TIMER;
+				distanceBuffer[DISTANCE_BACK][distanceCircularBuffer] = distance;
+				START_TIMER;
+				done[DISTANCE_BACK] = 1;
+			}
+			if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT] && was_high[DISTANCE_RIGHT]) {
+				STOP_TIMER;
+				distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer] = distance;
+				START_TIMER;
+				done[DISTANCE_RIGHT] = 1;
+			}
 		}
 	}
 	STOP_TIMER;
-	for(int i = 0; i < SENSOR_COUNT; i++) {						//Sensor that takes to much time is set to 255
-		if(!done[i]) {
-			distanceBuffer[i][distanceCircularBuffer] = 255;
+	if (current_pair == FRONT_AND_LEFT) {
+		if(!done[DISTANCE_FRONT]) {
+			distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = 255;
 		}
-		distanceSensors[i] = findMedian(i);
+		//distanceSensors[DISTANCE_FRONT] = findMedian(DISTANCE_FRONT);
+		distanceSensors[DISTANCE_FRONT] = distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer];
+		
+		if(!done[DISTANCE_LEFT]) {
+			distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer] = 255;
+		}
+		//distanceSensors[DISTANCE_LEFT] = findMedian(DISTANCE_LEFT);
+		distanceSensors[DISTANCE_LEFT] = distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer];
+	} else {
+		if(!done[DISTANCE_BACK]) {
+			distanceBuffer[DISTANCE_BACK][distanceCircularBuffer] = 255;
+		}
+		//distanceSensors[DISTANCE_BACK] = findMedian(DISTANCE_BACK);
+		distanceSensors[DISTANCE_BACK] = distanceBuffer[DISTANCE_BACK][distanceCircularBuffer];
+		
+		if(!done[DISTANCE_RIGHT]) {
+			distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer] = 255;
+		}
+		//distanceSensors[DISTANCE_RIGHT] = findMedian(DISTANCE_RIGHT);
+		distanceSensors[DISTANCE_RIGHT] = distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer];
+	}
+	
+	if (current_pair == FRONT_AND_LEFT) {
+		current_pair = BACK_AND_RIGHT;
+	} else {
+		current_pair = FRONT_AND_LEFT;
 	}
 	distanceCircularBuffer += 1;
 	if (distanceCircularBuffer == 3)
@@ -123,10 +180,17 @@ void updateDistance() {
 }
 
 void initDistance() {
-	DDRD = (1<<TRIGGER)|(0<<ECHO_FRONT) | (0<<ECHO_RIGHT) | (0<<ECHO_BACK) | (0<<ECHO_LEFT);
+	DDRD = (1<<TRIGGER_LEFT)|(1<<TRIGGER_FRONT)|(0<<ECHO_FRONT) | (0<<ECHO_RIGHT) | (0<<ECHO_BACK) | (0<<ECHO_LEFT);
+	DDRC |= (1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT);
 	
-	SENSOR_OUTPUT &= ~(1<<TRIGGER);
+	SENSOR_OUTPUT_FRONT_AND_LEFT &= ~((1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT));
+	SENSOR_OUTPUT_BACK_AND_RIGHT &= ~((1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT));
 	
+	// Timeout-fix
+	timeoutMode = 0;
+	timedOut = 0;
+	
+	current_pair = FRONT_AND_LEFT;
 	interrupted = 0;
 	distance = 0;
 	distanceCircularBuffer = 0;
@@ -143,5 +207,8 @@ void initDistance() {
 }
 
 ISR(TIMER2_COMP_vect) {
-	distance++;				// Add distance every 58 ms
+	if (timeoutMode)
+		timedOut = 1;
+	else
+		distance++;				// Add distance every 58 ms
 }
