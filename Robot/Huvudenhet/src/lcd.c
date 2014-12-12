@@ -115,14 +115,14 @@ void lcd_set_cursor(uint8_t x, uint8_t y) {
 }
 
 void lcd_distance_sensors(uint16_t *distance_data) {
-	lcd_set_cursor(12,0);
-	printf("|%3i", distance_data[0]);
-	lcd_set_cursor(12,1);
-	printf("|%3i", distance_data[1]);
-	lcd_set_cursor(12,2);
-	printf("|%3i", distance_data[2]);
-	lcd_set_cursor(12,3);
-	printf("|%3i", distance_data[3]);
+	lcd_set_cursor(11,0);
+	printf("%5u", distance_data[0]);
+	lcd_set_cursor(11,1);
+	printf("%5u", distance_data[1]);
+	lcd_set_cursor(11,2);
+	printf("%5u", distance_data[2]);
+	lcd_set_cursor(11,3);
+	printf("%5u", distance_data[3]);
 }
 
 void lcd_state(uint8_t state_to_print) {

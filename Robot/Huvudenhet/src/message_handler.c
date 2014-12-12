@@ -35,7 +35,7 @@ void handle_message(char header, char size, char *data) {
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
 				for(int i = 0; i < size; i+=2) {
-					distance_data[i/2] = (data[i]<<8) + data[i+1];
+					distance_data[i/2] = ((data[i]<<8) & 0xFF00) + (data[i+1] & 0x00FF);
 				}
 				/*if (reversing) {
 					char temp = data[2];
