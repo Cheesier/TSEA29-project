@@ -48,6 +48,7 @@ uint8_t middle_done = FALSE;
 uint8_t update_section = FALSE;
 
 uint8_t extra_iteration = FALSE;
+uint8_t resetRotateDone = FALSE;
 
 // Resets the rotation to how it entered the intersection the first time.
 void resetRotation() {		
@@ -251,6 +252,17 @@ void swapSensorDirections(uint16_t *sensorData) {
 //The maze algorithm 
 void interpretSensorData(uint16_t *sensorData) { 
 	//uint8_t wallsInRange[WALL_COUNT];
+	
+	wallsInRange[WALL_FRONT] = wallInRange(sensorData[0], DISTANCE_TO_WALL_FORWARD);
+	wallsInRange[WALL_BACK] = wallInRange(sensorData[1], DISTANCE_TO_WALL_BACKWARD);
+	wallsInRange[WALL_LEFT] = wallInRange(sensorData[2], DISTANCE_TO_WALL_SIDES);
+	wallsInRange[WALL_RIGHT] = wallInRange(sensorData[3], DISTANCE_TO_WALL_SIDES);
+	
+	
+	if(reversing) {
+		swapSensorDirections((uint16_t*)&wallsInRange);
+	}
+	
 	if(update_section) {
 		updateSectionType(wallsInRange);
 		lcd_section_type(sectionType);
@@ -258,14 +270,6 @@ void interpretSensorData(uint16_t *sensorData) {
 		update_section = FALSE;
 	}
 	
-	wallsInRange[WALL_FRONT] = wallInRange(sensorData[0], DISTANCE_TO_WALL_FORWARD);
-	wallsInRange[WALL_BACK] = wallInRange(sensorData[1], DISTANCE_TO_WALL_BACKWARD);
-	wallsInRange[WALL_LEFT] = wallInRange(sensorData[2], DISTANCE_TO_WALL_SIDES);
-	wallsInRange[WALL_RIGHT] = wallInRange(sensorData[3], DISTANCE_TO_WALL_SIDES);
-	
-	if(reversing) {
-		swapSensorDirections((uint16_t*)&wallsInRange);
-	}
 	
 	lcd_state(currentState);
 	lcd_reversing();
@@ -340,7 +344,7 @@ void interpretSensorData(uint16_t *sensorData) {
 		case STATE_ROTATE:
 			if (!turningStarted) {
 				checkpoints[0] = TRUE;
-				if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) {
+				if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT && !resetRotateDone) {
 					checkpoints[1] = TRUE;
 					currentState = STATE_ROTATE_RESET;
 					break;
@@ -349,6 +353,7 @@ void interpretSensorData(uint16_t *sensorData) {
 					checkpoints[2] = TRUE;
 					addNode();
 				}
+				resetRotateDone = FALSE; // To not get stuck in loop when reversing out
 				old_intersection = FALSE;
 				resetGyroDone();
 				startTurning();
@@ -397,6 +402,10 @@ void interpretSensorData(uint16_t *sensorData) {
 						motor_set_direction(DIR_FORWARD);
 						swapSensorDirections((uint16_t*)&wallsInRange);
 					}
+					else {
+						resetRotateDone = TRUE; // To not get stuck in loop when reversing out
+					}
+					
 					lcd_direction(getDirection());
 					
 					old_intersection = TRUE;
