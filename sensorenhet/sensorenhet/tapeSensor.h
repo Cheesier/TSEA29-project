@@ -21,5 +21,6 @@ uint16_t convertToBit(uint16_t data);
 void calibrateTapeSensor();
 void setOnTape();
 void setOffTape();
+void updateTapeData();
 
 #endif /* TAPESENSOR_H_ */

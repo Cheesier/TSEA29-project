@@ -43,6 +43,27 @@ void setOffTape() {
 	calibrateTapeSensor();							// Used in both functions so that it doesn't matter which one you call first
 }
 
+void updateTapeData() {
+	uint16_t data = 0;
+	current_tape_sensor = 0;
+	uint8_t tape_bit = 0;
+	while(current_tape_sensor < 11) {
+		data = readADC(TAPE_SENSOR_PORT);
+		if(current_tape_sensor == 0) {
+			led_1_value = data;
+		}
+		tape_bit = convertToBit(data);
+		tape_data |= (tape_bit << current_tape_sensor);
+		current_tape_sensor++;
+		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
+	}
+	tape_data_done = tape_data;
+	tape_data = 0;
+	current_tape_sensor = 0;
+	PORTB = (PORTB & 0xF0) | (0x0F);
+	tapeDone();
+}
+
 ISR(ADC_vect) {
 	uint16_t tape_bit = convertToBit(ADC);
 	if(current_tape_sensor == 0) {
@@ -50,12 +71,12 @@ ISR(ADC_vect) {
 	}
 	tape_data |= (tape_bit << current_tape_sensor);
 	current_tape_sensor++;
-	if(current_tape_sensor == 11) {
+	if(current_tape_sensor >= 11) {
 		tape_data_done = tape_data;
 		tape_data = 0;
 		current_tape_sensor = 0;
 		PORTB = (PORTB & 0xF0) | (0x0F);
-		tapeDone();			
+		tapeDone();
 	} else {
 		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
 		readADC(active_port);

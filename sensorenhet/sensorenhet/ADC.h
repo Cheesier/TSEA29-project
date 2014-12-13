@@ -10,7 +10,7 @@
 #define ADC_H_
 
 void initADC();
-void readADC(uint8_t port);
+uint16_t readADC(uint8_t port);
 uint16_t gyroADC();
 
 

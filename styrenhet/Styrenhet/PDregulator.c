@@ -60,15 +60,15 @@ void PDforward() {
 	uint8_t right_speed = 255;
 	if (correction >= 0) {
 		right_speed -= correction;
-		/*if(right_speed<51) {
+		if(right_speed<51) {
 			right_speed = 51;
-		}*/
+		}
 	}
 	else {
 		left_speed += correction;
-		/*if(left_speed<51) {
+		if(left_speed<51) {
 			left_speed = 51;
-		}*/
+		}
 	}
 	PDTurning(left_speed, right_speed);
 }

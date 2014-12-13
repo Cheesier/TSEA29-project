@@ -35,7 +35,6 @@ uint8_t sectionType;
 uint8_t turningStarted = FALSE;
 uint16_t tape_data = 0;
 uint8_t distance_data[4] = {0};
-uint8_t tapeSpeed = 150;
 uint8_t findingObject = FALSE;
 uint8_t wallsInRange[WALL_COUNT];
 	
@@ -314,9 +313,9 @@ void interpretSensorData(uint8_t *sensorData) {
 			motor_set_speed(128);
 			motor_go_forward();		
 			if (!reversing)
-				_delay_ms(70);		//100 worked before
+				_delay_ms(60);		//100 worked before
 			if (reversing)
-				_delay_ms(150);
+				_delay_ms(80);
 			motor_stop();
 			sei();
 			
@@ -415,10 +414,7 @@ void interpretSensorData(uint8_t *sensorData) {
 			//motor_set_speed(tapeSpeed);
 			motor_set_pd(15,20);
 			motor_set_speed(110);
-			motor_go_forward_pd();
-			if(tapeSpeed > 90) {
-				//tapeSpeed -= 10;
-			}	
+			motor_go_forward_pd();	
 					
 			//Continue to update tape data
 			//if(tape_data == 0x07FF) { // Assumes that this switch-case statement loops somehow

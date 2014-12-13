@@ -78,21 +78,22 @@ int main(void) {
 	initSensors();
 	SPI_Init();
 	sei();
-	readADC(0);			// varför?
+	//readADC(TAPE_SENSOR_PORT);			// varför?
 	initDistanceMode();
-	while(1) {
-		while (distanceMode){
-			while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
-			TIFR |= (1 << OCF1A);			// Reset the timer flag
-			TCNT1 = 0;
-			START_TIMER;			
-			updateDistance();
-			sendDistanceSensors();
-			PORTB = (PORTB & 0xF0);			// Start LED1
-			_delay_ms(1);
-			readADC(TAPE_SENSOR_PORT);
-			sendTapeSensors();
-		}
+	while(1) {		
+		while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
+		TIFR |= (1 << OCF1A);			// Reset the timer flag
+		TCNT1 = 0;
+		START_TIMER;			
+		updateDistance();
+		sendDistanceSensors();
+		/*updateTapeData();
+		sendTapeSensors();*/
+		/*PORTB = (PORTB & 0xF0);			// Start LED1
+		_delay_ms(1);
+		readADC(TAPE_SENSOR_PORT);
+		sendTapeSensors();		*/
+		//while(!distanceMode);
 		_delay_ms(1);
 	}
 	return 0;
