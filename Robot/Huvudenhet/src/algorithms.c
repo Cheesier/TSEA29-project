@@ -28,7 +28,7 @@
 uint8_t reversing = FALSE;
 uint8_t reversingOut = FALSE;
 uint8_t currentState = STATE_PD;
-uint8_t distanceForward, distanceBackward;
+uint16_t distanceForward, distanceBackward;
 uint8_t useForward = TRUE;
 uint8_t sectionType;
 uint8_t turningStarted = FALSE;
@@ -244,7 +244,7 @@ uint8_t countBits(uint16_t number) {
 
 // Swaps the front and back sensors data
 void swapSensorDirections(uint16_t *sensorData) {
-	char temp = sensorData[0];
+	uint16_t temp = sensorData[0];
 	sensorData[0] = sensorData[1];
 	sensorData[1] = temp;
 }
