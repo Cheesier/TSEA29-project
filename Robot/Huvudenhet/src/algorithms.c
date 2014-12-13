@@ -27,6 +27,7 @@
 
 uint8_t reversing = FALSE;
 uint8_t reversingOut = FALSE;
+uint8_t resetRotateDone = FALSE;
 uint8_t currentState = STATE_PD;
 uint8_t distanceForward, distanceBackward;
 uint8_t useForward = TRUE;
@@ -74,7 +75,7 @@ void updateSectionType(uint8_t* wallsInRange) {
 				sectionType = TYPE_DEAD_END;
 				motor_stop();
 				if (reversing) {
-					//currentState = STATE_DONE;
+					currentState = STATE_DONE;
 				} else {
 					motor_set_direction(DIR_REVERSE);		// Puts the robot in reverse-mode						
 					currentState = STATE_PD;
@@ -129,10 +130,10 @@ int wallInRange(char distance, char distanceToWall) {
 // Handles the different intersections and turns
 void startTurning() {
 	turningStarted = TRUE;
-	if(reversingOut && !(TYPE_TURN_LEFT || TYPE_TURN_RIGHT)) {
+	if(reversingOut && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) { //&& !TYPE_TURN_LEFT && !TYPE_TURN_RIGHT) {
 		popNode();
 		setGyroDone();
-		setDistanceModeOn();
+		setDistanceModeOn();		
 		return;
 	}
 	switch (sectionType) {
@@ -250,14 +251,7 @@ void swapSensorDirections(uint8_t *sensorData) {
 
 //The maze algorithm 
 void interpretSensorData(uint8_t *sensorData) { 
-	//uint8_t wallsInRange[WALL_COUNT];
-	if(update_section) {
-		updateSectionType(wallsInRange);
-		lcd_section_type(sectionType);
-		lcd_direction(getDirection());
-		update_section = FALSE;
-	}
-	
+	//uint8_t wallsInRange[WALL_COUNT];	
 	wallsInRange[WALL_FRONT] = wallInRange(sensorData[0], DISTANCE_TO_WALL_FORWARD);
 	wallsInRange[WALL_BACK] = wallInRange(sensorData[1], DISTANCE_TO_WALL_BACKWARD);
 	wallsInRange[WALL_LEFT] = wallInRange(sensorData[2], DISTANCE_TO_WALL_SIDES);
@@ -265,6 +259,13 @@ void interpretSensorData(uint8_t *sensorData) {
 	
 	if(reversing) {
 		swapSensorDirections((uint8_t*)&wallsInRange);
+	}
+	
+	if(update_section) {
+		updateSectionType(wallsInRange);
+		lcd_section_type(sectionType);
+		lcd_direction(getDirection());
+		update_section = FALSE;
 	}
 	
 	lcd_state(currentState);
@@ -313,7 +314,7 @@ void interpretSensorData(uint8_t *sensorData) {
 			motor_set_speed(128);
 			motor_go_forward();		
 			if (!reversing)
-				_delay_ms(100);		//100 worked before
+				_delay_ms(70);		//100 worked before
 			if (reversing)
 				_delay_ms(150);
 			motor_stop();
@@ -340,7 +341,7 @@ void interpretSensorData(uint8_t *sensorData) {
 		case STATE_ROTATE:
 			if (!turningStarted) {
 				checkpoints[0] = TRUE;
-				if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) {
+				if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT && !resetRotateDone) {
 					checkpoints[1] = TRUE;
 					currentState = STATE_ROTATE_RESET;
 					break;
@@ -349,6 +350,7 @@ void interpretSensorData(uint8_t *sensorData) {
 					checkpoints[2] = TRUE;
 					addNode();
 				}
+				resetRotateDone = FALSE;
 				old_intersection = FALSE;
 				resetGyroDone();
 				startTurning();
@@ -396,6 +398,8 @@ void interpretSensorData(uint8_t *sensorData) {
 					if(!reversingOut) {
 						motor_set_direction(DIR_FORWARD);
 						swapSensorDirections((uint8_t*)&wallsInRange);
+					} else {
+						resetRotateDone = TRUE;
 					}
 					lcd_direction(getDirection());
 					
