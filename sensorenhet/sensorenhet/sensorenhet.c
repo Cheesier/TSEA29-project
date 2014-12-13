@@ -87,8 +87,8 @@ int main(void) {
 		START_TIMER;			
 		updateDistance();
 		sendDistanceSensors();
-		/*updateTapeData();
-		sendTapeSensors();*/
+		updateTapeData();
+		sendTapeSensors();
 		/*PORTB = (PORTB & 0xF0);			// Start LED1
 		_delay_ms(1);
 		readADC(TAPE_SENSOR_PORT);
