@@ -81,8 +81,10 @@ ISR(SPISTC_vect) {
 					PDactivate();
 					break;
 				case 0x02:
-					left_sensor = SPI_Receive();
-					right_sensor = SPI_Receive();
+					left_sensor = ((uint16_t)SPI_Receive())<<8;
+					left_sensor += (uint16_t)SPI_Receive();
+					right_sensor = ((uint16_t)SPI_Receive())<<8;
+					right_sensor += (uint16_t)SPI_Receive();
 					PDupdateSensorData(left_sensor, right_sensor);
 					break;
 				case 0x03:

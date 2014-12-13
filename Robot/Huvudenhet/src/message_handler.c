@@ -12,6 +12,8 @@
 #include "huvudenhet.h"
 #include "lcd.h"
 
+int16_t latest_diff, this_diff;
+
 void handle_message(char header, char size, char *data) {
 	if ((header & 0xC0) == ADDR_HUVUDENHET) {
 		char type = header & 0x3F;
@@ -34,16 +36,21 @@ void handle_message(char header, char size, char *data) {
 				break;
 			case 0x04: // avståndssensor data
 				send_message(0xE0, size, data);
-				for(int i = 0; i < size; i++) {
-					distance_data[i] = data[i];
+				for(int i = 0; i < size/2; i++) {
+					distance_data[i] = ((uint16_t)data[2*i])<<8;
+					distance_data[i] += data[(2*i)+1];
 				}
+				
+				this_diff = distance_data[3]-distance_data[2];
+				lcd_angle(this_diff-latest_diff);
+				latest_diff = this_diff;
 				/*if (reversing) {
 					char temp = data[2];
 					data[2] = data[3];
 					data[3] = temp;
 				}*/
 				if(!findingObject) {
-					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+					send_message_to(ADDR_STYRENHET, 0x02, 0x04, (char*)&(data[4]));
 				} else {
 					uint8_t distanceRight = getTapeDistanceToSide();
 					char distance[] = {40-distanceRight, distanceRight};

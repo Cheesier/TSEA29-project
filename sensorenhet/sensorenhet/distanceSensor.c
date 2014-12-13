@@ -43,15 +43,93 @@
 
 uint8_t current_pair;
 
-uint8_t distanceBuffer[4][3];
+uint16_t distanceBuffer[4][3];
 uint8_t distanceCircularBuffer;
-uint8_t distanceSensors[SENSOR_COUNT];
+uint16_t distanceSensors[SENSOR_COUNT];
 
 // Timeout-fix
 uint8_t timeoutMode;
 uint8_t timedOut;
 
-uint8_t findMedian(uint8_t currentSensor) {
+
+/************************************************************************/
+/* Optical sensors - start                                              */
+/*                                                                      */
+/*                                                                      */
+/*                                                                      */
+/*                                                                      */
+/*                                                                      */
+/************************************************************************/
+
+
+#define VALUE_AT_30 103
+#define VALUE_AT_25 125
+#define VALUE_AT_20 154
+#define VALUE_AT_15 207
+#define VALUE_AT_10 301
+#define VALUE_AT_05 549
+#define VALUE_AT_03 757
+
+#define K_AT_30 2
+#define K_AT_25 4
+#define K_AT_20 6
+#define K_AT_15 11
+#define K_AT_10 19
+#define K_AT_05 50
+#define K_AT_03 104
+
+uint8_t sensorADMux [SENSOR_COUNT] = {(1<<MUX1),			// ADC2
+									  (1<<MUX1)|(1<<MUX0),	// ADC3
+									  (1<<MUX2),			// ADC4
+									  (1<<MUX2)|(1<<MUX0)};	//
+
+uint16_t convert_to_mm(uint16_t signal) {
+	if (signal <= VALUE_AT_30) {
+		return 300 + (10*(VALUE_AT_30-signal)/K_AT_30);
+	} else if (signal <= VALUE_AT_25) {
+		return 250 + (10*(VALUE_AT_25-signal)/K_AT_25);
+	} else if (signal <= VALUE_AT_20) {
+		return 200 + (10*(VALUE_AT_20-signal)/K_AT_20);
+	} else if (signal <= VALUE_AT_15) {
+		return 150 + (10*(VALUE_AT_15-signal)/K_AT_15);
+	} else if (signal <= VALUE_AT_10) {
+		return 100 + (10*(VALUE_AT_10-signal)/K_AT_10);
+	} else if (signal <= VALUE_AT_05) {
+		return 50 + (10*(VALUE_AT_05-signal)/K_AT_05);
+	} else if (signal <= VALUE_AT_03) {
+		return 30 + (10*(VALUE_AT_03-signal)/K_AT_03);
+	} else {
+		return 0 + (10*(VALUE_AT_03-signal)/K_AT_03);
+	}
+}
+
+uint16_t readOptical(uint8_t sensorToRead) {
+	uint16_t voltage = 0, output = 0;
+	ADMUX = (ADMUX & ~((1<<MUX4)|(1<<MUX3)|(1<<MUX2)|(1<<MUX1)|(1<<MUX0))) | sensorADMux[sensorToRead];
+	ADCSRA |= (1<<ADSC);
+	while(ADCSRA & (1<<ADSC));
+	voltage = ADC;
+	output = convert_to_mm(voltage);
+	return output;
+}
+
+uint16_t ADCValueLeftSensor() {
+	ADMUX = (ADMUX & ~((1<<MUX4)|(1<<MUX3)|(1<<MUX2)|(1<<MUX1)|(1<<MUX0))) | sensorADMux[DISTANCE_LEFT];
+	ADCSRA |= (1<<ADSC);
+	while(ADCSRA & (1<<ADSC));
+	return ADC;
+}
+
+/************************************************************************/
+/* Optical sensors - end                                                */
+/*                                                                      */
+/*                                                                      */
+/*                                                                      */
+/*                                                                      */
+/*                                                                      */
+/************************************************************************/
+
+uint16_t findMedian(uint8_t currentSensor) {
 	if (distanceBuffer[currentSensor][0] < distanceBuffer[currentSensor][1]) {
 		if (distanceBuffer[currentSensor][1] < distanceBuffer[currentSensor][2]) {
 			return distanceBuffer[currentSensor][1];
@@ -169,6 +247,32 @@ void updateDistance() {
 		distanceSensors[DISTANCE_RIGHT] = distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer];
 	}
 	
+	/************************************************************************/
+	/* Optical sensors - start                                              */
+	/*                                                                      */
+	/*                                                                      */
+	/*                                                                      */
+	/*                                                                      */
+	/*                                                                      */
+	/************************************************************************/
+	
+	distanceSensors[DISTANCE_LEFT] = readOptical(DISTANCE_LEFT);
+	distanceSensors[DISTANCE_RIGHT] = readOptical(DISTANCE_RIGHT);
+	
+	/*uint16_t ADCValue = ADCValueLeftSensor();
+	
+	distanceSensors[DISTANCE_LEFT] = (uint8_t)(ADCValue>>8);
+	distanceSensors[DISTANCE_RIGHT] = (uint8_t)ADCValue;*/
+	
+	/************************************************************************/
+	/* Optical sensors - end                                                */
+	/*                                                                      */
+	/*                                                                      */
+	/*                                                                      */
+	/*                                                                      */
+	/*                                                                      */
+	/************************************************************************/
+	
 	if (current_pair == FRONT_AND_LEFT) {
 		current_pair = BACK_AND_RIGHT;
 	} else {
@@ -210,5 +314,5 @@ ISR(TIMER2_COMP_vect) {
 	if (timeoutMode)
 		timedOut = 1;
 	else
-		distance++;				// Add distance every 58 ms
+		distance++;				// Increment distance every 58 us
 }

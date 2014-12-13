@@ -20,7 +20,7 @@
 #define DISTANCE_TO_WALL 34
 #define DISTANCE_TO_WALL_FORWARD 30
 #define DISTANCE_TO_WALL_BACKWARD 34
-#define DISTANCE_TO_WALL_SIDES 34
+#define DISTANCE_TO_WALL_SIDES 300
 
 #define DISTANCE_TO_MIDDLE 5
 
@@ -29,12 +29,11 @@ uint8_t reversing = FALSE;
 uint8_t reversingOut = FALSE;
 uint8_t resetRotateDone = FALSE;
 uint8_t currentState = STATE_PD;
-uint8_t distanceForward, distanceBackward;
 uint8_t useForward = TRUE;
 uint8_t sectionType;
 uint8_t turningStarted = FALSE;
 uint16_t tape_data = 0;
-uint8_t distance_data[4] = {0};
+uint16_t distance_data[4] = {0};
 uint8_t findingObject = FALSE;
 uint8_t wallsInRange[WALL_COUNT];
 	
@@ -122,7 +121,7 @@ void updateSectionType(uint8_t* wallsInRange) {
 }
 
 // Check if a wall is in a given interval 
-int wallInRange(char distance, char distanceToWall) {
+uint8_t wallInRange(uint16_t distance, uint16_t distanceToWall) {
 	return distance < distanceToWall;
 }
 
@@ -249,7 +248,7 @@ void swapSensorDirections(uint8_t *sensorData) {
 }
 
 //The maze algorithm 
-void interpretSensorData(uint8_t *sensorData) { 
+void interpretSensorData(uint16_t *sensorData) { 
 	//uint8_t wallsInRange[WALL_COUNT];	
 	wallsInRange[WALL_FRONT] = wallInRange(sensorData[0], DISTANCE_TO_WALL_FORWARD);
 	wallsInRange[WALL_BACK] = wallInRange(sensorData[1], DISTANCE_TO_WALL_BACKWARD);
@@ -277,10 +276,8 @@ void interpretSensorData(uint8_t *sensorData) {
 		// When it notices a wall in front or a wall to the side disappear it sets currentState to GO_TO_MIDDLE
 		case STATE_PD:
 			if (wallsInRange[WALL_FRONT] || !wallsInRange[WALL_LEFT] || !wallsInRange[WALL_RIGHT]) {
-				PD_activated = FALSE;
-				distanceForward = sensorData[0];
-				distanceBackward = sensorData[1];				
-				motor_stop();
+				PD_activated = FALSE;				
+				//motor_stop();
 				currentState = STATE_GOTO_MIDDLE;
 			} else {
 				if (!PD_activated) {
@@ -289,13 +286,13 @@ void interpretSensorData(uint8_t *sensorData) {
 					motor_go_forward_pd();
 				}
 				//check for tape!
-				if(!reversingOut && tape_data > 0 && tape_data != 0x07FF) {
+				/*if(!reversingOut && tape_data > 0 && tape_data != 0x07FF) {
 					PD_activated = FALSE;
 					currentState = STATE_FIND_OBJECT;
 					//motor_set_pd(50,220);
 					motor_stop();
 					motor_go_forward_pd();			
-				}
+				}*/
 				/*else if(reversingOut && tape_data == 0x07FF) {
 					//currentState = STATE_DONE;
 				}*/
@@ -313,9 +310,9 @@ void interpretSensorData(uint8_t *sensorData) {
 			motor_set_speed(128);
 			motor_go_forward();		
 			if (!reversing)
-				_delay_ms(60);		//100 worked before
+				_delay_ms(150);		//100 worked before
 			if (reversing)
-				_delay_ms(80);
+				_delay_ms(170);
 			motor_stop();
 			sei();
 			

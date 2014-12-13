@@ -82,7 +82,7 @@ int main(void) {
 	initDistanceMode();
 	while(1) {		
 		while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
-		TIFR |= (1 << OCF1A);			// Reset the timer flag
+		TIFR |= (1 << OCF1B);			// Reset the timer flag
 		TCNT1 = 0;
 		START_TIMER;			
 		updateDistance();
@@ -94,7 +94,7 @@ int main(void) {
 		readADC(TAPE_SENSOR_PORT);
 		sendTapeSensors();		*/
 		//while(!distanceMode);
-		_delay_ms(1);
+		//_delay_ms(1);
 	}
 	return 0;
 }

@@ -70,9 +70,10 @@ void sendDistanceSensors(void) {
 	cli();
 	send_REQ();
 	SPI_Send(0x04);
-	SPI_Send(0x04);
+	SPI_Send(0x08);
 	for (int i = 0; i < SENSOR_COUNT; i++) {
-		SPI_Send(distanceSensors[i]);
+		SPI_Send((uint8_t)(distanceSensors[i]>>8));	// Send high byte
+		SPI_Send((uint8_t)distanceSensors[i]);		// Send low byte
 	}
 	sei();
 }

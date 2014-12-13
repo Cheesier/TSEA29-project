@@ -12,7 +12,7 @@
 void PDactivate();
 void PDdeactivate();
 int PDisActive();
-void PDupdateSensorData(uint8_t left, uint8_t right);
+void PDupdateSensorData(uint16_t left, uint16_t right);
 int16_t PDgetCorrection();
 void setPD(uint8_t p_value, uint8_t d_value);
 void PDforward();

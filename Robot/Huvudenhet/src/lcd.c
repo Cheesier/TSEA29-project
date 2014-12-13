@@ -114,7 +114,7 @@ void lcd_set_cursor(uint8_t x, uint8_t y) {
 	lcd_cmd(addr+x);
 }
 
-void lcd_distance_sensors(uint8_t *distance_data) {
+void lcd_distance_sensors(uint16_t *distance_data) {
 	lcd_set_cursor(12,0);
 	printf("|%3i", distance_data[0]);
 	lcd_set_cursor(12,1);
@@ -213,7 +213,7 @@ void lcd_direction(uint8_t direction_to_print) {
 }
 
 void lcd_nodes(uint8_t amountOfNodes) {
-	lcd_set_cursor(0,3);
+	lcd_set_cursor(5,1);
 	printf("[ %3u ]", amountOfNodes);
 }
 
@@ -227,9 +227,14 @@ void lcd_checkpoints() {
 		}
 	}
 }
-void lcd_tape(uint16_t tapeData	) {
+void lcd_tape(uint16_t tapeData) {
 	lcd_set_cursor(5, 3);
 	printf("[ %3x ]", tapeData);
+}
+
+void lcd_angle(int16_t angle) {
+	lcd_set_cursor(5, 2);
+	printf("[%5d]", angle);
 }
 
 void lcd_reversing() {

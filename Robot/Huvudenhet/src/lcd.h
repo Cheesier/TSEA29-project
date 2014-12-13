@@ -26,13 +26,14 @@ void lcd_clear(void);
 void lcd_write(char data);
 void lcd_str_write(char *data);
 void lcd_set_cursor(uint8_t x, uint8_t y);
-void lcd_distance_sensors(uint8_t *distance_data);
+void lcd_distance_sensors(uint16_t *distance_data);
 void lcd_state(uint8_t state_to_print);
 void lcd_section_type(uint8_t section_to_print);
 void lcd_direction(uint8_t direction_to_print);
 void lcd_nodes(uint8_t amountOfNodes);
 void lcd_checkpoints();
 void lcd_tape(uint16_t tapeData);
+void lcd_angle(int16_t angle);
 void lcd_reversing();
 
 #endif /* LCD_H_ */
