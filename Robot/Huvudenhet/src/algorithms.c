@@ -19,9 +19,9 @@
 #define STATE_GOTO_MIDDLE 1 // Doesn't seem to find it if it isn't here :s TODO
 
 #define DISTANCE_TO_WALL 34
-#define DISTANCE_TO_WALL_FORWARD 38
-#define DISTANCE_TO_WALL_BACKWARD 34
-#define DISTANCE_TO_WALL_SIDES 40
+#define DISTANCE_TO_WALL_FORWARD 28
+#define DISTANCE_TO_WALL_BACKWARD 25
+#define DISTANCE_TO_WALL_SIDES 28
 
 #define DISTANCE_TO_MIDDLE 5
 
@@ -53,6 +53,33 @@ uint8_t update_section = FALSE;
 
 uint8_t extra_iteration = FALSE;
 
+void initializeAlgorithms() {
+	reversing = FALSE;
+	reversingOut = FALSE;
+	resetRotateDone = FALSE;
+	currentState = STATE_PD;
+	useForward = TRUE;
+	turningStarted = FALSE;
+	tape_data = 0;
+	findingObject = FALSE;
+	
+	counter = 0;
+	old_intersection = FALSE;
+	in_a_dead_end = FALSE;
+
+	tape_speed = 150;
+	
+	lock = FALSE;
+	lock_wall = FALSE;
+	PD_activated = FALSE;
+	middle_done = FALSE;
+	update_section = FALSE;
+
+	extra_iteration = FALSE;
+	
+	motor_set_direction(DIR_FORWARD);
+}
+
 // Resets the rotation to how it entered the intersection the first time.
 void resetRotation() {		
 	turningStarted = TRUE;
@@ -64,6 +91,8 @@ void resetRotation() {
 		case LEFT:
 			motor_rotate_left_degrees(90);
 			break;
+		case DONE:
+			currentState = STATE_DONE;
 		default:
 			setGyroDone();
 			break;
@@ -240,7 +269,7 @@ uint8_t countBits(uint16_t number) {
 	uint8_t bits = 0;
 	
 	for(int i = 0; i < 11; i++) {
-		if ((number & 1) == 1)
+		if (number & 1)
 			bits++;
 		number >>= 1;
 	}
@@ -423,7 +452,7 @@ void interpretSensorData(uint8_t *sensorData) {
 					old_intersection = TRUE;
 					//extra_iteration = TRUE;
 					update_section = TRUE;
-					_delay_ms(200);
+					_delay_ms(100);
 				}
 			}
 			break;
@@ -431,13 +460,13 @@ void interpretSensorData(uint8_t *sensorData) {
 			//cli();
 			ATOMIC_BLOCK(ATOMIC_FORCEON) {				
 				findingObject = TRUE;			
-				motor_set_pd(255,0);
+				motor_set_pd(255,40);
 				motor_set_speed(115);
 
 				motor_go_forward_pd();	
 					
 				//Continue to update tape data
-				if(countBits(tape_data) >= 9) {
+				if(countBits(tape_data) >= 6) {
 					motor_stop();
 					_delay_ms(100);
 					motor_claw_close();
@@ -461,6 +490,11 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		case STATE_DONE:
 			motor_stop();
+			
+			motor_claw_open();
+			
+			initializeAlgorithms();
+			autonom = 0;
 			break;
 		default:
 			break;

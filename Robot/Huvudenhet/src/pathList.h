@@ -13,6 +13,7 @@
 #define FORWARD		2
 #define RIGHT		3
 #define ERROR		33
+#define DONE		4
 
 
 struct intersection {

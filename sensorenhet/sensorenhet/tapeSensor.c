@@ -15,7 +15,7 @@ static uint8_t active_port = TAPE_SENSOR_PORT;
 uint16_t led_1_value = 0;
 uint16_t on_tape_value = 0;
 uint16_t off_tape_value = 0;
-uint16_t tape_threshold = 700;
+uint16_t tape_threshold = 520;
 uint8_t current_tape_sensor = 0;
 uint16_t tape_data = 0;
 uint16_t tape_data_done = 0;
@@ -26,7 +26,7 @@ uint16_t convertToBit(uint16_t data) {
 
 // Calibrate the tape sensors to set a threshold to identify whether or not we're on tape
 void calibrateTapeSensor() {
-	tape_threshold = ((on_tape_value + off_tape_value) >> 1) + 200;	// Setting the tape threshold to the average of the two tape values
+	tape_threshold = ((on_tape_value + off_tape_value) >> 1) + 120;	// Setting the tape threshold to the average of the two tape values
 }
 
 // Set on_tape_value for the tape sensor
@@ -48,14 +48,15 @@ void updateTapeData() {
 	current_tape_sensor = 0;
 	uint8_t tape_bit = 0;
 	while(current_tape_sensor < 11) {
+		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
+		_delay_us(10);
 		data = readADC(TAPE_SENSOR_PORT);
-		if(current_tape_sensor == 0) {
+		if(current_tape_sensor == 2) {
 			led_1_value = data;
 		}
 		tape_bit = convertToBit(data);
 		tape_data |= (tape_bit << current_tape_sensor);
 		current_tape_sensor++;
-		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
 	}
 	tape_data_done = tape_data;
 	tape_data = 0;
@@ -64,6 +65,7 @@ void updateTapeData() {
 	tapeDone();
 }
 
+/*
 ISR(ADC_vect) {
 	uint16_t tape_bit = convertToBit(ADC);
 	if(current_tape_sensor == 0) {
@@ -81,4 +83,4 @@ ISR(ADC_vect) {
 		PORTB = (PORTB & 0xF0) | (current_tape_sensor & 0x0F); //First clears the mux, then sets it to current_tape_sensor
 		readADC(active_port);
 	}
-}
+}*/

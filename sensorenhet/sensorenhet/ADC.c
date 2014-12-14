@@ -13,7 +13,7 @@
 
 void initADC() {
 	ADMUX |= (1 << REFS0); // | (1<<ADLAR); // Apply 5V on AVCC, ADLAR to right align, only for testing
-	ADCSRA |= (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1);// | (1 << ADIE); // ADC Enabled, Prescaler of 64, interrupts enabled
+	ADCSRA |= (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1);// | (1 << ADIE); // ADC Enabled, Prescaler of 64, interrupts disabled
 }
 
 uint16_t readADC(uint8_t port) {

@@ -66,5 +66,5 @@ uint8_t getDirection() {
 	if(path.last != NULL)
 		return path.last->direction;
 	else
-		return ERROR;
+		return DONE;
 }

@@ -105,12 +105,13 @@ int main(void) {
 	motor_stop();*/
 
 	while(1){		
-		// Checks if the calbirate button is pressed
+		// Checks if the calibrate button is pressed
 		if(PIND & (1<<4) && !autonom) {
 			calibrateTapeSensor();
 		}
 		
 		if ((PIND & (1<<LABYRINTH_BUTTON))) {			
+			calibrateTapeSensor();
 			autonom = !autonom;
 			while((PIND & (1<<LABYRINTH_BUTTON)));
 			_delay_ms(500);

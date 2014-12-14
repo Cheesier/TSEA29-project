@@ -29,7 +29,7 @@ void handle_message(char header, char size, char *data) {
 				send_message(0xE1, size, data);
 				// sets tape_data to the data collected
 				tape_data = data[0];
-				tape_data = tape_data << 8;
+				tape_data = ((uint16_t)tape_data) << 8;
 				tape_data += data[1];
 				break;
 			case 0x04: // avståndssensor data
@@ -46,7 +46,7 @@ void handle_message(char header, char size, char *data) {
 					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
 				} else {
 					uint8_t distanceRight = getTapeDistanceToSide();
-					char distance[] = {40-distanceRight, distanceRight};
+					char distance[] = {30-distanceRight, distanceRight};
 					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&distance);
 				}
 				break;

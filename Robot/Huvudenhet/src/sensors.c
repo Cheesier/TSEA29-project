@@ -9,11 +9,12 @@
 
 // Assumes the robot stands on tape when calling this
 void calibrateTapeSensor() {
+	motor_set_speed(200);
 	_delay_ms(1000);
 	send_message_to(ADDR_SENSORENHET, 0x04, 0, NO_DATA); // Sets the on_tape value
 	_delay_ms(1);
 	motor_go_forward();
-	_delay_ms(200); // This value needs to be tested
+	_delay_ms(400); // This value needs to be tested
 	motor_stop();
 	_delay_ms(10);
 	send_message_to(ADDR_SENSORENHET, 0x05, 0, NO_DATA); // Sets the off_tape value		
@@ -37,10 +38,10 @@ void setDistanceModeOn() {
 }
 
 uint8_t getTapeDistanceToSide() {
-	uint8_t data = tape_data;
-	uint8_t distanceRight = 20;
+	uint16_t data = tape_data;
+	uint8_t distanceRight = 15;
 	for(int i = 1; i <= 11; i++) {
-		if((data & 1) == 1) {
+		if(data & 1) {
 			if(i == 6) {
 				break;
 			} else if(i < 6) {

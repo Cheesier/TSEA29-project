@@ -80,9 +80,9 @@ void sendDistanceSensors(void) {
 // Sends the most updated tape data to the huvudenhet
 void sendTapeSensors() {
 	cli();
-	send_REQ();
 	uint8_t highByte = (uint8_t)((tape_data_done&0xFF00) >> 8);
 	uint8_t lowByte = (uint8_t)(tape_data_done&0x00FF);
+	send_REQ();
 	SPI_Send(0x03);
 	SPI_Send(0x02);
 	SPI_Send(highByte);

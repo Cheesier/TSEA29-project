@@ -30,6 +30,9 @@
 #define WAIT_FOR_INPUT_BACK_AND_RIGHT _delay_us(760)
 
 
+#define WAIT_FOR_INPUT _delay_us(760)
+
+
 #define FRONT_HIGH (SENSOR_INPUT&(1<<ECHO_FRONT))
 #define RIGHT_HIGH (SENSOR_INPUT&(1<<ECHO_RIGHT))
 #define BACK_HIGH (SENSOR_INPUT&(1<<ECHO_BACK))
@@ -104,6 +107,8 @@ void updateDistance() {
 	_delay_us(15);
 	SENSOR_OUTPUT_FRONT_AND_LEFT &= ~((1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT));
 	SENSOR_OUTPUT_BACK_AND_RIGHT &= ~((1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT));
+	
+	WAIT_FOR_INPUT;
 	
 	//Measure length of echo signal
 	START_TIMER;
