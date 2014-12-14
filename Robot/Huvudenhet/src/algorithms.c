@@ -452,7 +452,7 @@ void interpretSensorData(uint8_t *sensorData) {
 					old_intersection = TRUE;
 					//extra_iteration = TRUE;
 					update_section = TRUE;
-					_delay_ms(100);
+					_delay_ms(200);
 				}
 			}
 			break;
