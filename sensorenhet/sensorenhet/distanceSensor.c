@@ -85,7 +85,7 @@ void updateDistance() {
 	TCNT2 = 0;											// Resets counter
 	
 	//Trigger sensors
-	if (current_pair == FRONT_AND_LEFT) {
+	/*if (current_pair == FRONT_AND_LEFT) {
 		SENSOR_OUTPUT_FRONT_AND_LEFT |= (1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT);						// Trigger signal for sensors
 		_delay_us(15);
 		SENSOR_OUTPUT_FRONT_AND_LEFT &= ~((1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT));
@@ -97,12 +97,18 @@ void updateDistance() {
 		SENSOR_OUTPUT_BACK_AND_RIGHT &= ~((1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT));
 		//Wait for input from sensors
 		WAIT_FOR_INPUT_BACK_AND_RIGHT;										// Wait for echo signal start
-	}
+	}*/
+	
+	SENSOR_OUTPUT_FRONT_AND_LEFT |= (1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT);						// Trigger signal for sensors
+	SENSOR_OUTPUT_BACK_AND_RIGHT |= (1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT);						// Trigger signal for sensors
+	_delay_us(15);
+	SENSOR_OUTPUT_FRONT_AND_LEFT &= ~((1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT));
+	SENSOR_OUTPUT_BACK_AND_RIGHT &= ~((1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT));
 	
 	//Measure length of echo signal
 	START_TIMER;
 	while (distance<255) {								// Safecode so distance doesn't go over 255 (max for uint8_t)
-		if (current_pair == FRONT_AND_LEFT) {
+		/*if (current_pair == FRONT_AND_LEFT) {
 			if(FRONT_HIGH) {
 				was_high[DISTANCE_FRONT] = 1;
 			}
@@ -140,10 +146,46 @@ void updateDistance() {
 				START_TIMER;
 				done[DISTANCE_RIGHT] = 1;
 			}
+		}*/
+		if(FRONT_HIGH) {
+			was_high[DISTANCE_FRONT] = 1;
+		}
+		if(LEFT_HIGH) {
+			was_high[DISTANCE_LEFT] = 1;
+		}
+		if(BACK_HIGH) {
+			was_high[DISTANCE_BACK] = 1;
+		}
+		if(RIGHT_HIGH) {
+			was_high[DISTANCE_RIGHT] = 1;
+		}
+		if (!interrupted && !FRONT_HIGH && !done[DISTANCE_FRONT] && was_high[DISTANCE_FRONT]) {
+			STOP_TIMER;																				// Need to stop timer to use distance variable
+			distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = distance;						// Saves distance mesured by sensor
+			START_TIMER;
+			done[DISTANCE_FRONT] = 1;																// Set sensor to done
+		}
+		if (!interrupted && !LEFT_HIGH && !done[DISTANCE_LEFT] && was_high[DISTANCE_LEFT]) {
+			STOP_TIMER;
+			distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer] = distance;
+			START_TIMER;
+			done[DISTANCE_LEFT] = 1;
+		}
+		if (!interrupted && !BACK_HIGH && !done[DISTANCE_BACK] && was_high[DISTANCE_BACK]) {
+			STOP_TIMER;
+			distanceBuffer[DISTANCE_BACK][distanceCircularBuffer] = distance;
+			START_TIMER;
+			done[DISTANCE_BACK] = 1;
+		}
+		if (!interrupted && !RIGHT_HIGH && !done[DISTANCE_RIGHT] && was_high[DISTANCE_RIGHT]) {
+			STOP_TIMER;
+			distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer] = distance;
+			START_TIMER;
+			done[DISTANCE_RIGHT] = 1;
 		}
 	}
 	STOP_TIMER;
-	if (current_pair == FRONT_AND_LEFT) {
+	/*if (current_pair == FRONT_AND_LEFT) {
 		if(!done[DISTANCE_FRONT]) {
 			distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = 255;
 		}
@@ -167,13 +209,37 @@ void updateDistance() {
 		}
 		//distanceSensors[DISTANCE_RIGHT] = findMedian(DISTANCE_RIGHT);
 		distanceSensors[DISTANCE_RIGHT] = distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer];
-	}
+	}*/
 	
-	if (current_pair == FRONT_AND_LEFT) {
+	if(!done[DISTANCE_FRONT]) {
+		distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = 255;
+	}
+	//distanceSensors[DISTANCE_FRONT] = findMedian(DISTANCE_FRONT);
+	distanceSensors[DISTANCE_FRONT] = distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer];
+	
+	if(!done[DISTANCE_LEFT]) {
+		distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer] = 255;
+	}
+	//distanceSensors[DISTANCE_LEFT] = findMedian(DISTANCE_LEFT);
+	distanceSensors[DISTANCE_LEFT] = distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer];
+	
+	if(!done[DISTANCE_BACK]) {
+		distanceBuffer[DISTANCE_BACK][distanceCircularBuffer] = 255;
+	}
+	//distanceSensors[DISTANCE_BACK] = findMedian(DISTANCE_BACK);
+	distanceSensors[DISTANCE_BACK] = distanceBuffer[DISTANCE_BACK][distanceCircularBuffer];
+	
+	if(!done[DISTANCE_RIGHT]) {
+		distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer] = 255;
+	}
+	//distanceSensors[DISTANCE_RIGHT] = findMedian(DISTANCE_RIGHT);
+	distanceSensors[DISTANCE_RIGHT] = distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer];
+	
+	/*if (current_pair == FRONT_AND_LEFT) {
 		current_pair = BACK_AND_RIGHT;
 	} else {
 		current_pair = FRONT_AND_LEFT;
-	}
+	}*/
 	distanceCircularBuffer += 1;
 	if (distanceCircularBuffer == 3)
 		distanceCircularBuffer = 0;
