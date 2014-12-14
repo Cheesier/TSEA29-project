@@ -429,10 +429,10 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!			
 			//cli();
-			ATOMIC_BLOCK(ATOMIC_FORCEON) {
+			ATOMIC_BLOCK(ATOMIC_FORCEON) {				
 				findingObject = TRUE;			
-				motor_set_pd(30,60);
-				motor_set_speed(110);
+				motor_set_pd(255,0);
+				motor_set_speed(115);
 
 				motor_go_forward_pd();	
 					

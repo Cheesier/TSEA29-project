@@ -46,7 +46,7 @@ void handle_message(char header, char size, char *data) {
 					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
 				} else {
 					uint8_t distanceRight = getTapeDistanceToSide();
-					char distance[] = {80-distanceRight, distanceRight};
+					char distance[] = {40-distanceRight, distanceRight};
 					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&distance);
 				}
 				break;

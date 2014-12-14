@@ -38,16 +38,16 @@ void setDistanceModeOn() {
 
 uint8_t getTapeDistanceToSide() {
 	uint8_t data = tape_data;
-	uint8_t distanceRight = 40;
+	uint8_t distanceRight = 20;
 	for(int i = 1; i <= 11; i++) {
 		if((data & 1) == 1) {
 			if(i == 6) {
 				break;
 			} else if(i < 6) {
-				distanceRight += (6-i)*7;
+				distanceRight += (6-i)*3;
 				break;
 			} else if(i > 6) {
-				distanceRight -= (i-6)*7;
+				distanceRight -= (i-6)*3;
 				break;
 			}
 		}		
