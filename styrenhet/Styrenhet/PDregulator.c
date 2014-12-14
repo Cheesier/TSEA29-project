@@ -14,8 +14,8 @@
 int active = 0;
 int16_t sensorData[7];
 int16_t PD_direction = 0;
-uint8_t p = 11;		//10
-uint8_t d = 37;   //40
+uint8_t p = 10;		//10
+uint8_t d = 40;   //40
 
 int PDnewData = 0;
 

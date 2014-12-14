@@ -8,6 +8,7 @@
 #include "algorithms.h"
 #include "huvudenhet.h"
 #include "pathList.h"
+#include <util/atomic.h>
 
 #define WALL_FRONT 0
 #define WALL_BACK 1
@@ -18,9 +19,9 @@
 #define STATE_GOTO_MIDDLE 1 // Doesn't seem to find it if it isn't here :s TODO
 
 #define DISTANCE_TO_WALL 34
-#define DISTANCE_TO_WALL_FORWARD 30
+#define DISTANCE_TO_WALL_FORWARD 38
 #define DISTANCE_TO_WALL_BACKWARD 34
-#define DISTANCE_TO_WALL_SIDES 34
+#define DISTANCE_TO_WALL_SIDES 40
 
 #define DISTANCE_TO_MIDDLE 5
 
@@ -40,6 +41,9 @@ uint8_t wallsInRange[WALL_COUNT];
 	
 uint8_t counter = 0;
 uint8_t old_intersection = FALSE;
+uint8_t in_a_dead_end = FALSE;
+
+uint8_t tape_speed = 150;
 	
 uint8_t lock = FALSE;
 uint8_t lock_wall = FALSE;
@@ -76,7 +80,10 @@ void updateSectionType(uint8_t* wallsInRange) {
 				if (reversing) {
 					currentState = STATE_DONE;
 				} else {
-					motor_set_direction(DIR_REVERSE);		// Puts the robot in reverse-mode						
+					motor_set_direction(DIR_REVERSE);		// Puts the robot in reverse-mode
+					update_section = TRUE;
+					in_a_dead_end = TRUE;
+					_delay_ms(60);					
 					currentState = STATE_PD;
 				}
 				return;
@@ -129,7 +136,7 @@ int wallInRange(char distance, char distanceToWall) {
 // Handles the different intersections and turns
 void startTurning() {
 	turningStarted = TRUE;
-	if(reversingOut && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) { //&& !TYPE_TURN_LEFT && !TYPE_TURN_RIGHT) {
+	if(reversingOut && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) {
 		popNode();
 		setGyroDone();
 		setDistanceModeOn();		
@@ -276,7 +283,14 @@ void interpretSensorData(uint8_t *sensorData) {
 		// STATE_PD ends when we get a wall in front of us, or we don't have a wall to the right or to the left of us (in a given interval)
 		// When it notices a wall in front or a wall to the side disappear it sets currentState to GO_TO_MIDDLE
 		case STATE_PD:
-			if (wallsInRange[WALL_FRONT] || !wallsInRange[WALL_LEFT] || !wallsInRange[WALL_RIGHT]) {
+			if (in_a_dead_end) {
+				if (!PD_activated) {
+					PD_activated = TRUE;
+					motor_set_speed(150);
+					motor_go_forward_pd();
+					in_a_dead_end = FALSE;
+				}				
+			} else if (wallsInRange[WALL_FRONT] || !wallsInRange[WALL_LEFT] || !wallsInRange[WALL_RIGHT]) {
 				PD_activated = FALSE;
 				distanceForward = sensorData[0];
 				distanceBackward = sensorData[1];				
@@ -289,7 +303,7 @@ void interpretSensorData(uint8_t *sensorData) {
 					motor_go_forward_pd();
 				}
 				//check for tape!
-				if(!reversingOut && tape_data > 0 && tape_data != 0x07FF) {
+				if(!reversing && tape_data > 0 && tape_data != 0x07FF) {
 					PD_activated = FALSE;
 					currentState = STATE_FIND_OBJECT;
 					//motor_set_pd(50,220);
@@ -309,15 +323,17 @@ void interpretSensorData(uint8_t *sensorData) {
 		// Time based and is affected by the speed at which the robots moves in corridors (thanks to wheels still having momentum when turned off)
 		// When done sets currentsState to STATE_ROTATE
 		case STATE_GOTO_MIDDLE:
-			cli();
-			motor_set_speed(128);
-			motor_go_forward();		
-			if (!reversing)
-				_delay_ms(60);		//100 worked before
-			if (reversing)
-				_delay_ms(80);
-			motor_stop();
-			sei();
+			//cli();
+			ATOMIC_BLOCK(ATOMIC_FORCEON) {
+				motor_set_speed(128);
+				motor_go_forward();		
+				if (!reversing)
+					_delay_ms(80);		//100 worked before
+				if (reversing)
+					_delay_ms(90);
+				motor_stop();
+			}
+			//sei();
 			
 			update_section = TRUE;
 			/*if (middle_done) {				
@@ -338,7 +354,7 @@ void interpretSensorData(uint8_t *sensorData) {
 		// Checks if the intersection is an old intersection or a new one. If new it adds a new node and if it's an old node it pops it. 
 		// When done sets currentState to STATE_ROTATE_RESET
 		case STATE_ROTATE:
-			if (!turningStarted) {
+			if (!turningStarted) {				
 				checkpoints[0] = TRUE;
 				if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT && !resetRotateDone) {
 					checkpoints[1] = TRUE;
@@ -351,8 +367,8 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 				resetRotateDone = FALSE;
 				old_intersection = FALSE;
-				resetGyroDone();
-				startTurning();
+				resetGyroDone();				
+				startTurning();				
 			} else {
 				checkpoints[3] = TRUE;
 				if (isGyroDone()) {
@@ -366,16 +382,18 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		//
 		case STATE_FIND_WALLS:
-			setDistanceModeOn();
-			if (wallsInRange[WALL_LEFT] && wallsInRange[WALL_RIGHT]) {
-				lock_wall = FALSE;
-				currentState = STATE_PD;
-			} else if(!lock_wall) {
-				lock_wall = TRUE;
-				motor_set_speed(150);
-				motor_go_forward();				
-			} else {
-				_delay_us(1);
+			ATOMIC_BLOCK(ATOMIC_FORCEON) {
+				setDistanceModeOn();
+				if (wallsInRange[WALL_LEFT] && wallsInRange[WALL_RIGHT]) {
+					lock_wall = FALSE;
+					currentState = STATE_PD;
+				} else if(!lock_wall) {
+					lock_wall = TRUE;
+					motor_set_speed(150);
+					motor_go_forward();
+				} else {
+					_delay_ms(1);
+				}
 			}
 			break;
 		case STATE_ROTATE_RESET:
@@ -410,31 +428,36 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!			
-			findingObject = TRUE;
-			//motor_set_speed(tapeSpeed);
-			motor_set_pd(15,20);
-			motor_set_speed(110);
-			motor_go_forward_pd();	
+			//cli();
+			ATOMIC_BLOCK(ATOMIC_FORCEON) {
+				findingObject = TRUE;			
+				motor_set_pd(30,60);
+				motor_set_speed(110);
+
+				motor_go_forward_pd();	
 					
-			//Continue to update tape data
-			//if(tape_data == 0x07FF) { // Assumes that this switch-case statement loops somehow
-			if(countBits(tape_data) >= 9) {
-				motor_stop();
-				_delay_us(50);
-				motor_claw_close();
-				motor_set_direction(DIR_REVERSE);
-				_delay_ms(150);
-				motor_set_speed(150);
-				motor_reset_pd();
-				findingObject = FALSE;
-				reversingOut = TRUE;
-				currentState = STATE_PD;
-			} else if(tape_data == 0) {
-				motor_set_speed(150);
-				findingObject = FALSE;
-				motor_reset_pd();
-				currentState = STATE_PD;
+				//Continue to update tape data
+				if(countBits(tape_data) >= 9) {
+					motor_stop();
+					_delay_ms(100);
+					motor_claw_close();
+					motor_set_direction(DIR_REVERSE);
+					_delay_ms(150);
+					motor_set_speed(150);
+					motor_reset_pd();
+					findingObject = FALSE;
+					reversingOut = TRUE;
+					currentState = STATE_PD;
+					tape_speed = 150;
+				} else if(tape_data == 0) {
+					motor_set_speed(150);
+					findingObject = FALSE;
+					motor_reset_pd();
+					tape_speed = 150;
+					currentState = STATE_PD;
+				}
 			}
+			//sei();
 			break;
 		case STATE_DONE:
 			motor_stop();
