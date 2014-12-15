@@ -381,8 +381,8 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		// STATE_ROTATE
 		// Used to check how to rotate and start to rotate the robot when the right rotation is found
-		// Checks if the intersection is an old intersection or a new one. If new it adds a new node and if it's an old node it pops it. 
-		// When done sets currentState to STATE_ROTATE_RESET
+		// If it's a new intersection never visited it checks how to rotate and also add a new node then goes into STATE_FIND_WALLS
+		// If it's reversing into an old intersection it goes into STATE_ROTATE_RESET
 		case STATE_ROTATE:
 			if (!turningStarted) {				
 				checkpoints[0] = TRUE;
@@ -410,7 +410,10 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 			}
 			break;
-		//
+		// STATE_FIND_WALLS
+		// Used to check for walls to start using PD
+		// When there are no walls in range on either right or left side it goes forward until it does.
+		// When walls are found on both sides it goes into STATE_PD
 		case STATE_FIND_WALLS:
 			ATOMIC_BLOCK(ATOMIC_FORCEON) {
 				setDistanceModeOn();
@@ -426,6 +429,9 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 			}
 			break;
+		// STATE_ROTATE_RESET
+		// Used to reset the robot to the position it once entered a crossroad of any kind
+		// When it returns so a intersection
 		case STATE_ROTATE_RESET:
 			/*if (extra_iteration) { //To wait for a new sensor-data input
 				extra_iteration = FALSE;
@@ -457,6 +463,9 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 			}
 			break;
+		// STATE_FIND_OBJECT
+		// Used when we have found tape and starts using PD regulation with tape instead of distancesensors goes into STATE_PD
+		// When every tapesensor is set it closes it's claw around the object and starts reversing and goes into STATE_PD (ignoring tape from now on)
 		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!			
 			//cli();
 			ATOMIC_BLOCK(ATOMIC_FORCEON) {				
@@ -489,6 +498,9 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			//sei();
 			break;
+		// STATE_DONE
+		// Used when the robot is done with the algorithm
+		// Stops the robot and opens the claw
 		case STATE_DONE:
 			motor_stop();
 			
