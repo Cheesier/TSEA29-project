@@ -29,7 +29,7 @@
 uint8_t reversing = FALSE;
 uint8_t reversingOut = FALSE;
 uint8_t resetRotateDone = FALSE;
-uint8_t currentState = STATE_PD;
+uint8_t currentState = STATE_FIND_WALLS;
 uint8_t distanceForward, distanceBackward;
 uint8_t useForward = TRUE;
 uint8_t sectionType;

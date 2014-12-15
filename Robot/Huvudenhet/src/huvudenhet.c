@@ -61,28 +61,19 @@ int main(void) {
 		}
 		
 		if ((PIND & (1<<LABYRINTH_BUTTON))) {			
-			//calibrateTapeSensor();
+			calibrateTapeSensor();
 			autonom = !autonom;
 			while((PIND & (1<<LABYRINTH_BUTTON)));
 			_delay_ms(500);
 		}
-		
-		for (int i = 0; i < 4; i++) { // Reset all checkpoints
-			checkpoints[i] = FALSE;
-		}
 							
 		updateSensorData();
 		lcd_distance_sensors((uint8_t*)&distance_data_done);
-		lcd_tape(tape_data);
-		_delay_ms(10);
-		if (!lock) {
-			//autonomSet(1);
-			lock = 1;
-		}
+		lcd_tape(tape_data);		
 		
 		if (autonom == 1) {
 			interpretSensorData(distance_data_done);
-			_delay_ms(30);
+			_delay_ms(1);
 		} else {
 			_delay_ms(1);
 		}

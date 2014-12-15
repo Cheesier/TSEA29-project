@@ -7,6 +7,7 @@
 
 #include "sensorenhet.h"
 #include "tapeSensor.h"
+#include <util/atomic.h>
 
 #define GET_HEAD 0
 #define GET_SIZE 1
@@ -67,27 +68,31 @@ void sendMessage(uint8_t header, uint8_t size, uint8_t payload[]) {
 }
 
 void sendDistanceSensors(void) {
-	cli();
-	send_REQ();
-	SPI_Send(0x04);
-	SPI_Send(0x04);
-	for (int i = 0; i < SENSOR_COUNT; i++) {
-		SPI_Send(distanceSensors[i]);
+	//cli();	
+	ATOMIC_BLOCK(ATOMIC_FORCEON) {
+		send_REQ();
+		SPI_Send(0x04);
+		SPI_Send(0x04);
+		for (int i = 0; i < SENSOR_COUNT; i++) {
+			SPI_Send(distanceSensors[i]);
+		}
 	}
-	sei();
+	//sei();
 }
 
 // Sends the most updated tape data to the huvudenhet
 void sendTapeSensors() {
-	cli();
-	uint8_t highByte = (uint8_t)((tape_data_done&0xFF00) >> 8);
-	uint8_t lowByte = (uint8_t)(tape_data_done&0x00FF);
-	send_REQ();
-	SPI_Send(0x03);
-	SPI_Send(0x02);
-	SPI_Send(highByte);
-	SPI_Send(lowByte);
-	sei();
+	//cli();
+	ATOMIC_BLOCK(ATOMIC_FORCEON) {
+		uint8_t highByte = (uint8_t)((tape_data_done&0xFF00) >> 8);
+		uint8_t lowByte = (uint8_t)(tape_data_done&0x00FF);
+		send_REQ();
+		SPI_Send(0x03);
+		SPI_Send(0x02);
+		SPI_Send(highByte);
+		SPI_Send(lowByte);
+	}
+	//sei();
 }
 
 void sendGyro() {
