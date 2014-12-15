@@ -38,7 +38,6 @@ void updateSensorData() {
 	}
 }
 
-
 int main(void) {
 	
 	initPathList();
@@ -53,56 +52,7 @@ int main(void) {
 	
 	motor_set_speed(200);
 	int lock = 0;
-	uint8_t test = 0;
-	
-	//calibrateTapeSensor();
-
-	/*for (int i = 0; i < 4; i++) {
-		lcd_set_cursor(i+1, i);
-		printf("row: %i", i);
-	}*/
-	
-	/*uint8_t deg = 45;
-	send_message_to(ADDR_SENSORENHET, 0x08, 1, &deg);
-
-	motor_set_speed(128);
-	motor_go_forward();*/
-	//motor_rotate_right();
-	/*motor_go_forward();
-	
-	while(1) {
-		//Testing finding the object
-
-		//getTapeData();	
-		
-		lcd_set_cursor(0,0);
-		printf("Tape: %4x", tape_data);
-		
-		//motor_go_forward();
-		//if(tape_data >= 0x07FF) {
-		
-		
-		//send_message_to(ADDR_STYRENHET, 0x01, 0, 0);
-		/*if (autonom == 1) {
-			_delay_ms(1);
-		if(on_tape == 0 && tape_data > 0) {
-			on_tape = 1;
-			motor_set_speed(32);
-			motor_go_forward();
-		}
-		if(on_tape == 1 && tape_data == 0x07FF) {
-			motor_stop();
-			_delay_ms(2000);
-			motor_claw_close();
-			//currentState = STATE_START;
-			break;
-		}
-
-		_delay_us(30);
-	}
-	_delay_ms(1000);
-	motor_claw_open();
-	motor_stop();*/
+	uint8_t test = 0;	
 
 	while(1){		
 		// Checks if the calibrate button is pressed
@@ -111,7 +61,7 @@ int main(void) {
 		}
 		
 		if ((PIND & (1<<LABYRINTH_BUTTON))) {			
-			calibrateTapeSensor();
+			//calibrateTapeSensor();
 			autonom = !autonom;
 			while((PIND & (1<<LABYRINTH_BUTTON)));
 			_delay_ms(500);

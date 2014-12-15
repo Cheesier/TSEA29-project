@@ -337,6 +337,7 @@ void interpretSensorData(uint8_t *sensorData) {
 					currentState = STATE_FIND_OBJECT;
 					//motor_set_pd(50,220);
 					motor_stop();
+					_delay_ms(50);
 					motor_go_forward_pd();			
 				}
 				/*else if(reversingOut && tape_data == 0x07FF) {
@@ -396,8 +397,8 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 				resetRotateDone = FALSE;
 				old_intersection = FALSE;
-				resetGyroDone();				
-				startTurning();				
+				resetGyroDone();
+				startTurning();
 			} else {
 				checkpoints[3] = TRUE;
 				if (isGyroDone()) {
