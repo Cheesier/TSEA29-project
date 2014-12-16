@@ -18,14 +18,14 @@
 #define STATE_GOTO_MIDDLE 1 // Doesn't seem to find it if it isn't here :s TODO
 
 #define DISTANCE_TO_WALL 34
-#define DISTANCE_TO_WALL_FORWARD 28
+#define DISTANCE_TO_WALL_FORWARD 25
 #define DISTANCE_TO_WALL_BACKWARD 25
 #define DISTANCE_TO_WALL_SIDES 40
 
 #define DISTANCE_TO_MIDDLE 5
 
 #define TAPE_SPEED 115
-#define PD_SPEED 140
+#define PD_SPEED 150
 #define GO_TO_MIDDLE_SPEED 128
 
 uint8_t reversing = FALSE;
@@ -287,8 +287,9 @@ void interpretSensorData(uint8_t *sensorData) {
 				if (!PD_activated) {
 					PD_activated = TRUE;
 					motor_set_speed(PD_SPEED);
-					motor_go_forward_pd();					
+					motor_go_forward_pd();								
 				}				
+				in_a_dead_end = FALSE;
 			} else if (wallsInRange[WALL_FRONT] || !wallsInRange[WALL_LEFT] || !wallsInRange[WALL_RIGHT]) {
 				PD_activated = FALSE;
 				distanceForward = sensorData[0];
