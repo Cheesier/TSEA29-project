@@ -15,16 +15,18 @@
 #define WALL_LEFT 2
 #define WALL_RIGHT 3
 
-
 #define STATE_GOTO_MIDDLE 1 // Doesn't seem to find it if it isn't here :s TODO
 
 #define DISTANCE_TO_WALL 34
-#define DISTANCE_TO_WALL_FORWARD 38
-#define DISTANCE_TO_WALL_BACKWARD 34
+#define DISTANCE_TO_WALL_FORWARD 28
+#define DISTANCE_TO_WALL_BACKWARD 25
 #define DISTANCE_TO_WALL_SIDES 40
 
 #define DISTANCE_TO_MIDDLE 5
 
+#define TAPE_SPEED 115
+#define PD_SPEED 140
+#define GO_TO_MIDDLE_SPEED 128
 
 uint8_t reversing = FALSE;
 uint8_t reversingOut = FALSE;
@@ -42,8 +44,6 @@ uint8_t wallsInRange[WALL_COUNT];
 uint8_t counter = 0;
 uint8_t old_intersection = FALSE;
 uint8_t in_a_dead_end = FALSE;
-
-uint8_t tape_speed = 150;
 	
 uint8_t lock = FALSE;
 uint8_t lock_wall = FALSE;
@@ -286,9 +286,8 @@ void interpretSensorData(uint8_t *sensorData) {
 			if (in_a_dead_end) {
 				if (!PD_activated) {
 					PD_activated = TRUE;
-					motor_set_speed(150);
-					motor_go_forward_pd();
-					in_a_dead_end = FALSE;
+					motor_set_speed(PD_SPEED);
+					motor_go_forward_pd();					
 				}				
 			} else if (wallsInRange[WALL_FRONT] || !wallsInRange[WALL_LEFT] || !wallsInRange[WALL_RIGHT]) {
 				PD_activated = FALSE;
@@ -299,15 +298,16 @@ void interpretSensorData(uint8_t *sensorData) {
 			} else {
 				if (!PD_activated) {
 					PD_activated = TRUE;
-					motor_set_speed(150);
+					motor_set_speed(PD_SPEED);
 					motor_go_forward_pd();
 				}
 				//check for tape!
 				if(!reversing && tape_data > 0 && tape_data != 0x07FF) {
 					PD_activated = FALSE;
 					currentState = STATE_FIND_OBJECT;
-					//motor_set_pd(50,220);
+					//motor_set_pd(50,220);					
 					motor_stop();
+					_delay_ms(50);
 					motor_go_forward_pd();			
 				}
 				/*else if(reversingOut && tape_data == 0x07FF) {
@@ -325,17 +325,19 @@ void interpretSensorData(uint8_t *sensorData) {
 		case STATE_GOTO_MIDDLE:
 			//cli();
 			ATOMIC_BLOCK(ATOMIC_FORCEON) {
-				motor_set_speed(128);
+				motor_set_speed(GO_TO_MIDDLE_SPEED);
 				motor_go_forward();		
 				if (!reversing)
-					_delay_ms(80);		//100 worked before
-				if (reversing)
+					//_delay_ms(80);		//100 worked before
 					_delay_ms(90);
+				if (reversing)
+					//_delay_ms(90);
+					_delay_ms(130);
 				motor_stop();
 			}
-			//sei();
-			
+			//sei();			
 			update_section = TRUE;
+
 			/*if (middle_done) {				
 				middle_done = FALSE;
 				lock = FALSE;
@@ -388,7 +390,7 @@ void interpretSensorData(uint8_t *sensorData) {
 					currentState = STATE_PD;
 				} else if(!lock_wall) {
 					lock_wall = TRUE;
-					motor_set_speed(150);
+					motor_set_speed(PD_SPEED);
 					motor_go_forward();
 				} else {
 					_delay_ms(1);
@@ -431,28 +433,26 @@ void interpretSensorData(uint8_t *sensorData) {
 			ATOMIC_BLOCK(ATOMIC_FORCEON) {				
 				findingObject = TRUE;			
 				motor_set_pd(255,0);
-				motor_set_speed(115);
+				motor_set_speed(TAPE_SPEED);
 
 				motor_go_forward_pd();	
 					
 				//Continue to update tape data
-				if(countBits(tape_data) >= 9) {
+				if(countBits(tape_data) >= 6) {
 					motor_stop();
 					_delay_ms(100);
 					motor_claw_close();
 					motor_set_direction(DIR_REVERSE);
 					_delay_ms(150);
-					motor_set_speed(150);
+					motor_set_speed(PD_SPEED);
 					motor_reset_pd();
 					findingObject = FALSE;
 					reversingOut = TRUE;
 					currentState = STATE_PD;
-					tape_speed = 150;
 				} else if(tape_data == 0) {
-					motor_set_speed(150);
+					motor_set_speed(PD_SPEED);
 					findingObject = FALSE;
 					motor_reset_pd();
-					tape_speed = 150;
 					currentState = STATE_PD;
 				}
 			}

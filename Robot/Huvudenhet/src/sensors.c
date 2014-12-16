@@ -37,7 +37,7 @@ void setDistanceModeOn() {
 }
 
 uint8_t getTapeDistanceToSide() {
-	uint8_t data = tape_data;
+	uint16_t data = tape_data;
 	uint8_t distanceRight = 20;
 	for(int i = 1; i <= 11; i++) {
 		if((data & 1) == 1) {

@@ -7,6 +7,7 @@
 
 #include "sensorenhet.h"
 
+#define WAIT_FOR_INPUT _delay_us(760);
 #define TRIGGER_FRONT PORTD6
 #define TRIGGER_LEFT PORTD7
 #define TRIGGER_BACK PORTC0
@@ -105,6 +106,7 @@ void updateDistance() {
 	SENSOR_OUTPUT_FRONT_AND_LEFT &= ~((1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT));
 	SENSOR_OUTPUT_BACK_AND_RIGHT &= ~((1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT));
 	
+	WAIT_FOR_INPUT;
 	//Measure length of echo signal
 	START_TIMER;
 	while (distance<255) {								// Safecode so distance doesn't go over 255 (max for uint8_t)
