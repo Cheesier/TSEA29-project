@@ -1,6 +1,10 @@
+/*
+ * Message är klassen som definerar meddelanden mellan kontrollcentret och roboten
+ */
+
+
 #ifndef MESSAGE_H
 #define MESSAGE_H
-
 
 #define ADDR_HUVUDENHET          0x00
 #define ADDR_STYRENHET           0x40
@@ -28,8 +32,10 @@ public:
   typedef unsigned char Size_t;
   typedef unsigned char Type_t;
 
+  //kontruktorer
   Message();
   Message(const Type_t& type_, const string& data_);
+  // meddelandetyper
   enum msg_t{T_ECHO,
              //Send
              T_GO_FORWARD_PD     = ADDR_STYRENHET | 0x01,
@@ -54,12 +60,15 @@ public:
              T_TAPE_DATA        = 0x21,
              T_ERROR            = 0x3F};
 
+  //jämförelseoperatorer (enligt datum)
   inline bool operator> (const Message& other) {return created_at > other.created_at;}
   inline bool operator< (const Message& other) {return created_at < other.created_at;}
 
+  //läs/skriv meddelande från/till binärfil
   friend ostream& operator << (ostream& os, const Message& msg);
   friend istream& operator >> (istream& os, Message& msg);
 
+  //returnera olika meddelandeegenskaper
   Type_t get_type() const;
   string get_data() const;
   hr_clock::time_point get_created_at()const;
@@ -70,7 +79,6 @@ public:
   void print();
 
   //constructors
-
   void echo();
   void go_forward();
   void go_backward();
@@ -90,21 +98,24 @@ public:
   void set_pd(int p, int d);
   void go_forward_pd();
 
-
-
   void calibrate_black();
   void calibrate_white();
 
 private:
 
+  /*
+   * Vardiatisk templatefuktion som avänds för att kontruera meddelade
+   * exempel: make(T_SET_PD,p,d); // int p,d;
+   * data = { p_byte1,p_byte2,p_byte3,p_byte4, d_byte1, d_byte2, d_byte3, d_byte4}
+   */
   template<typename... Ts>
   void make(const Type_t& type_, const Ts&... args);
   template<typename T,typename... Ts>
   void make_args(const T& var, const Ts&...args);
   void make_args();
 
+  //data
   Type_t type;
-  //QByteArray* data;
   string data;
   hr_clock::time_point created_at;
 

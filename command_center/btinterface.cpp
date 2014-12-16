@@ -49,7 +49,7 @@ void BTInterface::do_read(){
 #endif
   string data(size,0);
 
-  Message::Size_t bytes_read = size;
+  //Message::Size_t bytes_read = size;
   for (int i = 0; i < size; i++) {
       while(!socket_can_be_read());
       read_from_socket((char*)data.data()+i, 1);
