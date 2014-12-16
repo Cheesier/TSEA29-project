@@ -1,3 +1,7 @@
+/*
+ * Core är huvudklassen i progrmmet som sköter logiken och kommunimationen mellan de olika klasser
+ */
+
 #ifndef CORE_H
 #define CORE_H
 
@@ -20,6 +24,7 @@
 #include "btinterface.h"
 #include "data.h"
 
+//always use smart pointers for class instances
 class Core;
 typedef unique_ptr<Core> Core_ptr;
 
@@ -44,11 +49,12 @@ public:
 
   enum {PB_PAUSED, PB_PLAYING, PB_LIVE};
 
+  // intiera subklasser och annat
   void init();
+  // skriver ut information till standard output och till logkonsollen
   void log(const QString& data);
 
   //playback
-
   void pb_play_all();
   void pb_rewind();
   void pb_play();
@@ -58,12 +64,13 @@ public:
   bool pb_play_next();
   bool pb_is_live();
 
+  //öppna och stäng datafiler
   void data_save(const string& file_name);
   void data_open(const string& file_name);
 
   void process_new_msg(const Msg_ptr& msg);
 
-  //bluetooth related
+  //blåtandsrelaterat
   void bt_avaible();
   void bt_connect();
   void bt_disconnect();
@@ -72,7 +79,7 @@ public:
 
   bool bt_is_connected();
 
-  // bluetooth commands
+  // blåtandskommandon
   void custom_msg(const unsigned& type_, const string& payload);
   void echo();
   void go_forward();
@@ -97,11 +104,15 @@ public:
   void calibrate_white();
 
 private:
+  //skriver ut när användarinput är orimlig
   void troll_input();
 
+  //playback "gå" ett meddelande fram
   bool pb_play_one();
+  //uppdatera guit (playback)
   void pb_gui_update();
 
+  //behandla meddelande (reaktor-mönstret)
   void process_msg(const Msg_ptr& msg);
 
   //handle msgs
@@ -111,7 +122,7 @@ private:
   void handle_error(const Msg_ptr & msg);
   void handle_unknown(const Msg_ptr& msg);
 
-  //write
+  //skicka meddeltande
   void send(const Msg_ptr& msg);
 
   //data

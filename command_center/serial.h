@@ -1,3 +1,7 @@
+/*
+ * interface för seriell port
+ */
+
 #ifndef SERIAL_H
 #define SERIAL_H
 
@@ -11,6 +15,7 @@
 class Serial : public QObject {
 public:
   Serial();
+  // öppna/stäng
   void open_serial(string port, int baud);
   void close_serial();
 
@@ -26,6 +31,7 @@ private:
   void do_write();
 
   bool is_writing = false;
+  //meddelandekön
   deque<Msg_ptr> write_mgs;
   mutex write_mtx;
 
