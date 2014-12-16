@@ -1,3 +1,10 @@
+/*
+ * Gui ansvarar för den grafiska grännitet
+ * alla metoder som anropas av Core är signaler som är kopplade till privata slots.
+ * Anledningen till detta är för att Gui:t måste uppdateras endast från huvudtråden. Man når detta när man kopplar den publika signaler med de privata slots mha QObject::connect
+ * exempel: connect(this, &Gui::console_log, this, yy&Gui::console_log_);
+ */
+
 #ifndef GUI_H
 #define GUI_H
 
@@ -27,8 +34,10 @@ public:
 
   // --------- SIGNALS ------------
 signals:
+  //logga till konsollrutan
   void console_log(const QString& data);
 
+  //sensor indata (2 bytes)
   void sensor_input(const string& data);
   void tape_input(const string& data);
 
