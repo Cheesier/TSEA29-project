@@ -21,8 +21,8 @@
 #define SENSOR_OUTPUT_BACK_AND_RIGHT PORTC
 
 // Old version, may be the reason the sensor-unit is freezing.
-//#define WAIT_FOR_INPUT_FRONT_AND_LEFT while((!FRONT_HIGH || !LEFT_HIGH)&&!timedOut)
-//#define WAIT_FOR_INPUT_BACK_AND_RIGHT while((!BACK_HIGH || !RIGHT_HIGH)&&!timedOut)
+//#define WAIT_FOR_INPUT_FRONT_AND_LEFT while((!FRONT_HIGH || !LEFT_HIGH))
+//#define WAIT_FOR_INPUT_BACK_AND_RIGHT while((!BACK_HIGH || !RIGHT_HIGH))
 
 
 // New version
@@ -50,9 +50,6 @@ uint8_t distanceBuffer[4][3];
 uint8_t distanceCircularBuffer;
 uint8_t distanceSensors[SENSOR_COUNT];
 
-// Timeout-fix
-uint8_t timeoutMode;
-uint8_t timedOut;
 
 uint8_t findMedian(uint8_t currentSensor) {
 	if (distanceBuffer[currentSensor][0] < distanceBuffer[currentSensor][1]) {
@@ -112,7 +109,7 @@ void updateDistance() {
 	
 	//Measure length of echo signal
 	START_TIMER;
-	while (distance<255) {								// Safecode so distance doesn't go over 255 (max for uint8_t)
+	while (distance<100) {								// Safecode so distance doesn't go over 255 (max for uint8_t)
 		/*if (current_pair == FRONT_AND_LEFT) {
 			if(FRONT_HIGH) {
 				was_high[DISTANCE_FRONT] = 1;
@@ -217,25 +214,25 @@ void updateDistance() {
 	}*/
 	
 	if(!done[DISTANCE_FRONT]) {
-		distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = 255;
+		distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer] = 100;
 	}
 	//distanceSensors[DISTANCE_FRONT] = findMedian(DISTANCE_FRONT);
 	distanceSensors[DISTANCE_FRONT] = distanceBuffer[DISTANCE_FRONT][distanceCircularBuffer];
 	
 	if(!done[DISTANCE_LEFT]) {
-		distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer] = 255;
+		distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer] = 100;
 	}
 	//distanceSensors[DISTANCE_LEFT] = findMedian(DISTANCE_LEFT);
 	distanceSensors[DISTANCE_LEFT] = distanceBuffer[DISTANCE_LEFT][distanceCircularBuffer];
 	
 	if(!done[DISTANCE_BACK]) {
-		distanceBuffer[DISTANCE_BACK][distanceCircularBuffer] = 255;
+		distanceBuffer[DISTANCE_BACK][distanceCircularBuffer] = 100;
 	}
 	//distanceSensors[DISTANCE_BACK] = findMedian(DISTANCE_BACK);
 	distanceSensors[DISTANCE_BACK] = distanceBuffer[DISTANCE_BACK][distanceCircularBuffer];
 	
 	if(!done[DISTANCE_RIGHT]) {
-		distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer] = 255;
+		distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer] = 100;
 	}
 	//distanceSensors[DISTANCE_RIGHT] = findMedian(DISTANCE_RIGHT);
 	distanceSensors[DISTANCE_RIGHT] = distanceBuffer[DISTANCE_RIGHT][distanceCircularBuffer];
@@ -257,10 +254,6 @@ void initDistance() {
 	SENSOR_OUTPUT_FRONT_AND_LEFT &= ~((1<<TRIGGER_FRONT)|(1<<TRIGGER_LEFT));
 	SENSOR_OUTPUT_BACK_AND_RIGHT &= ~((1<<TRIGGER_BACK)|(1<<TRIGGER_RIGHT));
 	
-	// Timeout-fix
-	timeoutMode = 0;
-	timedOut = 0;
-	
 	current_pair = FRONT_AND_LEFT;
 	interrupted = 0;
 	distance = 0;
@@ -278,8 +271,5 @@ void initDistance() {
 }
 
 ISR(TIMER2_COMP_vect) {
-	if (timeoutMode)
-		timedOut = 1;
-	else
-		distance++;				// Add distance every 58 ms
+	distance++;				// Add distance every 58 ms
 }

@@ -5,6 +5,9 @@
  *  Author: oscth887
  */
 
+#ifndef MESSAGE_HANDLER_H_
+#define MESSAGE_HANDLER_H_
+
 #define ADDR_HUVUDENHET		 0x00
 #define ADDR_STYRENHET		 0x40
 #define ADDR_SENSORENHET	 0x80
@@ -12,8 +15,17 @@
 
 #define NO_DATA 0
 
-void handle_message(char header, char size, char *data);
-void send_message(char header, char size, char *data);
-void send_message_to(char address, char type, char size, char *data);
-void read_message(char address);
+#include "bluetooth.h"
+#include "spi.h"
+#include "algorithms.h"
+#include "huvudenhet.h"
+#include "lcd.h"
+
+
+void handle_message(uint8_t header, uint8_t size, uint8_t *data);
+void send_message(uint8_t header, uint8_t size, uint8_t *data);
+void send_message_to(uint8_t address, uint8_t type, uint8_t size, uint8_t *data);
+void read_message(uint8_t address);
+
+#endif
 

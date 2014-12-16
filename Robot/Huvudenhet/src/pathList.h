@@ -29,11 +29,11 @@ struct pathList {
 
 //extern struct pathList path;
 
-void initPathList();
-void addNode();
-void popNode();
+void initPathList(void);
+void addNode(void);
+void popNode(void);
 void setDirection(uint8_t dir);
-uint8_t getDirection();
-void setNodesDone();
+uint8_t getDirection(void);
+void setNodesDone(void);
 
 #endif /* PATHLIST_H_ */

@@ -42,7 +42,6 @@ extern uint8_t findingObject;
 extern uint8_t wallsInRange[WALL_COUNT];
 
 
-uint8_t checkReversing();
 uint8_t countBits(uint16_t number);
 void swapSensorDirections(uint8_t *sensorData);
 void interpretSensorData(uint8_t *sensorData);

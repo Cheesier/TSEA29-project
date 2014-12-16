@@ -12,14 +12,14 @@ static struct pathList path;
 uint8_t nodeCounter = 0;
 
 // Initializes the list
-void initPathList() {
+void initPathList(void) {
 	nodeCounter = 0;
 	path.first = NULL;
 	path.last = NULL;
 }
 
 // Adds a new intersection to the list
-void addNode() {
+void addNode(void) {
 	nodeCounter += 1;
 	lcd_nodes(nodeCounter);
 	struct intersection *node = malloc(sizeof(struct intersection));
@@ -39,7 +39,7 @@ void addNode() {
 }
 
 // Remove the last intersection
-void popNode() {
+void popNode(void) {
 	nodeCounter -= 1;
 	lcd_nodes(nodeCounter);
 	if(path.last != NULL) {
@@ -62,7 +62,7 @@ void setDirection(uint8_t dir) {
 }
 
 // Returns the direction we turned in the last intersection
-uint8_t getDirection() {
+uint8_t getDirection(void) {
 	if(path.last != NULL)
 		return path.last->direction;
 	else

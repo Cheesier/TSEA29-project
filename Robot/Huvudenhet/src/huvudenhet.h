@@ -29,9 +29,10 @@
 #include "pathList.h"
 
 #define LABYRINTH_BUTTON PORTD5
+#define CALIBRATE_BUTTON PORTD4
 
-void autonomSet(char autonomOn);
-extern int autonom;
+void autonomSet(uint8_t autonomOn);
+extern uint8_t autonom;
 extern uint8_t checkpoints[4];
 
 void updateSensorData(void);

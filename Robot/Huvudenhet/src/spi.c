@@ -56,7 +56,7 @@ void spi_init(void) {
 }
 
 
-char spi_transceive(char address, char data) {
+char spi_transceive(uint8_t address, uint8_t data) {
 
 	if (address == ADDR_STYRENHET)
 		PORTB &= ~(1<<SS_STYR);
@@ -73,16 +73,16 @@ char spi_transceive(char address, char data) {
 	return SPDR;
 }
 
-char spi_read(char address) {
+char spi_read(uint8_t address) {
 	return spi_transceive(address, 0x00);
 }
 
-void spi_write(char address, char data) {
+void spi_write(uint8_t address, uint8_t data) {
 	spi_transceive(address, data);
 }
 
-void spi_send(char header, char size, char* data) {
-	char addr = header & 0xC0;
+void spi_send(uint8_t header, uint8_t size, uint8_t* data) {
+	uint8_t addr = header & 0xC0;
 	spi_write(addr, header);
 	_delay_us(30);
 	spi_write(addr, size);
@@ -107,19 +107,3 @@ ISR(INT0_vect) {
 ISR(SPISTC_vect) {
 	//char data = SPDR;
 }
-
-/*
-ISR(SPISTC_vect) {
-	char header = SPDR;
-	char addr = header & 0xC0;
-	char size;
-	char data[10];
-
-	size = spi_read(addr);
-	for (int i = 0; i < size; i++) {
-		data[i] = spi_read(addr);
-	}
-
-	handle_message(header, size, (char*)&data);
-}
-*/

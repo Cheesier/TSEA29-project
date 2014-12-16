@@ -18,11 +18,11 @@
 extern uint8_t req_set;
 
 void spi_init(void);
-char spi_transceive(char address, char data);
-char spi_read(char address);
-void spi_write(char address, char data);
+char spi_transceive(uint8_t address, uint8_t data);
+char spi_read(uint8_t address);
+void spi_write(uint8_t address, uint8_t data);
 
-void spi_send(char header, char size, char* data);
+void spi_send(uint8_t header, uint8_t size, uint8_t* data);
 
 int isGyroDone(void);
 void resetGyroDone(void);

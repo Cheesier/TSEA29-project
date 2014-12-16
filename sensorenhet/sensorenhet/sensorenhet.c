@@ -14,8 +14,8 @@
 //extern int interrupted;
 //extern uint8_t distanceSensors[SENSOR_COUNT];
 
-static int tapeIsDone = 0;
-static int distanceMode= 0;
+static uint8_t tapeIsDone = 0;
+static uint8_t distanceMode= 0;
 
 // SPI defines for readability
 #define DDR_SPI DDRB
@@ -78,7 +78,6 @@ int main(void) {
 	initSensors();
 	SPI_Init();
 	sei();
-	//readADC(TAPE_SENSOR_PORT);			// varför?
 	initDistanceMode();
 	while(1) {		
 		while (!(TIFR & (1 << OCF1B)));	// Wait for the timer to count to 60 ms
@@ -89,11 +88,6 @@ int main(void) {
 		sendDistanceSensors();
 		updateTapeData();
 		sendTapeSensors();
-		/*PORTB = (PORTB & 0xF0);			// Start LED1
-		_delay_ms(1);
-		readADC(TAPE_SENSOR_PORT);
-		sendTapeSensors();		*/
-		//while(!distanceMode);
 		_delay_ms(1);
 	}
 	return 0;

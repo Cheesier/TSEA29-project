@@ -17,8 +17,8 @@ void init_motor(void);
 void motor_claw_close(void);
 void motor_claw_open(void);
 
-void motor_set_speed(char speed);
-void motor_set_direction(char dir);
+void motor_set_speed(uint8_t speed);
+void motor_set_direction(uint8_t dir);
 void motor_stop(void);
 void motor_go_forward(void);
 void motor_go_forward_pd(void);

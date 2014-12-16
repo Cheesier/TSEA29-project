@@ -56,7 +56,7 @@ char USARTReadChar(void) {
 
 //This function writes the given "data" to
 //the USART which then transmit it via TX line
-void USARTWriteChar(char data) {
+void USARTWriteChar(uint8_t data) {
 	//Wait until the transmitter is ready
 
 	while(!(UCSRA & (1<<UDRE)))
@@ -69,11 +69,11 @@ void USARTWriteChar(char data) {
 	UDR=data;
 }
 
-void bt_send(char header, char size, char *data) {
+void bt_send(uint8_t header, uint8_t size, uint8_t *data) {
 	USARTWriteChar(header);
 	USARTWriteChar(size);
 	for (int i = 0; i < size; i++)
-	USARTWriteChar(((char*)data)[i]);
+	USARTWriteChar(((uint8_t*)data)[i]);
 	
 	// not sure how to handle the other cases
 	// maybe send a message to the control center?
@@ -104,9 +104,9 @@ ISR(USARTRXC_vect){
 
 //interrupt when receive bluetooth message, and returns it
 ISR(USARTRXC_vect) {
-	char header;
-	char size;
-	char data[size];
+	uint8_t header;
+	uint8_t size;
+	uint8_t data[size];
 
 	//Read data
 	header = UDR;
@@ -115,5 +115,5 @@ ISR(USARTRXC_vect) {
 		data[i] = USARTReadChar();
 	}
 	
-	handle_message(header, size, (char*)&data);
+	handle_message(header, size, (uint8_t*)&data);
 }

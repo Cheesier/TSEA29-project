@@ -6,15 +6,10 @@
  */
 
 #include "message_handler.h"
-#include "bluetooth.h"
-#include "spi.h"
-#include "algorithms.h"
-#include "huvudenhet.h"
-#include "lcd.h"
 
-void handle_message(char header, char size, char *data) {
+void handle_message(uint8_t header, uint8_t size, uint8_t *data) {
 	if ((header & 0xC0) == ADDR_HUVUDENHET) {
-		char type = header & 0x3F;
+		uint8_t type = header & 0x3F;
 		switch (type) {
 			case 0x01: // Gyro har roterat klart
 				motor_stop();				
@@ -43,11 +38,11 @@ void handle_message(char header, char size, char *data) {
 					data[3] = temp;
 				}*/
 				if(!findingObject) {
-					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (uint8_t*)&(data[2]));
 				} else {
 					uint8_t distanceRight = getTapeDistanceToSide();
-					char distance[] = {30-distanceRight, distanceRight};
-					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&distance);
+					uint8_t distance[] = {30-distanceRight, distanceRight};
+					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (uint8_t*)&distance);
 				}
 				break;
 			case 0x05: // kört klart till mitten
@@ -69,7 +64,7 @@ void handle_message(char header, char size, char *data) {
 	}
 }
 
-void send_message(char header, char size, char *data) {
+void send_message(uint8_t header, uint8_t size, uint8_t *data) {
 	if ((header & 0xC0) == ADDR_KONTROLLCENTER) {
 		bt_send(header, size, data);
 	}
@@ -78,16 +73,16 @@ void send_message(char header, char size, char *data) {
 	}
 }
 
-void send_message_to(char address, char type, char size, char *data) {
+void send_message_to(uint8_t address, uint8_t type, uint8_t size, uint8_t *data) {
 	send_message(address | type, size, data);
 }
 
-void read_message(char address) {
-	char header = spi_read(address);
-	char size = spi_read(address);
-	char data[size];
+void read_message(uint8_t address) {
+	uint8_t header = spi_read(address);
+	uint8_t size = spi_read(address);
+	uint8_t data[size];
 	for (int i = 0; i < size; i++) {
 		data[i] = spi_read(address);
 	}
-	handle_message(header, size, (char *)&data);
+	handle_message(header, size, (uint8_t *)&data);
 }

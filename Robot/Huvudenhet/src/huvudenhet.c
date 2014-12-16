@@ -7,18 +7,17 @@
 
 #include "huvudenhet.h"
 
-int on_tape = 0;
-int autonom = 0;
+uint8_t on_tape = 0;
+uint8_t autonom = 0;
+
 uint8_t distance_data_done[4];
 
-uint8_t checkpoints[4];
-
 void interrupt_init(void) {
-	GICR |= (1<< INT1)|(1<<INT0);		// Enables external interrupts via PD3
-	MCUCR |= (1<<ISC11) | (1<<ISC10)|(1<<ISC01) | (1<<ISC00);
+	GICR |= (1<< INT1)|(1<<INT0);		// Enables external interrupts via PD2 and PD3
+	MCUCR |= (1<<ISC11) | (1<<ISC10)|(1<<ISC01) | (1<<ISC00); // Enables interrupt handling of INT0 and INT1
 }
 
-void autonomSet (char autonomOn) {
+void autonomSet (uint8_t autonomOn) {
 	if (autonomOn == 0x00) {
 		autonom = 0;
 	} else if (autonomOn == 0x01) {
@@ -28,11 +27,11 @@ void autonomSet (char autonomOn) {
 		_delay_ms(500);
 		autonom = 1;
 	} else {
-		send_message_to(ADDR_KONTROLLCENTER, 0x3F, 0, (char *)0);
+		send_message_to(ADDR_KONTROLLCENTER, 0x3F, 0, (uint8_t *)0);
 	}
 }
 
-void updateSensorData() {
+void updateSensorData(void) {
 	for(int i = 0; i < 4; i++) {
 		distance_data_done[i] = distance_data[i];
 	}
@@ -51,12 +50,10 @@ int main(void) {
 	_delay_ms(2000);
 	
 	motor_set_speed(200);
-	int lock = 0;
-	uint8_t test = 0;	
 
 	while(1){		
 		// Checks if the calibrate button is pressed
-		if(PIND & (1<<4) && !autonom) {
+		if(PIND & (1<<CALIBRATE_BUTTON) && !autonom) {
 			calibrateTapeSensor();
 		}
 		

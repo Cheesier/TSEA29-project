@@ -20,7 +20,7 @@
 
 #define DISTANCE_TO_WALL 34
 #define DISTANCE_TO_WALL_FORWARD 28
-#define DISTANCE_TO_WALL_BACKWARD 25
+#define DISTANCE_TO_WALL_BACKWARD 28
 #define DISTANCE_TO_WALL_SIDES 28
 
 #define DISTANCE_TO_MIDDLE 5
@@ -53,7 +53,7 @@ uint8_t update_section = FALSE;
 
 uint8_t extra_iteration = FALSE;
 
-void initializeAlgorithms() {
+void initializeAlgorithms(void) {
 	reversing = FALSE;
 	reversingOut = FALSE;
 	resetRotateDone = FALSE;
@@ -99,7 +99,7 @@ void resetRotation() {
 	}
 }
 
-// Checks what kind of intersection it is with the given distancesensors
+// Checks what kind of intersection it is with the given distance sensors
 void updateSectionType(uint8_t* wallsInRange) {
 	if (wallsInRange[WALL_FRONT]) {
 		if (wallsInRange[WALL_LEFT]) {
@@ -158,7 +158,7 @@ void updateSectionType(uint8_t* wallsInRange) {
 }
 
 // Check if a wall is in a given interval 
-int wallInRange(char distance, char distanceToWall) {
+uint8_t wallInRange(uint8_t distance, uint8_t distanceToWall) {
 	return distance < distanceToWall;
 }
 
@@ -279,7 +279,7 @@ uint8_t countBits(uint16_t number) {
 
 // Swaps the front and back sensors data
 void swapSensorDirections(uint8_t *sensorData) {
-	char temp = sensorData[0];
+	uint8_t temp = sensorData[0];
 	sensorData[0] = sensorData[1];
 	sensorData[1] = temp;
 }
@@ -297,7 +297,7 @@ void interpretSensorData(uint8_t *sensorData) {
 	}
 	
 	if(update_section) {
-		updateSectionType(wallsInRange);
+		updateSectionType((uint8_t*)&wallsInRange);
 		lcd_section_type(sectionType);
 		lcd_direction(getDirection());
 		update_section = FALSE;
@@ -307,6 +307,7 @@ void interpretSensorData(uint8_t *sensorData) {
 	lcd_reversing();
 		
 	switch (currentState) {
+		
 		// STATE_PD
 		// In this state the robots moves forward with PD-regulation activated
 		// STATE_PD ends when we get a wall in front of us, or we don't have a wall to the right or to the left of us (in a given interval)
@@ -335,17 +336,13 @@ void interpretSensorData(uint8_t *sensorData) {
 				if(!reversing && tape_data > 0 && tape_data != 0x07FF) {
 					PD_activated = FALSE;
 					currentState = STATE_FIND_OBJECT;
-					//motor_set_pd(50,220);
 					motor_stop();
-					_delay_ms(50);
-					motor_go_forward_pd();			
+					_delay_ms(50);			
 				}
-				/*else if(reversingOut && tape_data == 0x07FF) {
-					//currentState = STATE_DONE;
-				}*/
 				
 			}
 			break;
+			
 		// STATE_GOTO_MIDDLE
 		// Used to make the robot move into the middle of an intersection when we have to turn
 		// The motors is turned on without PD-regulation and then turned off after a set time
@@ -353,46 +350,30 @@ void interpretSensorData(uint8_t *sensorData) {
 		// Time based and is affected by the speed at which the robots moves in corridors (thanks to wheels still having momentum when turned off)
 		// When done sets currentsState to STATE_ROTATE
 		case STATE_GOTO_MIDDLE:
-			//cli();
 			ATOMIC_BLOCK(ATOMIC_FORCEON) {
 				motor_set_speed(128);
 				motor_go_forward();		
 				if (!reversing)
-					_delay_ms(80);		//100 worked before
+					_delay_ms(80);		// 100 worked before
 				if (reversing)
 					_delay_ms(90);
 				motor_stop();
 			}
-			//sei();
 			
 			update_section = TRUE;
-			/*if (middle_done) {				
-				middle_done = FALSE;
-				lock = FALSE;
-				updateSectionType(wallsInRange);
-				lcd_section_type(sectionType);
-			} else {
-				if(!lock) {					
-					motor_forward_to_middle();
-					lock = TRUE;
-				}
-				_delay_us(1);
-			}*/
 			break;
+			
 		// STATE_ROTATE
 		// Used to check how to rotate and start to rotate the robot when the right rotation is found
 		// If it's a new intersection never visited it checks how to rotate and also add a new node then goes into STATE_FIND_WALLS
 		// If it's reversing into an old intersection it goes into STATE_ROTATE_RESET
 		case STATE_ROTATE:
-			if (!turningStarted) {				
-				checkpoints[0] = TRUE;
+			if (!turningStarted) {
 				if(reversing && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT && !resetRotateDone) {
-					checkpoints[1] = TRUE;
 					currentState = STATE_ROTATE_RESET;
 					break;
 				}
 				else if(!old_intersection && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT){
-					checkpoints[2] = TRUE;
 					addNode();
 				}
 				resetRotateDone = FALSE;
@@ -400,7 +381,6 @@ void interpretSensorData(uint8_t *sensorData) {
 				resetGyroDone();
 				startTurning();
 			} else {
-				checkpoints[3] = TRUE;
 				if (isGyroDone()) {
 					lcd_section_type(TYPE_NONE);
 					resetGyroDone();
@@ -410,6 +390,7 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 			}
 			break;
+			
 		// STATE_FIND_WALLS
 		// Used to check for walls to start using PD
 		// When there are no walls in range on either right or left side it goes forward until it does.
@@ -429,16 +410,11 @@ void interpretSensorData(uint8_t *sensorData) {
 				}
 			}
 			break;
+			
 		// STATE_ROTATE_RESET
 		// Used to reset the robot to the position it once entered a crossroad of any kind
 		// When it returns so a intersection
 		case STATE_ROTATE_RESET:
-			/*if (extra_iteration) { //To wait for a new sensor-data input
-				extra_iteration = FALSE;
-				updateSectionType(wallsInRange);
-				lcd_section_type(sectionType);
-				lcd_direction(getDirection());
-			}*/
 			if (!turningStarted) {
 				resetGyroDone();
 				resetRotation();
@@ -457,23 +433,23 @@ void interpretSensorData(uint8_t *sensorData) {
 					lcd_direction(getDirection());
 					
 					old_intersection = TRUE;
-					//extra_iteration = TRUE;
 					update_section = TRUE;
 					_delay_ms(200);
 				}
 			}
 			break;
+			
 		// STATE_FIND_OBJECT
-		// Used when we have found tape and starts using PD regulation with tape instead of distancesensors goes into STATE_PD
-		// When every tapesensor is set it closes it's claw around the object and starts reversing and goes into STATE_PD (ignoring tape from now on)
-		case STATE_FIND_OBJECT:		// enter state as soon as tape is found!			
-			//cli();
-			ATOMIC_BLOCK(ATOMIC_FORCEON) {				
-				findingObject = TRUE;			
-				motor_set_pd(255,40);
-				motor_set_speed(115);
-
-				motor_go_forward_pd();	
+		// Used when we have found tape and starts using PD regulation with tape instead of distance sensors goes into STATE_PD
+		// When every tape sensor is set it closes it's claw around the object and starts reversing and goes into STATE_PD (ignoring tape from now on)
+		case STATE_FIND_OBJECT:
+			ATOMIC_BLOCK(ATOMIC_FORCEON) {
+				if(!findingObject) {
+					findingObject = TRUE;
+					motor_set_pd(255,40);
+					motor_set_speed(115);
+					motor_go_forward_pd();
+				}
 					
 				//Continue to update tape data
 				if(countBits(tape_data) >= 6) {
@@ -496,8 +472,8 @@ void interpretSensorData(uint8_t *sensorData) {
 					currentState = STATE_PD;
 				}
 			}
-			//sei();
 			break;
+			
 		// STATE_DONE
 		// Used when the robot is done with the algorithm
 		// Stops the robot and opens the claw
