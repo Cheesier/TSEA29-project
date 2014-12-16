@@ -15,7 +15,7 @@ int active = 0;
 int16_t sensorData[7];
 int16_t PD_direction = 0;
 uint8_t p = 11;		//11
-uint8_t d = 40;		//40
+uint8_t d = 120;	//40 //200
 
 int PDnewData = 0;
 
@@ -40,7 +40,7 @@ void PDupdateSensorData(uint8_t left, uint8_t right) {
 	PDnewData = 1;
 }
 int16_t PDgetCorrection() {
-	if(abs(sensorData[0] - sensorData[1]) < 30) {
+	if(abs(sensorData[0] - sensorData[1]) < 10) {
 		PD_direction = p * sensorData[0] + d * D_SCALING * (sensorData[0]-sensorData[1]);
 	} else {
 		PD_direction = 0;
@@ -60,15 +60,15 @@ void PDforward() {
 	uint8_t right_speed = 255;
 	if (correction >= 0) {
 		right_speed -= correction;
-		/*if(right_speed<51) {
-			right_speed = 51;
-		}*/
+		if(right_speed<41) {
+			right_speed = 41;
+		}
 	}
 	else {
 		left_speed += correction;
-		/*if(left_speed<51) {
-			left_speed = 51;
-		}*/
+		if(left_speed<41) {
+			left_speed = 41;
+		}
 	}
 	PDTurning(left_speed, right_speed);
 }

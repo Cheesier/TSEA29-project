@@ -110,7 +110,8 @@ int main(void) {
 			calibrateTapeSensor();
 		}
 		
-		if ((PIND & (1<<LABYRINTH_BUTTON))) {			
+		if ((PIND & (1<<LABYRINTH_BUTTON))) {
+			calibrateTapeSensor();
 			autonom = !autonom;
 			while((PIND & (1<<LABYRINTH_BUTTON)));
 			_delay_ms(500);

@@ -17,7 +17,6 @@
 
 #define STATE_GOTO_MIDDLE 1 // Doesn't seem to find it if it isn't here :s TODO
 
-#define DISTANCE_TO_WALL 34
 #define DISTANCE_TO_WALL_FORWARD 25
 #define DISTANCE_TO_WALL_BACKWARD 25
 #define DISTANCE_TO_WALL_SIDES 40
@@ -25,13 +24,13 @@
 #define DISTANCE_TO_MIDDLE 5
 
 #define TAPE_SPEED 115
-#define PD_SPEED 150
+#define PD_SPEED 130 //130
 #define GO_TO_MIDDLE_SPEED 128
 
 uint8_t reversing = FALSE;
 uint8_t reversingOut = FALSE;
 uint8_t resetRotateDone = FALSE;
-uint8_t currentState = STATE_PD;
+uint8_t currentState = STATE_FIND_WALLS;
 uint8_t distanceForward, distanceBackward;
 uint8_t useForward = TRUE;
 uint8_t sectionType;
@@ -64,6 +63,9 @@ void resetRotation() {
 		case LEFT:
 			motor_rotate_left_degrees(90);
 			break;
+		case DONE:
+			currentState = STATE_DONE;
+			break;
 		default:
 			setGyroDone();
 			break;
@@ -78,13 +80,15 @@ void updateSectionType(uint8_t* wallsInRange) {
 				sectionType = TYPE_DEAD_END;
 				motor_stop();
 				if (reversing) {
-					currentState = STATE_DONE;
+					update_section = TRUE;
+					return;
 				} else {
 					motor_set_direction(DIR_REVERSE);		// Puts the robot in reverse-mode
 					update_section = TRUE;
 					in_a_dead_end = TRUE;
 					_delay_ms(60);					
-					currentState = STATE_PD;
+					return;
+					//currentState = STATE_PD;
 				}
 				return;
 			} else {
@@ -139,7 +143,7 @@ void startTurning() {
 	if(reversingOut && sectionType != TYPE_TURN_LEFT && sectionType != TYPE_TURN_RIGHT) {
 		popNode();
 		setGyroDone();
-		setDistanceModeOn();		
+		setDistanceModeOn();
 		return;
 	}
 	switch (sectionType) {
@@ -268,10 +272,10 @@ void interpretSensorData(uint8_t *sensorData) {
 	}
 	
 	if(update_section) {
+		update_section = FALSE;
 		updateSectionType(wallsInRange);
 		lcd_section_type(sectionType);
-		lcd_direction(getDirection());
-		update_section = FALSE;
+		lcd_direction(getDirection());		
 	}
 	
 	lcd_state(currentState);
@@ -294,7 +298,7 @@ void interpretSensorData(uint8_t *sensorData) {
 				PD_activated = FALSE;
 				distanceForward = sensorData[0];
 				distanceBackward = sensorData[1];				
-				motor_stop();
+				//motor_stop();
 				currentState = STATE_GOTO_MIDDLE;
 			} else {
 				if (!PD_activated) {
@@ -324,33 +328,19 @@ void interpretSensorData(uint8_t *sensorData) {
 		// Time based and is affected by the speed at which the robots moves in corridors (thanks to wheels still having momentum when turned off)
 		// When done sets currentsState to STATE_ROTATE
 		case STATE_GOTO_MIDDLE:
-			//cli();
 			ATOMIC_BLOCK(ATOMIC_FORCEON) {
 				motor_set_speed(GO_TO_MIDDLE_SPEED);
 				motor_go_forward();		
 				if (!reversing)
 					//_delay_ms(80);		//100 worked before
-					_delay_ms(90);
+					_delay_ms(120);
 				if (reversing)
 					//_delay_ms(90);
-					_delay_ms(130);
+					_delay_ms(150);
 				motor_stop();
-			}
-			//sei();			
+			}	
 			update_section = TRUE;
 
-			/*if (middle_done) {				
-				middle_done = FALSE;
-				lock = FALSE;
-				updateSectionType(wallsInRange);
-				lcd_section_type(sectionType);
-			} else {
-				if(!lock) {					
-					motor_forward_to_middle();
-					lock = TRUE;
-				}
-				_delay_us(1);
-			}*/
 			break;
 		// STATE_ROTATE
 		// Used to check how to rotate and start to rotate the robot when the right rotation is found
@@ -399,12 +389,6 @@ void interpretSensorData(uint8_t *sensorData) {
 			}
 			break;
 		case STATE_ROTATE_RESET:
-			/*if (extra_iteration) { //To wait for a new sensor-data input
-				extra_iteration = FALSE;
-				updateSectionType(wallsInRange);
-				lcd_section_type(sectionType);
-				lcd_direction(getDirection());
-			}*/
 			if (!turningStarted) {
 				resetGyroDone();
 				resetRotation();
@@ -461,6 +445,7 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		case STATE_DONE:
 			motor_stop();
+			motor_claw_open();
 			break;
 		default:
 			break;

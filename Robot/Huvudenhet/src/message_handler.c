@@ -37,13 +37,15 @@ void handle_message(char header, char size, char *data) {
 				for(int i = 0; i < size; i++) {
 					distance_data[i] = data[i];
 				}
-				/*if (reversing) {
-					char temp = data[2];
-					data[2] = data[3];
-					data[3] = temp;
-				}*/
+				
 				if(!findingObject) {
-					send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+					if(data[2] < 28 && data[3] < 28) {
+						send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+					} else {
+						data[2] = 0;
+						data[3] = 0;
+						send_message_to(ADDR_STYRENHET, 0x02, 0x02, (char*)&(data[2]));
+					}
 				} else {
 					uint8_t distanceRight = getTapeDistanceToSide();
 					char distance[] = {40-distanceRight, distanceRight};

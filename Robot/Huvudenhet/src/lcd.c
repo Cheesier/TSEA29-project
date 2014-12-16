@@ -203,7 +203,7 @@ void lcd_direction(uint8_t direction_to_print) {
 		case RIGHT:
 			printf("[ RIG ]");
 			break;
-		case ERROR:
+		case DONE:
 			printf("[ERROR]");
 			break;
 		default:

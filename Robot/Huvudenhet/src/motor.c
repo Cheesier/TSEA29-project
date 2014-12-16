@@ -87,6 +87,6 @@ void motor_set_pd(uint8_t p, uint8_t d) {
 }
 
 void motor_reset_pd() {
-	char data[] = {11,40};
+	char data[] = {11,120}; //(11,200)
 	send_message_to(ADDR_STYRENHET, 0x06, 2, &data);
 }

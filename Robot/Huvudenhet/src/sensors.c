@@ -13,7 +13,7 @@ void calibrateTapeSensor() {
 	send_message_to(ADDR_SENSORENHET, 0x04, 0, NO_DATA); // Sets the on_tape value
 	_delay_ms(1);
 	motor_go_forward();
-	_delay_ms(200); // This value needs to be tested
+	_delay_ms(400); // This value needs to be tested
 	motor_stop();
 	_delay_ms(10);
 	send_message_to(ADDR_SENSORENHET, 0x05, 0, NO_DATA); // Sets the off_tape value		
