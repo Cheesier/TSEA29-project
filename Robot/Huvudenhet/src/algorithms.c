@@ -382,8 +382,7 @@ void interpretSensorData(uint8_t *sensorData) {
 			break;
 		//
 		case STATE_FIND_WALLS:
-			ATOMIC_BLOCK(ATOMIC_FORCEON) {
-				setDistanceModeOn();
+			ATOMIC_BLOCK(ATOMIC_FORCEON) {				
 				if (wallsInRange[WALL_LEFT] && wallsInRange[WALL_RIGHT]) {
 					lock_wall = FALSE;
 					currentState = STATE_PD;
